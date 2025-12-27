@@ -13,6 +13,9 @@ class JZPackCompressor:
         self._serializer = PayloadSerializer(compression_level)
 
     def compress(self, data: list[dict[str, Any]]) -> bytes:
+        if isinstance(data, dict):
+            data = [data]
+        
         if not data:
             return self._serializer.serialize({"s": {}, "o": []})
 
