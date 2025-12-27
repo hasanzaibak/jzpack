@@ -65,9 +65,9 @@ data = compressor.decompress_from_file("output.jzpk")
 ### Streaming for Large Datasets
 
 ```python
-from jzpack import StreamingCompressorV2
+from jzpack import StreamingCompressor
 
-compressor = StreamingCompressorV2(compression_level=3)
+compressor = StreamingCompressor(compression_level=3)
 
 for record in records_iterator:
     compressor.add_record(record)
@@ -106,7 +106,7 @@ jzpack achieves superior compression through:
 | Class | Description |
 |-------|-------------|
 | `JZPackCompressor` | Main compressor with `compress()`, `decompress()`, `compress_to_file()`, and `decompress_from_file()` methods |
-| `StreamingCompressorV2` | Add records incrementally with `add_record()` or `add_batch()`, then `finalize()` |
+| `StreamingCompressor` | Add records incrementally with `add_record()` or `add_batch()`, then `finalize()` |
 
 ## Development
 

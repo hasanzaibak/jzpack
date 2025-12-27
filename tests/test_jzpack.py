@@ -3,7 +3,7 @@ from pathlib import Path
 
 import pytest
 
-from jzpack import JZPackCompressor, StreamingCompressorV2, compress, decompress
+from jzpack import JZPackCompressor, StreamingCompressor, compress, decompress
 
 
 class TestBasicCompression:
@@ -241,7 +241,7 @@ class TestCompressorClass:
         data = [{"file_test": i} for i in range(1000)]
 
         with tempfile.TemporaryDirectory() as tmpdir:
-            path = Path(tmpdir) / "test.jzp2"
+            path = Path(tmpdir) / "test.jzpk"
             compressor.compress_to_file(data, str(path))
             assert path.exists()
             decompressed = compressor.decompress_from_file(str(path))
@@ -252,7 +252,7 @@ class TestStreamingCompressor:
     def test_streaming_basic(self):
         data = [{"id": i, "value": f"item_{i}"} for i in range(1000)]
 
-        streaming = StreamingCompressorV2(compression_level=3)
+        streaming = StreamingCompressor(compression_level=3)
         for record in data:
             streaming.add_record(record)
 
@@ -263,7 +263,7 @@ class TestStreamingCompressor:
     def test_streaming_batch(self):
         data = [{"id": i, "value": f"item_{i}"} for i in range(1000)]
 
-        streaming = StreamingCompressorV2()
+        streaming = StreamingCompressor()
         streaming.add_batch(data[:500])
         streaming.add_batch(data[500:])
 
@@ -277,7 +277,7 @@ class TestStreamingCompressor:
             for i in range(100)
         ]
 
-        streaming = StreamingCompressorV2()
+        streaming = StreamingCompressor()
         for record in data:
             streaming.add_record(record)
 
@@ -286,7 +286,7 @@ class TestStreamingCompressor:
         assert decompressed == data
 
     def test_streaming_clear(self):
-        streaming = StreamingCompressorV2()
+        streaming = StreamingCompressor()
         streaming.add_batch([{"id": i} for i in range(100)])
         streaming.clear()
         streaming.add_batch([{"new": i} for i in range(50)])
@@ -347,20 +347,20 @@ class TestHeaderValidation:
     def test_magic_header(self):
         data = [{"test": "value"}]
         compressed = compress(data)
-        assert compressed[:4] == b"JZP2"
+        assert compressed[:4] == b"JZPK"
 
     def test_version(self):
         data = [{"test": "value"}]
         compressed = compress(data)
-        assert compressed[4] == 2
+        assert compressed[4] == 1
 
     def test_invalid_magic_raises(self):
         with pytest.raises(ValueError, match="missing magic header"):
-            decompress(b"BAAD\x02" + b"\x00" * 100)
+            decompress(b"BAAD\x01" + b"\x00" * 100)
 
     def test_invalid_version_raises(self):
         with pytest.raises(ValueError, match="Unsupported version"):
-            decompress(b"JZP2\x99" + b"\x00" * 100)
+            decompress(b"JZPK\x99" + b"\x00" * 100)
 
 
 class TestEncodingStrategies:
@@ -390,42 +390,3 @@ class TestEncodingStrategies:
         compressed = compress(data)
         decompressed = decompress(compressed)
         assert decompressed == data
-
-
-class TestV2VsV1Compatibility:
-    def test_v2_same_data_as_v1_homogeneous(self):
-        from jzpack import compress as v1_compress
-        from jzpack import decompress as v1_decompress
-
-        data = [{"id": i, "service": "api", "latency": i % 100} for i in range(1000)]
-
-        v1_result = v1_decompress(v1_compress(data))
-        v2_result = decompress(compress(data))
-
-        assert v1_result == v2_result
-        assert v2_result == data
-
-    def test_v2_preserves_order_v1_may_not(self):
-        from jzpack import compress as v1_compress
-        from jzpack import decompress as v1_decompress
-
-        data = []
-        for i in range(100):
-            if i % 3 == 0:
-                data.append({"type": "event", "id": i})
-            elif i % 3 == 1:
-                data.append({"type": "log", "id": i, "level": "INFO"})
-            else:
-                data.append({"type": "metric", "id": i, "value": i * 10})
-
-        v1_result = v1_decompress(v1_compress(data))
-        v2_result = decompress(compress(data))
-
-        assert v2_result == data
-
-        v1_ids = [r["id"] for r in v1_result]
-        v2_ids = [r["id"] for r in v2_result]
-        original_ids = [r["id"] for r in data]
-
-        assert v2_ids == original_ids
-        assert sorted(v1_ids) == sorted(original_ids)

@@ -86,7 +86,7 @@ class JZPackCompressor:
         return result
 
 
-class StreamingCompressorV2:
+class StreamingCompressor:
     def __init__(self, compression_level: int = 3):
         self._schema_manager = SchemaManager()
         self._column_encoder = ColumnEncoder()

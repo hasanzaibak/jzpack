@@ -1,6 +1,6 @@
 from typing import Any
 
-from .compressor import JZPackCompressor, StreamingCompressorV2
+from .compressor import JZPackCompressor, StreamingCompressor
 
 __version__ = "0.1.0"
 __all__ = [
@@ -8,7 +8,7 @@ __all__ = [
     "compress",
     "decompress",
     "JZPackCompressor",
-    "StreamingCompressorV2",
+    "StreamingCompressor",
 ]
 
 

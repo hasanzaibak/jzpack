@@ -25,8 +25,8 @@ class CompressionEngine:
 
 
 class PayloadSerializer:
-    MAGIC_HEADER = b"JZP2"
-    VERSION = 2
+    MAGIC_HEADER = b"JZPK"
+    VERSION = 1
 
     def __init__(self, compression_level: int = 3):
         self._binary = BinarySerializer()
