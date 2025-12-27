@@ -22,34 +22,47 @@ Tested on 200,000 JSON records:
 | Highly Repetitive Data | 175 KB | 579 B | **99.7%** smaller |
 
 ## Installation
-
 ```bash
 pip install jzpack
 ```
 
 ## Quick Start
-
-### Python API
-
 ```python
 from jzpack import compress, decompress
 
 data = [{"service": "api", "status": "ok", "latency": 42} for _ in range(10000)]
-compressed = compress(data)
 
+compressed = compress(data)
 original = decompress(compressed)
 ```
 
-### With Compression Level
+### File I/O
+```python
+import json
+from jzpack import compress, decompress
 
+# Compress JSON file
+with open("data.json", "r", encoding="utf-8") as f:
+    data = json.load(f)
+
+with open("data.jzpk", "wb") as f:
+    f.write(compress([data]))
+
+# Decompress
+with open("data.jzpk", "rb") as f:
+    data = decompress(f.read())[0]
+```
+
+### Compression Level
 ```python
 from jzpack import compress
 
-compressed = compress(data, level=19)
+compressed = compress(data, level=19)  # 1-22, higher = smaller but slower
 ```
 
-### Using the Compressor Class
+## Advanced Usage
 
+### JZPackCompressor
 ```python
 from jzpack import JZPackCompressor
 
@@ -62,8 +75,7 @@ compressor.compress_to_file(data, "output.jzpk")
 data = compressor.decompress_from_file("output.jzpk")
 ```
 
-### Streaming for Large Datasets
-
+### StreamingCompressor
 ```python
 from jzpack import StreamingCompressor
 
@@ -73,51 +85,27 @@ for record in records_iterator:
     compressor.add_record(record)
 
 compressor.add_batch(batch_of_records)
-
 compressed = compressor.finalize()
-
 compressor.clear()
 ```
 
 ## How It Works
 
-jzpack achieves superior compression through:
-
 1. **Schema Detection** - Groups records by structure
 2. **Column-Oriented Storage** - Stores each field as a column
 3. **Smart Encoding Selection** per column:
-   - **RLE** for constant/repetitive values (timestamps, status codes)
-   - **Delta** for sequential numbers (IDs, counters)
-   - **Dictionary** for low-cardinality strings (service names, log levels)
-4. **Binary Serialization** via MessagePack (eliminates JSON overhead)
-5. **Zstandard Compression** (better ratio than GZIP at same speed)
+   - **RLE** for repetitive values
+   - **Delta** for sequential numbers
+   - **Dictionary** for low-cardinality strings
+4. **Binary Serialization** via MessagePack
+5. **Zstandard Compression**
 
 ## API Reference
-
-### Functions
 
 | Function | Description |
 |----------|-------------|
 | `compress(data, level=3)` | Compress list of dicts to bytes |
 | `decompress(data)` | Decompress bytes to list of dicts |
-
-### Classes
-
-| Class | Description |
-|-------|-------------|
-| `JZPackCompressor` | Main compressor with `compress()`, `decompress()`, `compress_to_file()`, and `decompress_from_file()` methods |
-| `StreamingCompressor` | Add records incrementally with `add_record()` or `add_batch()`, then `finalize()` |
-
-## Development
-
-```bash
-git clone https://github.com/hasanzaibak/jzpack.git
-cd jzpack
-
-pip install -e ".[dev]"
-
-pytest
-```
 
 ## License
 
