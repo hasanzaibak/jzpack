@@ -1,6 +1,6 @@
 [project]
 name = "jzpack"
-version = "0.1.2"
+version = "0.2.0"
 description = "High-performance JSON/NDJSON compression library"
 authors = [{name = "hasanzaibak"}]
 readme = "README.md"
