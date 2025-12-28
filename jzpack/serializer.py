@@ -6,7 +6,7 @@ import zstandard as zstd
 
 class BinarySerializer:
     def serialize(self, data: Any) -> bytes:
-        return msgpack.packb(data, use_bin_type=True) # type: ignore
+        return msgpack.packb(data, use_bin_type=True)  # type: ignore
 
     def deserialize(self, data: bytes) -> Any:
         return msgpack.unpackb(data, raw=False, strict_map_key=False)
