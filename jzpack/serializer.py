@@ -5,10 +5,12 @@ import zstandard as zstd
 
 
 class BinarySerializer:
-    def serialize(self, data: Any) -> bytes:
+    @staticmethod
+    def serialize(data: Any) -> bytes:
         return msgpack.packb(data, use_bin_type=True)  # type: ignore
 
-    def deserialize(self, data: bytes) -> Any:
+    @staticmethod
+    def deserialize(data: bytes) -> Any:
         return msgpack.unpackb(data, raw=False, strict_map_key=False)
 
 
@@ -25,32 +27,31 @@ class CompressionEngine:
 
 
 class PayloadSerializer:
-    MAGIC_HEADER = b"JZPK"
+    MAGIC = b"JZPK"
     VERSION = 1
+    HEADER_SIZE = 5
 
     def __init__(self, compression_level: int = 3):
-        self._binary = BinarySerializer()
         self._compression = CompressionEngine(compression_level)
 
     def serialize(self, payload: dict) -> bytes:
-        binary_data = self._binary.serialize(payload)
-        compressed = self._compression.compress(binary_data)
-        return self._add_header(compressed)
+        binary = BinarySerializer.serialize(payload)
+        compressed = self._compression.compress(binary)
+        return self._prepend_header(compressed)
 
     def deserialize(self, data: bytes) -> dict:
-        compressed = self._strip_header(data)
-        binary_data = self._compression.decompress(compressed)
-        return self._binary.deserialize(binary_data)
+        self._validate_header(data)
+        compressed = data[self.HEADER_SIZE :]
+        binary = self._compression.decompress(compressed)
+        return BinarySerializer.deserialize(binary)
 
-    def _add_header(self, data: bytes) -> bytes:
-        return self.MAGIC_HEADER + bytes([self.VERSION]) + data
+    def _prepend_header(self, data: bytes) -> bytes:
+        return self.MAGIC + bytes([self.VERSION]) + data
 
-    def _strip_header(self, data: bytes) -> bytes:
-        if not data.startswith(self.MAGIC_HEADER):
+    def _validate_header(self, data: bytes) -> None:
+        if not data.startswith(self.MAGIC):
             raise ValueError("Invalid file format: missing magic header")
 
-        version = data[4]
+        version = data[len(self.MAGIC)]
         if version != self.VERSION:
             raise ValueError(f"Unsupported version: {version}")
-
-        return data[5:]

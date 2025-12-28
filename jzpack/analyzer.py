@@ -3,90 +3,120 @@ from typing import Any
 from .encoders import DeltaEncoder, DictionaryEncoder, EncodingType, RLEEncoder
 
 
-class ColumnAnalyzer:
-    RLE_THRESHOLD = 0.1
-    DELTA_EFFICIENCY_THRESHOLD = 0.5
-    DICTIONARY_CARDINALITY_THRESHOLD = 0.2
-    MIN_ROWS_FOR_ENCODING = 10
+class EncodingThresholds:
+    RLE_MAX_RUN_RATIO = 0.1
+    DELTA_MIN_EFFICIENCY = 0.5
+    DICTIONARY_MAX_CARDINALITY = 0.2
+    MIN_ROWS = 10
+    SAMPLE_SIZE = 50
 
-    def analyze(self, values: list) -> EncodingType:
-        if not values or len(values) < self.MIN_ROWS_FOR_ENCODING:
+
+class ColumnAnalyzer:
+    def __init__(self, thresholds: EncodingThresholds | None = None):
+        self._thresholds = thresholds or EncodingThresholds()
+
+    def determine_encoding(self, values: list) -> EncodingType:
+        if len(values) < self._thresholds.MIN_ROWS:
             return EncodingType.RAW
 
-        if self._should_use_rle(values):
+        first_value = values[0]
+        value_type = type(first_value)
+
+        if self._is_rle_suitable(values):
             return EncodingType.RLE
 
-        if self._should_use_delta(values):
+        if value_type in (int, float) and self._is_delta_suitable(values):
             return EncodingType.DELTA
 
-        if self._should_use_dictionary(values):
+        if value_type is str and self._is_dictionary_suitable(values):
             return EncodingType.DICTIONARY
 
         return EncodingType.RAW
 
-    def _should_use_rle(self, values: list) -> bool:
-        estimated_runs = RLEEncoder.estimate_size(values)
-        compression_ratio = estimated_runs / len(values)
-        return compression_ratio < self.RLE_THRESHOLD
+    def _is_rle_suitable(self, values: list) -> bool:
+        n = len(values)
+        max_runs = int(n * self._thresholds.RLE_MAX_RUN_RATIO)
+        runs = 1
+        current = values[0]
 
-    def _should_use_delta(self, values: list) -> bool:
-        if not DeltaEncoder.is_applicable(values):
+        for i in range(1, n):
+            if values[i] != current:
+                runs += 1
+                current = values[i]
+                if runs > max_runs:
+                    return False
+
+        return True
+
+    def _is_delta_suitable(self, values: list) -> bool:
+        n = len(values)
+        step = max(1, n // self._thresholds.SAMPLE_SIZE)
+        sampled = [values[i] for i in range(0, n, step)]
+
+        if len(sampled) < 2:
             return False
 
-        efficiency = DeltaEncoder.estimate_efficiency(values)
-        return efficiency > self.DELTA_EFFICIENCY_THRESHOLD
+        max_unique = int(len(sampled) * (1 - self._thresholds.DELTA_MIN_EFFICIENCY))
+        unique_deltas = set()
 
-    def _should_use_dictionary(self, values: list) -> bool:
-        if not values or not isinstance(values[0], str):
-            return False
+        for i in range(1, len(sampled)):
+            unique_deltas.add(sampled[i] - sampled[i - 1])
+            if len(unique_deltas) > max_unique:
+                return False
 
-        _, unique_count = DictionaryEncoder.estimate_efficiency(values)
-        cardinality_ratio = unique_count / len(values)
-        return cardinality_ratio < self.DICTIONARY_CARDINALITY_THRESHOLD
+        return True
+
+    def _is_dictionary_suitable(self, values: list) -> bool:
+        max_unique = int(len(values) * self._thresholds.DICTIONARY_MAX_CARDINALITY)
+        seen = set()
+
+        for val in values:
+            seen.add(val)
+            if len(seen) > max_unique:
+                return False
+
+        return True
 
 
 class ColumnEncoder:
-    def __init__(self):
+    def __init__(self, skip_analysis: bool = False):
         self._analyzer = ColumnAnalyzer()
+        self._skip_analysis = skip_analysis
 
-    def encode_column(self, values: list) -> dict[str, Any]:
-        encoding_type = self._analyzer.analyze(values)
+    def encode(self, values: list) -> dict[str, Any]:
+        if self._skip_analysis or not values:
+            return self._encode_raw(values)
 
+        encoding_type = self._analyzer.determine_encoding(values)
+        return self._apply_encoding(values, encoding_type)
+
+    def decode(self, encoded: dict[str, Any]) -> list:
+        encoding_type = EncodingType(encoded["t"])
+        decoder = self._get_decoder(encoding_type)
+        return decoder(encoded)
+
+    def _apply_encoding(self, values: list, encoding_type: EncodingType) -> dict[str, Any]:
         if encoding_type == EncodingType.RLE:
-            return self._encode_rle(values)
+            return {"t": EncodingType.RLE, "d": RLEEncoder.encode(values)}
 
         if encoding_type == EncodingType.DELTA:
-            return self._encode_delta(values)
+            base, deltas = DeltaEncoder.encode(values)
+            return {"t": EncodingType.DELTA, "b": base, "d": deltas}
 
         if encoding_type == EncodingType.DICTIONARY:
-            return self._encode_dictionary(values)
+            dictionary, indices = DictionaryEncoder.encode(values)
+            return {"t": EncodingType.DICTIONARY, "m": dictionary, "d": indices}
 
+        return self._encode_raw(values)
+
+    def _encode_raw(self, values: list) -> dict[str, Any]:
         return {"t": EncodingType.RAW, "d": values}
 
-    def decode_column(self, encoded: dict[str, Any]) -> list:
-        encoding_type = EncodingType(encoded["t"])
-
-        if encoding_type == EncodingType.RAW:
-            return encoded["d"]
-
-        if encoding_type == EncodingType.RLE:
-            return RLEEncoder.decode(encoded["d"])
-
-        if encoding_type == EncodingType.DELTA:
-            return DeltaEncoder.decode(encoded["b"], encoded["d"])
-
-        if encoding_type == EncodingType.DICTIONARY:
-            return DictionaryEncoder.decode(encoded["m"], encoded["d"])
-
-        return encoded["d"]
-
-    def _encode_rle(self, values: list) -> dict[str, Any]:
-        return {"t": EncodingType.RLE, "d": RLEEncoder.encode(values)}
-
-    def _encode_delta(self, values: list) -> dict[str, Any]:
-        base, deltas = DeltaEncoder.encode(values)
-        return {"t": EncodingType.DELTA, "b": base, "d": deltas}
-
-    def _encode_dictionary(self, values: list) -> dict[str, Any]:
-        dictionary, indices = DictionaryEncoder.encode(values)
-        return {"t": EncodingType.DICTIONARY, "m": dictionary, "d": indices}
+    def _get_decoder(self, encoding_type: EncodingType):
+        decoders = {
+            EncodingType.RAW: lambda e: e["d"],
+            EncodingType.RLE: lambda e: RLEEncoder.decode(e["d"]),
+            EncodingType.DELTA: lambda e: DeltaEncoder.decode(e["b"], e["d"]),
+            EncodingType.DICTIONARY: lambda e: DictionaryEncoder.decode(e["m"], e["d"]),
+        }
+        return decoders.get(encoding_type, lambda e: e["d"])

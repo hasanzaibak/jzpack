@@ -34,3 +34,4 @@ Thumbs.db
 # Project specific
 *.jzpk
 poetry.lock
+benchmark.py

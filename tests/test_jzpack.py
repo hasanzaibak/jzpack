@@ -1,3 +1,5 @@
+import random
+import string
 import tempfile
 from pathlib import Path
 
@@ -100,6 +102,24 @@ class TestCompressionLevels:
         assert size_19 <= size_1
 
 
+class TestFastMode:
+    def test_fast_mode_basic(self):
+        data = [{"id": i, "name": f"item_{i}"} for i in range(1000)]
+        compressed = compress(data, fast=True)
+        assert decompress(compressed) == data
+
+    def test_fast_mode_nested(self):
+        data = [{"user": {"profile": {"name": f"user_{i}"}}} for i in range(1000)]
+        compressed = compress(data, fast=True)
+        assert decompress(compressed) == data
+
+    def test_fast_vs_normal_size(self):
+        data = [{"status": "OK", "id": i} for i in range(1000)]
+        normal_size = len(compress(data, fast=False))
+        fast_size = len(compress(data, fast=True))
+        assert fast_size >= normal_size
+
+
 class TestOrderPreservation:
     def test_homogeneous_order(self):
         data = [{"id": i, "value": f"item_{i}"} for i in range(1000)]
@@ -140,8 +160,6 @@ class TestOrderPreservation:
         assert decompressed == data
 
     def test_random_schema_order(self):
-        import random
-
         random.seed(42)
         schemas = [
             lambda i: {"type": "user", "id": i},
@@ -283,10 +301,69 @@ class TestStreamingCompressor:
         assert decompressed == [{"new": i} for i in range(50)]
 
 
+class TestIntegrity:
+    def test_full_integrity_realistic(self):
+        random.seed(42)
+        statuses = ["active", "inactive", "pending", "error", "archived"]
+        tags_pool = [f"tag_{i}" for i in range(50)]
+
+        data = []
+        for i in range(10000):
+            data.append(
+                {
+                    "id": i,
+                    "user_id": random.randint(1000, 9999),
+                    "username": f"user_{random.randint(1, 1000)}",
+                    "bio": "".join(random.choices(string.ascii_letters, k=50)),
+                    "metrics": {
+                        "login_count": random.randint(0, 100),
+                        "is_pro": random.choice([True, False]),
+                    },
+                    "status": random.choice(statuses),
+                    "tags": random.sample(tags_pool, 3),
+                }
+            )
+
+        decompressed = decompress(compress(data))
+        assert len(decompressed) == len(data)
+        for i in range(len(data)):
+            assert decompressed[i] == data[i], f"Mismatch at index {i}"
+
+    def test_full_integrity_high_cardinality(self):
+        random.seed(42)
+        data = []
+        for i in range(10000):
+            data.append(
+                {
+                    "id": i,
+                    "uuid": "".join(random.choices(string.hexdigits, k=32)),
+                    "email": f"{''.join(random.choices(string.ascii_lowercase, k=10))}@example.com",
+                    "score": random.random() * 1000,
+                }
+            )
+
+        decompressed = decompress(compress(data))
+        assert len(decompressed) == len(data)
+        for i in range(len(data)):
+            assert decompressed[i] == data[i], f"Mismatch at index {i}"
+
+    def test_integrity_fast_mode(self):
+        random.seed(42)
+        data = [{"id": i, "value": random.random()} for i in range(10000)]
+
+        decompressed = decompress(compress(data, fast=True))
+        assert len(decompressed) == len(data)
+        for i in range(len(data)):
+            assert decompressed[i] == data[i], f"Mismatch at index {i}"
+
+
 class TestLargeDataset:
     def test_50k_records_homogeneous(self):
         data = [{"id": i, "service": "api-gateway", "status": "OK", "latency": i % 100} for i in range(50000)]
-        assert decompress(compress(data)) == data
+        decompressed = decompress(compress(data))
+        assert len(decompressed) == len(data)
+        for i in range(len(data)):
+            assert decompressed[i] == data[i], f"Mismatch at index {i}"
 
     def test_50k_records_heterogeneous(self):
         data = []
@@ -297,7 +374,10 @@ class TestLargeDataset:
                 data.append({"type": "log", "id": i, "level": "INFO"})
             else:
                 data.append({"type": "metric", "id": i, "value": i % 1000})
-        assert decompress(compress(data)) == data
+        decompressed = decompress(compress(data))
+        assert len(decompressed) == len(data)
+        for i in range(len(data)):
+            assert decompressed[i] == data[i], f"Mismatch at index {i}"
 
 
 class TestEdgeCases:
@@ -324,6 +404,18 @@ class TestEdgeCases:
 
     def test_long_values(self):
         data = [{"content": "x" * 10000} for _ in range(10)]
+        assert decompress(compress(data)) == data
+
+    def test_none_values(self):
+        data = [{"a": None, "b": None, "c": i} for i in range(100)]
+        assert decompress(compress(data)) == data
+
+    def test_boolean_columns(self):
+        data = [{"flag": i % 2 == 0, "id": i} for i in range(1000)]
+        assert decompress(compress(data)) == data
+
+    def test_mixed_numeric_types(self):
+        data = [{"int": i, "float": float(i) + 0.5} for i in range(1000)]
         assert decompress(compress(data)) == data
 
 
@@ -368,8 +460,6 @@ class TestEncodingStrategies:
         assert decompressed == data
 
     def test_raw_fallback(self):
-        import random
-
         random.seed(42)
         data = [{"random": random.random(), "id": i} for i in range(1000)]
         compressed = compress(data)

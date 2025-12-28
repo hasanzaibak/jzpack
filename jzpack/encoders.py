@@ -16,39 +16,35 @@ class RLEEncoder:
             return []
 
         result = []
-        current_val = values[0]
+        current = values[0]
         count = 1
 
-        for val in values[1:]:
-            if val == current_val:
+        for i in range(1, len(values)):
+            if values[i] == current:
                 count += 1
             else:
-                result.append([current_val, count])
-                current_val = val
+                result.append([current, count])
+                current = values[i]
                 count = 1
 
-        result.append([current_val, count])
+        result.append([current, count])
         return result
 
     @staticmethod
     def decode(encoded: list) -> list:
-        result = []
-        for val, count in encoded:
-            result.extend([val] * count)
+        if not encoded:
+            return []
+
+        total = sum(item[1] for item in encoded)
+        result = [None] * total
+        idx = 0
+
+        for value, count in encoded:
+            for i in range(idx, idx + count):
+                result[i] = value
+            idx += count
+
         return result
-
-    @staticmethod
-    def estimate_size(values: list) -> int:
-        if not values:
-            return 0
-
-        runs = 1
-        current = values[0]
-        for val in values[1:]:
-            if val != current:
-                runs += 1
-                current = val
-        return runs * 2
 
 
 class DeltaEncoder:
@@ -58,60 +54,45 @@ class DeltaEncoder:
             return 0, []
 
         base = values[0]
-        deltas = [values[i] - values[i - 1] for i in range(1, len(values))]
+        deltas = [None] * (len(values) - 1)
+        prev = base
+
+        for i in range(1, len(values)):
+            deltas[i - 1] = values[i] - prev
+            prev = values[i]
+
         return base, deltas
 
     @staticmethod
     def decode(base: Any, deltas: list) -> list:
-        result = [base]
+        result = [None] * (len(deltas) + 1)
+        result[0] = base
         current = base
-        for d in deltas:
-            current += d
-            result.append(current)
+
+        for i, delta in enumerate(deltas):
+            current += delta
+            result[i + 1] = current
+
         return result
-
-    @staticmethod
-    def is_applicable(values: list) -> bool:
-        if not values or len(values) < 2:
-            return False
-        return all(isinstance(v, (int, float)) for v in values)
-
-    @staticmethod
-    def estimate_efficiency(values: list) -> float:
-        if not values or len(values) < 2:
-            return 0.0
-
-        deltas = [values[i] - values[i - 1] for i in range(1, len(values))]
-        unique_deltas = len(set(deltas))
-        return 1.0 - (unique_deltas / len(deltas))
 
 
 class DictionaryEncoder:
     @staticmethod
-    def encode(values: list) -> tuple[dict, list]:
-        dictionary = {}
-        next_id = 0
-        indices = []
+    def encode(values: list) -> tuple[list, list]:
+        value_to_index = {}
+        dictionary = []
+        indices = [0] * len(values)
 
-        for val in values:
-            if val not in dictionary:
-                dictionary[val] = next_id
-                next_id += 1
-            indices.append(dictionary[val])
+        for i, value in enumerate(values):
+            index = value_to_index.get(value)
+            if index is None:
+                index = len(dictionary)
+                value_to_index[value] = index
+                dictionary.append(value)
+            indices[i] = index
 
-        inverse_dict = {v: k for k, v in dictionary.items()}
-        return inverse_dict, indices
+        return dictionary, indices
 
     @staticmethod
-    def decode(dictionary: dict, indices: list) -> list:
+    def decode(dictionary: list | dict, indices: list) -> list:
         return [dictionary[i] for i in indices]
-
-    @staticmethod
-    def estimate_efficiency(values: list) -> tuple[float, int]:
-        if not values:
-            return 0.0, 0
-
-        unique_count = len(set(values))
-        total_count = len(values)
-        cardinality_ratio = unique_count / total_count
-        return 1.0 - cardinality_ratio, unique_count
