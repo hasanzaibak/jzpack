@@ -1,25 +1,6 @@
 # jzpack
 
-High-performance JSON/NDJSON compression library that significantly outperforms GZIP.
-
-## Features
-
-- **83-99% smaller** than GZIP on typical JSON log data
-- **Column-oriented** storage with automatic schema detection
-- **Smart encoding** selection per column (RLE, Delta, Dictionary)
-- **Zstandard** compression with MessagePack serialization
-- **Streaming support** for large datasets
-- **Type hints** included
-
-## Benchmarks
-
-Tested on 200,000 JSON records:
-
-| Dataset | GZIP (level 9) | jzpack | Improvement |
-|---------|----------------|--------|-------------|
-| High-Cardinality Logs | 1.47 MB | 244 KB | **83.8%** smaller |
-| Mixed Service Logs | 1.72 MB | 99 KB | **94.4%** smaller |
-| Highly Repetitive Data | 175 KB | 579 B | **99.7%** smaller |
+High-compression JSON library using columnar storage + zstd.
 
 ## Installation
 ```bash
@@ -36,76 +17,64 @@ compressed = compress(data)
 original = decompress(compressed)
 ```
 
-### File I/O
+## Benchmarks
+
+100K records, zstd level 3, 3 iterations averaged.
+
+**Realistic Data** (mixed repetition):
+
+| Strategy | Size | Ratio | Compress | Decompress |
+|:---|---:|---:|---:|---:|
+| json + gzip | 5.71 MB | 3.45x | 14 MB/s | 91 MB/s |
+| orjson + zstd | 5.86 MB | 3.36x | 220 MB/s | 143 MB/s |
+| msgpack + zstd | 5.71 MB | 3.44x | 154 MB/s | 125 MB/s |
+| **jzpack** | 4.60 MB | 4.28x | 48 MB/s | 53 MB/s |
+
+**High Cardinality** (worst case, unique values):
+
+| Strategy | Size | Ratio | Compress | Decompress |
+|:---|---:|---:|---:|---:|
+| json + gzip | 19.94 MB | 1.78x | 14 MB/s | 102 MB/s |
+| orjson + zstd | 19.61 MB | 1.81x | 159 MB/s | 166 MB/s |
+| msgpack + zstd | 19.04 MB | 1.87x | 147 MB/s | 175 MB/s |
+| **jzpack** | 15.86 MB | 2.24x | 75 MB/s | 79 MB/s |
+
+**vs msgpack+zstd** (same underlying compression): **17-19% smaller**, 2-3x slower.
+
+Run: `python benchmark.py`
+
+## When to Use
+
+Cold storage, archival, network transfer  
+Datasets with field repetition  
+
+## API
+
 ```python
-import json
-from jzpack import compress, decompress
+from jzpack import compress, decompress, JZPackCompressor, StreamingCompressor
 
-# Compress JSON file
-with open("data.json", "r", encoding="utf-8") as f:
-    data = json.load(f)
-
-with open("data.jzpk", "wb") as f:
-    f.write(compress([data]))
-
-# Decompress
-with open("data.jzpk", "rb") as f:
-    data = decompress(f.read())[0]
-```
-
-### Compression Level
-```python
-from jzpack import compress
-
-compressed = compress(data, level=19)  # 1-22, higher = smaller but slower
-```
-
-## Advanced Usage
-
-### JZPackCompressor
-```python
-from jzpack import JZPackCompressor
+compress(data, level=3) -> bytes
+decompress(data) -> list[dict]
 
 compressor = JZPackCompressor(compression_level=3)
+compressor.compress(data) -> bytes
+compressor.decompress(data) -> list[dict]
+compressor.compress_to_file(data, "out.jzpk")
+compressor.decompress_from_file("out.jzpk") -> list[dict]
 
-compressed = compressor.compress(data)
-original = compressor.decompress(compressed)
-
-compressor.compress_to_file(data, "output.jzpk")
-data = compressor.decompress_from_file("output.jzpk")
-```
-
-### StreamingCompressor
-```python
-from jzpack import StreamingCompressor
-
-compressor = StreamingCompressor(compression_level=3)
-
-for record in records_iterator:
-    compressor.add_record(record)
-
-compressor.add_batch(batch_of_records)
-compressed = compressor.finalize()
-compressor.clear()
+stream = StreamingCompressor(compression_level=3)
+stream.add_record(record)
+stream.add_batch(records)
+stream.finalize() -> bytes
+stream.clear()
 ```
 
 ## How It Works
 
-1. **Schema Detection** - Groups records by structure
-2. **Column-Oriented Storage** - Stores each field as a column
-3. **Smart Encoding Selection** per column:
-   - **RLE** for repetitive values
-   - **Delta** for sequential numbers
-   - **Dictionary** for low-cardinality strings
-4. **Binary Serialization** via MessagePack
-5. **Zstandard Compression**
-
-## API Reference
-
-| Function | Description |
-|----------|-------------|
-| `compress(data, level=3)` | Compress list of dicts to bytes |
-| `decompress(data)` | Decompress bytes to list of dicts |
+1. **Schema grouping** — records grouped by structure
+2. **Columnar storage** — fields stored as columns
+3. **Smart encoding** — RLE, Delta, Dictionary per column
+4. **MessagePack + Zstandard** — binary serialization + compression
 
 ## License
 

@@ -30,18 +30,7 @@ class TestBasicCompression:
         assert decompress(compress(data)) == data
 
     def test_deeply_nested(self):
-        data = [
-            {
-                "level1": {
-                    "level2": {
-                        "level3": {
-                            "level4": {"value": i}
-                        }
-                    }
-                }
-            }
-            for i in range(100)
-        ]
+        data = [{"level1": {"level2": {"level3": {"level4": {"value": i}}}}} for i in range(100)]
         assert decompress(compress(data)) == data
 
 
@@ -152,6 +141,7 @@ class TestOrderPreservation:
 
     def test_random_schema_order(self):
         import random
+
         random.seed(42)
         schemas = [
             lambda i: {"type": "user", "id": i},
@@ -272,10 +262,7 @@ class TestStreamingCompressor:
         assert decompressed == data
 
     def test_streaming_mixed_schemas(self):
-        data = [
-            {"type": "A", "a": i} if i % 2 == 0 else {"type": "B", "b": i}
-            for i in range(100)
-        ]
+        data = [{"type": "A", "a": i} if i % 2 == 0 else {"type": "B", "b": i} for i in range(100)]
 
         streaming = StreamingCompressor()
         for record in data:
@@ -298,10 +285,7 @@ class TestStreamingCompressor:
 
 class TestLargeDataset:
     def test_50k_records_homogeneous(self):
-        data = [
-            {"id": i, "service": "api-gateway", "status": "OK", "latency": i % 100}
-            for i in range(50000)
-        ]
+        data = [{"id": i, "service": "api-gateway", "status": "OK", "latency": i % 100} for i in range(50000)]
         assert decompress(compress(data)) == data
 
     def test_50k_records_heterogeneous(self):
@@ -385,6 +369,7 @@ class TestEncodingStrategies:
 
     def test_raw_fallback(self):
         import random
+
         random.seed(42)
         data = [{"random": random.random(), "id": i} for i in range(1000)]
         compressed = compress(data)

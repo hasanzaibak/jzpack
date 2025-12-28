@@ -5,9 +5,7 @@ from typing import Any
 
 class SchemaManager:
     def __init__(self):
-        self._groups: dict[str, dict] = defaultdict(
-            lambda: {"keys": None, "columns": defaultdict(list)}
-        )
+        self._groups: dict[str, dict] = defaultdict(lambda: {"keys": None, "columns": defaultdict(list)})
         self._schema_order: list[str] = []
         self._schema_id_cache: dict[tuple, str] = {}
 
