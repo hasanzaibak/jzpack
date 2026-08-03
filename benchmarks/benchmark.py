@@ -95,11 +95,13 @@ def _canonical_json_size(records: Sequence[dict[str, object]]) -> int:
 
 
 def _measure(workload: Callable[[], Any]) -> tuple[Any, float, float]:
+    started = time.perf_counter()
+    result = workload()
+    elapsed = time.perf_counter() - started
+
     tracemalloc.start()
     try:
-        started = time.perf_counter()
-        result = workload()
-        elapsed = time.perf_counter() - started
+        workload()
         _, peak_bytes = tracemalloc.get_traced_memory()
     finally:
         tracemalloc.stop()
@@ -187,7 +189,8 @@ def run_benchmark(
         decompression_seconds.append(elapsed)
         decompression_peaks.append(peak_mib)
 
-        assert restored == expected_records, "round-trip validation failed"
+        if restored != expected_records:
+            raise AssertionError("round-trip validation failed")
         if records != expected_records:
             raise AssertionError("benchmark workload mutated the source records")
 
@@ -238,7 +241,7 @@ def run_benchmark(
             "decompression_peak_python_memory_mib": max(decompression_peaks),
             "compression_peak_samples_mib": compression_peaks,
             "decompression_peak_samples_mib": decompression_peaks,
-            "includes": "Python allocations traced by tracemalloc during compression and decompression",
+            "includes": "Python allocations traced by tracemalloc during dedicated compression and decompression runs",
             "excludes": "native allocations such as zstandard workspace memory and total process RSS",
         },
         "round_trip_validated": True,
@@ -360,9 +363,6 @@ def main(argv: Sequence[str] | None = None) -> int:
             max_decompress_seconds=args.max_decompress_seconds,
             max_memory_mib=args.max_memory_mib,
         )
-    except AssertionError as exc:
-        print(f"benchmark execution failed: {exc}", file=sys.stderr)
-        return BENCHMARK_FAILURE_EXIT_CODE
     except Exception as exc:
         print(f"benchmark execution failed: {exc}", file=sys.stderr)
         return BENCHMARK_FAILURE_EXIT_CODE

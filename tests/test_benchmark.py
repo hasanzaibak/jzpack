@@ -98,14 +98,22 @@ def test_generous_budgets_pass():
     }
 
 
-def test_budget_failure_is_non_zero_and_identifies_budget():
-    completed = run_cli("--records", "3", "--iterations", "1", "--max-memory-mib", "0", "--json")
+@pytest.mark.parametrize(
+    ("budget_flag", "budget_name"),
+    [
+        ("--max-compress-seconds", "max-compress-seconds"),
+        ("--max-decompress-seconds", "max-decompress-seconds"),
+        ("--max-memory-mib", "max-memory-mib"),
+    ],
+)
+def test_budget_failure_is_non_zero_and_identifies_budget(budget_flag: str, budget_name: str):
+    completed = run_cli("--records", "3", "--iterations", "1", budget_flag, "0", "--json")
 
     assert completed.returncode == benchmark.BUDGET_FAILURE_EXIT_CODE
     result = json.loads(completed.stdout)
     assert result["budget_status"]["passed"] is False
-    assert "max-memory-mib" in result["budget_status"]["failed_budgets"]
-    assert "max-memory-mib" in completed.stderr
+    assert budget_name in result["budget_status"]["failed_budgets"]
+    assert budget_name in completed.stderr
 
 
 @pytest.mark.parametrize(
