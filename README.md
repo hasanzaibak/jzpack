@@ -52,6 +52,36 @@ Run the local benchmark with `python benchmarks/benchmark.py`. Benchmark results
 hardware, Python, dependency versions, and dataset shape; treat the table above as a reference,
 not a guarantee.
 
+The benchmark is opt-in and uses deterministic records. For a smaller local run:
+
+```bash
+python benchmarks/benchmark.py --records 1000 --iterations 3 --level 3
+python benchmarks/benchmark.py --records 1000 --iterations 3 --json
+```
+
+Human-readable output reports average, minimum, maximum, and population standard deviation for
+compression and decompression. Timing uses `time.perf_counter()` and CPU budget flags apply to the
+reported average:
+
+```bash
+python benchmarks/benchmark.py --records 1000 --iterations 3 \
+  --max-compress-seconds 1.0 \
+  --max-decompress-seconds 1.0 \
+  --max-memory-mib 128
+```
+
+`--max-memory-mib` applies to the maximum `peak_python_memory_mib` observed across compression and
+decompression in all iterations. This portable metric is the peak Python allocation traced by
+`tracemalloc`; it includes Python objects and buffers tracked by `tracemalloc`, but excludes native
+Zstandard allocations and total process RSS. The reference input size is the UTF-8 byte count of
+canonical JSON records (sorted keys, compact separators, and no newline), not a JZPK payload size.
+
+Use `--json` for exactly one JSON object on stdout containing configuration, dataset sizes, safe
+runtime/dependency versions, timing samples, memory samples, round-trip status, and budget status.
+Budget violations return exit status 1; invalid CLI values are rejected by `argparse` with exit
+status 2; benchmark execution failures return exit status 3. The benchmark does not print records,
+paths, environment variables, or credentials.
+
 ## When to Use
 
 - Cold storage and archival
