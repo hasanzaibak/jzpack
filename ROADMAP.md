@@ -20,8 +20,8 @@ internationally usable data format and ecosystem.
 ## Next: production reliability
 
 - [ ] Add Hypothesis property-based round-trip tests.
-- [ ] Add malformed-payload fuzzing and cross-version fixture tests.
-- [ ] Add deterministic-output tests across separate Python processes.
+- [x] Add malformed-payload fuzzing and cross-version fixture tests.
+- [x] Add deterministic-output tests across separate Python processes.
 - [ ] Add explicit memory and CPU budgets to the benchmark suite.
 - [ ] Add atomic file writes and file-like object support.
 
