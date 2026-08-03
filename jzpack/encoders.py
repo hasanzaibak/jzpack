@@ -1,6 +1,8 @@
 from enum import IntEnum
 from typing import Any
 
+from .errors import ResourceLimitError
+
 
 class EncodingType(IntEnum):
     RAW = 0
@@ -31,11 +33,24 @@ class RLEEncoder:
         return result
 
     @staticmethod
-    def decode(encoded: list) -> list:
+    def decode(encoded: list, max_output_size: int | None = None) -> list:
+        if not isinstance(encoded, list):
+            raise ValueError("Invalid RLE payload")
         if not encoded:
             return []
 
-        total = sum(item[1] for item in encoded)
+        total = 0
+        for item in encoded:
+            if not isinstance(item, (list, tuple)) or len(item) != 2:
+                raise ValueError("Invalid RLE payload")
+            count = item[1]
+            if isinstance(count, bool) or not isinstance(count, int) or count < 0:
+                raise ValueError("Invalid RLE count")
+            total += count
+
+        if max_output_size is not None and total > max_output_size:
+            raise ResourceLimitError("RLE payload exceeds the maximum output size")
+
         result = [None] * total
         idx = 0
 
@@ -65,6 +80,9 @@ class DeltaEncoder:
 
     @staticmethod
     def decode(base: Any, deltas: list) -> list:
+        if not isinstance(deltas, list):
+            raise ValueError("Invalid delta payload")
+
         result = [None] * (len(deltas) + 1)
         result[0] = base
         current = base
@@ -95,4 +113,15 @@ class DictionaryEncoder:
 
     @staticmethod
     def decode(dictionary: list | dict, indices: list) -> list:
-        return [dictionary[i] for i in indices]
+        if not isinstance(indices, list):
+            raise ValueError("Invalid dictionary indices")
+
+        result = []
+        for index in indices:
+            if isinstance(index, bool) or not isinstance(index, int):
+                raise ValueError("Invalid dictionary index")
+            try:
+                result.append(dictionary[index])
+            except (IndexError, KeyError, TypeError) as exc:
+                raise ValueError("Dictionary index out of range") from exc
+        return result

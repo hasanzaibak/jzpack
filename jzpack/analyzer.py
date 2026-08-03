@@ -1,6 +1,7 @@
 from typing import Any
 
 from .encoders import DeltaEncoder, DictionaryEncoder, EncodingType, RLEEncoder
+from .errors import ResourceLimitError
 
 
 class EncodingThresholds:
@@ -19,16 +20,13 @@ class ColumnAnalyzer:
         if len(values) < self._thresholds.MIN_ROWS:
             return EncodingType.RAW
 
-        first_value = values[0]
-        value_type = type(first_value)
-
         if self._is_rle_suitable(values):
             return EncodingType.RLE
 
-        if value_type in (int, float) and self._is_delta_suitable(values):
+        if self._is_numeric_column(values) and self._is_delta_suitable(values):
             return EncodingType.DELTA
 
-        if value_type is str and self._is_dictionary_suitable(values):
+        if all(isinstance(value, str) for value in values) and self._is_dictionary_suitable(values):
             return EncodingType.DICTIONARY
 
         return EncodingType.RAW
@@ -47,6 +45,9 @@ class ColumnAnalyzer:
                     return False
 
         return True
+
+    def _is_numeric_column(self, values: list) -> bool:
+        return all(isinstance(value, (int, float)) and not isinstance(value, bool) for value in values)
 
     def _is_delta_suitable(self, values: list) -> bool:
         n = len(values)
@@ -90,10 +91,21 @@ class ColumnEncoder:
         encoding_type = self._analyzer.determine_encoding(values)
         return self._apply_encoding(values, encoding_type)
 
-    def decode(self, encoded: dict[str, Any]) -> list:
+    def decode(self, encoded: dict[str, Any], max_values: int | None = None) -> list:
+        if not isinstance(encoded, dict):
+            raise ValueError("Invalid column payload")
+
         encoding_type = EncodingType(encoded["t"])
         decoder = self._get_decoder(encoding_type)
-        return decoder(encoded)
+        if encoding_type == EncodingType.RLE:
+            return RLEEncoder.decode(encoded["d"], max_output_size=max_values)
+
+        values = decoder(encoded)
+        if not isinstance(values, list):
+            raise ValueError("Invalid column payload")
+        if max_values is not None and len(values) > max_values:
+            raise ResourceLimitError("Column payload exceeds the maximum output size")
+        return values
 
     def _apply_encoding(self, values: list, encoding_type: EncodingType) -> dict[str, Any]:
         if encoding_type == EncodingType.RLE:
@@ -119,4 +131,4 @@ class ColumnEncoder:
             EncodingType.DELTA: lambda e: DeltaEncoder.decode(e["b"], e["d"]),
             EncodingType.DICTIONARY: lambda e: DictionaryEncoder.decode(e["m"], e["d"]),
         }
-        return decoders.get(encoding_type, lambda e: e["d"])
+        return decoders[encoding_type]
