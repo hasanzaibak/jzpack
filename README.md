@@ -76,8 +76,10 @@ decompression in all iterations. This portable metric is the peak Python allocat
 Zstandard allocations and total process RSS. The reference input size is the UTF-8 byte count of
 canonical JSON records (sorted keys, compact separators, and no newline), not a JZPK payload size.
 
-Use `--json` for exactly one JSON object on stdout containing configuration, dataset sizes, safe
-runtime/dependency versions, timing samples, memory samples, round-trip status, and budget status.
+On successful benchmark completion—including a completed run that exceeds a budget—`--json` writes
+exactly one JSON object on stdout containing configuration, dataset sizes, safe runtime/dependency
+versions, timing samples, memory samples, round-trip status, and budget status. If `argparse` or
+benchmark execution fails before a result exists, stdout may be empty and diagnostics go to stderr.
 Budget violations return exit status 1; invalid CLI values are rejected by `argparse` with exit
 status 2; benchmark execution failures return exit status 3. The benchmark does not print records,
 paths, environment variables, or credentials.
