@@ -1,6 +1,9 @@
 # jzpack
 
-High-compression JSON library using columnar storage + zstd.
+High-compression JSON-record storage using columnar encoding, MessagePack, and Zstandard.
+
+Status: beta. The public API is intentionally small, while the JZPK binary format is being
+stabilized for long-term and cross-language use.
 
 ## Installation
 
@@ -45,7 +48,9 @@ original = decompress(compressed)
 
 **vs msgpack+zstd**: 17-20% smaller, 65-90% of the speed.
 
-Run: `python benchmark.py`
+Run the local benchmark with `python benchmarks/benchmark.py`. Benchmark results depend on
+hardware, Python, dependency versions, and dataset shape; treat the table above as a reference,
+not a guarantee.
 
 ## When to Use
 
@@ -64,8 +69,8 @@ original = decompress(compressed)
 
 # Class-based API
 compressor = JZPackCompressor(compression_level=3, fast=False)
-compressor.compress(data)
-compressor.decompress(data)
+compressed = compressor.compress(data)
+compressor.decompress(compressed)
 compressor.compress_to_file(data, "out.jzpk")
 compressor.decompress_from_file("out.jzpk")
 
@@ -80,6 +85,15 @@ stream.clear()
 **Parameters:**
 - `level`: zstd compression level 1-22 (default: 3)
 - `fast`: skip column encoding analysis for speed (default: False)
+- `max_output_size`: optional decompression limit in bytes
+- `max_records`: optional decompression limit in records
+
+`compress` accepts a mapping, a list of mappings, or any iterable of mappings. Record keys must
+be strings. Nested mappings, Unicode text, lists, numbers, booleans, nulls, and bytes supported
+by MessagePack are preserved. The format does not normalize or translate Unicode values.
+
+`StreamingCompressor` currently buffers its column data until `finalize()`. It is useful for
+incremental ingestion, but it is not yet a bounded-memory file writer; see [ROADMAP.md](ROADMAP.md).
 
 ## How It Works
 
@@ -87,6 +101,26 @@ stream.clear()
 2. **Columnar storage** — fields stored as columns
 3. **Smart encoding** — RLE, Delta, Dictionary per column type
 4. **MessagePack + Zstandard** — binary serialization + compression
+
+## Format and compatibility
+
+JZPK version 2 is the current writer format. It includes deterministic schema identifiers,
+explicit row counts, and collision-safe nested paths. Readers accept version 1 and version 2
+headers where the legacy payload is structurally valid. The format is documented in
+[FORMAT.md](FORMAT.md).
+
+Malformed payloads raise typed exceptions exported from the package, including
+`InvalidFormatError`, `UnsupportedVersionError`, and `ResourceLimitError`.
+
+## Development
+
+```bash
+python -m pip install -e ".[dev]"
+python -m pytest
+python -m build
+```
+
+The project roadmap is maintained in [ROADMAP.md](ROADMAP.md).
 
 ## License
 
