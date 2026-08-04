@@ -114,6 +114,27 @@ stream.finalize()
 stream.clear()
 ```
 
+### File helpers
+
+`compress_to_file` and `decompress_from_file` accept `str` paths, `os.PathLike[str]` paths such as
+`pathlib.Path`, and binary file-like objects with `write(bytes)` or `read()` methods. Filesystem
+path destinations are written to a temporary file in the destination directory and atomically
+replaced after the complete JZPK payload has been written, flushed, and synced. A generic
+file-like stream is caller-managed and does not receive atomic replacement semantics.
+
+```python
+import io
+
+buffer = io.BytesIO()
+compressor.compress_to_file(data, buffer)
+buffer.seek(0)
+assert compressor.decompress_from_file(buffer) == data
+```
+
+File-like objects are never closed, and both operations use the stream's current position. The
+file helpers still buffer the complete JZPK payload in memory; they are not bounded-memory
+streaming APIs. `compress_to_file` returns the compressed byte count for both paths and streams.
+
 **Parameters:**
 - `level`: zstd compression level 1-22 (default: 3)
 - `fast`: skip column encoding analysis for speed (default: False)
