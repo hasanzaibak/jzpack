@@ -23,7 +23,7 @@ internationally usable data format and ecosystem.
 - [x] Add malformed-payload fuzzing and cross-version fixture tests.
 - [x] Add deterministic-output tests across separate Python processes.
 - [x] Add explicit memory and CPU budgets to the benchmark suite.
-- [ ] Add atomic file writes and file-like object support.
+- [x] Add atomic file writes and file-like object support.
 
 ## Next: true streaming and scale
 

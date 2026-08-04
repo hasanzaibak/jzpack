@@ -1,12 +1,20 @@
+import io
+import os
+import tempfile
 from collections import Counter
 from collections.abc import Iterable, Mapping
-from typing import Any
+from contextlib import suppress
+from typing import Any, BinaryIO
 
 from .analyzer import ColumnEncoder
 from .encoders import RLEEncoder
 from .errors import InvalidFormatError, ResourceLimitError
 from .schema import Path, SchemaManager, SchemaReconstructor
 from .serializer import PayloadSerializer
+
+FilePath = str | os.PathLike[str]
+FileDestination = FilePath | BinaryIO
+FileSource = FilePath | BinaryIO
 
 
 class JZPackCompressor:
@@ -37,17 +45,25 @@ class JZPackCompressor:
         payload = self._serializer.deserialize(data, max_output_size=max_output_size)
         return self._reconstruct(payload, max_records=max_records)
 
-    def compress_to_file(self, data: Iterable[Mapping[str, Any]] | Mapping[str, Any], path: str) -> int:
+    def compress_to_file(self, data: Iterable[Mapping[str, Any]] | Mapping[str, Any], path: FileDestination) -> int:
+        destination_path = _coerce_path(path, "destination")
         compressed = self.compress(data)
-        with open(path, "wb") as f:
-            f.write(compressed)
+        if destination_path is not None:
+            _write_atomically(destination_path, compressed)
+        else:
+            _write_file_like(path, compressed)
         return len(compressed)
 
     def decompress_from_file(
-        self, path: str, max_output_size: int | None = None, max_records: int | None = None
+        self, path: FileSource, max_output_size: int | None = None, max_records: int | None = None
     ) -> list[dict[str, Any]]:
-        with open(path, "rb") as f:
-            return self.decompress(f.read(), max_output_size=max_output_size, max_records=max_records)
+        source_path = _coerce_path(path, "source")
+        if source_path is not None:
+            with open(source_path, "rb") as stream:
+                data = stream.read()
+        else:
+            data = _read_file_like(path)
+        return self.decompress(data, max_output_size=max_output_size, max_records=max_records)
 
     def _build_payload(self) -> dict:
         schemas = {}
@@ -205,6 +221,66 @@ class JZPackCompressor:
             raise ResourceLimitError("JZPK payload exceeds max_records")
 
         return self._reconstructor.reconstruct_records({"keys": keys, "columns": decoded_columns, "count": count})
+
+
+def _coerce_path(value: FilePath | BinaryIO, kind: str) -> str | None:
+    if not isinstance(value, (str, os.PathLike)):
+        return None
+
+    path = os.fspath(value)
+    if not isinstance(path, str):
+        raise TypeError(f"{kind} path must be a str or os.PathLike[str]")
+    return path
+
+
+def _write_file_like(stream: FileDestination, data: bytes) -> None:
+    if isinstance(stream, io.TextIOBase) or not callable(getattr(stream, "write", None)):
+        raise TypeError("destination must be a str, os.PathLike[str], or binary writable file-like object")
+
+    written = stream.write(data)  # type: ignore[union-attr]
+    if written is None:
+        return
+    if isinstance(written, bool) or not isinstance(written, int):
+        raise TypeError("binary writable file-like object's write() must return an integer or None")
+    if written != len(data):
+        raise OSError(f"binary writable file-like object wrote {written} of {len(data)} bytes")
+
+
+def _read_file_like(stream: FileSource) -> bytes | bytearray | memoryview:
+    if isinstance(stream, io.TextIOBase) or not callable(getattr(stream, "read", None)):
+        raise TypeError("source must be a str, os.PathLike[str], or binary readable file-like object")
+
+    data = stream.read()  # type: ignore[union-attr]
+    if not isinstance(data, (bytes, bytearray, memoryview)):
+        raise TypeError("source must be a binary readable file-like object")
+    return data
+
+
+def _write_atomically(path: str, data: bytes) -> None:
+    directory = os.path.dirname(os.path.abspath(path))
+    prefix = f".{os.path.basename(path)}."
+    file_descriptor: int | None = None
+    temporary_path: str | None = None
+
+    try:
+        file_descriptor, temporary_path = tempfile.mkstemp(prefix=prefix, suffix=".tmp", dir=directory)
+        with os.fdopen(file_descriptor, "wb") as stream:
+            file_descriptor = None
+            written = stream.write(data)
+            if written is not None and written != len(data):
+                raise OSError(f"temporary file write was incomplete: wrote {written} of {len(data)} bytes")
+            stream.flush()
+            fsync = getattr(os, "fsync", None)
+            if fsync is not None:
+                fsync(stream.fileno())
+        os.replace(temporary_path, path)
+    finally:
+        if file_descriptor is not None:
+            with suppress(OSError):
+                os.close(file_descriptor)
+        if temporary_path is not None:
+            with suppress(OSError):
+                os.unlink(temporary_path)
 
 
 class StreamingCompressor:
