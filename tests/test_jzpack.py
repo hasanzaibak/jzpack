@@ -5,7 +5,7 @@ from pathlib import Path
 
 import pytest
 
-from jzpack import JZPackCompressor, StreamingCompressor, compress, decompress
+from jzpack import JZPackCompressor, ResourceLimitError, StreamingCompressor, compress, decompress
 
 
 class TestBasicCompression:
@@ -265,6 +265,7 @@ class TestStreamingCompressor:
             streaming.add_record(record)
 
         compressed = streaming.finalize()
+        assert compressed[4] == 3
         decompressed = decompress(compressed)
         assert decompressed == data
 
@@ -428,7 +429,7 @@ class TestHeaderValidation:
     def test_version(self):
         data = [{"test": "value"}]
         compressed = compress(data)
-        assert compressed[4] == 1
+        assert compressed[4] == 3
 
     def test_invalid_magic_raises(self):
         with pytest.raises(ValueError, match="missing magic header"):
@@ -437,6 +438,44 @@ class TestHeaderValidation:
     def test_invalid_version_raises(self):
         with pytest.raises(ValueError, match="Unsupported version"):
             decompress(b"JZPK\x99" + b"\x00" * 100)
+
+    def test_truncated_header_raises(self):
+        with pytest.raises(ValueError, match="truncated header"):
+            decompress(b"JZPK")
+
+    def test_retired_version_one_payload_is_rejected(self):
+        with pytest.raises(ValueError, match="Unsupported version"):
+            decompress(b"JZPK\x01" + b"\x00" * 100)
+
+
+class TestRegressionCases:
+    def test_empty_records_preserve_row_count(self):
+        data = [{}, {}, {}]
+        assert decompress(compress(data)) == data
+
+    def test_batch_outlier_schema_is_not_dropped(self):
+        data = [{"id": i} if i != 1 else {"id": i, "extra": "kept"} for i in range(100)]
+        assert decompress(compress(data)) == data
+
+    def test_dotted_keys_are_not_interpreted_as_nested_paths(self):
+        data = [{"a.b": i, "a": {"b": i + 1}} for i in range(20)]
+        assert decompress(compress(data)) == data
+
+    def test_mixed_column_types_fall_back_to_raw(self):
+        data = [{"value": 0 if i == 0 else ("x" if i == 1 else i)} for i in range(100)]
+        assert decompress(compress(data)) == data
+
+    def test_generator_input(self):
+        data = [{"id": i} for i in range(100)]
+        assert decompress(compress(record for record in data)) == data
+
+    def test_max_records_limit(self):
+        with pytest.raises(ResourceLimitError, match="max_records"):
+            decompress(compress([{"id": i} for i in range(10)]), max_records=5)
+
+    def test_max_output_size_limit(self):
+        with pytest.raises(ResourceLimitError, match="max_output_size"):
+            decompress(compress([{"id": i} for i in range(100)]), max_output_size=1)
 
 
 class TestEncodingStrategies:
