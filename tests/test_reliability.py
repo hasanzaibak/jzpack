@@ -7,24 +7,13 @@ import pytest
 from hypothesis import given, settings
 from hypothesis import strategies as st
 
-from jzpack import JZPackError, compress, decompress
-
-FIXTURES = Path(__file__).parent / "fixtures"
+from jzpack import JZPackError, UnsupportedVersionError, compress, decompress
 
 
-def read_fixture(name: str) -> bytes:
-    return bytes.fromhex((FIXTURES / name).read_text())
-
-
-def test_version_one_simple_fixture():
-    assert decompress(read_fixture("v1_simple.hex")) == [
-        {"id": 1, "meta": {"name": "a"}},
-        {"id": 2, "meta": {"name": "b"}},
-    ]
-
-
-def test_version_one_empty_schema_fixture():
-    assert decompress(read_fixture("v1_empty_records.hex")) == [{}, {}]
+@pytest.mark.parametrize("version", [1, 2])
+def test_retired_standalone_versions_are_rejected(version: int):
+    with pytest.raises(UnsupportedVersionError):
+        decompress(b"JZPK" + bytes([version]) + b"\x00" * 100)
 
 
 def test_output_is_deterministic_across_processes():

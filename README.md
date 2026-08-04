@@ -93,7 +93,14 @@ paths, environment variables, or credentials.
 ## API
 
 ```python
-from jzpack import compress, decompress, JZPackCompressor, StreamingCompressor
+from jzpack import (
+    JZPackCompressor,
+    StreamingCompressor,
+    compress,
+    decompress,
+    iter_decompress,
+    iter_decompress_recover,
+)
 
 # Simple API
 compressed = compress(data, level=3, fast=False)
@@ -113,6 +120,35 @@ stream.add_batch(records)
 stream.finalize()
 stream.clear()
 ```
+
+### Chunked v3 reads
+
+JZPK version 3 is the sole public wire format. `compress` emits a v3 container, and
+`iter_decompress` reads one chunk at a time from paths and binary streams without an unbounded
+`read()` call. Standalone v1/v2 payloads are unsupported; the v2 payload embedded inside a v3 chunk
+is an internal format detail.
+
+```python
+from jzpack import ChunkError, ChunkRecords, iter_decompress, iter_decompress_recover
+
+for record in iter_decompress("archive-v3.jzpk", max_chunks=1000):
+    consume(record)
+
+# Recovery is explicit: ChunkError means the output is incomplete, and no
+# records from its sequence are yielded.
+for event in iter_decompress_recover("archive-v3.jzpk"):
+    if isinstance(event, ChunkRecords):
+        consume_many(event.records)
+    else:
+        assert isinstance(event, ChunkError)
+        report_corrupt_chunk(event.sequence, event.error)
+```
+
+Both iterator functions accept bytes-like input, paths, and binary file-like objects. Their optional
+limits are `max_output_size`, `max_records`, `max_chunks`, `max_chunk_uncompressed_bytes`, and
+`max_chunk_payload_bytes`. `max_output_size` is the aggregate uncompressed MessagePack body size.
+`decompress` also accepts valid v3 bytes as a list-returning adapter; its returned list is naturally
+not bounded-memory.
 
 ### File helpers
 
@@ -145,8 +181,9 @@ streaming APIs. `compress_to_file` returns the compressed byte count for both pa
 be strings. Nested mappings, Unicode text, lists, numbers, booleans, nulls, and bytes supported
 by MessagePack are preserved. The format does not normalize or translate Unicode values.
 
-`StreamingCompressor` currently buffers its column data until `finalize()`. It is useful for
-incremental ingestion, but it is not yet a bounded-memory file writer; see [ROADMAP.md](ROADMAP.md).
+`StreamingCompressor` currently buffers its column data until `finalize()`, which emits the same v3
+format as `compress`. It is useful for incremental ingestion, but it is not yet a bounded-memory file
+writer; see [ROADMAP.md](ROADMAP.md).
 
 ## How It Works
 
@@ -157,10 +194,9 @@ incremental ingestion, but it is not yet a bounded-memory file writer; see [ROAD
 
 ## Format and compatibility
 
-JZPK version 2 is the current writer format. It includes deterministic schema identifiers,
-explicit row counts, and collision-safe nested paths. Readers accept version 1 and version 2
-headers where the legacy payload is structurally valid. The format is documented in
-[FORMAT.md](FORMAT.md).
+JZPK version 3 is the sole reader and writer format. It includes deterministic schema identifiers,
+explicit row counts, collision-safe nested paths, chunk integrity checks, and bounded sequential
+iteration. The format is documented in [FORMAT.md](FORMAT.md).
 
 Malformed payloads raise typed exceptions exported from the package, including
 `InvalidFormatError`, `UnsupportedVersionError`, and `ResourceLimitError`.
