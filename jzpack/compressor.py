@@ -1,14 +1,13 @@
 import io
 import os
 import tempfile
-from collections import Counter
 from collections.abc import Iterable, Mapping
 from contextlib import suppress
 from typing import Any, BinaryIO
 
 from .analyzer import ColumnEncoder
 from .encoders import RLEEncoder
-from .errors import InvalidFormatError, ResourceLimitError
+from .errors import InvalidFormatError, ResourceLimitError, UnsupportedVersionError
 from .schema import Path, SchemaManager, SchemaReconstructor
 from .serializer import PayloadSerializer
 
@@ -34,16 +33,28 @@ class JZPackCompressor:
                 raise TypeError("data must be a mapping or an iterable of mappings") from exc
 
         if not records:
-            return self._serializer.serialize({"s": {}, "o": []})
+            return self._serialize_v3_payload({"s": {}, "o": []}, record_count=0)
 
         self._schema_manager.clear()
         self._schema_manager.add_batch(records)
         payload = self._build_payload()
-        return self._serializer.serialize(payload)
+        return self._serialize_v3_payload(payload, record_count=len(records))
 
     def decompress(self, data: bytes, max_output_size: int | None = None, max_records: int | None = None) -> list[dict[str, Any]]:
-        payload = self._serializer.deserialize(data, max_output_size=max_output_size)
-        return self._reconstruct(payload, max_records=max_records)
+        if not isinstance(data, (bytes, bytearray, memoryview)):
+            raise TypeError("compressed data must be bytes-like")
+        if len(data) < PayloadSerializer.HEADER_SIZE:
+            raise InvalidFormatError("Invalid file format: truncated header")
+
+        header = memoryview(data)
+        if bytes(header[:4]) != PayloadSerializer.MAGIC:
+            raise InvalidFormatError("Invalid file format: missing magic header")
+        if header[4] != 3:
+            raise UnsupportedVersionError(f"Unsupported version: {header[4]}")
+
+        from .chunks import iter_v3_decompress
+
+        return list(iter_v3_decompress(data, max_output_size=max_output_size, max_records=max_records))
 
     def compress_to_file(self, data: Iterable[Mapping[str, Any]] | Mapping[str, Any], path: FileDestination) -> int:
         destination_path = _coerce_path(path, "destination")
@@ -79,9 +90,21 @@ class JZPackCompressor:
 
         return {"s": schemas, "o": RLEEncoder.encode(self._schema_manager.get_schema_order())}
 
+    def _serialize_v3_payload(self, payload: dict, record_count: int) -> bytes:
+        inner_payload, body = self._serializer.serialize_with_body(payload)
+        from .chunks import serialize_v3_container
+
+        return serialize_v3_container(
+            inner_payload,
+            record_count=record_count,
+            uncompressed_body_bytes=len(body),
+        )
+
     def _reconstruct(self, payload: dict[str, Any], max_records: int | None = None) -> list[dict[str, Any]]:
         if not isinstance(payload.get("s"), dict):
             raise InvalidFormatError("Invalid JZPK payload: missing schema map")
+        if "o" not in payload:
+            raise InvalidFormatError("Invalid JZPK payload: missing schema order")
 
         if max_records is not None and (
             isinstance(max_records, bool) or not isinstance(max_records, int) or max_records < 0
@@ -91,7 +114,7 @@ class JZPackCompressor:
         schemas = payload["s"]
         if any(not isinstance(schema_id, str) for schema_id in schemas):
             raise InvalidFormatError("Invalid JZPK payload: schema IDs must be strings")
-        order = payload.get("o", [])
+        order = payload["o"]
         try:
             schema_order = RLEEncoder.decode(order, max_output_size=max_records) if order else []
         except ResourceLimitError as exc:
@@ -121,23 +144,23 @@ class JZPackCompressor:
         schema_id, schema_data = next(iter(schemas.items()))
         if schema_order and any(order_id != schema_id for order_id in schema_order):
             raise InvalidFormatError("Invalid JZPK payload: schema order mismatch")
-        fallback_count = schema_order.count(schema_id) if schema_order else None
-        records = self._decode_schema(schema_data, fallback_count, max_records)
-        if schema_order and len(records) != len(schema_order):
+        records = self._decode_schema(schema_data, max_records)
+        if len(records) != len(schema_order):
             raise InvalidFormatError("Invalid JZPK payload: schema row count mismatch")
         return records
 
     def _reconstruct_multi_schema(
         self, schemas: dict, schema_order: list[str], max_records: int | None
     ) -> list[dict[str, Any]]:
-        counts = Counter(schema_order)
         schema_records = {}
 
         for schema_id, schema_data in schemas.items():
-            schema_records[schema_id] = self._decode_schema(schema_data, counts.get(schema_id), max_records)
+            schema_records[schema_id] = self._decode_schema(schema_data, max_records)
 
         if not schema_order:
-            return [rec for records in schema_records.values() for rec in records]
+            if schema_records:
+                raise InvalidFormatError("Invalid JZPK payload: schema row count mismatch")
+            return []
 
         schema_indices = {sid: 0 for sid in schema_records}
         result = []
@@ -156,9 +179,7 @@ class JZPackCompressor:
 
         return result
 
-    def _decode_schema(
-        self, schema_data: Any, fallback_count: int | None, max_records: int | None
-    ) -> list[dict[str, Any]]:
+    def _decode_schema(self, schema_data: Any, max_records: int | None) -> list[dict[str, Any]]:
         if not isinstance(schema_data, dict):
             raise InvalidFormatError("Invalid JZPK payload: schema must be a map")
 
@@ -169,9 +190,7 @@ class JZPackCompressor:
 
         keys: list[Path] = []
         for raw_key in raw_keys:
-            if isinstance(raw_key, str):
-                key = tuple(raw_key.split(".")) if "." in raw_key else (raw_key,)
-            elif isinstance(raw_key, list) and all(isinstance(segment, str) for segment in raw_key):
+            if isinstance(raw_key, list) and all(isinstance(segment, str) for segment in raw_key):
                 key = tuple(raw_key)
             else:
                 raise InvalidFormatError("Invalid JZPK payload: invalid schema path")
@@ -182,25 +201,14 @@ class JZPackCompressor:
             raise InvalidFormatError("Invalid JZPK payload: duplicate schema path")
 
         try:
-            if isinstance(raw_columns, list):
-                if len(raw_columns) != len(keys):
-                    raise InvalidFormatError("Invalid JZPK payload: key and column counts differ")
-                decoded_columns = {
-                    key: self._column_encoder.decode(encoded, max_values=max_records)
-                    for key, encoded in zip(keys, raw_columns)
-                }
-            elif isinstance(raw_columns, dict):
-                decoded_columns = {
-                    (tuple(raw_key.split(".")) if "." in raw_key else (raw_key,)): self._column_encoder.decode(
-                        encoded, max_values=max_records
-                    )
-                    for raw_key, encoded in raw_columns.items()
-                    if isinstance(raw_key, str)
-                }
-                if len(decoded_columns) != len(raw_columns):
-                    raise InvalidFormatError("Invalid JZPK payload: invalid legacy column key")
-            else:
-                raise InvalidFormatError("Invalid JZPK payload: columns must be a list or map")
+            if not isinstance(raw_columns, list):
+                raise InvalidFormatError("Invalid JZPK payload: columns must be a list")
+            if len(raw_columns) != len(keys):
+                raise InvalidFormatError("Invalid JZPK payload: key and column counts differ")
+            decoded_columns = {
+                key: self._column_encoder.decode(encoded, max_values=max_records)
+                for key, encoded in zip(keys, raw_columns)
+            }
             if set(decoded_columns) != set(keys):
                 raise InvalidFormatError("Invalid JZPK payload: schema keys and columns differ")
         except InvalidFormatError:
@@ -212,9 +220,7 @@ class JZPackCompressor:
         except (KeyError, TypeError, ValueError, IndexError) as exc:
             raise InvalidFormatError("Invalid JZPK column encoding") from exc
 
-        count = schema_data.get("n", schema_data.get("count", fallback_count))
-        if count is None:
-            count = len(decoded_columns[keys[0]]) if keys else 0
+        count = schema_data.get("n")
         if isinstance(count, bool) or not isinstance(count, int) or count < 0:
             raise InvalidFormatError("Invalid JZPK payload: invalid row count")
         if max_records is not None and count > max_records:
@@ -298,7 +304,8 @@ class StreamingCompressor:
     def finalize(self) -> bytes:
         compressor = JZPackCompressor(compression_level=self._compression_level, fast=self._fast)
         compressor._schema_manager = self._schema_manager
-        return compressor._serializer.serialize(compressor._build_payload())
+        payload = compressor._build_payload()
+        return compressor._serialize_v3_payload(payload, record_count=len(self._schema_manager.get_schema_order()))
 
     def clear(self) -> None:
         self._schema_manager.clear()

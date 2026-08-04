@@ -1,11 +1,16 @@
 # JZPK format
 
-This document describes the version 2 JZPK format. It is intended to be stable enough for other
-implementations to reproduce and decode the format without depending on the Python package.
+This document describes the sole public JZPK wire format: the version 3 chunked container. It is
+intended to be stable enough for other implementations to reproduce and decode the format without
+depending on the Python package.
 
 ## Container
 
-Every file or byte payload is:
+Every public file or byte payload is a version 3 outer container. Its exact header, chunk, and footer
+grammar is specified below. The library emits and accepts version `3` only; standalone version `1`
+and version `2` payloads are retired and raise `UnsupportedVersionError`.
+
+Each non-empty chunk contains one internal payload with this shape:
 
 ```text
 4 bytes: ASCII "JZPK"
@@ -13,7 +18,8 @@ Every file or byte payload is:
 rest:    one Zstandard frame containing one MessagePack map
 ```
 
-The current writer emits version `2`. Readers accept versions `1` and `2`.
+The internal payload header is always version `2`. It is not a standalone public JZPK format; it is
+the fixed chunk representation used by version 3 so chunks remain independently decodable.
 
 Version 2 writes Zstandard content checksums. Implementations should reject a bad checksum and
 should expose decompression limits for untrusted input.
@@ -30,7 +36,7 @@ should expose decompression limits for untrusted input.
 `s` is a map from deterministic schema IDs (`s0`, `s1`, ...) to schema maps. `o` is a run-length
 encoded list describing the original record order. Empty input is represented by `{"s": {}, "o": []}`.
 
-Each version 2 schema map is:
+Each internal version 2 schema map is:
 
 ```text
 {
@@ -44,8 +50,7 @@ The entries in `k` and `c` are positional. A path with one segment is a top-leve
 with multiple segments represents nested mappings. Path segments are strings, so a literal key
 containing `.` remains distinct from a nested path.
 
-The legacy version 1 representation used string keys in `k` and a map in `c`; readers may support
-that representation for compatibility.
+The version 1 representation is not supported.
 
 ## Column encodings
 
@@ -66,16 +71,15 @@ silently treating them as raw data.
 `o` is a list of `[schema_id, count]` pairs. Expanding those pairs produces one schema ID per
 record. The expanded length must equal the sum of the schema row counts.
 
-## Proposed future chunked container (not implemented)
+## Version 3 chunked container
 
-This section is a design for a future format. The current library does not emit or read this
-container, and none of the current public APIs acquire bounded-memory behavior from this proposal.
-Version 1 and version 2 remain unchanged.
+Version 3 is the current writer and reader format. `compress` emits a valid single-chunk container
+for non-empty input (and an empty header/footer container for empty input); the iterator API decodes
+one chunk at a time.
 
-The selected design is a version 3 outer container. It contains a sequence of independently
-decodable, complete version 2 payloads. This reuses the existing MessagePack schema and column
-encoding rules, gives a future iterator a natural chunk boundary, and permits an existing version 2
-byte payload to be copied into a chunk without rewriting its bytes.
+Version 3 is an outer container containing a sequence of independently decodable internal version 2
+payloads. This reuses the MessagePack schema and column encoding rules while giving the iterator a
+natural chunk boundary.
 
 ### Versioning and compatibility
 
@@ -86,26 +90,13 @@ The first five bytes remain the discriminator used by current readers:
 1 byte:  format version
 ```
 
-The proposed chunked container uses version `3`. A current version 1/2 reader sees the version byte
-before attempting to parse the rest of the stream and must raise `UnsupportedVersionError` for `3`.
-It must not guess that a version 3 stream is a version 2 payload. A future chunk-aware reader should
-dispatch versions 1 and 2 to the existing reader and version 3 to the chunked reader.
+The chunked container uses version `3`. The public reader accepts this version only and raises
+`UnsupportedVersionError` for any other outer version.
 
-The chunked container can embed any non-empty existing version 2 payload unchanged: the payload of a
-chunk is the complete `JZPK` version 2 byte stream, including its five-byte header and its Zstandard
-frame. The outer chunk header adds metadata around those bytes but does not modify them. The
-standalone version 2 empty-input payload is represented by a version 3 header plus zero-count footer
-instead, because the base format does not allow a zero-record chunk. Version 1 payloads remain valid
-standalone payloads, but are not the required inner payload for a version 3 chunk.
-
-| Payload | Current writer | Current reader | Future chunk-aware reader | Compatibility behavior |
-|---|---|---|---|---|
-| JZPK v1 | no | reads when structurally valid | reads through the legacy path | unchanged |
-| JZPK v2 | emits | reads | reads through the existing path | unchanged |
-| JZPK v3 chunked | no | rejects with `UnsupportedVersionError` | reads sequentially and, later, through iterator/recovery APIs | no silent downgrade |
-
-There is no migration requirement. A producer that must interoperate with a current reader must
-continue to emit version 2.
+The payload of a non-empty chunk is a complete internal `JZPK` version 2 byte stream, including its
+five-byte header and Zstandard frame. The outer chunk header adds metadata around those bytes but
+does not modify them. Empty input is represented by a version 3 header plus zero-count footer because
+the base format does not allow a zero-record chunk.
 
 ### Byte-level grammar
 
@@ -193,9 +184,8 @@ A reader must reject all of the following as `InvalidFormatError`:
   length differs from `uncompressed bytes`, or whose decoded row count differs from `record count`.
 
 The reader must check a length against the caller's safety limits before allocating that many bytes.
-A well-formed but over-limit length is a `ResourceLimitError`, not a format error. A version byte
-other than 1, 2, or the implemented version 3 is an `UnsupportedVersionError`, as it is for the
-current format.
+A well-formed but over-limit length is a `ResourceLimitError`, not a format error. An outer version
+byte other than `3` is an `UnsupportedVersionError`.
 
 For example, a two-record homogeneous chunk has this shape (bracketed values are fixed-width
 big-endian fields, not literal text):
@@ -217,8 +207,8 @@ encoding.
 
 Each chunk is an independent v2 payload, not a fragment of one global column store. Its `s` schema
 map, `o` schema-order RLE list, column encodings, nested paths, and explicit row counts follow the
-version 2 rules above. The inner map must contain the same schema information that a standalone v2
-payload would contain.
+internal version 2 rules above. The inner map contains all schema information required to decode its
+own chunk.
 
 Schema IDs are local to one chunk. Within a chunk, `s0`, `s1`, and so on are assigned in first-seen
 order of distinct sorted path tuples, matching the current `SchemaManager` behavior. IDs restart at
@@ -276,28 +266,27 @@ and must document native Zstandard workspace separately from language-level allo
 format provides a bounded number of records and bytes per chunk; it does not promise a fixed RSS
 value across languages or Zstandard versions.
 
-A future iterator decoder reads one chunk header and payload at a time, decompresses one inner v2
-frame, reconstructs or projects that chunk, yields its records, and releases the chunk before reading
-the next one. Its working set follows the same `O(T + L + S + W(level))` model plus the caller's
-output queue. A future list-returning decoder may still use memory proportional to the returned
-list; bounded chunk decoding and bounded total returned output are separate properties.
+The iterator decoder reads one chunk header and payload at a time, decompresses one inner v2 frame,
+reconstructs that chunk, yields its records, and releases the chunk before reading the next one. Its
+working set follows the same `O(T + L + S + W(level))` model plus the caller's output queue. The
+list-returning decoder may still use memory proportional to the returned list; bounded chunk decoding
+and bounded total returned output are separate properties.
 
 ### Integrity, limits, and recovery hooks
 
 Every chunk has two integrity layers:
 
 1. The chunk-header CRC-32C protects its sequence number, counts, lengths, and flags.
-2. The embedded v2 Zstandard frame provides the existing content-checksum behavior. A future v3
-   writer must enable the Zstandard content checksum, as the current v2 writer does. A reader must
-   validate it when present and must never treat a missing checksum as evidence of integrity; for
-   compatibility it may accept an otherwise valid legacy v2 frame that omitted the checksum, with
-   reduced corruption-detection coverage.
+2. The embedded v2 Zstandard frame provides content-checksum behavior. The v3 writer enables the
+   Zstandard content checksum. A reader validates it when present and never treats a missing checksum
+   as evidence of integrity; it may accept an otherwise valid chunk from another producer that omitted
+   the checksum, with reduced corruption-detection coverage.
 
 The outer-header and footer CRCs protect framing metadata and the global totals. CRC-32C is for
 accidental corruption detection, not authenticity or resistance to an adversary deliberately
 constructing a collision.
 
-A future decoder should expose at least these limits:
+The iterator decoder exposes these limits:
 
 - `max_output_size`: the aggregate number of uncompressed inner MessagePack body bytes, checked
   against the footer when available and cumulatively while reading a forward-only stream;
@@ -312,14 +301,13 @@ An implementation may add a total compressed-input limit. These are safety limit
 defaults; explicit violations must raise `ResourceLimitError`. Structural failures must continue to
 raise `InvalidFormatError`, and unsupported version/kind extensions must not be silently accepted.
 
-The framing is intentionally sufficient for a later recovery API. If a chunk header passes its CRC
+The framing supports the explicit `iter_decompress_recover` API. If a chunk header passes its CRC
 and its payload length is within the input, an iterator can skip exactly that payload after a
-Zstandard checksum, MessagePack, or schema validation failure. It must report the chunk sequence and
-error, yield no records from that chunk, and mark the result incomplete; it must never silently
-return records from a corrupt chunk. If the chunk tag/header, length, CRC, sequence, or footer is
-corrupt, there is no safe resynchronization point in the base format and the decoder must stop with
-`InvalidFormatError`. The next roadmap item defines the recovery API and its error-event shape; this
-format only provides the safe framing and row counts needed by that API.
+Zstandard checksum, MessagePack, or schema validation failure. It emits a `ChunkError` with the
+sequence and typed exception; the event makes the recovered output explicitly incomplete, and no
+records from that chunk are returned. Successful chunks are `ChunkRecords` events. If the chunk
+tag/header, length, CRC, sequence, or footer is corrupt, there is no safe resynchronization point in
+the base format and the decoder stops with `InvalidFormatError`.
 
 ### Indexing and future extensions
 
@@ -358,6 +346,5 @@ native memory separately, compression/decompression throughput, chunk and schema
 several chunk targets, iterator latency, random-access cost after indexing, and the amount of data
 lost or skipped during corruption recovery.
 
-The remaining product-level decisions are limited to future API naming/defaults for the chunk target
-and record limits, and the recovery iterator's exact error-event versus exception surface. They do
+Future product decisions include writer chunk-target defaults and record-complexity limits. They do
 not change the version 3 wire grammar selected here.

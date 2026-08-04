@@ -44,19 +44,33 @@ class CompressionEngine:
 
 class PayloadSerializer:
     MAGIC = b"JZPK"
-    VERSION = 2
-    SUPPORTED_VERSIONS = frozenset({1, 2})
+    INNER_VERSION = 2
     HEADER_SIZE = 5
 
     def __init__(self, compression_level: int = 3):
         self._compression = CompressionEngine(compression_level)
 
     def serialize(self, payload: dict) -> bytes:
+        encoded, _ = self.serialize_with_body(payload)
+        return encoded
+
+    def serialize_with_body(self, payload: dict) -> tuple[bytes, bytes]:
+        """Serialize the v2 payload embedded inside a version 3 chunk."""
         binary = BinarySerializer.serialize(payload)
         compressed = self._compression.compress(binary)
-        return self._prepend_header(compressed)
+        return self._prepend_header(compressed), binary
 
     def deserialize(self, data: bytes, max_output_size: int | None = None) -> dict:
+        payload, _ = self.deserialize_with_body(data, max_output_size=max_output_size)
+        return payload
+
+    def deserialize_with_body(self, data: bytes, max_output_size: int | None = None) -> tuple[dict, bytes]:
+        """Deserialize an inner v2 payload and return its MessagePack body as well.
+
+        The body is useful to version 3's chunk reader, whose framing records the
+        exact uncompressed MessagePack length.  Keeping this validation here means
+        chunks use precisely the same v2 schema and column decoding contract.
+        """
         if not isinstance(data, (bytes, bytearray, memoryview)):
             raise TypeError("compressed data must be bytes-like")
         if max_output_size is not None and (
@@ -71,15 +85,15 @@ class PayloadSerializer:
 
         try:
             payload = BinarySerializer.deserialize(binary)
-        except (ValueError, TypeError, msgpack.exceptions.ExtraData) as exc:
+        except Exception as exc:
             raise InvalidFormatError("Invalid MessagePack payload") from exc
 
         if not isinstance(payload, dict):
             raise InvalidFormatError("JZPK payload must be a map")
-        return payload
+        return payload, binary
 
     def _prepend_header(self, data: bytes) -> bytes:
-        return self.MAGIC + bytes([self.VERSION]) + data
+        return self.MAGIC + bytes([self.INNER_VERSION]) + data
 
     def _validate_header(self, data: bytes) -> int:
         if len(data) < self.HEADER_SIZE:
@@ -89,6 +103,6 @@ class PayloadSerializer:
             raise InvalidFormatError("Invalid file format: missing magic header")
 
         version = data[len(self.MAGIC)]
-        if version not in self.SUPPORTED_VERSIONS:
-            raise UnsupportedVersionError(f"Unsupported version: {version}")
+        if version != self.INNER_VERSION:
+            raise UnsupportedVersionError(f"Unsupported inner version: {version}")
         return version

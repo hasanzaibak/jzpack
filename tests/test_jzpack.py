@@ -6,7 +6,6 @@ from pathlib import Path
 import pytest
 
 from jzpack import JZPackCompressor, ResourceLimitError, StreamingCompressor, compress, decompress
-from jzpack.serializer import BinarySerializer, CompressionEngine
 
 
 class TestBasicCompression:
@@ -266,6 +265,7 @@ class TestStreamingCompressor:
             streaming.add_record(record)
 
         compressed = streaming.finalize()
+        assert compressed[4] == 3
         decompressed = decompress(compressed)
         assert decompressed == data
 
@@ -429,7 +429,7 @@ class TestHeaderValidation:
     def test_version(self):
         data = [{"test": "value"}]
         compressed = compress(data)
-        assert compressed[4] == 2
+        assert compressed[4] == 3
 
     def test_invalid_magic_raises(self):
         with pytest.raises(ValueError, match="missing magic header"):
@@ -443,13 +443,9 @@ class TestHeaderValidation:
         with pytest.raises(ValueError, match="truncated header"):
             decompress(b"JZPK")
 
-    def test_legacy_version_one_payload_is_readable(self):
-        payload = {
-            "s": {"legacy": {"k": ["id"], "c": {"id": {"t": 0, "d": [1, 2]} }}},
-            "o": [["legacy", 2]],
-        }
-        compressed = b"JZPK\x01" + CompressionEngine().compress(BinarySerializer.serialize(payload))
-        assert decompress(compressed) == [{"id": 1}, {"id": 2}]
+    def test_retired_version_one_payload_is_rejected(self):
+        with pytest.raises(ValueError, match="Unsupported version"):
+            decompress(b"JZPK\x01" + b"\x00" * 100)
 
 
 class TestRegressionCases:

@@ -1,14 +1,19 @@
 from collections.abc import Iterable, Mapping
 from typing import Any
 
+from .chunks import ChunkError, ChunkRecords, iter_decompress, iter_decompress_recover
 from .compressor import JZPackCompressor, StreamingCompressor
 from .errors import InvalidFormatError, JZPackError, ResourceLimitError, UnsupportedVersionError
 
-__version__ = "0.3.0"
+__version__ = "0.4.0"
 __all__ = [
     "__version__",
     "compress",
     "decompress",
+    "iter_decompress",
+    "iter_decompress_recover",
+    "ChunkRecords",
+    "ChunkError",
     "JZPackCompressor",
     "StreamingCompressor",
     "JZPackError",
