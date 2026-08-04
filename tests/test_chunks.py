@@ -122,6 +122,26 @@ def _set_chunk_field(
     return bytes(data)
 
 
+def _append_to_inner_frame(fixture: V3Fixture, suffix: bytes) -> bytes:
+    """Append bytes inside a one-chunk fixture and preserve all outer metadata."""
+
+    chunk_offset = fixture.chunk_offsets[0]
+    payload_size = int.from_bytes(fixture.payload[chunk_offset + 40 : chunk_offset + 48], "big")
+    payload_end = chunk_offset + 56 + payload_size
+    data = bytearray(fixture.payload[:payload_end] + suffix + fixture.payload[payload_end:])
+    for field_offset in (32, 40):
+        value = int.from_bytes(data[chunk_offset + field_offset : chunk_offset + field_offset + 8], "big")
+        data[chunk_offset + field_offset : chunk_offset + field_offset + 8] = _u64(value + len(suffix))
+    _rewrite_crc(data, chunk_offset, _CHUNK_CRC_OFFSET)
+
+    footer_offset = fixture.footer_offset + len(suffix)
+    for field_offset in (24, 32):
+        value = int.from_bytes(data[footer_offset + field_offset : footer_offset + field_offset + 8], "big")
+        data[footer_offset + field_offset : footer_offset + field_offset + 8] = _u64(value + len(suffix))
+    _rewrite_crc(data, footer_offset, _FOOTER_CRC_OFFSET)
+    return bytes(data)
+
+
 class PartialReader:
     def __init__(self, data: bytes, maximum: int = 3):
         self._stream = io.BytesIO(data)
@@ -260,6 +280,15 @@ def test_v3_rejects_bad_chunk_crc_bad_footer_crc_and_trailing_bytes() -> None:
     for payload in (bad_chunk_crc, bad_footer_crc, fixture.payload + b"extra"):
         with pytest.raises(InvalidFormatError):
             list(iter_decompress(payload))
+
+
+@pytest.mark.parametrize("suffix", [b"junk", CompressionEngine().compress(b"another frame")])
+def test_v3_rejects_bytes_after_the_inner_zstandard_frame(suffix: bytes) -> None:
+    fixture = build_v3([[{"id": 1}]])
+    payload = _append_to_inner_frame(fixture, suffix)
+
+    with pytest.raises(InvalidFormatError, match="trailing frame data"):
+        list(iter_decompress(payload))
 
 
 def test_v3_rejects_unknown_kinds_and_footer_total_mismatches() -> None:

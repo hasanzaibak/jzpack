@@ -34,9 +34,21 @@ class CompressionEngine:
                 if frame_size not in (zstd.CONTENTSIZE_UNKNOWN, zstd.CONTENTSIZE_ERROR) and frame_size > max_output_size:
                     raise ResourceLimitError("JZPK payload exceeds max_output_size")
             if max_output_size is None:
-                return self._decompressor.decompress(data)
-            return self._decompressor.decompress(data, max_output_size=max_output_size)
+                binary = self._decompressor.decompress(data)
+            else:
+                binary = self._decompressor.decompress(data, max_output_size=max_output_size)
+
+            # The direct decompressor intentionally accepts a valid frame prefix
+            # followed by more data. JZPK's inner payload contract requires one
+            # complete Zstandard frame, so validate that it consumed all input.
+            frame = self._decompressor.decompressobj()
+            frame.decompress(data)
+            if not frame.eof or frame.unconsumed_tail or frame.unused_data:
+                raise InvalidFormatError("Invalid compressed payload: trailing frame data")
+            return binary
         except ResourceLimitError:
+            raise
+        except InvalidFormatError:
             raise
         except zstd.ZstdError as exc:
             raise InvalidFormatError("Invalid or truncated compressed payload") from exc
