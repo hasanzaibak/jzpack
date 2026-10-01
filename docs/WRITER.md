@@ -28,7 +28,7 @@ Every limit has a finite positive default:
 | `max_schemas` | 256 | Distinct schema definitions in one chunk |
 | `max_paths` | 8,192 | Aggregate flattened path entries across schema definitions |
 | `max_path_bytes` | 1 MiB | Aggregate UTF-8 path-component bytes across those entries |
-| `max_depth` | 64 | Maximum nested built-in dict/list container depth; root record depth is one |
+| `max_depth` | 64 | Maximum nested built-in dict/list container depth; root record depth is one; configurable from 1 through 128 |
 | `max_nodes` | 65,536 | Aggregate input nodes retained for one chunk |
 
 `target_chunk_input_bytes` counts `msgpack.packb(record, use_bin_type=True)` bytes exactly. Before

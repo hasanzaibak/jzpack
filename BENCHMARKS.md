@@ -129,8 +129,32 @@ original corpus run, and each round trip passes the exact oracle.
 This checkpoint was run later than the component-only comparison, so timing differences include
 run-to-run variation. It demonstrates why component improvements cannot be advertised as
 full-package speedups: preserving values and rejecting malformed codecs adds Python validation
-work. A separate optimization branch is profiling that cost while retaining every fidelity and
-reader safety check. Neither timing series establishes general superiority.
+work. The second-wave codec optimization below profiles and reduces that cost while retaining
+fidelity and reader safety checks. Neither timing series establishes general superiority.
+
+## Second-wave integrated checkpoint
+
+At code checkpoint `c7266ae7fb75c5155f865497e5961670fa518f89`, the codec guard optimization
+(`b1be6a7`) and bounded writer (`042b3f7`) are integrated with the first wave. The raw result is
+`benchmarks/results/corpus-v1-wave-2.json`. It uses the same 3,000-record corpus, seed 1729,
+level 3, three samples, one warmup, and current dependency versions. This timing run skips RSS;
+the bounded writer has a separate [memory probe](docs/WRITER.md).
+
+| Profile | Reused encode median ms | Reused decode median ms |
+|---|---:|---:|
+| High entropy | 3.714 | 1.289 |
+| Integer series | 4.943 | 1.506 |
+| Mixed events | 9.696 | 3.411 |
+| Nested arrays | 7.033 | 4.075 |
+| Optional fields | 6.578 | 5.339 |
+
+Every corpus input fingerprint, jzpack archive size/checksum, and exact round trip matches the
+original run. These timings exercise the existing in-memory compressor/decompressor API; they
+do not measure the new direct writer's throughput. They are a later host measurement, so they
+cannot isolate causal improvements from run-to-run variation. Optional-field decoding is slower
+than the first-wave checkpoint in this run; no across-the-board speedup is claimed. The
+[codec cost report](docs/CODEC-COSTS.md) retains profiles, matched source comparisons, two final
+candidate runs, and a pre-final timing outlier with its repeat.
 
 ## Limits of these results
 

@@ -21,13 +21,14 @@ scope, conflicts, verification, and acceptance. An agent's report alone is not a
 | Work | Branch | State | Evidence |
 |---|---|---|---|
 | Remove five redundant tests | `codex/remove-redundant-tests` | Merged locally | `dc5a618`; 128 passing tests; identical executed source lines and branches before/after; independent review passed |
-| Data fidelity and codec boundaries (JZ-01–04) | `codex/jzpack-fidelity` | Reviewed, committed, integrated for final verification | `758c486`; independent GO; 199 candidate tests; seven pre-fix regressions; legacy float DELTA fixture |
-| Existing public and file contracts | `codex/jzpack-test-contracts` | Reviewed, committed, integrated for final verification | `1038976`; independent GO after fixing false-success None writes; 185 candidate tests; failed-batch clear recovery added separately in `3f71753` |
-| Benchmark corpus and focused performance (partial JZ-05–08) | `codex/jzpack-performance` | Reviewed, committed, integrated for final verification | `ffca027`; independent GO; 136 candidate tests under both Zstd versions; raw comparisons and allocation tradeoffs in [BENCHMARKS.md](../BENCHMARKS.md) |
-| Dependency and platform CI | `codex/jzpack-ci-contracts` | Reviewed, committed, integrated for final verification | `3843316`; independent GO; exact minimum pins plus Linux/macOS/Windows lanes; hosted execution remains unverified |
-| Durable delivery plan | `codex/jzpack-delivery-plan` | Reviewed and committed | `43bbe47`; independent GO after correcting coverage interpretation |
-| Bounded v3 writer | `codex/jzpack-bounded-writer` | In implementation | Independent chunks, bounded input/rows/nodes/schema/path bytes, direct sinks, atomic paths, fault tests, and isolated RSS probes |
-| Fidelity guard costs | `codex/jzpack-codec-costs` | In implementation | Profile and reduce redundant safe checks; exact bytes and malformed-input protections must remain |
+| Data fidelity and codec boundaries (JZ-01–04) | `codex/jzpack-fidelity` | Merged locally to main | `758c486`; independent GO; 199 candidate tests; seven pre-fix regressions; legacy float DELTA fixture |
+| Existing public and file contracts | `codex/jzpack-test-contracts` | Merged locally to main | `1038976`; independent GO after fixing false-success None writes; 185 candidate tests; failed-batch clear recovery added separately in `3f71753` |
+| Benchmark corpus and focused performance (partial JZ-05–08) | `codex/jzpack-performance` | Merged locally to main | `ffca027`; independent GO; 136 candidate tests under both Zstd versions; raw comparisons and allocation tradeoffs in [BENCHMARKS.md](../BENCHMARKS.md) |
+| Dependency and platform CI | `codex/jzpack-ci-contracts` | Merged locally to main | `3843316`; independent GO; exact minimum pins plus Linux/macOS/Windows lanes; hosted execution remains unverified |
+| Durable delivery plan | `codex/jzpack-delivery-plan` | Merged locally to main | `43bbe47`; independent GO after correcting coverage interpretation |
+| Bounded v3 writer | `codex/jzpack-bounded-writer` | Reviewed, committed, integrated; combined checks pass | `042b3f7`; independent GO after nested-array defect repair; 352 candidate tests in current/minimum environments; direct sinks, atomic paths, failure/property tests, and scoped [RSS evidence](WRITER.md) |
+| Fidelity guard costs | `codex/jzpack-codec-costs` | Reviewed, committed, integrated; combined checks pass | `b1be6a7`; independent GO; 265 candidate tests in current/minimum environments; unchanged corpus archive bytes; [profile and raw results](CODEC-COSTS.md) |
+| Comparative benchmark contracts | `codex/jzpack-benchmark-tests` | Reviewed, committed, integrated; combined checks pass | `90dc33c`; independent GO after pinning documented error status; 14 distinct tests; [contract map](BENCHMARK-TESTS.md) |
 | Access architecture experiments | Pending | After bounded writer | Compare v3 sidecar index, typed pages, and existing backend; do not select a new format without evidence |
 | CLI, projection, and append segments | Pending | After primitive and architecture gates | Public integration tests and complete/incomplete archive semantics required |
 | Native implementation and adapters | Pending | Conditional | Profile and pilot evidence must justify maintenance and compatibility costs |
@@ -76,3 +77,43 @@ integrated checkpoint in [BENCHMARKS.md](../BENCHMARKS.md). No universal perform
 
 The repository has no architecture diagram index. README and FORMAT remain its canonical API
 and wire-contract sources and were reviewed/updated for the changed boundaries.
+
+## Second-wave combined verification
+
+The first wave was committed and fast-forwarded into local main at `472cfc1`. The second wave
+integrates reviewed implementation branches on `codex/jzpack-wave-2`, with code checkpoint
+`6b23466a53a6774ac02d8f1f3754a95ecd4dcaf6`. All 383 tests pass on Python 3.12.13 with
+msgpack 1.2.3 native/zstandard 0.25.0 and Python 3.11.15 with exact runtime minimums
+(msgpack 1.0.0 fallback/zstandard 0.21.0). Ruff, compilation, wheel+sdist build, and whitespace
+checks pass. The final documentation and combined branch receive an additional read-only review
+before the local main fast-forward. No push, remote merge, or package publication is part of this
+delivery; the changelog remains Unreleased and worktrees/branches are retained.
+
+Commands executed from the integration checkout:
+
+```text
+PYTHONPATH=. COVERAGE_FILE=/tmp/jzpack-research/wave-2.coverage /tmp/jzpack-research-env/bin/python -m coverage run --branch --source=jzpack -m pytest -q
+PYTHONPATH=. /tmp/jzpack-ci-20261001-minimum-py311/bin/python -m pytest -q
+/tmp/jzpack-research-env/bin/python -m ruff check .
+/tmp/jzpack-research-env/bin/python -m compileall -q jzpack tests benchmarks
+/tmp/jzpack-research-env/bin/python -m build --outdir /tmp/jzpack-research/wave-2-build
+PYTHONPATH=. /tmp/jzpack-research-env/bin/python benchmarks/benchmark_corpus.py --records 3000 --iterations 3 --warmups 1 --seed 1729 --level 3 --skip-rss --json
+git diff --check
+```
+
+The [coverage summary](evidence/wave-2-coverage-summary.json) reports 90.4% statement coverage,
+82.5% branch coverage, and coverage.py's combined figure of 88.0%. These are gap-finding tools,
+not proof that every assertion is effective or
+that every input is safe. Named public contracts and residual gaps are in [TEST-COVERAGE.md](TEST-COVERAGE.md).
+
+The writer's 25K/100K/400K-row repeated-schema probe uses three isolated samples at each size;
+median process peaks are approximately 25 MB, including startup and allocation-tracing overhead.
+It establishes a measured checkpoint for those small records, not a general RSS ceiling. Larger
+sources, schema diversity, large records, and other dependency/platform combinations remain to
+be measured. The final in-memory corpus run preserves every original archive checksum but does
+not show uniformly faster decoding; see [BENCHMARKS.md](../BENCHMARKS.md).
+
+The access-architecture comparison remains the next design gate. A new format, indexes,
+projection, a user-facing archive CLI, native implementations, and adapters are not implemented by
+these branches. They remain conditional on the [implementation plan](IMPLEMENTATION-PLAN.md),
+with tests required for each accepted feature. Hosted CI results are still unverified locally.

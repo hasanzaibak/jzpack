@@ -40,8 +40,9 @@ See the [implementation plan](docs/IMPLEMENTATION-PLAN.md) for acceptance gates 
 
 - [x] Design and adopt the chunked JZPK container as the sole public format.
 - [x] Add iterator-based decompression and chunk-level recovery.
-- [ ] Add a bounded writer that sends independent chunks directly to sinks.
-- [ ] Prove row, byte, complexity, and backpressure limits with failure and memory tests.
+- [x] Add a bounded writer that sends independent chunks directly to sinks.
+- [x] Test row, byte, complexity, backpressure, cancellation, and atomic-output contracts.
+- [ ] Extend RSS validation to schema-diverse, large-record, and larger-source workloads.
 - [ ] Compare access architectures before selecting a new wire format.
 - [ ] Add optional schema evolution and projection/selective decoding.
 - [ ] Add random-access metadata for large archives.

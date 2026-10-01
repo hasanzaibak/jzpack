@@ -1,6 +1,9 @@
 # Changelog
 
 ## Unreleased
+- Add `write_records` for bounded v3 chunks, synchronous short-write handling, defensive record snapshots, and atomic path output.
+- Reduce redundant codec validation while retaining exact types, float bits, integer bounds, and legacy float DELTA reads.
+- Add bounded-writer properties, resource boundaries, cancellation/backpressure/fault tests, and comparative benchmark CLI contracts.
 - Preserve exact scalar types and binary64 bits when selecting RLE; keep nested values RAW.
 - Restrict DELTA writes to supported integer values/deltas while retaining historical float DELTA reads.
 - Reject malformed column fields, run counts, numeric deltas, and dictionary indices with controlled errors.
