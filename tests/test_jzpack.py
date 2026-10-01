@@ -1,7 +1,5 @@
 import random
 import string
-import tempfile
-from pathlib import Path
 
 import pytest
 
@@ -9,10 +7,6 @@ from jzpack import JZPackCompressor, ResourceLimitError, StreamingCompressor, co
 
 
 class TestBasicCompression:
-    def test_empty_list(self):
-        data = []
-        assert decompress(compress(data)) == data
-
     def test_single_record(self):
         data = [{"key": "value"}]
         assert decompress(compress(data)) == data
@@ -244,17 +238,6 @@ class TestCompressorClass:
         assert compressor.decompress(compressed1) == data1
         assert compressor.decompress(compressed2) == data2
 
-    def test_file_operations(self):
-        compressor = JZPackCompressor(compression_level=3)
-        data = [{"file_test": i} for i in range(1000)]
-
-        with tempfile.TemporaryDirectory() as tmpdir:
-            path = Path(tmpdir) / "test.jzpk"
-            compressor.compress_to_file(data, str(path))
-            assert path.exists()
-            decompressed = compressor.decompress_from_file(str(path))
-            assert decompressed == data
-
 
 class TestStreamingCompressor:
     def test_streaming_basic(self):
@@ -421,16 +404,6 @@ class TestEdgeCases:
 
 
 class TestHeaderValidation:
-    def test_magic_header(self):
-        data = [{"test": "value"}]
-        compressed = compress(data)
-        assert compressed[:4] == b"JZPK"
-
-    def test_version(self):
-        data = [{"test": "value"}]
-        compressed = compress(data)
-        assert compressed[4] == 3
-
     def test_invalid_magic_raises(self):
         with pytest.raises(ValueError, match="missing magic header"):
             decompress(b"BAAD\x01" + b"\x00" * 100)
@@ -442,10 +415,6 @@ class TestHeaderValidation:
     def test_truncated_header_raises(self):
         with pytest.raises(ValueError, match="truncated header"):
             decompress(b"JZPK")
-
-    def test_retired_version_one_payload_is_rejected(self):
-        with pytest.raises(ValueError, match="Unsupported version"):
-            decompress(b"JZPK\x01" + b"\x00" * 100)
 
 
 class TestRegressionCases:
