@@ -154,6 +154,12 @@ class SchemaReconstructor:
             value = columns[path][index]
             if len(path) == 1:
                 result[path[0]] = value
+            elif len(path) == 2:
+                parent_key, leaf_key = path
+                if parent_key not in result:
+                    result[parent_key] = {}
+                parent = result[parent_key]
+                parent[leaf_key] = value
             else:
                 self._set_nested_value(result, path, value)
         return result
