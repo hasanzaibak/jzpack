@@ -24,7 +24,9 @@
     "result": "GO",
     "snapshot_sha256": "1784661c8c6021b2cf8ac056745dfd32e57b115a5245b3139ae381d4e19f56b8",
     "snapshot_hash_scheme": "Sorted filename UTF-8, NUL, raw content bytes, NUL for BENCHMARKS.md, CHANGELOG.md, ROADMAP.md, docs/CORPUS-WAVE-3.md, docs/DELIVERY-STATUS.md, docs/IMPLEMENTATION-PLAN.md, docs/TEST-COVERAGE.md, jzpack/__init__.py",
-    "release_notes_sha256": "d9afb0f0171c8145ac604b8135503ce401bfb91459891e8a6947f1e90ada2969"
+    "initial_release_notes_sha256": "d9afb0f0171c8145ac604b8135503ce401bfb91459891e8a6947f1e90ada2969",
+    "post_publication_release_notes_sha256": "7bdcaab8063cbde06ee93d0223f791d0a808cda8ecbacd84a5e1f2451a5c1931",
+    "post_publication_notes_review": "different-author Luna/max GO after independent CI, publishing, PyPI hash and smoke-scope verification"
   },
   "checks": {
     "current_tests_passed": 404,
