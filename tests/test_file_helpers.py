@@ -104,6 +104,54 @@ def test_atomic_write_failure_during_temp_write_preserves_destination_and_cleans
     assert list(tmp_path.iterdir()) == [path]
 
 
+@pytest.mark.parametrize("failure", ["flush", "fsync"])
+def test_atomic_flush_or_sync_failure_preserves_destination_and_cleans_temp_file(
+    compressor: JZPackCompressor,
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    failure: str,
+) -> None:
+    path = tmp_path / "records.jzpk"
+    previous = compress([{"version": "old"}])
+    path.write_bytes(previous)
+    real_fdopen = os.fdopen
+
+    class InjectedWriter:
+        def __init__(self, file_descriptor: int) -> None:
+            self._stream = real_fdopen(file_descriptor, "wb")
+
+        def __enter__(self) -> "InjectedWriter":
+            return self
+
+        def __exit__(self, *_: object) -> None:
+            self._stream.close()
+
+        def write(self, data: bytes) -> int:
+            return self._stream.write(data)
+
+        def flush(self) -> None:
+            if failure == "flush":
+                raise OSError("injected flush failure")
+            self._stream.flush()
+
+        def fileno(self) -> int:
+            return self._stream.fileno()
+
+    monkeypatch.setattr(compressor_module.os, "fdopen", lambda descriptor, mode: InjectedWriter(descriptor))
+
+    if failure == "fsync":
+        def fail_fsync(_: int) -> None:
+            raise OSError("injected fsync failure")
+
+        monkeypatch.setattr(compressor_module.os, "fsync", fail_fsync)
+
+    with pytest.raises(OSError, match=f"injected {failure} failure"):
+        compressor.compress_to_file([{"version": "new"}], path)
+
+    assert path.read_bytes() == previous
+    assert list(tmp_path.iterdir()) == [path]
+
+
 def test_compression_failure_does_not_touch_destination_or_create_temp_file(
     compressor: JZPackCompressor, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
@@ -137,6 +185,65 @@ def test_file_like_compression_uses_current_position_and_leaves_stream_open(
     assert written == len(expected)
     assert stream.getvalue()[position : position + written] == expected
     assert stream.tell() == position + written
+    assert not stream.closed
+
+
+@pytest.mark.parametrize("written", [0, 1])
+def test_file_like_compression_rejects_zero_and_short_writes(
+    compressor: JZPackCompressor, written: int
+) -> None:
+    records = [{"id": 1}]
+    expected_size = len(compressor.compress(records))
+
+    class ShortWriter:
+        def __init__(self) -> None:
+            self.data = bytearray()
+            self.closed = False
+
+        def write(self, data: bytes) -> int:
+            amount = min(written, len(data))
+            self.data.extend(data[:amount])
+            return amount
+
+    stream = ShortWriter()
+
+    with pytest.raises(OSError, match=f"wrote {written} of {expected_size} bytes"):
+        compressor.compress_to_file(records, stream)  # type: ignore[arg-type]
+
+    assert len(stream.data) == written
+    assert not stream.closed
+
+
+@pytest.mark.parametrize("result", [False, 1.5, "written"])
+def test_file_like_compression_rejects_non_integer_write_results(
+    compressor: JZPackCompressor, result: object
+) -> None:
+    class InvalidResultWriter:
+        def write(self, _: bytes) -> object:
+            return result
+
+    with pytest.raises(TypeError, match=r"write\(\) must return an integer"):
+        compressor.compress_to_file([{"id": 1}], InvalidResultWriter())  # type: ignore[arg-type]
+
+
+@pytest.mark.parametrize("accept_bytes", [False, True])
+def test_file_like_compression_rejects_none_write_result_and_keeps_stream_open(
+    compressor: JZPackCompressor, accept_bytes: bool,
+) -> None:
+    class NoneReturningWriter:
+        def __init__(self) -> None:
+            self.data = bytearray()
+            self.closed = False
+
+        def write(self, data: bytes) -> None:
+            if accept_bytes:
+                self.data.extend(data)
+
+    stream = NoneReturningWriter()
+    with pytest.raises(TypeError, match=r"write\(\) must return an integer"):
+        compressor.compress_to_file([{"id": 1}], stream)  # type: ignore[arg-type]
+
+    assert bool(stream.data) is accept_bytes
     assert not stream.closed
 
 

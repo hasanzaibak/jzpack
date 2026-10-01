@@ -244,10 +244,8 @@ def _write_file_like(stream: FileDestination, data: bytes) -> None:
         raise TypeError("destination must be a str, os.PathLike[str], or binary writable file-like object")
 
     written = stream.write(data)  # type: ignore[union-attr]
-    if written is None:
-        return
     if isinstance(written, bool) or not isinstance(written, int):
-        raise TypeError("binary writable file-like object's write() must return an integer or None")
+        raise TypeError("binary writable file-like object's write() must return an integer")
     if written != len(data):
         raise OSError(f"binary writable file-like object wrote {written} of {len(data)} bytes")
 
