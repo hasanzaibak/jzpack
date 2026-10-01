@@ -1,0 +1,29 @@
+high-entropy-string-encode x25
+  analyzer.py:92 encode: calls=25, self=0.000009s, cum=0.010465s
+  analyzer.py:19 determine_encoding: calls=25, self=0.000067s, cum=0.010448s
+  analyzer.py:34 _is_rle_suitable: calls=25, self=0.001060s, cum=0.002636s
+  encoders.py:43 _supported_values_equal: calls=7500, self=0.000794s, cum=0.000794s
+  encoders.py:28 supports_value: calls=7525, self=0.000780s, cum=0.000780s
+  encoders.py:109 can_encode: calls=25, self=0.000004s, cum=0.000006s
+  encoders.py:12 _is_supported_integer: calls=25, self=0.000002s, cum=0.000002s
+integer-series-encode x25
+  analyzer.py:92 encode: calls=25, self=0.000008s, cum=0.037437s
+  analyzer.py:19 determine_encoding: calls=25, self=0.000021s, cum=0.020074s
+  encoders.py:12 _is_supported_integer: calls=307475, self=0.018538s, cum=0.018538s
+  encoders.py:126 encode: calls=25, self=0.008341s, cum=0.017339s
+  encoders.py:109 can_encode: calls=25, self=0.007528s, cum=0.016621s
+  analyzer.py:34 _is_rle_suitable: calls=25, self=0.001113s, cum=0.003136s
+  encoders.py:28 supports_value: calls=7525, self=0.000772s, cum=0.001224s
+  encoders.py:43 _supported_values_equal: calls=7500, self=0.000797s, cum=0.000797s
+repeated-string-rle-encode x25
+  analyzer.py:92 encode: calls=25, self=0.000008s, cum=0.051130s
+  analyzer.py:19 determine_encoding: calls=25, self=0.000010s, cum=0.025745s
+  analyzer.py:34 _is_rle_suitable: calls=25, self=0.010066s, cum=0.025733s
+  encoders.py:52 encode: calls=25, self=0.005275s, cum=0.025368s
+  encoders.py:35 values_equal: calls=74975, self=0.012061s, cum=0.020088s
+  encoders.py:28 supports_value: calls=149975, self=0.015894s, cum=0.015894s
+  encoders.py:43 _supported_values_equal: calls=74975, self=0.007799s, cum=0.007799s
+integer-delta-decode x25
+  encoders.py:149 decode: calls=25, self=0.006522s, cum=0.006524s
+float-delta-decode x25
+  encoders.py:149 decode: calls=25, self=0.004608s, cum=0.004610s

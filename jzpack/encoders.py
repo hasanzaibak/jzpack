@@ -41,6 +41,15 @@ class RLEEncoder:
         return left == right
 
     @staticmethod
+    def _supported_values_equal(left: Any, right: Any) -> bool:
+        """Compare values after both have passed ``supports_value`` validation."""
+        if type(left) is not type(right):
+            return False
+        if type(left) is float:
+            return struct.pack(">d", left) == struct.pack(">d", right)
+        return left == right
+
+    @staticmethod
     def encode(values: list) -> list:
         if not values:
             return []
@@ -99,10 +108,15 @@ class RLEEncoder:
 class DeltaEncoder:
     @staticmethod
     def can_encode(values: list) -> bool:
-        if not values or any(not _is_supported_integer(value) for value in values):
+        if not values:
             return False
         previous = values[0]
-        for value in values[1:]:
+        if not _is_supported_integer(previous):
+            return False
+        for index in range(1, len(values)):
+            value = values[index]
+            if not _is_supported_integer(value):
+                return False
             delta = value - previous
             if not _is_supported_integer(delta):
                 return False
@@ -113,16 +127,22 @@ class DeltaEncoder:
     def encode(values: list) -> tuple[Any, list]:
         if not values:
             return 0, []
-        if not DeltaEncoder.can_encode(values):
+        base = values[0]
+        if not _is_supported_integer(base):
             raise ValueError("Delta encoding requires supported integers and deltas")
 
-        base = values[0]
         deltas = [None] * (len(values) - 1)
         prev = base
 
         for i in range(1, len(values)):
-            deltas[i - 1] = values[i] - prev
-            prev = values[i]
+            value = values[i]
+            if not _is_supported_integer(value):
+                raise ValueError("Delta encoding requires supported integers and deltas")
+            delta = value - prev
+            if not _is_supported_integer(delta):
+                raise ValueError("Delta encoding requires supported integers and deltas")
+            deltas[i - 1] = delta
+            prev = value
 
         return base, deltas
 
@@ -136,7 +156,14 @@ class DeltaEncoder:
             raise ValueError("Invalid delta output limit")
         if max_output_size is not None and len(deltas) + 1 > max_output_size:
             raise ResourceLimitError("Delta payload exceeds the maximum output size")
-        if not _is_supported_number(base):
+        base_type = type(base)
+        if base_type is int:
+            if base < MIN_SUPPORTED_INTEGER or base > MAX_SUPPORTED_INTEGER:
+                raise ValueError("Invalid delta base")
+            current_is_float = False
+        elif base_type is float:
+            current_is_float = True
+        else:
             raise ValueError("Invalid delta base")
 
         result = [None] * (len(deltas) + 1)
@@ -144,13 +171,20 @@ class DeltaEncoder:
         current = base
 
         for i, delta in enumerate(deltas):
-            if not _is_supported_number(delta):
+            delta_type = type(delta)
+            if delta_type is int:
+                if delta < MIN_SUPPORTED_INTEGER or delta > MAX_SUPPORTED_INTEGER:
+                    raise ValueError("Invalid delta value")
+            elif delta_type is not float:
                 raise ValueError("Invalid delta value")
+            current_is_float = current_is_float or delta_type is float
             try:
                 current += delta
             except (OverflowError, TypeError) as exc:
                 raise ValueError("Invalid delta payload") from exc
-            if not _is_supported_number(current):
+            if not current_is_float and (
+                current < MIN_SUPPORTED_INTEGER or current > MAX_SUPPORTED_INTEGER
+            ):
                 raise ValueError("Decoded delta value is outside the supported range")
             result[i + 1] = current
 

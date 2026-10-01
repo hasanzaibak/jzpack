@@ -33,17 +33,22 @@ class ColumnAnalyzer:
 
     def _is_rle_suitable(self, values: list) -> bool:
         n = len(values)
-        if not all(RLEEncoder.supports_value(value) for value in values):
-            return False
+        if not values:
+            return True
 
         max_runs = int(n * self._thresholds.RLE_MAX_RUN_RATIO)
         runs = 1
         current = values[0]
+        if not RLEEncoder.supports_value(current):
+            return False
 
         for i in range(1, n):
-            if not RLEEncoder.values_equal(values[i], current):
+            value = values[i]
+            if not RLEEncoder.supports_value(value):
+                return False
+            if not RLEEncoder._supported_values_equal(value, current):
                 runs += 1
-                current = values[i]
+                current = value
                 if runs > max_runs:
                     return False
 
