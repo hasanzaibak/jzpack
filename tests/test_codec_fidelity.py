@@ -66,14 +66,23 @@ def test_generated_columns_exercise_default_encodings(values, encoding):
     assert is_faithful([row["value"] for row in decompress(compress([{"value": value} for value in values]))], values)
 
 
-@pytest.mark.parametrize("value", [True, 1, 0.0, -0.0, float("inf"), float("nan"), "text", b"bytes", None])
-def test_rle_preserves_exact_type_and_float_bits(value):
-    values = [value] * 120
+@pytest.mark.parametrize(
+    ("values", "encoding"),
+    [
+        *[
+            pytest.param([value] * 120, EncodingType.RLE, id=f"homogeneous-{index}")
+            for index, value in enumerate([True, 1, 0.0, -0.0, float("inf"), float("nan"), "text", b"bytes", None])
+        ],
+        pytest.param([0.0, -0.0] * 60, EncodingType.RAW, id="signed-zero-distinction"),
+        pytest.param([True, 1] * 60, EncodingType.RAW, id="bool-int-distinction"),
+        pytest.param([1, 1.0] * 60, EncodingType.RAW, id="int-float-distinction"),
+    ],
+)
+def test_rle_preserves_exact_type_and_float_bits(values, encoding):
     encoded = ColumnEncoder().encode(values)
 
-    assert encoded["t"] == EncodingType.RLE
+    assert encoded["t"] == encoding
     assert is_faithful(ColumnEncoder().decode(encoded), values)
-    assert is_faithful([row["value"] for row in decompress(compress([{"value": item} for item in values]))], values)
 
 
 @pytest.mark.parametrize(

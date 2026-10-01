@@ -54,6 +54,7 @@ def test_delta_guard_checks_type_outlier_beyond_analyzer_sample():
         pytest.param([True, True], id="boolean-values"),
         pytest.param([0, 2**64], id="unsupported-value-at-tail"),
         pytest.param([-(2**63), 2**64 - 1], id="unsupported-delta-at-tail"),
+        pytest.param([1e16, 1.0] * 60, id="unsafe-float-cancellation"),
     ],
 )
 def test_direct_delta_encoder_still_rejects_malformed_inputs(values):
