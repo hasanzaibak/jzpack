@@ -9,10 +9,23 @@ push and package publication. Real-user outreach is outside the current delivery
 The reviewed implementation checkpoint `3e87f770be076cac166caf7fd35de22c81c3782b` was pushed
 to main. Its [hosted CI run](https://github.com/hasanzaibak/jzpack/actions/runs/36896532437)
 passed the Linux Python 3.10–3.13, exact-minimum dependency, macOS, Windows, and quality jobs.
-The 0.5.0 release preparation updates package metadata and public benchmark documentation.
-At this preparation checkpoint, the release tag and PyPI publication are pending; PyPI still
-serves 0.4.0. Publication follows the repository's GitHub Release/trusted-publishing workflow
-and requires successful CI on the exact release commit. See [RELEASES.md](RELEASES.md).
+Version [0.5.0](https://github.com/hasanzaibak/jzpack/releases/tag/v0.5.0) was released at
+`267730398a1bd602efe4bb3324877655c1cdc204` after independent review and all eight jobs in its
+[exact-commit CI run](https://github.com/hasanzaibak/jzpack/actions/runs/36898612858) passed.
+The [trusted-publishing workflow](https://github.com/hasanzaibak/jzpack/actions/runs/36898799281)
+completed successfully after normal approval through the configured reviewer account, under the
+user's publication authorization; environment protection rules remained enabled.
+
+[PyPI 0.5.0](https://pypi.org/project/jzpack/0.5.0/) was verified through the official JSON API.
+Its wheel and source-distribution SHA-256 hashes both match the downloaded workflow artifacts.
+A fresh environment installed `jzpack==0.5.0` from the official PyPI index outside the source
+checkout and passed exact nested scalar/float-bit and multi-chunk writer smoke checks. The
+[release verification record](evidence/release-0.5.0.json) retains hashes and commands.
+See [RELEASES.md](RELEASES.md) for the repeatable publication gates.
+
+The next wave is active in isolated Luna/max branches: measured reconstruction CPU improvements,
+larger/schema-diverse benchmark comparisons, and selective fidelity mutation verification.
+These experiments are not included in 0.5.0 and require independent review before integration.
 
 ## Review and integration procedure
 

@@ -1,0 +1,66 @@
+{
+  "version": "0.5.0",
+  "release_commit": "267730398a1bd602efe4bb3324877655c1cdc204",
+  "release_url": "https://github.com/hasanzaibak/jzpack/releases/tag/v0.5.0",
+  "ci_url": "https://github.com/hasanzaibak/jzpack/actions/runs/36898612858",
+  "publish_url": "https://github.com/hasanzaibak/jzpack/actions/runs/36898799281",
+  "pypi_json_url": "https://pypi.org/pypi/jzpack/0.5.0/json",
+  "distributions": [
+    {
+      "filename": "jzpack-0.5.0-py3-none-any.whl",
+      "sha256": "3e43b36fe3f4bb3c10ab808d11c44ce6ace6e574913f4a49c885a1aff999ebd1",
+      "uploaded_at": "2026-10-01T17:22:51.879120Z",
+      "workflow_artifact_hash_matches": true
+    },
+    {
+      "filename": "jzpack-0.5.0.tar.gz",
+      "sha256": "027de755bf8d900c8544b4ef1f4ad954c589ff2f129d0b609860db4c6ff7ac11",
+      "uploaded_at": "2026-10-01T17:22:53.188982Z",
+      "workflow_artifact_hash_matches": true
+    }
+  ],
+  "review": {
+    "agent": "Luna/max different-author reviewer",
+    "result": "GO",
+    "snapshot_sha256": "18d864181f0aee1a5f3c45f034f053040f5535e32d444c4e3a0e32c5f137780a",
+    "snapshot_hash_scheme": "Ordered CHANGELOG.md, README.md, docs/CI-VALIDATION.md, docs/DELIVERY-STATUS.md, docs/RELEASES.md, jzpack/__init__.py; for each: filename UTF-8, NUL, content bytes, NUL"
+  },
+  "checks": {
+    "current_tests_passed": 383,
+    "minimum_tests_passed": 383,
+    "hosted_ci_jobs_passed": 8,
+    "publish_jobs_passed": [
+      "build",
+      "publish"
+    ],
+    "ruff": true,
+    "compileall": true,
+    "wheel_and_sdist_build": true,
+    "relative_document_links": true
+  },
+  "pypi_install_smoke": {
+    "command": "python -m pip install --index-url https://pypi.org/simple --no-cache-dir jzpack==0.5.0",
+    "working_directory": "outside source checkout",
+    "source_pythonpath_override": false,
+    "import_from_site_packages_verified": true,
+    "checks": [
+      "installed metadata and exported version",
+      "nested bool/int/float distinctions",
+      "signed-zero and custom NaN payload bits",
+      "convenience API roundtrip",
+      "writer max_chunk_records=2 roundtrip",
+      "writer byte-count return"
+    ],
+    "result": "passed",
+    "runtime": {
+      "python": "3.12.13",
+      "msgpack": "1.2.3",
+      "zstandard": "0.25.0",
+      "platform": "macOS arm64"
+    }
+  },
+  "limitations": [
+    "Smoke checks are not the complete test suite against installed distributions.",
+    "Universal performance leadership is not established."
+  ]
+}
