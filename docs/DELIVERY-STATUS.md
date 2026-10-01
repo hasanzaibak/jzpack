@@ -23,9 +23,10 @@ checkout and passed exact nested scalar/float-bit and multi-chunk writer smoke c
 [release verification record](evidence/release-0.5.0.json) retains hashes and commands.
 See [RELEASES.md](RELEASES.md) for the repeatable publication gates.
 
-The next wave is active in isolated Luna/max branches: measured reconstruction CPU improvements,
+The third wave is prepared on `codex/jzpack-wave-3`: reviewed reconstruction CPU improvements,
 larger/schema-diverse benchmark comparisons, and selective fidelity mutation verification.
-These experiments are not included in 0.5.0 and require independent review before integration.
+These changes are not included in 0.5.0. Version 0.5.1 is a release candidate until its exact
+hosted checks and trusted publication complete; the 0.5.0 evidence does not clear this release.
 
 ## Review and integration procedure
 
@@ -94,7 +95,8 @@ PYTHONPATH=. /tmp/jzpack-research-env/bin/python benchmarks/benchmark_corpus.py 
 
 The local environment paths identify the executed runs; use equivalent installed development
 environments to reproduce them. [CI validation](CI-VALIDATION.md) distinguishes local minimum
-coverage from the unexecuted hosted Python 3.10 and platform matrix. The complete-package
+coverage from the hosted Python 3.10 and platform matrix. Those hosted jobs were unexecuted at
+this historical first-wave checkpoint and subsequently passed as recorded in the release ledger. The complete-package
 benchmark preserves every corpus archive checksum, but fidelity guards add CPU work; see the
 integrated checkpoint in [BENCHMARKS.md](../BENCHMARKS.md). No universal performance claim is made.
 
@@ -142,3 +144,49 @@ projection, a user-facing archive CLI, native implementations, and adapters are 
 these branches. They remain conditional on the [implementation plan](IMPLEMENTATION-PLAN.md),
 with tests required for each accepted feature. Hosted CI was subsequently verified for the
 pushed integration commit in the release ledger above.
+
+## Third-wave integration and release candidate
+
+The reviewed components are integrated on `codex/jzpack-wave-3` at code checkpoint
+`3f2e37e1db3c3b9653fc52bc02330128d8157440`. Root release metadata and documentation prepare 0.5.1.
+This checkpoint retains the v3 grammar, dependencies, supported values, and reader limits.
+
+| Component | Reviewed commit | Acceptance evidence |
+|---|---|---|
+| Direct shallow nested reconstruction | `78c766fef1207cc2dceb0de29325c31234eae9f6` | Different-author GO; one public exact-value regression, 46,914 differential cases, and source-verified 15-pair [decode evidence](CPU-WAVE-3.md) |
+| Selective fidelity mutations | `3a487571e652a4ab321a4847502ae189e2a13c3e` | Different-author GO; three codec faults each killed by a distinct unit/public pair in current and minimum runtimes; [retained evidence](FIDELITY-MUTATIONS.md) |
+| Larger corpus and writer comparisons | `748baf7` | Different-author GO after correcting documentation to match raw medians; 12 benchmark-contract tests; [full report and limitations](CORPUS-WAVE-3.md) |
+
+The reconstruction fast path changes only record construction, leaving deeper paths on the generic
+setter. The final paired capture improves two profiles about 8–9%, while other profiles show small
+changes or regressions. Larger corpus probes reveal a writer CPU tradeoff despite lower traced
+allocation peaks than full-list APIs. Timed writes retain the archive; encode-only memory probes
+use lazy inputs and a hashing discard sink. RSS includes native allocations and active tracing
+overhead; neither a general memory ceiling nor leadership over a streamed row baseline is proved.
+
+Combined local validation on that checkpoint plus the 0.5.1 version/documentation delta passed
+404 tests on Python 3.12.13 with current dependencies and 404 on Python 3.11.15 with exact runtime
+minimums. Ruff, compilation, wheel/source build, relative documentation links, and whitespace
+checks passed. Both environments reran the three mutation checks successfully. The final built
+wheel matched the outside-checkout smoke-tested wheel by SHA-256; that smoke checks installed
+metadata, shallow/deep nested and literal dotted keys, exact scalar/float bits, and multi-chunk
+writer output. Exact-release hosted CI and official PyPI verification remain release gates.
+
+Commands executed:
+
+```text
+PYTHONPATH=. /tmp/jzpack-research-env/bin/python -m pytest -q
+PYTHONPATH=. /tmp/jzpack-ci-20261001-minimum-py311/bin/python -m pytest -q
+/tmp/jzpack-research-env/bin/python -m ruff check .
+/tmp/jzpack-research-env/bin/python -m compileall -q jzpack tests benchmarks tools
+/tmp/jzpack-research-env/bin/python -m build --outdir /tmp/jzpack-research/release-0.5.1-final-build
+PYTHONPATH=. /tmp/jzpack-research-env/bin/python tools/verify_fidelity_mutations.py --json-out /tmp/jzpack-research/wave-3-final-mutations.json
+PYTHONPATH=. /tmp/jzpack-ci-20261001-minimum-py311/bin/python tools/verify_fidelity_mutations.py --json-out /tmp/jzpack-research/wave-3-final-minimum-mutations.json
+/tmp/jzpack-release-0.5.1-wheel-env/bin/python /tmp/jzpack-release-0.5.1-smoke.py
+git diff --check
+```
+
+The next implementation priorities are a validated single-run RLE decode experiment, profiled
+writer CPU reduction without weakening snapshots/limits, and a streamed MessagePack comparator.
+Native work and new wire formats remain conditional on those measurements. The repository still
+has no architecture diagram index; README and FORMAT supply the unchanged API/wire boundaries.

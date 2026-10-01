@@ -156,6 +156,24 @@ than the first-wave checkpoint in this run; no across-the-board speedup is claim
 [codec cost report](docs/CODEC-COSTS.md) retains profiles, matched source comparisons, two final
 candidate runs, and a pre-final timing outlier with its repeat.
 
+## Third-wave evidence
+
+The [paired reconstruction report](docs/CPU-WAVE-3.md) isolates a six-line schema reconstruction
+change on five 10,000-record profiles, with 15 alternating baseline/candidate samples and exact
+round-trip checks. Mixed-event and nested-array decode medians decreased about 8–9%; the other
+profiles show small changes or regressions. The pinned raw report includes source hashes and
+separates the final paired capture from earlier host measurements.
+
+The [expanded corpus](docs/CORPUS-WAVE-3.md) retains a separate versioned generator and raw report
+for larger schema-diverse, nested-record, and exact-size large-string inputs. It compares the list
+API, bounded writer, full-list MessagePack/Zstd, and only those Parquet/Zstd cases passing a
+full-dataset fidelity check. Decode timing materializes lists for every comparator. Separate
+isolated memory probes use lazy writer input and a hashing discard sink; timed writer runs retain the
+output archive and include hashing/chunk-observer overhead absent from the other encode timers;
+the report discloses this limitation. The writer lowers traced allocations but costs more encode CPU and can produce
+larger archives. A streamed MessagePack baseline, real public datasets, and additional host
+measurements are still needed before claiming memory or throughput leadership.
+
 ## Limits of these results
 
 These are small, in-memory synthetic workloads on one macOS ARM64 machine. They show behavior for

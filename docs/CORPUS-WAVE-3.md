@@ -4,6 +4,13 @@ Wave 3 adds a separate, seeded corpus and harness for larger and differently sha
 change the v1 corpus or its goldens in `benchmarks/corpus.py`. The complete machine-readable sample set is
 [`benchmarks/results/corpus-wave-3.json`](../benchmarks/results/corpus-wave-3.json).
 
+The retained capture used runtime base `3e87f770be076cac166caf7fd35de22c81c3782b`
+(the package metadata then reported 0.4.0), with the new benchmark sources now committed in
+`748baf7`. It predates the shallow reconstruction optimization and is not a measurement of the
+complete installed 0.5.1 distribution. The benchmark and generator SHA-256 fields pin the actual
+measurement code. The 0.5.1 reconstruction change has a separate [paired report](CPU-WAVE-3.md);
+the writer and encoder runtime paths are unchanged from this corpus capture.
+
 ## Corpus and methods
 
 The harness uses corpus version 2, seed `20261001`, compression level 3, one warmup, and three timed
@@ -59,7 +66,11 @@ For non-writer modes, “first output” means the entire archive has been retur
 first-row latency and are not directly comparable to the writer's first complete nonempty chunk. The
 writer's end-to-end encode time includes all chunks and a sink that retains and hashes the in-memory
 archive. The separately reported first chunk time uses that same sink and starts with a prebuilt input
-list; it excludes corpus generation and downstream consumption.
+list; it excludes corpus generation and downstream consumption. The writer observer hashes bytes and
+checks first-chunk completion inside its encode timer; the other timed methods fingerprint their
+returned archives outside the timer. The reported encode ratios therefore include this asymmetric
+instrumentation cost and do not isolate the core encoder difference. A subsequent comparison should
+remove that hashing from retained-output timing or apply equal instrumentation to every method.
 
 Each largest-case mode also ran three isolated encode-only memory probes. `tracemalloc` records Python
 allocations made during the encode after a 128-row warmup. RSS is the process high-water mark; the

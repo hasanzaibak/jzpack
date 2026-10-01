@@ -93,6 +93,33 @@ Implementation and release requirements:
 
 [Certain] These thresholds have not been achieved. Existing mixed-event encoding is far below the proposed throughput target. If the goals conflict, expose separate operating points rather than weakening correctness or hiding the tradeoff.
 
+## Measured priorities after the third wave
+
+[Certain] The retained [paired reconstruction report](CPU-WAVE-3.md) measures an approximately
+8–9% decode-time reduction on mixed events and nested arrays; the other profiles have small
+changes or regressions. This is a workload-specific improvement, not a throughput leadership claim.
+
+[Certain] The [larger corpus report](CORPUS-WAVE-3.md) exposes a stronger constraint: the bounded
+writer trades substantially higher CPU time for lower measured Python allocation peaks than the
+full-list APIs. Its first output measurement ends at a complete nonempty chunk. The retained
+MessagePack baseline materializes all rows, so a streamed MessagePack comparator is still needed.
+
+[Likely] Prioritize these experiments before a native rewrite or new wire format:
+
+1. Profile validation, snapshotting, schema handling, and chunk encoding on the larger corpus;
+   remove repeated work while retaining every resource check and generator snapshot contract.
+2. Remove asymmetric archive-hashing instrumentation from timed writer comparisons, then compare
+   a genuinely streamed MessagePack/Zstd writer and iterator at equal chunk/row bounds,
+   full-dataset fidelity, equivalent materialization, and explicitly reported integrity semantics.
+3. Evaluate a validated single-run RLE decode shortcut and bounded reconstruction plans;
+   include setup time, small/schema-diverse fallbacks, malformed input, and allocation costs.
+4. Repeat accepted improvements on real public inputs and additional platforms before revising
+   performance promises. Reject optimizations whose target benefit does not justify regressions.
+
+[Certain] The [selective mutation checks](FIDELITY-MUTATIONS.md) kill three known fidelity faults
+through separate unit and public-container tests. They strengthen those specific assertions;
+package-wide mutation coverage and correctness for all inputs remain unproved.
+
 ## Milestone 3: genuinely bounded writes using v3
 
 [Likely] Add a new writer that emits v3 chunks directly to a sink while retaining existing convenience APIs. A possible interface is `write_records(records, sink, *, target_chunk_bytes, max_chunk_records, limits, objective)`; final names and defaults require implementation design.

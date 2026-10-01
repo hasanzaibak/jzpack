@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+## 0.5.1 — 2026-10-01
+
+- Reconstruct two-segment nested schema paths directly, with exact-value regression coverage and retained paired decode measurements.
+- Add larger schema-diverse, nested-record, and large-string corpus comparisons with isolated memory probes and explicit streaming tradeoffs.
+- Verify three critical codec fault mutations in disposable copies; require separate unit and public-container regressions to detect each fault.
+
 ## 0.5.0 — 2026-10-01
 - Add `write_records` for bounded v3 chunks, synchronous short-write handling, defensive record snapshots, and atomic path output.
 - Reduce redundant codec validation while retaining exact types, float bits, integer bounds, and legacy float DELTA reads.

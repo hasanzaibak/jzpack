@@ -23,6 +23,9 @@ has been tested.
 | Writer input/body/payload, row, node, schema, path, and depth bounds | `tests/test_writer.py::test_record_messagepack_size_boundaries_match_msgpack`, `test_encoded_body_and_payload_limits_accept_exact_boundary_and_reject_minus_one`, `test_rle_cannot_bypass_per_chunk_row_cap`, `test_path_count_and_utf8_byte_budgets_count_paths_across_schema_definitions`, `test_container_depth_limit_counts_root_and_nested_dict_or_list_only`; integer/string/binary/UTF-8/map/array width cases in the same file | Tests MessagePack size boundaries against the dependency, aggregate limits, oversized singletons, and rejection. Hard encoded-output violations fail the write; they do not repartition an encoded body. |
 | Writer backpressure, partial writes, caller ownership, cancellation, and atomic path failure | `tests/test_writer.py::test_sink_backpressure_allows_only_one_bounded_lookahead_record`, `test_nonseekable_sink_retries_positive_short_writes_without_closing`, `test_invalid_sink_write_counts_are_rejected`, `test_stream_cancellation_after_an_emitted_chunk_leaves_no_footer`, `test_path_failures_preserve_existing_destination_and_remove_temp` | Distinct write/generator/flush/sync/replace/cancellation failures are injected. Partial caller streams may remain incomplete; path failures before replacement preserve the destination. |
 | Comparative corpus CLI configuration, reproducibility, optional dependencies, and diagnostics | `tests/test_benchmark_contracts.py`; [contract map](BENCHMARK-TESTS.md) | Fourteen small tests use actual subprocesses, golden input fingerprints, literal error statuses, and exception-message redaction. No timing/RSS thresholds. |
+| Shallow nested reconstruction retains exact values and record order | `tests/test_schema_reconstruction_performance.py::test_nested_schema_fast_path_preserves_exact_values_and_record_order` | Exercises direct two-segment paths, deeper fallback, sibling parents, literal dotted keys, nested arrays, extreme integers, signed zero, NaN payloads, and empty records through the public container. |
+| Critical fidelity assertions detect deliberate faulty implementations | `tests/test_fidelity_mutation_harness.py`; [mutation evidence](FIDELITY-MUTATIONS.md) | Source anchors fail closed, only disposable copies are mutated, and only explicit selected failure IDs count. Three opt-in mutants must fail separate direct and public-container tests; not general mutation coverage. |
+| Expanded corpus fidelity, comparator fairness, and CLI contracts | `tests/test_benchmark_corpus_wave3.py`; [corpus evidence](CORPUS-WAVE-3.md) | Golden fingerprints, exact UTF-8 sizes, missing/null and float-bit oracles, full-input Parquet eligibility, complete first chunks, equivalent list decode materialization, isolated probes, and redacted CLI failures. No noisy performance thresholds in unit CI. |
 
 ## Visible gaps
 
@@ -32,7 +35,7 @@ has been tested.
 - Thread safety and concurrent reuse are not documented or tested. This suite makes no concurrency guarantee.
 - `tests/test_codec_fidelity.py` checks a deliberate type- and bit-sensitive corpus; it does not prove every possible MessagePack value or codec boundary. The property and example suite remains non-exhaustive.
 - The local suite does not cover every supported Python/dependency combination or operating system. Atomic replacement behavior is fault-injected locally, but cross-platform filesystem semantics require platform CI.
-- The [writer probe](WRITER.md) measures 25K/100K/400K small repeated-schema rows with three isolated samples per size. RSS includes tracing overhead. Schema-diverse, large-record, and larger-source RSS checks, writer-probe CLI tests, and broader mutation/fuzz campaigns remain separate verification work.
+- The [writer probe](WRITER.md) measures 25K/100K/400K small repeated-schema rows with three isolated samples per size. RSS includes tracing overhead. The [expanded corpus](CORPUS-WAVE-3.md) adds schema-diverse, nested, and large-string isolated probes. Larger real sources, a streamed row baseline, writer-probe CLI tests, and broader mutation/fuzz campaigns remain separate verification work.
 
 ## Combined local checkpoint
 
@@ -42,3 +45,12 @@ coverage is 82.5% (coverage.py's combined figure is 88.0%); the
 [retained summary](evidence/wave-2-coverage-summary.json) includes module-level counts.
 Coverage identifies gaps rather than proving assertion quality or exhaustiveness. Hosted platform
 and Python-version coverage remains subject to [CI validation](CI-VALIDATION.md).
+
+## Third-wave checkpoint
+
+At code checkpoint `3f2e37e1db3c3b9653fc52bc02330128d8157440` plus the 0.5.1 release metadata and
+documentation delta, all 404 tests pass on current Python 3.12 and minimum-dependency Python 3.11.
+The named shallow-path, mutation-harness, and expanded corpus contracts above are included.
+Three opt-in fidelity mutants are also killed by separate unit/public tests in both environments.
+The second-wave coverage percentages above remain historical; coverage was not remeasured for
+this checkpoint. Exact-release platform CI is required before publication.
