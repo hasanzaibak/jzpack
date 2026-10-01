@@ -1,0 +1,326 @@
+{
+  "benchmark": "jzpack-paired-reconstruction-decode",
+  "configuration": {
+    "base_revision": "3e87f770be076cac166caf7fd35de22c81c3782b",
+    "excluded_setup": [
+      "deterministic record generation",
+      "reference fingerprinting",
+      "archive compression",
+      "exact-value comparison"
+    ],
+    "measurement_scope": "public JZPackCompressor.decompress only",
+    "order_policy": "baseline-first and candidate-first alternate by sample pair",
+    "profiles": [
+      "mixed-events",
+      "optional-fields",
+      "high-entropy",
+      "nested-arrays",
+      "integer-series"
+    ],
+    "records_per_profile": 10000,
+    "samples_per_method": 15,
+    "seed": 1729,
+    "timer": "time.perf_counter_ns",
+    "timing_unit": "nanoseconds",
+    "warmups_per_method": 1
+  },
+  "metadata": {
+    "baseline_schema_sha256": "31d875e4cbc48b4c2f5b1a1fb6f9350ef7e46cf11f6fbf4f54f5d33f17952971",
+    "benchmark_script_sha256": "eece6356e5837857b7f145d76af0f19b678a7e4d0c66e004c96f87a47e023eee",
+    "candidate_schema_sha256": "75787c6f54badc28ddf5c1eab8742cc64ae30b3dda0d5ef42b7cba00c547761e",
+    "git_head": "3e87f770be076cac166caf7fd35de22c81c3782b",
+    "runtime": {
+      "jzpack_version": "0.4.0",
+      "machine": "arm64",
+      "msgpack_version": "1.2.3",
+      "python_implementation": "CPython",
+      "python_version": "3.12.13",
+      "system": "Darwin",
+      "system_release": "27.2.0",
+      "zstandard_native_version": [
+        1,
+        5,
+        7
+      ],
+      "zstandard_version": "0.25.0"
+    }
+  },
+  "schema_version": 1,
+  "workloads": {
+    "high-entropy": {
+      "archive_sha256": "5f09448d3007f62dfef71c6a19ee35ada61370d3b45d6757aedbeb2d941b0b52",
+      "archive_size_bytes": 1001358,
+      "candidate_change_percent": 1.2709871409378737,
+      "exact_round_trip_validated": true,
+      "record_count": 10000,
+      "reference_input_sha256": "ab0a8587dde05d1b4cf4b2f3145c2959eca1a78c00ab95648fbef1cbdd4cfce3",
+      "reference_input_size_bytes": 1708890,
+      "timings": {
+        "baseline": {
+          "maximum_ns": 4998750,
+          "median_ns": 3907750,
+          "minimum_ns": 3796625,
+          "samples_ns": [
+            3796625,
+            4998750,
+            4000375,
+            3885958,
+            3873417,
+            3938500,
+            3941833,
+            3994584,
+            3815875,
+            3939292,
+            3907750,
+            4031666,
+            3820208,
+            3869209,
+            3880333
+          ]
+        },
+        "candidate": {
+          "maximum_ns": 4081500,
+          "median_ns": 3957417,
+          "minimum_ns": 3864959,
+          "samples_ns": [
+            4037000,
+            3956833,
+            3901708,
+            3974250,
+            3948709,
+            4081500,
+            3957417,
+            3896833,
+            3864959,
+            4034916,
+            4017042,
+            3936375,
+            3892708,
+            4051625,
+            3981917
+          ]
+        }
+      }
+    },
+    "integer-series": {
+      "archive_sha256": "559fa722c6f43bdc4cc140b3569885ef8c15cc43d5d809f1554655a64cdfc311",
+      "archive_size_bytes": 407,
+      "candidate_change_percent": 0.5108266715652565,
+      "exact_round_trip_validated": true,
+      "record_count": 10000,
+      "reference_input_sha256": "bfb49aea706c5a7249d33ef3eccc3d586f7ac1c9055433bed8e6e71cadb131c9",
+      "reference_input_size_bytes": 887301,
+      "timings": {
+        "baseline": {
+          "maximum_ns": 5034500,
+          "median_ns": 4877584,
+          "minimum_ns": 4663083,
+          "samples_ns": [
+            4901417,
+            4947125,
+            4675375,
+            4663083,
+            4890875,
+            4881875,
+            4877584,
+            5034500,
+            4816958,
+            4712250,
+            4832833,
+            4863708,
+            4924125,
+            4954292,
+            4757083
+          ]
+        },
+        "candidate": {
+          "maximum_ns": 5063250,
+          "median_ns": 4902500,
+          "minimum_ns": 4621417,
+          "samples_ns": [
+            4732084,
+            4954291,
+            4832459,
+            4900375,
+            4934459,
+            4621417,
+            4873250,
+            5063250,
+            4942333,
+            4902500,
+            4929875,
+            4956042,
+            4857125,
+            4801334,
+            4957750
+          ]
+        }
+      }
+    },
+    "mixed-events": {
+      "archive_sha256": "2ed0f0eced7d212d68e1a69caede93e9bc35425b06473b20f8d916ffa01384cf",
+      "archive_size_bytes": 4793,
+      "candidate_change_percent": -7.975464604996252,
+      "exact_round_trip_validated": true,
+      "record_count": 10000,
+      "reference_input_sha256": "39944870d5fe148ef3cafb9155a636adcd4b1a3114eeb6e8f38edb38e679bd7a",
+      "reference_input_size_bytes": 1343685,
+      "timings": {
+        "baseline": {
+          "maximum_ns": 11966208,
+          "median_ns": 10265333,
+          "minimum_ns": 10055042,
+          "samples_ns": [
+            11938167,
+            10105500,
+            10084417,
+            10504250,
+            10184667,
+            10091667,
+            10301833,
+            10383542,
+            11966208,
+            10055042,
+            10265333,
+            10306833,
+            10248375,
+            10212417,
+            10350834
+          ]
+        },
+        "candidate": {
+          "maximum_ns": 11359333,
+          "median_ns": 9446625,
+          "minimum_ns": 9263458,
+          "samples_ns": [
+            9537542,
+            9359083,
+            11012208,
+            9439209,
+            9386083,
+            11205042,
+            9608667,
+            9566292,
+            9409416,
+            9263458,
+            10821250,
+            9402917,
+            9363667,
+            11359333,
+            9446625
+          ]
+        }
+      }
+    },
+    "nested-arrays": {
+      "archive_sha256": "dc314fed8deababd8a84fec214879d4cc790bf9cead7993bb1558379bd5a43bc",
+      "archive_size_bytes": 28402,
+      "candidate_change_percent": -8.716939978587423,
+      "exact_round_trip_validated": true,
+      "record_count": 10000,
+      "reference_input_sha256": "49ccb6465d9328ee6277b66f090243ca8412491061efadea85188fdf56502a56",
+      "reference_input_size_bytes": 1796640,
+      "timings": {
+        "baseline": {
+          "maximum_ns": 18624958,
+          "median_ns": 12237666,
+          "minimum_ns": 11897666,
+          "samples_ns": [
+            17166459,
+            12204667,
+            16707042,
+            12269375,
+            11897666,
+            14298167,
+            12139250,
+            12237666,
+            12106667,
+            12195875,
+            12429791,
+            18624958,
+            12020792,
+            16509708,
+            12127708
+          ]
+        },
+        "candidate": {
+          "maximum_ns": 15648125,
+          "median_ns": 11170916,
+          "minimum_ns": 10801208,
+          "samples_ns": [
+            11538958,
+            11161708,
+            11162708,
+            11109292,
+            15648125,
+            12622208,
+            11042417,
+            15169125,
+            10801208,
+            15487042,
+            11062375,
+            11357709,
+            11170916,
+            11233250,
+            11089666
+          ]
+        }
+      }
+    },
+    "optional-fields": {
+      "archive_sha256": "09ef4201022d88648c03d1ada1b245658e20a9acd0348502c28c61b45403f8df",
+      "archive_size_bytes": 93610,
+      "candidate_change_percent": 0.7216021290156638,
+      "exact_round_trip_validated": true,
+      "record_count": 10000,
+      "reference_input_sha256": "d12b8b8f16daa3fefda4d87fe01edd8703945d0d133a091aae2ac69c841e012a",
+      "reference_input_size_bytes": 694562,
+      "timings": {
+        "baseline": {
+          "maximum_ns": 11420333,
+          "median_ns": 11178875,
+          "minimum_ns": 10826041,
+          "samples_ns": [
+            11220541,
+            11077292,
+            11178875,
+            11041625,
+            11181042,
+            10974458,
+            10826041,
+            10897875,
+            11305625,
+            11316167,
+            11162833,
+            11297583,
+            11203000,
+            11420333,
+            11056584
+          ]
+        },
+        "candidate": {
+          "maximum_ns": 13305542,
+          "median_ns": 11259542,
+          "minimum_ns": 10746042,
+          "samples_ns": [
+            11259542,
+            11576750,
+            11109750,
+            12188083,
+            10746042,
+            11294667,
+            10947500,
+            13305542,
+            10851708,
+            11512750,
+            10935333,
+            13048375,
+            11343000,
+            11001459,
+            10972542
+          ]
+        }
+      }
+    }
+  }
+}
