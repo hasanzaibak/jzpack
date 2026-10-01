@@ -22,11 +22,11 @@ See the [implementation plan](docs/IMPLEMENTATION-PLAN.md) for acceptance gates 
 
 ## Next: exact fidelity and measured performance
 
-- [ ] Specify the supported value contract and verify scalar types and float bits.
-- [ ] Repair unsafe delta and RLE selection with regression tests.
-- [ ] Map public behavior and failure contracts to meaningful tests; audit duplicate tests.
-- [ ] Expand deterministic workload comparisons and publish tradeoffs.
-- [ ] Remove repeated schema work and redundant decompression after compatibility checks.
+- [x] Specify the supported value contract and verify scalar types and float bits.
+- [x] Repair unsafe delta and RLE selection with regression tests.
+- [x] Map current public behavior and failure contracts to meaningful tests; audit duplicate tests.
+- [x] Expand deterministic workload comparisons and publish tradeoffs.
+- [x] Remove repeated schema work and redundant decompression after compatibility checks.
 
 ## Next: production reliability
 

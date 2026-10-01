@@ -65,7 +65,8 @@ unavailable. Neither memory figure is a stable regression gate.
 ## Recorded before-and-after run
 
 The files under `benchmarks/results/` contain the raw JSON outputs for the base implementation and
-this candidate. Both runs used the same corpus version, seed, row count, compression level, warmups,
+the performance-only candidate (`ffca027589cfc91815f4a2a8f1b380e86d6e64d6`), based on
+`dc5a618370e98153cceb0aee7c5c8cccc55f9e83`. These figures exclude the separate fidelity repairs. Both runs used the same corpus version, seed, row count, compression level, warmups,
 iterations, Python process, and optional dependencies. Runtime: Python 3.12.13, macOS 27.2 arm64,
 jzpack 0.4.0, msgpack 1.2.3, python-zstandard 0.25.0 (native Zstandard 1.5.7), and orjson 3.12.0.
 
@@ -108,6 +109,28 @@ To compare the strict decompression API against the declared minimum python-zsta
 install `zstandard==0.21.0` in a separate environment and run the performance-contract and chunk
 tests. The strict single-frame behavior uses the documented `allow_extra_data=False` option, present
 in the [python-zstandard 0.21.0 decompression API](https://python-zstandard.readthedocs.io/en/0.21.0/decompressor.html).
+
+## Integrated fidelity checkpoint
+
+The full first-wave implementation at `9b12fc2028afabb426600f487802681fc17db76f` combines the
+performance changes with exact type/float-bit preservation and stricter codec validation. Its
+raw result is `benchmarks/results/corpus-v1-wave-1.json`, using the same 3,000 records, three
+samples, one warmup, seed, level, and dependency versions. Every archive checksum matches the
+original corpus run, and each round trip passes the exact oracle.
+
+| Profile | Full-package encode median ms | Full-package decode median ms |
+|---|---:|---:|
+| High entropy | 4.344 | 1.437 |
+| Integer series | 6.181 | 1.926 |
+| Mixed events | 10.707 | 3.795 |
+| Nested arrays | 8.000 | 4.743 |
+| Optional fields | 6.754 | 4.735 |
+
+This checkpoint was run later than the component-only comparison, so timing differences include
+run-to-run variation. It demonstrates why component improvements cannot be advertised as
+full-package speedups: preserving values and rejecting malformed codecs adds Python validation
+work. A separate optimization branch is profiling that cost while retaining every fidelity and
+reader safety check. Neither timing series establishes general superiority.
 
 ## Limits of these results
 

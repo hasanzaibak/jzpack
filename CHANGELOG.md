@@ -1,5 +1,14 @@
 # Changelog
 
+## Unreleased
+- Preserve exact scalar types and binary64 bits when selecting RLE; keep nested values RAW.
+- Restrict DELTA writes to supported integer values/deltas while retaining historical float DELTA reads.
+- Reject malformed column fields, run counts, numeric deltas, and dictionary indices with controlled errors.
+- Reject sink writes that return None instead of a byte count; document caller recovery.
+- Reuse flattened batch records and decode strict Zstandard frames in one pass.
+- Add meaningful codec, schema, file-failure, resource-boundary, and lifecycle tests; remove five duplicates.
+- Add deterministic comparative workloads with raw evidence, explicit tradeoffs, and dependency/platform CI.
+
 ## 0.4.0
 - Consolidated the public format on the JZPK version 3 chunked container.
 - Added chunk-aware iteration and explicit recoverable-chunk error reporting.
