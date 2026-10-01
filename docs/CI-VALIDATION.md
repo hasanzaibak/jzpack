@@ -67,3 +67,10 @@ Local checks do not execute GitHub-hosted runners for all supported Python versi
 systems. In particular, a local macOS/Linux run cannot establish Windows filesystem behavior; the
 `platform-contracts` matrix supplies that hosted coverage, while the Ubuntu `test` matrix provides
 the Linux coverage. Before a workflow run completes, those hosted matrix results remain unverified.
+
+## Release 0.5.1 checkpoint
+
+All eight [exact-release CI jobs](https://github.com/hasanzaibak/jzpack/actions/runs/36940128021)
+passed for `bb59b4cc3c4e64c8e1621d49afb2be78fdb1c07f`, including the 404-test suite on the
+supported hosted Python/platform lanes and exact minimum dependencies on Python 3.10.
+This clears that release snapshot only; subsequent runtime changes require their own checks.

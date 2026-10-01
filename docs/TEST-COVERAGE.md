@@ -53,4 +53,6 @@ documentation delta, all 404 tests pass on current Python 3.12 and minimum-depen
 The named shallow-path, mutation-harness, and expanded corpus contracts above are included.
 Three opt-in fidelity mutants are also killed by separate unit/public tests in both environments.
 The second-wave coverage percentages above remain historical; coverage was not remeasured for
-this checkpoint. Exact-release platform CI is required before publication.
+this checkpoint. The [exact-release hosted matrix](https://github.com/hasanzaibak/jzpack/actions/runs/36940128021)
+subsequently passed for the 0.5.1 commit, including Python 3.10 minimum dependencies and
+macOS/Windows. Later source snapshots require their own platform evidence.

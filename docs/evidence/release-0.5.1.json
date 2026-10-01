@@ -1,0 +1,81 @@
+{
+  "version": "0.5.1",
+  "release_commit": "bb59b4cc3c4e64c8e1621d49afb2be78fdb1c07f",
+  "release_url": "https://github.com/hasanzaibak/jzpack/releases/tag/v0.5.1",
+  "ci_url": "https://github.com/hasanzaibak/jzpack/actions/runs/36940128021",
+  "publish_url": "https://github.com/hasanzaibak/jzpack/actions/runs/36940333000",
+  "pypi_json_url": "https://pypi.org/pypi/jzpack/0.5.1/json",
+  "distributions": [
+    {
+      "filename": "jzpack-0.5.1-py3-none-any.whl",
+      "sha256": "98aa0032c32cfda5d95d1daff075b984f85ddc1d87b9a7d16fc7eec1423be49e",
+      "uploaded_at": "2026-10-01T23:22:26.542841Z",
+      "workflow_artifact_hash_matches": true
+    },
+    {
+      "filename": "jzpack-0.5.1.tar.gz",
+      "sha256": "97ba9d76442886d483852854aed9b60ed67ab1872f6d3ff7e672db25cc5d7b91",
+      "uploaded_at": "2026-10-01T23:22:28.009293Z",
+      "workflow_artifact_hash_matches": true
+    }
+  ],
+  "review": {
+    "agent": "Luna/max different-author reviewers",
+    "result": "GO",
+    "snapshot_sha256": "1784661c8c6021b2cf8ac056745dfd32e57b115a5245b3139ae381d4e19f56b8",
+    "snapshot_hash_scheme": "Sorted filename UTF-8, NUL, raw content bytes, NUL for BENCHMARKS.md, CHANGELOG.md, ROADMAP.md, docs/CORPUS-WAVE-3.md, docs/DELIVERY-STATUS.md, docs/IMPLEMENTATION-PLAN.md, docs/TEST-COVERAGE.md, jzpack/__init__.py",
+    "release_notes_sha256": "d9afb0f0171c8145ac604b8135503ce401bfb91459891e8a6947f1e90ada2969"
+  },
+  "checks": {
+    "current_tests_passed": 404,
+    "minimum_tests_passed": 404,
+    "hosted_ci_jobs_passed": 8,
+    "publish_jobs_passed": [
+      "build",
+      "publish"
+    ],
+    "ruff": true,
+    "compileall": true,
+    "wheel_and_sdist_build": true,
+    "relative_document_links": true,
+    "focused_fidelity_mutants_killed_by_unit_and_public_tests_in_both_local_environments": 3,
+    "built_and_workflow_wheel_hashes_match": true
+  },
+  "environment_approval": {
+    "environment": "pypi",
+    "deployment_id": 6797423924,
+    "configured_reviewer_account": "hasanzaibak",
+    "normal_approval_under_user_publication_authorization": true,
+    "protection_configuration_modified": false
+  },
+  "pypi_install_smoke": {
+    "command": "python -m pip install --index-url https://pypi.org/simple --no-cache-dir jzpack==0.5.1",
+    "working_directory": "outside source checkout",
+    "source_pythonpath_override": false,
+    "import_from_site_packages_verified": true,
+    "checks": [
+      "installed metadata and exported version",
+      "shallow and deep nested keys",
+      "literal dotted keys",
+      "nested bool/int/float distinctions",
+      "signed-zero and custom NaN payload bits",
+      "convenience API roundtrip",
+      "writer max_chunk_records=2 roundtrip",
+      "writer byte-count return"
+    ],
+    "result": "passed",
+    "runtime": {
+      "python": "3.12.13",
+      "msgpack": "1.2.3",
+      "zstandard": "0.25.0",
+      "platform": "macOS arm64"
+    },
+    "initial_simple_index_propagation_retry_required": true
+  },
+  "limitations": [
+    "Smoke checks are not the complete test suite against installed distributions.",
+    "Larger corpus capture predates the shallow reconstruction optimization; paired decode evidence separately isolates that change.",
+    "Writer timing in the historical larger corpus includes asymmetric hashing/observer overhead, explicitly disclosed.",
+    "Universal performance leadership is not established."
+  ]
+}

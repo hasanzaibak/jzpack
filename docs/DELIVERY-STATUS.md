@@ -25,8 +25,8 @@ See [RELEASES.md](RELEASES.md) for the repeatable publication gates.
 
 The third wave is prepared on `codex/jzpack-wave-3`: reviewed reconstruction CPU improvements,
 larger/schema-diverse benchmark comparisons, and selective fidelity mutation verification.
-These changes are not included in 0.5.0. Version 0.5.1 is a release candidate until its exact
-hosted checks and trusted publication complete; the 0.5.0 evidence does not clear this release.
+These changes are not included in 0.5.0. Version 0.5.1 passed its own exact-commit hosted checks and trusted publication; the 0.5.0
+evidence was not reused to clear this release.
 
 ## Review and integration procedure
 
@@ -145,7 +145,7 @@ these branches. They remain conditional on the [implementation plan](IMPLEMENTAT
 with tests required for each accepted feature. Hosted CI was subsequently verified for the
 pushed integration commit in the release ledger above.
 
-## Third-wave integration and release candidate
+## Third-wave integration and 0.5.1 release
 
 The reviewed components are integrated on `codex/jzpack-wave-3` at code checkpoint
 `3f2e37e1db3c3b9653fc52bc02330128d8157440`. Root release metadata and documentation prepare 0.5.1.
@@ -170,7 +170,7 @@ minimums. Ruff, compilation, wheel/source build, relative documentation links, a
 checks passed. Both environments reran the three mutation checks successfully. The final built
 wheel matched the outside-checkout smoke-tested wheel by SHA-256; that smoke checks installed
 metadata, shallow/deep nested and literal dotted keys, exact scalar/float bits, and multi-chunk
-writer output. Exact-release hosted CI and official PyPI verification remain release gates.
+writer output. The exact-release hosted CI and official PyPI verification subsequently passed, as recorded below.
 
 Commands executed:
 
@@ -190,3 +190,23 @@ The next implementation priorities are a validated single-run RLE decode experim
 writer CPU reduction without weakening snapshots/limits, and a streamed MessagePack comparator.
 Native work and new wire formats remain conditional on those measurements. The repository still
 has no architecture diagram index; README and FORMAT supply the unchanged API/wire boundaries.
+
+### Verified 0.5.1 publication
+
+Version [0.5.1](https://github.com/hasanzaibak/jzpack/releases/tag/v0.5.1) was committed, merged,
+and pushed at `bb59b4cc3c4e64c8e1621d49afb2be78fdb1c07f` after different-author component and
+release reviews. All eight [exact-commit CI jobs](https://github.com/hasanzaibak/jzpack/actions/runs/36940128021)
+passed, including Linux Python 3.10–3.13, exact-minimum runtime dependencies on Python 3.10,
+macOS, Windows, and quality/build. The [trusted publishing run](https://github.com/hasanzaibak/jzpack/actions/runs/36940333000)
+passed after normal approval through the configured reviewer gate; protection settings were not changed.
+
+Official [PyPI 0.5.1](https://pypi.org/project/jzpack/0.5.1/) metadata lists both distributions;
+both hashes match workflow artifacts. The workflow wheel also matches the locally built and
+smoke-tested wheel. After a brief installer-index propagation retry, a fresh official-index install
+outside the checkout passed installed-version, shallow/deep nested and dotted-key, exact scalar
+and float-bit, and multi-chunk writer checks. [Release evidence](evidence/release-0.5.1.json)
+records the hashes, gates, approval, and verification scope.
+
+The next experiments are isolated on `codex/jzpack-rle-single-run`, `codex/jzpack-writer-ascii`,
+and `codex/jzpack-streamed-baseline`. They are not included in 0.5.1; review and measurements
+must clear each exact candidate before integration. Universal performance leadership remains unproved.
