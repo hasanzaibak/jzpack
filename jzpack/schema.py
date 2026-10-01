@@ -11,22 +11,40 @@ class SchemaManager:
         self._schema_id_cache: dict[tuple[Path, ...], str] = {}
 
     def add_batch(self, records: Iterable[Mapping[str, Any]]) -> None:
-        records = list(records)
-        if not records:
+        batch = records if isinstance(records, list) else list(records)
+        if not batch:
             return
 
-        first_flat = self._flatten(records[0])
+        # Uniform batches are fully validated before state changes, as before,
+        # but their flattened values are then reused instead of recomputed.
+        first_flat = self._flatten(batch[0])
         first_keys = tuple(sorted(first_flat))
+        flattened_records = [first_flat]
 
-        if self._has_uniform_schema(records, first_keys):
-            self._add_uniform_batch(records, first_keys)
-        else:
-            for record in records:
-                self.add_record(record)
+        # A shape mismatch selects the heterogeneous path. Commit its already
+        # flattened prefix, then process the remainder without another batch copy.
+        for index in range(1, len(batch)):
+            flat = self._flatten(batch[index])
+            keys = tuple(sorted(flat))
+            if keys != first_keys:
+                for prefix_flat in flattened_records:
+                    self._add_flat_record_with_keys(prefix_flat, first_keys)
+                self._add_flat_record_with_keys(flat, keys)
+                for remaining_index in range(index + 1, len(batch)):
+                    self.add_record(batch[remaining_index])
+                return
+            flattened_records.append(flat)
+
+        self._add_uniform_flat_batch(flattened_records, first_keys)
 
     def add_record(self, record: Mapping[str, Any]) -> str:
-        flat = self._flatten(record)
+        return self._add_flat_record(self._flatten(record))
+
+    def _add_flat_record(self, flat: dict[Path, Any]) -> str:
         keys = tuple(sorted(flat))
+        return self._add_flat_record_with_keys(flat, keys)
+
+    def _add_flat_record_with_keys(self, flat: dict[Path, Any], keys: tuple[Path, ...]) -> str:
         schema_id = self._get_schema_id(keys)
 
         if schema_id not in self._groups:
@@ -44,6 +62,30 @@ class SchemaManager:
         self._schema_order.append(schema_id)
         return schema_id
 
+    def _add_uniform_flat_batch(self, records: list[dict[Path, Any]], keys: tuple[Path, ...]) -> None:
+        schema_id = self._get_schema_id(keys)
+        key_list = list(keys)
+        num_records = len(records)
+
+        if schema_id not in self._groups:
+            columns = {key: [None] * num_records for key in key_list}
+            self._groups[schema_id] = {"keys": key_list, "columns": columns, "count": num_records}
+            start_index = 0
+        else:
+            group = self._groups[schema_id]
+            start_index = group["count"]
+            columns = group["columns"]
+            for key in key_list:
+                columns[key].extend([None] * num_records)
+            group["count"] += num_records
+
+        for offset, flat in enumerate(records):
+            row_index = start_index + offset
+            for key in key_list:
+                columns[key][row_index] = flat[key]
+
+        self._schema_order.extend([schema_id] * num_records)
+
     def get_schemas(self) -> dict[str, dict[str, Any]]:
         return self._groups
 
@@ -54,38 +96,6 @@ class SchemaManager:
         self._groups.clear()
         self._schema_order.clear()
         self._schema_id_cache.clear()
-
-    def _has_uniform_schema(self, records: list[Mapping[str, Any]], reference_keys: tuple[Path, ...]) -> bool:
-        for record in records:
-            flat = self._flatten(record)
-            if tuple(sorted(flat)) != reference_keys:
-                return False
-        return True
-
-    def _add_uniform_batch(self, records: list[Mapping[str, Any]], keys: tuple[Path, ...]) -> None:
-        schema_id = self._get_schema_id(keys)
-        key_list = list(keys)
-        num_records = len(records)
-
-        if schema_id not in self._groups:
-            columns = {k: [None] * num_records for k in key_list}
-            self._groups[schema_id] = {"keys": key_list, "columns": columns, "count": num_records}
-            start_idx = 0
-        else:
-            group = self._groups[schema_id]
-            start_idx = group["count"]
-            for key in key_list:
-                group["columns"][key].extend([None] * num_records)
-            columns = group["columns"]
-            group["count"] += num_records
-
-        for i, record in enumerate(records):
-            flat = self._flatten(record)
-            idx = start_idx + i
-            for key in key_list:
-                columns[key][idx] = flat[key]
-
-        self._schema_order.extend([schema_id] * num_records)
 
     def _flatten(self, obj: Mapping[str, Any], prefix: Path = ()) -> dict[Path, Any]:
         if not isinstance(obj, Mapping):
