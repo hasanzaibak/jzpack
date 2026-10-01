@@ -171,3 +171,16 @@ def test_compress_does_not_mutate_mapping_inputs_or_consume_generator_twice() ->
     assert records == before
     assert consumed == records
     assert decompress(payload) == records
+
+
+def test_streaming_compressor_clear_recovers_after_failed_mixed_batch() -> None:
+    stream = StreamingCompressor()
+    stream.add_record({"existing": {"value": 7}})
+    with pytest.raises(TypeError):
+        stream.add_batch([{"pending": 9}, {"other": 10}, None])
+
+    # A failed incremental batch may retain valid records; clear discards all
+    # prior and partially ingested state before starting a new ingestion.
+    stream.clear()
+    stream.add_record({"recovered": True})
+    assert decompress(stream.finalize()) == [{"recovered": True}]

@@ -198,6 +198,8 @@ original values cannot be recovered by a newer reader.
 `StreamingCompressor` currently buffers its column data until `finalize()`, which emits the same v3
 format as `compress`. It is useful for incremental ingestion, but it is not yet a bounded-memory file
 writer; see [ROADMAP.md](ROADMAP.md).
+`add_batch` is not atomic: after a validation failure it may retain a prefix of valid records.
+Call `clear()` or discard that compressor before restarting a failed ingestion.
 
 ## How It Works
 
