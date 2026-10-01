@@ -1,0 +1,32 @@
+high-entropy-string-encode x25
+  analyzer.py:87 encode: calls=25, self=0.000010s, cum=0.026594s
+  analyzer.py:19 determine_encoding: calls=25, self=0.000072s, cum=0.026574s
+  analyzer.py:34 _is_rle_suitable: calls=25, self=0.000546s, cum=0.018390s
+  encoders.py:28 supports_value: calls=82500, self=0.008649s, cum=0.008649s
+  encoders.py:35 values_equal: calls=7500, self=0.001304s, cum=0.002123s
+  encoders.py:100 can_encode: calls=25, self=0.000014s, cum=0.000027s
+  encoders.py:12 _is_supported_integer: calls=25, self=0.000002s, cum=0.000002s
+integer-series-encode x25
+  analyzer.py:87 encode: calls=25, self=0.000009s, cum=0.066105s
+  analyzer.py:19 determine_encoding: calls=25, self=0.000022s, cum=0.044411s
+  encoders.py:100 can_encode: calls=50, self=0.007445s, cum=0.040229s
+  analyzer.py:34 _is_rle_suitable: calls=25, self=0.000575s, cum=0.023925s
+  encoders.py:12 _is_supported_integer: calls=382450, self=0.023548s, cum=0.023548s
+  encoders.py:112 encode: calls=25, self=0.001601s, cum=0.021672s
+  encoders.py:28 supports_value: calls=82500, self=0.008449s, cum=0.013826s
+  encoders.py:35 values_equal: calls=7500, self=0.001241s, cum=0.002538s
+repeated-string-rle-encode x25
+  analyzer.py:87 encode: calls=25, self=0.000007s, cum=0.065807s
+  encoders.py:35 values_equal: calls=149950, self=0.024249s, cum=0.040300s
+  analyzer.py:19 determine_encoding: calls=25, self=0.000009s, cum=0.040272s
+  analyzer.py:34 _is_rle_suitable: calls=25, self=0.004609s, cum=0.040261s
+  encoders.py:43 encode: calls=25, self=0.005330s, cum=0.025518s
+  encoders.py:28 supports_value: calls=224950, self=0.023768s, cum=0.023768s
+integer-delta-decode x25
+  encoders.py:129 decode: calls=25, self=0.010036s, cum=0.030250s
+  encoders.py:16 _is_supported_number: calls=149975, self=0.010796s, cum=0.020211s
+  encoders.py:12 _is_supported_integer: calls=149975, self=0.009415s, cum=0.009415s
+float-delta-decode x25
+  encoders.py:129 decode: calls=25, self=0.010422s, cum=0.032229s
+  encoders.py:16 _is_supported_number: calls=149975, self=0.014135s, cum=0.021804s
+  encoders.py:12 _is_supported_integer: calls=149975, self=0.007668s, cum=0.007668s
