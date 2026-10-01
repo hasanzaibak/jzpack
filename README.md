@@ -170,6 +170,9 @@ assert compressor.decompress_from_file(buffer) == data
 File-like objects are never closed, and both operations use the stream's current position. The
 file helpers still buffer the complete JZPK payload in memory; they are not bounded-memory
 streaming APIs. `compress_to_file` returns the compressed byte count for both paths and streams.
+A binary stream must return an integer byte count from `write(bytes)`. Short writes raise
+`OSError`; invalid return types, including `None`, raise `TypeError`. A failed stream write may
+already have accepted some bytes; the caller owns recovery and the stream remains open.
 
 **Parameters:**
 - `level`: zstd compression level 1-22 (default: 3)

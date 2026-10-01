@@ -238,6 +238,38 @@ def test_v3_limits_are_checked_before_chunk_reconstruction(keyword: str, limit: 
         list(iter_decompress(fixture.payload, **{keyword: limit}))
 
 
+@pytest.mark.parametrize(
+    ("keyword", "exact", "below"),
+    [
+        ("max_records", 2, 1),
+        ("max_chunks", 1, 0),
+        ("max_chunk_uncompressed_bytes", "body", "body_minus_one"),
+        ("max_chunk_payload_bytes", "payload", "payload_minus_one"),
+        ("max_output_size", "body", "body_minus_one"),
+    ],
+)
+def test_v3_limits_accept_the_exact_boundary_and_reject_one_below(
+    keyword: str, exact: int | str, below: int | str
+) -> None:
+    records = [{"id": 1}, {"id": 2}]
+    fixture = build_v3([records])
+    chunk_offset = fixture.chunk_offsets[0]
+    body_size = int.from_bytes(fixture.payload[chunk_offset + 24 : chunk_offset + 32], "big")
+    payload_size = int.from_bytes(fixture.payload[chunk_offset + 40 : chunk_offset + 48], "big")
+    limits = {
+        "body": body_size,
+        "body_minus_one": body_size - 1,
+        "payload": payload_size,
+        "payload_minus_one": payload_size - 1,
+    }
+    exact_value = limits[exact] if isinstance(exact, str) else exact
+    below_value = limits[below] if isinstance(below, str) else below
+
+    assert list(iter_decompress(fixture.payload, **{keyword: exact_value})) == records
+    with pytest.raises(ResourceLimitError, match=keyword):
+        list(iter_decompress(fixture.payload, **{keyword: below_value}))
+
+
 @pytest.mark.parametrize("limit", [True, -1, 1.5])
 def test_v3_limits_reject_bool_negative_and_non_integer_values(limit: object) -> None:
     fixture = build_v3([[{"id": 1}]])
@@ -357,7 +389,7 @@ def test_v3_rejects_invalid_inner_versions() -> None:
 
 
 def test_v3_recovery_reports_a_corrupt_middle_chunk_and_keeps_later_chunks() -> None:
-    chunks = [[{"id": 1}], [{"id": 2}], [{"id": 3}]]
+    chunks = [[{"id": 1}], [{"id": 2}, {"id": 22}], [{"id": 3}]]
     fixture = build_v3(chunks)
     corrupt = bytearray(fixture.payload)
     middle_header = fixture.chunk_offsets[1]
@@ -373,6 +405,20 @@ def test_v3_recovery_reports_a_corrupt_middle_chunk_and_keeps_later_chunks() -> 
     assert events[1].sequence == 1
     assert isinstance(events[1].error, InvalidFormatError)  # type: ignore[union-attr]
     assert events[2].records == chunks[2]  # type: ignore[union-attr]
+    assert [record for event in events if isinstance(event, ChunkRecords) for record in event.records] == [
+        {"id": 1},
+        {"id": 3},
+    ]
+
+
+def test_iter_decompress_requires_footer_completion_for_full_container_validation() -> None:
+    fixture = build_v3([[{"id": 1}]])
+    missing_footer = fixture.payload[: fixture.footer_offset]
+    records = iter_decompress(missing_footer)
+
+    assert next(records) == {"id": 1}
+    with pytest.raises(InvalidFormatError, match="truncated"):
+        next(records)
 
 
 def test_v3_recovery_stops_when_chunk_framing_is_corrupt() -> None:
