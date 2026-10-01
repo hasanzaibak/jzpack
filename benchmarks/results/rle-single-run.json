@@ -1,0 +1,1843 @@
+{
+  "benchmark": "jzpack-single-run-rle-decode",
+  "configuration": {
+    "base_revision": "3f2e37e1db3c3b9653fc52bc02330128d8157440",
+    "direct_run_counts": [
+      1,
+      128,
+      4096,
+      50000,
+      250000
+    ],
+    "excluded_setup": [
+      "record generation",
+      "input fingerprinting",
+      "archive compression",
+      "baseline AST extraction",
+      "exact result validation"
+    ],
+    "measurement_scope": [
+      "RLEEncoder.decode on validated direct single-run payloads",
+      "public decompress on prebuilt archives"
+    ],
+    "pair_order": "baseline-first and candidate-first alternate by sample pair",
+    "records_per_public_case": 10000,
+    "samples_per_implementation": 15,
+    "seed": 20261001,
+    "timer": "time.perf_counter_ns",
+    "timing_unit": "nanoseconds",
+    "warmups_per_implementation": 2
+  },
+  "direct_single_run_workloads": {
+    "1": {
+      "candidate_change_percent": -12.574850299401197,
+      "exact_result_validated_outside_timer": true,
+      "paired_samples": [
+        {
+          "elapsed_ns": {
+            "baseline": 959,
+            "candidate": 541
+          },
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 0
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 375,
+            "candidate": 458
+          },
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 1
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 417,
+            "candidate": 334
+          },
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 2
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 416,
+            "candidate": 292
+          },
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 3
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 375,
+            "candidate": 292
+          },
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 4
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 417,
+            "candidate": 416
+          },
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 5
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 334,
+            "candidate": 292
+          },
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 6
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 333,
+            "candidate": 292
+          },
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 7
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 333,
+            "candidate": 291
+          },
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 8
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 333,
+            "candidate": 291
+          },
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 9
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 333,
+            "candidate": 292
+          },
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 10
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 334,
+            "candidate": 292
+          },
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 11
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 334,
+            "candidate": 459
+          },
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 12
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 334,
+            "candidate": 250
+          },
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 13
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 292,
+            "candidate": 292
+          },
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 14
+        }
+      ],
+      "record_count": 1,
+      "timings": {
+        "baseline": {
+          "maximum_ns": 959,
+          "median_ns": 334,
+          "minimum_ns": 292,
+          "samples_ns": [
+            959,
+            375,
+            417,
+            416,
+            375,
+            417,
+            334,
+            333,
+            333,
+            333,
+            333,
+            334,
+            334,
+            334,
+            292
+          ]
+        },
+        "candidate": {
+          "maximum_ns": 541,
+          "median_ns": 292,
+          "minimum_ns": 250,
+          "samples_ns": [
+            541,
+            458,
+            334,
+            292,
+            292,
+            416,
+            292,
+            292,
+            291,
+            291,
+            292,
+            292,
+            459,
+            250,
+            292
+          ]
+        }
+      },
+      "validated_output_limit": 1,
+      "value_type": "str"
+    },
+    "128": {
+      "candidate_change_percent": -63.64628820960698,
+      "exact_result_validated_outside_timer": true,
+      "paired_samples": [
+        {
+          "elapsed_ns": {
+            "baseline": 917,
+            "candidate": 333
+          },
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 0
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 875,
+            "candidate": 334
+          },
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 1
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 917,
+            "candidate": 333
+          },
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 2
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 916,
+            "candidate": 334
+          },
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 3
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 875,
+            "candidate": 291
+          },
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 4
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 916,
+            "candidate": 292
+          },
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 5
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 916,
+            "candidate": 334
+          },
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 6
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 875,
+            "candidate": 375
+          },
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 7
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 917,
+            "candidate": 291
+          },
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 8
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 916,
+            "candidate": 292
+          },
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 9
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 875,
+            "candidate": 292
+          },
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 10
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 875,
+            "candidate": 292
+          },
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 11
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 916,
+            "candidate": 333
+          },
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 12
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 1000,
+            "candidate": 375
+          },
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 13
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 875,
+            "candidate": 375
+          },
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 14
+        }
+      ],
+      "record_count": 128,
+      "timings": {
+        "baseline": {
+          "maximum_ns": 1000,
+          "median_ns": 916,
+          "minimum_ns": 875,
+          "samples_ns": [
+            917,
+            875,
+            917,
+            916,
+            875,
+            916,
+            916,
+            875,
+            917,
+            916,
+            875,
+            875,
+            916,
+            1000,
+            875
+          ]
+        },
+        "candidate": {
+          "maximum_ns": 375,
+          "median_ns": 333,
+          "minimum_ns": 291,
+          "samples_ns": [
+            333,
+            334,
+            333,
+            334,
+            291,
+            292,
+            334,
+            375,
+            291,
+            292,
+            292,
+            292,
+            333,
+            375,
+            375
+          ]
+        }
+      },
+      "validated_output_limit": 128,
+      "value_type": "str"
+    },
+    "250000": {
+      "candidate_change_percent": -99.21554305899005,
+      "exact_result_validated_outside_timer": true,
+      "paired_samples": [
+        {
+          "elapsed_ns": {
+            "baseline": 1894292,
+            "candidate": 15083
+          },
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 0
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 1893541,
+            "candidate": 15125
+          },
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 1
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 1965500,
+            "candidate": 15583
+          },
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 2
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 1938666,
+            "candidate": 15000
+          },
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 3
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 1954000,
+            "candidate": 15375
+          },
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 4
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 1946500,
+            "candidate": 15167
+          },
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 5
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 1877333,
+            "candidate": 15125
+          },
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 6
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 1902000,
+            "candidate": 15208
+          },
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 7
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 1966375,
+            "candidate": 16125
+          },
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 8
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 1910083,
+            "candidate": 16417
+          },
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 9
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 1958333,
+            "candidate": 15916
+          },
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 10
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 1943209,
+            "candidate": 15166
+          },
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 11
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 1888250,
+            "candidate": 15000
+          },
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 12
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 1972417,
+            "candidate": 15292
+          },
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 13
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 1929833,
+            "candidate": 15584
+          },
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 14
+        }
+      ],
+      "record_count": 250000,
+      "timings": {
+        "baseline": {
+          "maximum_ns": 1972417,
+          "median_ns": 1938666,
+          "minimum_ns": 1877333,
+          "samples_ns": [
+            1894292,
+            1893541,
+            1965500,
+            1938666,
+            1954000,
+            1946500,
+            1877333,
+            1902000,
+            1966375,
+            1910083,
+            1958333,
+            1943209,
+            1888250,
+            1972417,
+            1929833
+          ]
+        },
+        "candidate": {
+          "maximum_ns": 16417,
+          "median_ns": 15208,
+          "minimum_ns": 15000,
+          "samples_ns": [
+            15083,
+            15125,
+            15583,
+            15000,
+            15375,
+            15167,
+            15125,
+            15208,
+            16125,
+            16417,
+            15916,
+            15166,
+            15000,
+            15292,
+            15584
+          ]
+        }
+      },
+      "validated_output_limit": 250000,
+      "value_type": "str"
+    },
+    "4096": {
+      "candidate_change_percent": -98.08787898631392,
+      "exact_result_validated_outside_timer": true,
+      "paired_samples": [
+        {
+          "elapsed_ns": {
+            "baseline": 30375,
+            "candidate": 792
+          },
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 0
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 30416,
+            "candidate": 584
+          },
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 1
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 30458,
+            "candidate": 583
+          },
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 2
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 30500,
+            "candidate": 583
+          },
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 3
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 31625,
+            "candidate": 916
+          },
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 4
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 31000,
+            "candidate": 625
+          },
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 5
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 30958,
+            "candidate": 625
+          },
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 6
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 30583,
+            "candidate": 583
+          },
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 7
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 30917,
+            "candidate": 625
+          },
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 8
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 30916,
+            "candidate": 584
+          },
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 9
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 30334,
+            "candidate": 625
+          },
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 10
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 30542,
+            "candidate": 583
+          },
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 11
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 29625,
+            "candidate": 583
+          },
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 12
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 30625,
+            "candidate": 625
+          },
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 13
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 30375,
+            "candidate": 541
+          },
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 14
+        }
+      ],
+      "record_count": 4096,
+      "timings": {
+        "baseline": {
+          "maximum_ns": 31625,
+          "median_ns": 30542,
+          "minimum_ns": 29625,
+          "samples_ns": [
+            30375,
+            30416,
+            30458,
+            30500,
+            31625,
+            31000,
+            30958,
+            30583,
+            30917,
+            30916,
+            30334,
+            30542,
+            29625,
+            30625,
+            30375
+          ]
+        },
+        "candidate": {
+          "maximum_ns": 916,
+          "median_ns": 584,
+          "minimum_ns": 541,
+          "samples_ns": [
+            792,
+            584,
+            583,
+            583,
+            916,
+            625,
+            625,
+            583,
+            625,
+            584,
+            625,
+            583,
+            583,
+            625,
+            541
+          ]
+        }
+      },
+      "validated_output_limit": 4096,
+      "value_type": "str"
+    },
+    "50000": {
+      "candidate_change_percent": -98.83881151394702,
+      "exact_result_validated_outside_timer": true,
+      "paired_samples": [
+        {
+          "elapsed_ns": {
+            "baseline": 395375,
+            "candidate": 4458
+          },
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 0
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 423250,
+            "candidate": 4375
+          },
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 1
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 378416,
+            "candidate": 4833
+          },
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 2
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 380417,
+            "candidate": 5000
+          },
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 3
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 380000,
+            "candidate": 4584
+          },
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 4
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 392166,
+            "candidate": 4625
+          },
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 5
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 387292,
+            "candidate": 5000
+          },
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 6
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 390125,
+            "candidate": 4625
+          },
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 7
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 379000,
+            "candidate": 4334
+          },
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 8
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 383917,
+            "candidate": 4250
+          },
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 9
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 379833,
+            "candidate": 4583
+          },
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 10
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 380417,
+            "candidate": 4208
+          },
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 11
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 385791,
+            "candidate": 4209
+          },
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 12
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 380584,
+            "candidate": 4208
+          },
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 13
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 409417,
+            "candidate": 4375
+          },
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 14
+        }
+      ],
+      "record_count": 50000,
+      "timings": {
+        "baseline": {
+          "maximum_ns": 423250,
+          "median_ns": 383917,
+          "minimum_ns": 378416,
+          "samples_ns": [
+            395375,
+            423250,
+            378416,
+            380417,
+            380000,
+            392166,
+            387292,
+            390125,
+            379000,
+            383917,
+            379833,
+            380417,
+            385791,
+            380584,
+            409417
+          ]
+        },
+        "candidate": {
+          "maximum_ns": 5000,
+          "median_ns": 4458,
+          "minimum_ns": 4208,
+          "samples_ns": [
+            4458,
+            4375,
+            4833,
+            5000,
+            4584,
+            4625,
+            5000,
+            4625,
+            4334,
+            4250,
+            4583,
+            4208,
+            4209,
+            4208,
+            4375
+          ]
+        }
+      },
+      "validated_output_limit": 50000,
+      "value_type": "str"
+    }
+  },
+  "metadata": {
+    "baseline_encoder_source_sha256": "9793fcd8d0bf0e7b848b89ebdd48fb30329a9f89225bcdefb35d3525f040db69",
+    "benchmark_script_sha256": "bf7613cf58a74d50ee2d5415b71aad52893f47a4a93f4fd8b5ced10f08ed4635",
+    "candidate_encoder_source_sha256": "7a24623c54f0f21de910bbbbb267ed051efd29f2507354063f0675d41e048c87",
+    "git_head": "3f2e37e1db3c3b9653fc52bc02330128d8157440",
+    "runtime": {
+      "jzpack_version": "0.5.0",
+      "machine": "arm64",
+      "msgpack_version": "1.2.3",
+      "platform": "macOS-27.2-arm64-arm-64bit",
+      "python_implementation": "CPython",
+      "python_version": "3.12.13",
+      "zstandard_native_version": [
+        1,
+        5,
+        7
+      ],
+      "zstandard_version": "0.25.0"
+    }
+  },
+  "public_decompress_workloads": {
+    "constant-column": {
+      "archive_encodings": {
+        "rle_column_count": 1,
+        "schema_count": 1,
+        "schema_order_run_count": 1,
+        "single_run_rle_column_count": 1
+      },
+      "archive_sha256": "49b5e87ecf9adeb156d8acec7eea8d6130fa35b04147917500f16ade59bccea6",
+      "archive_size_bytes": 242,
+      "candidate_change_percent": -7.904968244199917,
+      "exact_round_trip_validated_outside_timer": true,
+      "max_records_limit": 10000,
+      "paired_samples": [
+        {
+          "elapsed_ns": {
+            "baseline": 2628084,
+            "candidate": 2566625
+          },
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 0
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 2563875,
+            "candidate": 2270167
+          },
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 1
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 2656792,
+            "candidate": 2393208
+          },
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 2
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 2429000,
+            "candidate": 2336625
+          },
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 3
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 2354083,
+            "candidate": 2283667
+          },
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 4
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 2491041,
+            "candidate": 2306292
+          },
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 5
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 2449083,
+            "candidate": 2178375
+          },
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 6
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 2377958,
+            "candidate": 2286292
+          },
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 7
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 2543667,
+            "candidate": 2261916
+          },
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 8
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 2530709,
+            "candidate": 2294125
+          },
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 9
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 2617375,
+            "candidate": 2375916
+          },
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 10
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 2451250,
+            "candidate": 2427875
+          },
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 11
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 2416417,
+            "candidate": 2278208
+          },
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 12
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 2544041,
+            "candidate": 2309917
+          },
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 13
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 2426709,
+            "candidate": 2288917
+          },
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 14
+        }
+      ],
+      "record_count": 10000,
+      "reference_input_sha256": "dec42dae3db50324ac209bf7ac8e25ea2a9259c17f1b8bb844a855eb227e802c",
+      "reference_input_size_bytes": 428890,
+      "timings": {
+        "baseline": {
+          "maximum_ns": 2656792,
+          "median_ns": 2491041,
+          "minimum_ns": 2354083,
+          "samples_ns": [
+            2628084,
+            2563875,
+            2656792,
+            2429000,
+            2354083,
+            2491041,
+            2449083,
+            2377958,
+            2543667,
+            2530709,
+            2617375,
+            2451250,
+            2416417,
+            2544041,
+            2426709
+          ]
+        },
+        "candidate": {
+          "maximum_ns": 2566625,
+          "median_ns": 2294125,
+          "minimum_ns": 2178375,
+          "samples_ns": [
+            2566625,
+            2270167,
+            2393208,
+            2336625,
+            2283667,
+            2306292,
+            2178375,
+            2286292,
+            2261916,
+            2294125,
+            2375916,
+            2427875,
+            2278208,
+            2309917,
+            2288917
+          ]
+        }
+      }
+    },
+    "nested-records": {
+      "archive_encodings": {
+        "rle_column_count": 0,
+        "schema_count": 1,
+        "schema_order_run_count": 1,
+        "single_run_rle_column_count": 0
+      },
+      "archive_sha256": "771aff1cbf435226280dba4ecbe2764525c1fca09e05a78cafd53aef396beb99",
+      "archive_size_bytes": 229454,
+      "candidate_change_percent": 1.719294407213745,
+      "exact_round_trip_validated_outside_timer": true,
+      "max_records_limit": 10000,
+      "paired_samples": [
+        {
+          "elapsed_ns": {
+            "baseline": 53863958,
+            "candidate": 32391792
+          },
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 0
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 55447291,
+            "candidate": 30699917
+          },
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 1
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 28679958,
+            "candidate": 32207958
+          },
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 2
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 26134791,
+            "candidate": 39559125
+          },
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 3
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 25786125,
+            "candidate": 38745500
+          },
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 4
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 24656417,
+            "candidate": 25431083
+          },
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 5
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 35204416,
+            "candidate": 24559833
+          },
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 6
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 38782792,
+            "candidate": 24567542
+          },
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 7
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 25044084,
+            "candidate": 26584125
+          },
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 8
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 24682208,
+            "candidate": 38071333
+          },
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 9
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 24349500,
+            "candidate": 35291917
+          },
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 10
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 24390584,
+            "candidate": 24290166
+          },
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 11
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 40044459,
+            "candidate": 24741417
+          },
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 12
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 25186625,
+            "candidate": 25820875
+          },
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 13
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 37927000,
+            "candidate": 25107000
+          },
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 14
+        }
+      ],
+      "record_count": 10000,
+      "reference_input_sha256": "9890f2d73d8125f33d025a789e2ae28d1ad06faa072c15eed028c161fc41712a",
+      "reference_input_size_bytes": 4862716,
+      "timings": {
+        "baseline": {
+          "maximum_ns": 55447291,
+          "median_ns": 26134791,
+          "minimum_ns": 24349500,
+          "samples_ns": [
+            53863958,
+            55447291,
+            28679958,
+            26134791,
+            25786125,
+            24656417,
+            35204416,
+            38782792,
+            25044084,
+            24682208,
+            24349500,
+            24390584,
+            40044459,
+            25186625,
+            37927000
+          ]
+        },
+        "candidate": {
+          "maximum_ns": 39559125,
+          "median_ns": 26584125,
+          "minimum_ns": 24290166,
+          "samples_ns": [
+            32391792,
+            30699917,
+            32207958,
+            39559125,
+            38745500,
+            25431083,
+            24559833,
+            24567542,
+            26584125,
+            38071333,
+            35291917,
+            24290166,
+            24741417,
+            25820875,
+            25107000
+          ]
+        }
+      }
+    },
+    "schema-diverse": {
+      "archive_encodings": {
+        "rle_column_count": 0,
+        "schema_count": 388,
+        "schema_order_run_count": 8400,
+        "single_run_rle_column_count": 0
+      },
+      "archive_sha256": "5efdbc19c2dbe1cc4fbf2b03cab0c436e4a9946014e23b7901164f14447998ac",
+      "archive_size_bytes": 264963,
+      "candidate_change_percent": -0.5776080100934555,
+      "exact_round_trip_validated_outside_timer": true,
+      "max_records_limit": 10000,
+      "paired_samples": [
+        {
+          "elapsed_ns": {
+            "baseline": 17184084,
+            "candidate": 17574708
+          },
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 0
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 31097333,
+            "candidate": 17830833
+          },
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 1
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 18389083,
+            "candidate": 18658292
+          },
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 2
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 17669333,
+            "candidate": 17980125
+          },
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 3
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 17882875,
+            "candidate": 17966209
+          },
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 4
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 18080625,
+            "candidate": 17736166
+          },
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 5
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 32489792,
+            "candidate": 17948375
+          },
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 6
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 17989209,
+            "candidate": 18776667
+          },
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 7
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 18352209,
+            "candidate": 18263250
+          },
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 8
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 19243666,
+            "candidate": 18072000
+          },
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 9
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 17712958,
+            "candidate": 30900041
+          },
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 10
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 17640625,
+            "candidate": 17879750
+          },
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 11
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 20500250,
+            "candidate": 17144500
+          },
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 12
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 18084583,
+            "candidate": 19620334
+          },
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 13
+        },
+        {
+          "elapsed_ns": {
+            "baseline": 46788333,
+            "candidate": 31068167
+          },
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 14
+        }
+      ],
+      "record_count": 10000,
+      "reference_input_sha256": "aaf5201d627329af3e46fb686fe1571179dff5158411338097133252b6bbd916",
+      "reference_input_size_bytes": 2851452,
+      "timings": {
+        "baseline": {
+          "maximum_ns": 46788333,
+          "median_ns": 18084583,
+          "minimum_ns": 17184084,
+          "samples_ns": [
+            17184084,
+            31097333,
+            18389083,
+            17669333,
+            17882875,
+            18080625,
+            32489792,
+            17989209,
+            18352209,
+            19243666,
+            17712958,
+            17640625,
+            20500250,
+            18084583,
+            46788333
+          ]
+        },
+        "candidate": {
+          "maximum_ns": 31068167,
+          "median_ns": 17980125,
+          "minimum_ns": 17144500,
+          "samples_ns": [
+            17574708,
+            17830833,
+            18658292,
+            17980125,
+            17966209,
+            17736166,
+            17948375,
+            18776667,
+            18263250,
+            18072000,
+            30900041,
+            17879750,
+            17144500,
+            19620334,
+            31068167
+          ]
+        }
+      }
+    }
+  },
+  "schema_version": 1
+}
