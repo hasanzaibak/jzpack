@@ -42,7 +42,7 @@ cannot affect the result.
 
 ## Local validation snapshot
 
-For this worktree, the full suite passed with 128 tests in both local environments:
+At the initial CI implementation checkpoint, the full suite passed with 128 tests in both local environments:
 
 - `/tmp/jzpack-ci-20261001-py312/bin/python` ran Python 3.12.13 with `msgpack==1.2.3` and
   `zstandard==0.25.0`; pytest, Ruff, `compileall`, and a wheel/source build to
@@ -52,9 +52,16 @@ For this worktree, the full suite passed with 128 tests in both local environmen
   `msgpack.fallback` backend, and pytest plus `compileall` passed.
 - Ruby's standard YAML parser accepted `.github/workflows/ci.yml`, and `git diff --check` passed.
 
-Python 3.10 was not available locally. The local minimum-version run therefore does not establish
-the Python 3.10 result, nor does it establish behavior with msgpack's native extension. The hosted
-Python 3.10 minimum-dependency job and macOS/Windows Python 3.13 jobs remain unexecuted until CI runs.
+Python 3.10 was not available locally. That local minimum-version run therefore did not establish
+the Python 3.10 result, nor behavior with msgpack's native extension.
+
+## Hosted validation checkpoint
+
+The [completed CI run](https://github.com/hasanzaibak/jzpack/actions/runs/36896532437) for
+`3e87f770be076cac166caf7fd35de22c81c3782b` passed all eight jobs: the Linux Python 3.10–3.13
+matrix, exact-minimum runtime dependencies on Python 3.10, macOS and Windows on Python 3.13,
+and quality/build checks. This checkpoint includes the combined 383-test suite. Future release
+commits require their own successful CI run; this result does not clear a different source snapshot.
 
 Local checks do not execute GitHub-hosted runners for all supported Python versions or operating
 systems. In particular, a local macOS/Linux run cannot establish Windows filesystem behavior; the

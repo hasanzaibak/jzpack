@@ -1,8 +1,18 @@
 # Delivery status
 
 This page records implementation evidence for the [implementation plan](IMPLEMENTATION-PLAN.md).
-The user authorized implementation, independent review, commits, and local merges. Remote publication
-and real-user outreach are outside the current delivery scope.
+The user authorized implementation, independent review, commits, merges, and subsequently remote
+push and package publication. Real-user outreach is outside the current delivery scope.
+
+## Release ledger
+
+The reviewed implementation checkpoint `3e87f770be076cac166caf7fd35de22c81c3782b` was pushed
+to main. Its [hosted CI run](https://github.com/hasanzaibak/jzpack/actions/runs/36896532437)
+passed the Linux Python 3.10–3.13, exact-minimum dependency, macOS, Windows, and quality jobs.
+The 0.5.0 release preparation updates package metadata and public benchmark documentation.
+At this preparation checkpoint, the release tag and PyPI publication are pending; PyPI still
+serves 0.4.0. Publication follows the repository's GitHub Release/trusted-publishing workflow
+and requires successful CI on the exact release commit. See [RELEASES.md](RELEASES.md).
 
 ## Review and integration procedure
 
@@ -24,7 +34,7 @@ scope, conflicts, verification, and acceptance. An agent's report alone is not a
 | Data fidelity and codec boundaries (JZ-01–04) | `codex/jzpack-fidelity` | Merged locally to main | `758c486`; independent GO; 199 candidate tests; seven pre-fix regressions; legacy float DELTA fixture |
 | Existing public and file contracts | `codex/jzpack-test-contracts` | Merged locally to main | `1038976`; independent GO after fixing false-success None writes; 185 candidate tests; failed-batch clear recovery added separately in `3f71753` |
 | Benchmark corpus and focused performance (partial JZ-05–08) | `codex/jzpack-performance` | Merged locally to main | `ffca027`; independent GO; 136 candidate tests under both Zstd versions; raw comparisons and allocation tradeoffs in [BENCHMARKS.md](../BENCHMARKS.md) |
-| Dependency and platform CI | `codex/jzpack-ci-contracts` | Merged locally to main | `3843316`; independent GO; exact minimum pins plus Linux/macOS/Windows lanes; hosted execution remains unverified |
+| Dependency and platform CI | `codex/jzpack-ci-contracts` | Merged and pushed to main | `3843316`; independent GO; exact minimum pins plus Linux/macOS/Windows lanes; hosted execution passed on `3e87f77` |
 | Durable delivery plan | `codex/jzpack-delivery-plan` | Merged locally to main | `43bbe47`; independent GO after correcting coverage interpretation |
 | Bounded v3 writer | `codex/jzpack-bounded-writer` | Reviewed, committed, integrated; combined checks pass | `042b3f7`; independent GO after nested-array defect repair; 352 candidate tests in current/minimum environments; direct sinks, atomic paths, failure/property tests, and scoped [RSS evidence](WRITER.md) |
 | Fidelity guard costs | `codex/jzpack-codec-costs` | Reviewed, committed, integrated; combined checks pass | `b1be6a7`; independent GO; 265 candidate tests in current/minimum environments; unchanged corpus archive bytes; [profile and raw results](CODEC-COSTS.md) |
@@ -86,8 +96,9 @@ integrates reviewed implementation branches on `codex/jzpack-wave-2`, with code 
 msgpack 1.2.3 native/zstandard 0.25.0 and Python 3.11.15 with exact runtime minimums
 (msgpack 1.0.0 fallback/zstandard 0.21.0). Ruff, compilation, wheel+sdist build, and whitespace
 checks pass. The final documentation and combined branch receive an additional read-only review
-before the local main fast-forward. No push, remote merge, or package publication is part of this
-delivery; the changelog remains Unreleased and worktrees/branches are retained.
+before the local main fast-forward. At that historical delivery checkpoint, no push or package
+publication had occurred and the changelog was Unreleased. Subsequent publication is recorded
+in the release ledger above; worktrees and branches are retained.
 
 Commands executed from the integration checkout:
 
@@ -116,4 +127,5 @@ not show uniformly faster decoding; see [BENCHMARKS.md](../BENCHMARKS.md).
 The access-architecture comparison remains the next design gate. A new format, indexes,
 projection, a user-facing archive CLI, native implementations, and adapters are not implemented by
 these branches. They remain conditional on the [implementation plan](IMPLEMENTATION-PLAN.md),
-with tests required for each accepted feature. Hosted CI results are still unverified locally.
+with tests required for each accepted feature. Hosted CI was subsequently verified for the
+pushed integration commit in the release ledger above.

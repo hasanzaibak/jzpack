@@ -1,6 +1,8 @@
 # Changelog
 
 ## Unreleased
+
+## 0.5.0 — 2026-10-01
 - Add `write_records` for bounded v3 chunks, synchronous short-write handling, defensive record snapshots, and atomic path output.
 - Reduce redundant codec validation while retaining exact types, float bits, integer bounds, and legacy float DELTA reads.
 - Add bounded-writer properties, resource boundaries, cancellation/backpressure/fault tests, and comparative benchmark CLI contracts.

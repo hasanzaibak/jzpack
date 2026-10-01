@@ -24,33 +24,31 @@ original = decompress(compressed)
 
 ## Benchmarks
 
-100K records, zstd level 3, 3 iterations averaged.
+The current evidence shows a size/speed tradeoff, not universal performance leadership.
+These small deterministic workloads use 3,000 records each, Zstandard level 3, one warmup,
+and three measured samples. Times are medians in milliseconds; encoding reuses compressor
+instances for both strategies.
 
-**Realistic Data** (mixed repetition, 19.68 MB):
-
-| Strategy | Size | Ratio | Compress | Decompress |
+| Workload | jzpack bytes | MessagePack + Zstd bytes | Encode ms (jzpack / baseline) | Decode ms (jzpack / baseline) |
 |:---|---:|---:|---:|---:|
-| json + gzip | 5.71 MB | 3.45x | 14 MB/s | 96 MB/s |
-| orjson + zstd | 5.86 MB | 3.36x | 227 MB/s | 149 MB/s |
-| msgpack + zstd | 5.71 MB | 3.44x | 154 MB/s | 122 MB/s |
-| **jzpack** | 4.56 MB | 4.32x | 99 MB/s | 93 MB/s |
-| **jzpack (fast)** | 4.89 MB | 4.03x | 117 MB/s | 92 MB/s |
+| High entropy | 301,285 | 313,090 | 3.714 / 1.133 | 1.289 / 0.937 |
+| Integer series | 406 | 15,121 | 4.943 / 0.418 | 1.506 / 0.752 |
+| Mixed events | 928 | 25,882 | 9.696 / 0.801 | 3.411 / 1.680 |
+| Nested arrays | 9,536 | 27,075 | 7.033 / 1.536 | 4.075 / 2.883 |
+| Optional fields | 31,151 | 32,093 | 6.578 / 0.505 | 5.339 / 0.788 |
 
-**High Cardinality** (worst case, 35.58 MB):
+Measured on macOS arm64 with Python 3.12.13, msgpack 1.2.3, and zstandard 0.25.0.
+The [raw report](benchmarks/results/corpus-v1-wave-2.json) records the runtime, samples,
+and archive hashes; [BENCHMARKS.md](BENCHMARKS.md) documents its source checkpoint.
+The subsequent 0.5.0 release changes version metadata and documentation. Every strategy passed
+the recursive exact-value/type oracle on this corpus, which contains no float workload.
+Float-bit preservation is covered separately by the package's regression and property tests.
+See [BENCHMARKS.md](BENCHMARKS.md) for methodology, historical comparisons, and limitations.
+Larger datasets, different schema shapes, dependencies, and hardware can change the result.
 
-| Strategy | Size | Ratio | Compress | Decompress |
-|:---|---:|---:|---:|---:|
-| json + gzip | 19.94 MB | 1.78x | 14 MB/s | 95 MB/s |
-| orjson + zstd | 19.61 MB | 1.81x | 160 MB/s | 126 MB/s |
-| msgpack + zstd | 19.04 MB | 1.87x | 126 MB/s | 163 MB/s |
-| **jzpack** | 15.86 MB | 2.24x | 116 MB/s | 104 MB/s |
-| **jzpack (fast)** | 16.09 MB | 2.21x | 125 MB/s | 117 MB/s |
-
-**vs msgpack+zstd**: 17-20% smaller, 65-90% of the speed.
-
-Run the local benchmark with `python benchmarks/benchmark.py`. Benchmark results depend on
-hardware, Python, dependency versions, and dataset shape; treat the table above as a reference,
-not a guarantee.
+Reproduce this corpus with `python benchmarks/benchmark_corpus.py --records 3000
+--iterations 3 --warmups 1 --seed 1729 --level 3 --skip-rss --json`.
+Run the separate local benchmark with `python benchmarks/benchmark.py`.
 
 The benchmark is opt-in and uses deterministic records. For a smaller local run:
 
