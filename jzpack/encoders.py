@@ -94,6 +94,13 @@ class RLEEncoder:
         if max_output_size is not None and total > max_output_size:
             raise ResourceLimitError("RLE payload exceeds the maximum output size")
 
+        # MessagePack decoding always produces built-in lists, so the common
+        # single-run case can use list repetition instead of filling every
+        # output slot in Python. Keep the guard narrow: direct callers may pass
+        # list subclasses, whose iteration behavior the general path preserves.
+        if type(encoded) is list and len(encoded) == 1 and type(encoded[0]) is list:
+            return [encoded[0][0]] * total
+
         result = [None] * total
         idx = 0
 
