@@ -177,9 +177,20 @@ streaming APIs. `compress_to_file` returns the compressed byte count for both pa
 - `max_output_size`: optional decompression limit in bytes
 - `max_records`: optional decompression limit in records
 
-`compress` accepts a mapping, a list of mappings, or any iterable of mappings. Record keys must
-be strings. Nested mappings, Unicode text, lists, numbers, booleans, nulls, and bytes supported
-by MessagePack are preserved. The format does not normalize or translate Unicode values.
+`compress` accepts a mapping, a list of mappings, or any iterable of mappings. Record and nested
+mapping keys must be strings. The fidelity guarantee covers `None`, booleans, strings, bytes,
+MessagePack-range integers, binary64 floats, lists, and nested mappings. It preserves missing versus
+explicit null and the exact float bit pattern, including signed zero, infinities, and NaN payloads;
+mapping key order is not guaranteed. Strings are not normalized. See [FORMAT.md](FORMAT.md) for
+integer bounds and codec behavior.
+
+Tuples may be encoded as arrays and returned as lists, so tuple identity is outside the guarantee.
+Custom objects and container subclasses are also outside it; unsupported values ordinarily fail
+during serialization. jzpack does not provide a custom conversion hook.
+
+Older v3 archives remain readable, including historical numeric DELTA payloads. Some earlier
+writers could lose float or mixed numeric distinctions before the archive was stored, and those
+original values cannot be recovered by a newer reader.
 
 `StreamingCompressor` currently buffers its column data until `finalize()`, which emits the same v3
 format as `compress`. It is useful for incremental ingestion, but it is not yet a bounded-memory file

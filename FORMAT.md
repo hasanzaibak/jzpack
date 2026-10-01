@@ -52,6 +52,40 @@ containing `.` remains distinct from a nested path.
 
 The version 1 representation is not supported.
 
+## Supported values and fidelity
+
+The fidelity guarantee applies to ordinary Python dictionaries and lists containing the following
+built-in scalar types: `None`, `bool`, `str`, `bytes`, `int`, and `float`. Record and nested mapping
+keys must be strings. Lists preserve their order, records preserve their order, and a missing field
+remains distinct from a field explicitly set to `None`. Mapping key order is not part of the
+guarantee. The guarantee starts with Python values passed to jzpack; it does not cover original JSON
+whitespace, number spelling, duplicate textual object keys, or source bytes.
+
+Integers must be in the MessagePack range `-2**63` through `2**64 - 1`, inclusive. Floats are
+IEEE-754 binary64 values; the complete 64-bit representation is significant and preserved, including
+signed zero, infinities, and NaN sign and payload bits. Strings are not normalized or translated.
+Bytes are preserved as bytes.
+
+Tuples are outside the fidelity guarantee. The current MessagePack serializer can encode a tuple as
+an array, which the reader returns as a list; tuple identity is therefore not preserved. Custom
+objects and container subclasses are also outside the guarantee. jzpack provides no custom object
+conversion hook, so values unsupported by MessagePack ordinarily fail during serialization.
+
+New writers use these encoding rules:
+
+- RLE merges only values of the same supported built-in scalar type; floats are equivalent only
+  when their 64-bit representations match. Nested lists and mappings use RAW.
+- DELTA is selected only for columns of supported integers when every base and delta fits the
+  MessagePack integer range. Float, mixed-type, and out-of-range-delta columns use RAW.
+- Dictionary encoding is selected only for built-in strings. RAW stores the supported values
+  directly.
+
+For compatibility, this Python reader continues to decode historical numeric DELTA payloads whose
+base or deltas are floats. Those payloads may already have lost distinctions during an older write;
+decoding them cannot reconstruct the original values. Encoding IDs and payload shapes remain
+unchanged in version 3. RLE readers continue to decode supported MessagePack values in run entries,
+including nested values emitted by older writers, even though new writers keep nested values RAW.
+
 ## Column encodings
 
 Every encoded column is a map with an integer `t` encoding type:
@@ -63,8 +97,11 @@ Every encoded column is a map with an integer `t` encoding type:
 | 2 | Delta | `b`: first value, `d`: deltas |
 | 3 | Dictionary | `m`: dictionary, `d`: integer indices |
 
-An implementation must reject unknown encoding types and invalid lengths or indices rather than
-silently treating them as raw data.
+The map must contain exactly the fields shown for its encoding. RLE data is a list of two-item lists;
+each count is a positive supported MessagePack integer. Delta data has one base followed by a list of
+supported integer or float deltas. Dictionary data uses non-negative integer indices into `m`.
+Implementations must reject unknown encoding types and malformed field sets, counts, delta values,
+lengths, or indices rather than silently treating them as raw data.
 
 ## Schema order
 
