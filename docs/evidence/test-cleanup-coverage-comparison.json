@@ -1,0 +1,35 @@
+{
+  "before": {
+    "covered_lines": 816,
+    "num_statements": 943,
+    "percent_covered": 83.21943811693242,
+    "percent_covered_display": "83",
+    "missing_lines": 127,
+    "excluded_lines": 0,
+    "percent_statements_covered": 86.53234358430541,
+    "percent_statements_covered_display": "87",
+    "num_branches": 374,
+    "num_partial_branches": 82,
+    "covered_branches": 280,
+    "missing_branches": 94,
+    "percent_branches_covered": 74.8663101604278,
+    "percent_branches_covered_display": "75"
+  },
+  "after": {
+    "covered_lines": 816,
+    "num_statements": 943,
+    "percent_covered": 83.21943811693242,
+    "percent_covered_display": "83",
+    "missing_lines": 127,
+    "excluded_lines": 0,
+    "percent_statements_covered": 86.53234358430541,
+    "percent_statements_covered_display": "87",
+    "num_branches": 374,
+    "num_partial_branches": 82,
+    "covered_branches": 280,
+    "missing_branches": 94,
+    "percent_branches_covered": 74.8663101604278,
+    "percent_branches_covered_display": "75"
+  },
+  "lost_coverage": []
+}
