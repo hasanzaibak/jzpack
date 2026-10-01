@@ -23,31 +23,31 @@ class ColumnAnalyzer:
         if self._is_rle_suitable(values):
             return EncodingType.RLE
 
-        if self._is_numeric_column(values) and self._is_delta_suitable(values):
+        if DeltaEncoder.can_encode(values) and self._is_delta_suitable(values):
             return EncodingType.DELTA
 
-        if all(isinstance(value, str) for value in values) and self._is_dictionary_suitable(values):
+        if all(type(value) is str for value in values) and self._is_dictionary_suitable(values):
             return EncodingType.DICTIONARY
 
         return EncodingType.RAW
 
     def _is_rle_suitable(self, values: list) -> bool:
         n = len(values)
+        if not all(RLEEncoder.supports_value(value) for value in values):
+            return False
+
         max_runs = int(n * self._thresholds.RLE_MAX_RUN_RATIO)
         runs = 1
         current = values[0]
 
         for i in range(1, n):
-            if values[i] != current:
+            if not RLEEncoder.values_equal(values[i], current):
                 runs += 1
                 current = values[i]
                 if runs > max_runs:
                     return False
 
         return True
-
-    def _is_numeric_column(self, values: list) -> bool:
-        return all(isinstance(value, (int, float)) and not isinstance(value, bool) for value in values)
 
     def _is_delta_suitable(self, values: list) -> bool:
         n = len(values)
@@ -92,13 +92,35 @@ class ColumnEncoder:
         return self._apply_encoding(values, encoding_type)
 
     def decode(self, encoded: dict[str, Any], max_values: int | None = None) -> list:
+        if max_values is not None and (
+            isinstance(max_values, bool) or not isinstance(max_values, int) or max_values < 0
+        ):
+            raise ValueError("max_values must be a non-negative integer")
         if not isinstance(encoded, dict):
             raise ValueError("Invalid column payload")
+        encoding_value = encoded.get("t")
+        if isinstance(encoding_value, bool) or not isinstance(encoding_value, int):
+            raise ValueError("Invalid column encoding type")
 
-        encoding_type = EncodingType(encoded["t"])
+        try:
+            encoding_type = EncodingType(encoding_value)
+        except ValueError as exc:
+            raise ValueError("Unknown column encoding type") from exc
+
+        expected_fields = {
+            EncodingType.RAW: {"t", "d"},
+            EncodingType.RLE: {"t", "d"},
+            EncodingType.DELTA: {"t", "b", "d"},
+            EncodingType.DICTIONARY: {"t", "m", "d"},
+        }[encoding_type]
+        if encoded.keys() != expected_fields:
+            raise ValueError("Invalid column payload")
+
         decoder = self._get_decoder(encoding_type)
         if encoding_type == EncodingType.RLE:
             return RLEEncoder.decode(encoded["d"], max_output_size=max_values)
+        if encoding_type == EncodingType.DELTA:
+            return DeltaEncoder.decode(encoded["b"], encoded["d"], max_output_size=max_values)
 
         values = decoder(encoded)
         if not isinstance(values, list):
