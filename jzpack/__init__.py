@@ -4,6 +4,7 @@ from typing import Any
 from .chunks import ChunkError, ChunkRecords, iter_decompress, iter_decompress_recover
 from .compressor import JZPackCompressor, StreamingCompressor
 from .errors import InvalidFormatError, JZPackError, ResourceLimitError, UnsupportedVersionError
+from .writer import write_records
 
 __version__ = "0.4.0"
 __all__ = [
@@ -12,6 +13,7 @@ __all__ = [
     "decompress",
     "iter_decompress",
     "iter_decompress_recover",
+    "write_records",
     "ChunkRecords",
     "ChunkError",
     "JZPackCompressor",

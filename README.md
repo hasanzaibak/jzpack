@@ -100,6 +100,7 @@ from jzpack import (
     decompress,
     iter_decompress,
     iter_decompress_recover,
+    write_records,
 )
 
 # Simple API
@@ -149,6 +150,43 @@ limits are `max_output_size`, `max_records`, `max_chunks`, `max_chunk_uncompress
 `max_chunk_payload_bytes`. `max_output_size` is the aggregate uncompressed MessagePack body size.
 `decompress` also accepts valid v3 bytes as a list-returning adapter; its returned list is naturally
 not bounded-memory.
+
+### Bounded v3 writing
+
+`write_records` sends independent v3 chunks directly to a binary sink or writes a filesystem path
+through a same-directory temporary file and atomic replacement. It consumes an iterable without
+retaining the full input and returns the number of archive bytes written.
+
+```python
+import json
+
+from jzpack import write_records
+
+with open("events.ndjson", "r", encoding="utf-8") as source:
+    records = (json.loads(line) for line in source)
+
+    written = write_records(records, "events.jzpk", max_chunk_records=2_000, max_record_bytes=256_000)
+```
+
+The defaults bound each record to 1 MiB, each chunk to 4 MiB of summed input MessagePack bytes and
+8 MiB each of uncompressed body and compressed payload, and each chunk to 4,096 rows, 256 schemas,
+8,192 flattened paths, 1 MiB of aggregate path bytes, depth 64, and 65,536 nodes. The target is 1
+MiB of input MessagePack bytes per chunk; a singleton may exceed that soft target only within the
+hard record and chunk limits. Crossing a row, target, schema, path, node, or input-byte limit ends
+the current chunk before the next valid record. Encoded-body or compressed-payload violations
+raise `ResourceLimitError`; they do not split the finished encoded chunk.
+
+For a binary stream, the writer retries positive short writes synchronously to provide backpressure.
+It does not close or flush the caller's stream. If validation, encoding, cancellation, or a sink
+write fails, the stream may contain an incomplete archive without a terminal footer. For a path,
+failures before replacement leave an existing destination intact and remove the temporary file.
+
+Records must use built-in dictionaries and lists, string keys, supported scalar values, and integers
+within the MessagePack range. Tuples, container subclasses, custom objects, and cycles are rejected.
+The writer snapshots each record before advancing the input iterator, so a generator may reuse and
+mutate its container after yielding it. Limits bound retained rows and structural metadata, but do
+not promise a fixed process RSS across Python and Zstandard versions. See
+[WRITER.md](docs/WRITER.md) for the resource model and isolated RSS/allocation probe.
 
 ### File helpers
 

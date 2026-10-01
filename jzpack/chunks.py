@@ -572,6 +572,21 @@ def _build_footer(totals: _Totals) -> bytes:
     return prefix + _crc32c(prefix).to_bytes(4, "big")
 
 
+def _write_all(stream: BinaryIO, data: bytes) -> int:
+    """Synchronously write a complete buffer, retrying valid positive short writes."""
+    view = memoryview(data)
+    offset = 0
+    while offset < len(view):
+        written = stream.write(view[offset:])
+        if written is None or isinstance(written, bool) or not isinstance(written, int):
+            raise TypeError("binary stream write() must return an integer byte count")
+        remaining = len(view) - offset
+        if written <= 0 or written > remaining:
+            raise OSError("binary stream write() returned an invalid byte count")
+        offset += written
+    return offset
+
+
 def _validate_writer_count(name: str, value: int) -> None:
     if isinstance(value, bool) or not isinstance(value, int) or not 0 <= value <= _MAX_U64:
         raise ValueError(f"{name} must be an unsigned 64-bit integer")

@@ -262,46 +262,50 @@ The base format does not allow zero-record chunks. Empty input is represented by
 zero-count footer. Records that are empty mappings are real records and use the existing v2 empty
 schema with an explicit `n`; they are not dropped or confused with empty input.
 
-The base chunk policy is an exact uncompressed-byte target, selected by the future writer as a
-positive `target_chunk_bytes` value. For each next input record, the writer forms the candidate v2
-payload using the current v2 encoding rules and measures the exact length of its uncompressed
-MessagePack body. If the candidate is at most the target, the record is added. If it exceeds the
-target and the current chunk is non-empty, the current chunk is emitted and the record is retried as
-the first record of the next chunk. If one record by itself exceeds the target, it is emitted alone;
-the target is soft for that case. This rule is deterministic and does not depend on compressed-size
-variability between Zstandard implementations. The selected `fast`/analysis setting is part of the
-chunk policy because it can change the measured v2 body.
+The `write_records` API selects chunk boundaries using the sum of each record's exact input
+MessagePack size (`msgpack.packb(record, use_bin_type=True)` size), not by rebuilding the encoded
+candidate chunk after every row. If adding a valid record would cross
+`target_chunk_input_bytes`, the current non-empty chunk is emitted and that record starts the next
+chunk. The target is soft for a singleton: one record may exceed it, subject to the hard
+`max_record_bytes` and `max_chunk_input_bytes` ceilings. This amortized input-byte policy avoids
+quadratic candidate serialization and is deterministic for the same ordered records and settings.
 
-The exact-size rule may require a future writer to serialize a candidate while deciding a boundary.
-That is an intentional bounded lookahead, not permission to retain the complete input. A hard
-`max_chunk_uncompressed_bytes` limit should be available to reject an oversized singleton instead
-of emitting it. A caller that needs a strict byte bound must also set a maximum accepted record
-size/complexity; no container can hold an intrinsically unbounded individual record within a fixed
-chunk bound.
+Finite row, schema, flattened-path, path-byte, and node limits also end a chunk before the
+next valid record would cross a bound. Record depth is a per-record validation cap: an over-depth
+record is rejected instead of causing a chunk boundary. Path entries and UTF-8 path-component bytes count across
+schema definitions, including repeated paths in different schemas. A record that cannot fit by
+itself is rejected with `ResourceLimitError`. Before allocating the final uncompressed inner
+MessagePack body, the writer measures its exact encoded size and enforces `max_chunk_uncompressed_bytes`;
+it checks `max_chunk_payload_bytes` after compression. A hard body or payload violation fails the
+write rather than splitting the encoded chunk. No v3 wire fields change as a result of this policy.
 
 ### Bounded-memory model
 
-Version 3 enables bounded-memory file and stream APIs; it does not make an API that returns one
-`bytes` object bounded, because that API must retain the complete output by definition. The existing
-`compress`, `decompress`, `JZPackCompressor`, `StreamingCompressor`, and file-helper behavior must
-not change as part of this design.
+Version 3 supports the public `write_records` API, which writes independent chunks to a binary sink
+or atomically replaces a filesystem path. It retains only one bounded current chunk and at most one
+validated, defensively snapshotted lookahead record. Chunk data and schema state are released after
+each synchronous sink write. Caller-owned streams are not closed or flushed; positive short writes
+are retried, and a failed stream can contain an incomplete archive without a footer. Path writes use
+a same-directory temporary file, flush and sync it, then replace the destination; failures preserve
+an existing destination and remove the temporary file.
 
-For a future writer that sends chunks directly to a sink, only the current chunk's records/columns,
-its schema metadata, one candidate serialization, one Zstandard frame, and a constant number of
-temporary buffers are retained. After the chunk is written, those objects are released before the
-next chunk is accumulated. There is no global schema manager, global column store, or global input
-list. If `T` is the target body size, `L` is the largest accepted record, `S` is bounded schema and
-record-complexity metadata, and `W(level)` is the Zstandard workspace, the intended working-set
-model is `O(T + L + S + W(level))`, with an implementation-dependent constant factor for candidate
-serialization and compression buffers. The compressed output stream itself is not counted because
-it is consumed by the caller.
+The writer enforces finite limits for row count, serialized record and chunk input bytes, exact
+uncompressed body bytes, compressed payload bytes, schema count, aggregate path count and UTF-8
+path bytes, container depth, and aggregate chunk nodes. Input records must be built-in dictionaries
+with string keys and supported built-in scalar/list/dict values. Custom types, container subclasses,
+tuples, cycles, and integers outside MessagePack's range are rejected. The limits constrain
+retained input and metadata, but Python object overhead and native Zstandard workspace remain
+implementation-dependent. This is not a universal RSS guarantee; see [WRITER.md](docs/WRITER.md)
+for the defaults and the isolated memory probe.
 
-The target is measured in serialized bytes, but Python object overhead, schema metadata, encoder
-working space, and a large individual value can exceed the target. A bounded-memory implementation
-must enforce caller-configurable limits for individual records/schema complexity and chunk sizes,
-and must document native Zstandard workspace separately from language-level allocations. The
-format provides a bounded number of records and bytes per chunk; it does not promise a fixed RSS
-value across languages or Zstandard versions.
+For analysis, if `T` is the hard chunk input-byte cap, `L` is the maximum individual record size,
+`S` is schema/path/node metadata under its explicit caps, and `W(level)` is Zstandard workspace,
+the intended retained working set is bounded by those quantities plus implementation-dependent
+encoder and frame buffers. The input-byte target may be exceeded by one singleton within its hard
+record and chunk limits. The hard uncompressed body and payload limits can reject a chunk after
+compression work; these failures do not emit a terminal footer. The iterator decoder still reads,
+decompresses, and releases one chunk at a time; a list-returning decoder remains proportional to
+the returned list.
 
 The iterator decoder reads one chunk header and payload at a time, decompresses one inner v2 frame,
 reconstructs that chunk, yields its records, and releases the chunk before reading the next one. Its
@@ -375,10 +379,10 @@ usually compress better but retain more column data and make corruption recovery
 schemas are the deliberate choice for bounded memory and independent decoding; a shared global
 schema/dictionary is not part of the base format.
 
-For the same logical record sequence, compression settings, exact `target_chunk_bytes` policy, and
+For the same logical record sequence, compression settings, `write_records` boundary limits, and
 implementation of the v2 encoders, chunk boundaries, schema IDs, RLE order, counts, and footer
-totals must be deterministic. Exact compressed bytes additionally depend on the Zstandard
-implementation/version, as they do for current v2. Future benchmarks must measure peak language and
+totals are deterministic. Exact compressed bytes additionally depend on the Zstandard
+implementation/version, as they do for current v2. Benchmarks should measure peak language and
 native memory separately, compression/decompression throughput, chunk and schema overhead, ratio at
 several chunk targets, iterator latency, random-access cost after indexing, and the amount of data
 lost or skipped during corruption recovery.

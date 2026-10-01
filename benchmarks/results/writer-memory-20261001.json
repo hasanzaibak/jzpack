@@ -1,0 +1,124 @@
+{
+  "environment": {
+    "input_source": "deterministic synthetic generator; no full input list",
+    "jzpack": "0.4.0",
+    "output_sink": "discard sink; no archive retention",
+    "platform": "macOS-27.2-arm64-arm-64bit",
+    "python": "3.12.13",
+    "samples_per_size": 3,
+    "warmup_rows_per_process": 1000,
+    "writer_limits": "write_records defaults; same for every size",
+    "zstandard": "0.25.0"
+  },
+  "results": [
+    {
+      "median_archive_bytes_discarded": 1870,
+      "median_process_rss_peak_bytes_including_startup_and_warmup": 24985600,
+      "median_process_rss_peak_delta_after_warmup_bytes": 2949120,
+      "median_python_tracemalloc_peak_bytes": 884435,
+      "rows": 25000,
+      "samples": [
+        {
+          "archive_bytes_discarded": 1870,
+          "process_rss_peak_before_measurement_bytes": 22052864,
+          "process_rss_peak_bytes_including_startup_and_warmup": 24985600,
+          "process_rss_peak_delta_after_warmup_bytes": 2932736,
+          "python_tracemalloc_peak_bytes": 884435,
+          "rows": 25000,
+          "warmup_rows": 1000
+        },
+        {
+          "archive_bytes_discarded": 1870,
+          "process_rss_peak_before_measurement_bytes": 22036480,
+          "process_rss_peak_bytes_including_startup_and_warmup": 25231360,
+          "process_rss_peak_delta_after_warmup_bytes": 3194880,
+          "python_tracemalloc_peak_bytes": 884435,
+          "rows": 25000,
+          "warmup_rows": 1000
+        },
+        {
+          "archive_bytes_discarded": 1870,
+          "process_rss_peak_before_measurement_bytes": 22020096,
+          "process_rss_peak_bytes_including_startup_and_warmup": 24969216,
+          "process_rss_peak_delta_after_warmup_bytes": 2949120,
+          "python_tracemalloc_peak_bytes": 884435,
+          "rows": 25000,
+          "warmup_rows": 1000
+        }
+      ]
+    },
+    {
+      "median_archive_bytes_discarded": 7107,
+      "median_process_rss_peak_bytes_including_startup_and_warmup": 25526272,
+      "median_process_rss_peak_delta_after_warmup_bytes": 3473408,
+      "median_python_tracemalloc_peak_bytes": 904405,
+      "rows": 100000,
+      "samples": [
+        {
+          "archive_bytes_discarded": 7107,
+          "process_rss_peak_before_measurement_bytes": 21987328,
+          "process_rss_peak_bytes_including_startup_and_warmup": 25640960,
+          "process_rss_peak_delta_after_warmup_bytes": 3653632,
+          "python_tracemalloc_peak_bytes": 904405,
+          "rows": 100000,
+          "warmup_rows": 1000
+        },
+        {
+          "archive_bytes_discarded": 7107,
+          "process_rss_peak_before_measurement_bytes": 22036480,
+          "process_rss_peak_bytes_including_startup_and_warmup": 25247744,
+          "process_rss_peak_delta_after_warmup_bytes": 3211264,
+          "python_tracemalloc_peak_bytes": 904405,
+          "rows": 100000,
+          "warmup_rows": 1000
+        },
+        {
+          "archive_bytes_discarded": 7107,
+          "process_rss_peak_before_measurement_bytes": 22052864,
+          "process_rss_peak_bytes_including_startup_and_warmup": 25526272,
+          "process_rss_peak_delta_after_warmup_bytes": 3473408,
+          "python_tracemalloc_peak_bytes": 904405,
+          "rows": 100000,
+          "warmup_rows": 1000
+        }
+      ]
+    },
+    {
+      "median_archive_bytes_discarded": 30920,
+      "median_process_rss_peak_bytes_including_startup_and_warmup": 25296896,
+      "median_process_rss_peak_delta_after_warmup_bytes": 3244032,
+      "median_python_tracemalloc_peak_bytes": 945093,
+      "rows": 400000,
+      "samples": [
+        {
+          "archive_bytes_discarded": 30920,
+          "process_rss_peak_before_measurement_bytes": 22102016,
+          "process_rss_peak_bytes_including_startup_and_warmup": 25296896,
+          "process_rss_peak_delta_after_warmup_bytes": 3194880,
+          "python_tracemalloc_peak_bytes": 945093,
+          "rows": 400000,
+          "warmup_rows": 1000
+        },
+        {
+          "archive_bytes_discarded": 30920,
+          "process_rss_peak_before_measurement_bytes": 22200320,
+          "process_rss_peak_bytes_including_startup_and_warmup": 26017792,
+          "process_rss_peak_delta_after_warmup_bytes": 3817472,
+          "python_tracemalloc_peak_bytes": 945093,
+          "rows": 400000,
+          "warmup_rows": 1000
+        },
+        {
+          "archive_bytes_discarded": 30920,
+          "process_rss_peak_before_measurement_bytes": 21889024,
+          "process_rss_peak_bytes_including_startup_and_warmup": 25133056,
+          "process_rss_peak_delta_after_warmup_bytes": 3244032,
+          "python_tracemalloc_peak_bytes": 945093,
+          "rows": 400000,
+          "warmup_rows": 1000
+        }
+      ]
+    }
+  ],
+  "schema": "jzpack-writer-memory-v1"
+}
