@@ -1,0 +1,29 @@
+{
+  "source_url": "https://data.gharchive.org/2015-01-01-15.json.gz",
+  "source_documentation": "https://www.gharchive.org/",
+  "retrieved_utc": "2026-10-02T01:23:03.631353+00:00",
+  "compressed_bytes": 3844072,
+  "compressed_sha256": "dc50a9e7cf6fd56cfbb7fa11381a6bcf3657a1e279131b66888ebbfb58652e76",
+  "decompressed_ndjson_sha256": "472b030e957bccc9f322e1191f0e877636fb2cf22decce39bfd9ee30b89e080f",
+  "record_count": 11351,
+  "event_type_counts": {
+    "CommitCommentEvent": 73,
+    "CreateEvent": 1471,
+    "DeleteEvent": 260,
+    "ForkEvent": 355,
+    "GollumEvent": 61,
+    "IssueCommentEvent": 844,
+    "IssuesEvent": 545,
+    "MemberEvent": 25,
+    "PublicEvent": 2,
+    "PullRequestEvent": 474,
+    "PullRequestReviewCommentEvent": 136,
+    "PushEvent": 5815,
+    "ReleaseEvent": 60,
+    "WatchEvent": 1230
+  },
+  "top_level_shape_count": 2,
+  "max_source_line_bytes": 58901,
+  "duplicate_textual_keys_detected": 0,
+  "scope": "Source discovery only; no package performance or fidelity run yet. Do not commit raw event contents."
+}

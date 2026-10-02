@@ -120,6 +120,40 @@ MessagePack baseline materializes all rows, so a streamed MessagePack comparator
 through separate unit and public-container tests. They strengthen those specific assertions;
 package-wide mutation coverage and correctness for all inputs remain unproved.
 
+## Fourth-wave progress and next CPU gate
+
+[Certain] The accepted ASCII sizing change retains byte-identical archives and
+measures 6.2–15.8% lower writer encode medians on four synthetic input/mode cases.
+The validated single-run RLE shortcut measures 7.9% lower public decode time for
+the constant-column case; other measured profiles have inconclusive small shifts.
+See [writer evidence](WRITER-CPU-PROFILE.md) and [RLE evidence](RLE-SINGLE-RUN.md).
+These targeted results do not establish general throughput leadership.
+
+[Likely] Next, prototype one bounded validation/snapshot traversal and prepared
+schema ingestion. Preserve built-in type restrictions, generator snapshots,
+cycle/depth/node/path/byte limits, and pre-allocation rejection. Measure the
+extra state and failure paths as well as CPU; reject a faster design if it
+weakens bounds or moves unchecked allocation into native serialization.
+
+[Certain] A source-discovery pass downloaded the public GH Archive hourly
+Events API archive for 2015-01-01 15:00 UTC: 11,351 records, 14 event types,
+3,844,072 compressed bytes, SHA-256
+`dc50a9e7cf6fd56cfbb7fa11381a6bcf3657a1e279131b66888ebbfb58652e76`.
+The discovery parse found no duplicate textual keys; no package performance
+or fidelity conclusion follows from discovery. Use the full parsed source in
+the next comparison, keep raw event contents outside the repository, and
+record parsing costs separately. Source: [GH Archive](https://www.gharchive.org/),
+[hourly input](https://data.gharchive.org/2015-01-01-15.json.gz).
+
+[Certain] A subsequent check passed the full 11,351 parsed records through
+`compress`/`decompress` and a lazy gzip/JSON generator through
+`write_records`/`iter_decompress`, using the independent recursive type/float-bit
+oracle. [Source metadata](evidence/public-gharchive-source.json) and
+[fidelity-only results](evidence/public-gharchive-fidelity-wave4.json) retain
+input/archive hashes. This checks supported parsed values on one real input;
+timing, native memory, original JSON text, and universal fidelity remain outside
+that result.
+
 ## Milestone 3: genuinely bounded writes using v3
 
 [Likely] Add a new writer that emits v3 chunks directly to a sink while retaining existing convenience APIs. A possible interface is `write_records(records, sink, *, target_chunk_bytes, max_chunk_records, limits, objective)`; final names and defaults require implementation design.
@@ -194,3 +228,22 @@ package-wide mutation coverage and correctness for all inputs remain unproved.
 [Likely] Implement JZ-01 through JZ-04 first. Develop the existing public-contract tests and benchmark corpus on isolated branches alongside it. Preserve the v3 wire grammar. Independently review each candidate, repair findings, run the combined checks, then commit and merge locally. Implement bounded writing after those gates pass. Keep access architecture and native implementation conditional on their measured experiments.
 
 [Likely] The decisive product demonstration is: changing JSON structures go in without a schema ceremony; supported values come back precisely; huge sources do not exhaust memory; selected records are accessible without reconstructing the archive; and a developer can install and use it immediately. Each part must be measured before it becomes a public promise.
+
+## Next CPU gate after fourth-wave measurement
+
+[Certain] The corrected streamed comparator shows the bounded writer takes about
+27–28 times longer to encode two measured profiles, with higher measured encode
+memory and smaller archives. First-row integrity differs, so forced-flush latency
+is not an equivalent verified service comparison.
+
+[Likely] The next implementation should isolate repeated inspection, snapshot,
+flattening, and encoded-body sizing before considering a native batch path. Keep
+the Python reference and every allocation guard, snapshot, cycle/depth, error,
+atomic-path, and caller-owned stream contract. Prototype on an isolated branch;
+accept only exact-oracle parity and paired CPU/RSS evidence including setup costs.
+Do not change the format or installation dependencies based on this hypothesis.
+
+[Certain] Public-data fidelity has been checked for 11,351 GH Archive records in
+current and minimum runtimes. Public-data performance, streaming decode memory,
+additional hosts, and adoption remain unmeasured. The next benchmark should pin
+that source and separately account for parsing, archive work, and integrity.

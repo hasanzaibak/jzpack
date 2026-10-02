@@ -171,8 +171,45 @@ full-dataset fidelity check. Decode timing materializes lists for every comparat
 isolated memory probes use lazy writer input and a hashing discard sink; timed writer runs retain the
 output archive and include hashing/chunk-observer overhead absent from the other encode timers;
 the report discloses this limitation. The writer lowers traced allocations but costs more encode CPU and can produce
-larger archives. A streamed MessagePack baseline, real public datasets, and additional host
-measurements are still needed before claiming memory or throughput leadership.
+larger archives. At that historical checkpoint, a streamed MessagePack baseline, real public datasets, and additional host
+measurements were still needed before claiming memory or throughput leadership. The fourth-wave
+comparison below supplies the streamed synthetic baseline.
+
+## Fourth-wave targeted improvements
+
+The [writer CPU profile and paired comparison](docs/WRITER-CPU-PROFILE.md) isolate
+the ASCII size helper on two larger synthetic profiles in prebuilt and lazy
+input modes. Three alternating pairs measure encode median reductions of
+6.2–15.8%, with byte-identical archives and exact round trips. The retained
+capture contains uncommitted candidate source hashes; its checkout HEAD is
+the baseline commit, and the unchanged writer was subsequently committed.
+These results support that helper change on the measured host and shapes.
+
+The [single-run RLE comparison](docs/RLE-SINGLE-RUN.md) shows a 7.9% public decode
+median reduction for a 10,000-row constant-column archive across 15 pairs.
+Nested and schema-diverse median shifts are small and inconclusive. The much
+larger direct-codec reductions do not describe whole-package throughput.
+
+The [streamed row comparison](docs/STREAMED-BASELINE.md) removes per-write hashing
+from every encode timer and uses an incremental MessagePack-array/Zstd baseline.
+Decode timing materializes lists for all methods; separate lazy-source memory
+probes use the same hashing discard sink. First-record probes distinguish
+validated JZ chunks from a forced-flush row available before final frame
+validation. That forced-flush probe is a separate policy from the normal
+streamed archive-size/encode measurements.
+
+On the schema-diverse and nested profiles, the JZPack writer takes about 27–28
+times longer to encode than the streamed baseline and has higher measured encode
+memory, while the baseline archives are 17.1% and 26.8% larger. Large-string
+encode times are similar. These measurements justify investigating repeated
+Python record walks and a bounded batch prototype; they do not establish native
+implementation benefits in advance.
+
+A separate [public GitHub event check](docs/evidence/public-gharchive-fidelity-wave4.json)
+round-trips all 11,351 parsed records through both list and lazy writer APIs in
+current and minimum runtimes. The [source record](docs/evidence/public-gharchive-source.json)
+pins the official GH Archive download. This is fidelity evidence only, without
+time or memory measurements; compressed bytes differ across dependency versions.
 
 ## Limits of these results
 

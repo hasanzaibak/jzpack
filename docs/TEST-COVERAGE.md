@@ -26,6 +26,10 @@ has been tested.
 | Shallow nested reconstruction retains exact values and record order | `tests/test_schema_reconstruction_performance.py::test_nested_schema_fast_path_preserves_exact_values_and_record_order` | Exercises direct two-segment paths, deeper fallback, sibling parents, literal dotted keys, nested arrays, extreme integers, signed zero, NaN payloads, and empty records through the public container. |
 | Critical fidelity assertions detect deliberate faulty implementations | `tests/test_fidelity_mutation_harness.py`; [mutation evidence](FIDELITY-MUTATIONS.md) | Source anchors fail closed, only disposable copies are mutated, and only explicit selected failure IDs count. Three opt-in mutants must fail separate direct and public-container tests; not general mutation coverage. |
 | Expanded corpus fidelity, comparator fairness, and CLI contracts | `tests/test_benchmark_corpus_wave3.py`; [corpus evidence](CORPUS-WAVE-3.md) | Golden fingerprints, exact UTF-8 sizes, missing/null and float-bit oracles, full-input Parquet eligibility, complete first chunks, equivalent list decode materialization, isolated probes, and redacted CLI failures. No noisy performance thresholds in unit CI. |
+| ASCII sizing preserves writer byte limits and Unicode failures | `tests/test_writer_ascii_size.py` | Fifteen cases cover empty/long ASCII, UTF-8 block boundaries, multibyte characters, surrogates, and exact public MessagePack record limits. |
+| Validated single-run RLE preserves value identity and allocation guards | `tests/test_rle_single_run.py` | Fifteen cases cover exact types/float bits, legacy nested aliases, host and caller output bounds before allocation, and public constant-column decoding. |
+| Writer diagnostics use their own checkout and reject changed frozen sources | `tests/test_writer_profile_contracts.py` | Seven cases include a real Git checkout with CRLF conversion enabled. Exact source-byte provenance remains a repository diagnostic contract. |
+| Streamed row comparator validates completion and truthful timing boundaries | `tests/test_streamed_baseline.py`; [comparison scope](STREAMED-BASELINE.md) | Count/header/MessagePack/frame/checksum/trailing-data failures, early rows before final checksum, short writes, exact values, timer cleanup, safe CLI errors, isolated sinks, and full runtime source provenance. This comparator is not a production untrusted-input reader. |
 
 ## Visible gaps
 
@@ -35,7 +39,7 @@ has been tested.
 - Thread safety and concurrent reuse are not documented or tested. This suite makes no concurrency guarantee.
 - `tests/test_codec_fidelity.py` checks a deliberate type- and bit-sensitive corpus; it does not prove every possible MessagePack value or codec boundary. The property and example suite remains non-exhaustive.
 - The local suite does not cover every supported Python/dependency combination or operating system. Atomic replacement behavior is fault-injected locally, but cross-platform filesystem semantics require platform CI.
-- The [writer probe](WRITER.md) measures 25K/100K/400K small repeated-schema rows with three isolated samples per size. RSS includes tracing overhead. The [expanded corpus](CORPUS-WAVE-3.md) adds schema-diverse, nested, and large-string isolated probes. Larger real sources, a streamed row baseline, writer-probe CLI tests, and broader mutation/fuzz campaigns remain separate verification work.
+- The [writer probe](WRITER.md) measures 25K/100K/400K small repeated-schema rows with three isolated samples per size. RSS includes tracing overhead. The [expanded corpus](CORPUS-WAVE-3.md) adds schema-diverse, nested, and large-string isolated probes. The [streamed comparator](STREAMED-BASELINE.md) uses separate encode-memory probes; it does not establish bounded decoder/source-I/O memory. Larger real sources, writer-probe CLI tests, and broader mutation/fuzz campaigns remain separate verification work.
 
 ## Combined local checkpoint
 
@@ -56,3 +60,18 @@ The second-wave coverage percentages above remain historical; coverage was not r
 this checkpoint. The [exact-release hosted matrix](https://github.com/hasanzaibak/jzpack/actions/runs/36940128021)
 subsequently passed for the 0.5.1 commit, including Python 3.10 minimum dependencies and
 macOS/Windows. Later source snapshots require their own platform evidence.
+
+## Fourth-wave checkpoint
+
+At core checkpoint `070cbf5` plus the 0.5.2 metadata/documentation delta, all 468
+tests pass in current Python 3.12 and minimum-dependency Python 3.11 environments.
+The four new groups add 64 distinct cases: ASCII sizing (15), RLE (15), diagnostic
+provenance (7), and streamed-comparator contracts (27). Ruff and compilation pass.
+The retained fourth-wave mutation reruns kill the same three selected fidelity
+faults through separate unit/public tests in both environments. No new coverage
+percentage or package-wide mutation claim is made.
+
+The separate public GH Archive check preserves all 11,351 parsed records through
+list and lazy writer APIs in both environments. It does not measure performance
+or establish JSON-text preservation. Dependency-version archive bytes may differ.
+Final release platform evidence requires its own hosted matrix.

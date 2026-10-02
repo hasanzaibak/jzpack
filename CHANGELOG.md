@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+## 0.5.2 — 2026-10-02
+
+- Size bounded ASCII strings without temporary UTF-8 encoding; preserve multibyte, surrogate, and hard-limit behavior.
+- Decode validated single-run RLE columns with list repetition after all count and output-limit checks.
+- Retain paired measurements, exact-value and boundary regressions, portable diagnostic source checks, and Git line-ending contracts.
+- Compare full-list and streamed MessagePack/Zstd with symmetric encode timing, exact round trips, isolated encode-memory probes, and explicit integrity/first-record caveats.
+
 ## 0.5.1 — 2026-10-01
 
 - Reconstruct two-segment nested schema paths directly, with exact-value regression coverage and retained paired decode measurements.

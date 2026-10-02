@@ -1,0 +1,24 @@
+{
+  "source_compressed_sha256": "dc50a9e7cf6fd56cfbb7fa11381a6bcf3657a1e279131b66888ebbfb58652e76",
+  "records": 11351,
+  "jzpack_metadata_version": "0.5.2",
+  "core_checkpoint": "492adad5afccf0b2b87188b9a4d0bfe19dd2feaf plus version-only 0.5.2 metadata",
+  "oracle": "benchmarks.corpus_wave3.records_difference recursive type/float-bit oracle",
+  "list_archive_bytes": 2946082,
+  "list_archive_sha256": "6128fb5feddc97526d7e46c715938ce8bd5c753c352d47873db9ea26fa74ddab",
+  "lazy_writer_archive_bytes": 3583000,
+  "lazy_writer_archive_sha256": "c02bd1befb5f368cf492e27b2073af7ffb40bb4d4247fdd589130c2e402c045f",
+  "exact_round_trip_list_and_lazy_writer": true,
+  "scope": "Fidelity-only check, not a timing or memory benchmark; original JSON text/key order are outside the parsed-value contract.",
+  "minimum_runtime_verification": {
+    "python": "3.11.15",
+    "msgpack": "1.0.0",
+    "zstandard": "0.21.0",
+    "zstandard_library": "1.5.5",
+    "exact_round_trip_list_and_lazy_writer": true,
+    "list_archive_sha256": "17dabde4f8a81b2539c59ce612b5665f902d8fb2907144e3a6c19b8229580c38",
+    "lazy_writer_archive_sha256": "14f92e1c8711a4411416508bedf4c160a2fcc866bdf7ce6f7623463b47442deb",
+    "archive_hashes_match_current_runtime": false,
+    "scope": "Exact decoded values match. Compressed bytes may differ across Zstandard versions; byte equality across dependency versions is not required."
+  }
+}

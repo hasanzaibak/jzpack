@@ -1,0 +1,69 @@
+{
+  "baseline": {
+    "failed_nodeids": [],
+    "returncode": 0,
+    "summary": "6 passed in 0.09s"
+  },
+  "baseline_nodeids": [
+    "tests/test_codec_fidelity.py::test_rle_preserves_exact_type_and_float_bits[signed-zero-distinction]",
+    "tests/test_codec_fidelity.py::test_rle_preserves_exact_type_and_float_bits[bool-int-distinction]",
+    "tests/test_codec_performance_contracts.py::test_direct_delta_encoder_still_rejects_malformed_inputs[unsafe-float-cancellation]",
+    "tests/test_codec_fidelity.py::test_default_codec_preserves_reproduced_values[signed-zero-rle]",
+    "tests/test_codec_fidelity.py::test_default_codec_preserves_reproduced_values[bool-and-int-rle]",
+    "tests/test_codec_fidelity.py::test_default_codec_preserves_reproduced_values[float-cancellation]"
+  ],
+  "baseline_source_sha256": "7a24623c54f0f21de910bbbbb267ed051efd29f2507354063f0675d41e048c87",
+  "mutations": [
+    {
+      "description": "Replace binary64-bit equality with Python float equality in both RLE comparisons.",
+      "killed_by": [
+        "tests/test_codec_fidelity.py::test_rle_preserves_exact_type_and_float_bits[signed-zero-distinction]",
+        "tests/test_codec_fidelity.py::test_default_codec_preserves_reproduced_values[signed-zero-rle]"
+      ],
+      "mutated_source_sha256": "43a3a1ea6c58e846ec42a93c4a851c44e5b923bf249990050f6aba603ca9bcb2",
+      "name": "ordinary-float-equality",
+      "public_container_test": "tests/test_codec_fidelity.py::test_default_codec_preserves_reproduced_values[signed-zero-rle]",
+      "pytest_summary": "2 failed in 0.07s",
+      "status": "killed-by-both",
+      "unexpected_failures": [],
+      "unit_test": "tests/test_codec_fidelity.py::test_rle_preserves_exact_type_and_float_bits[signed-zero-distinction]"
+    },
+    {
+      "description": "Allow Python-equal scalar values of different exact types to merge in RLE.",
+      "killed_by": [
+        "tests/test_codec_fidelity.py::test_rle_preserves_exact_type_and_float_bits[bool-int-distinction]",
+        "tests/test_codec_fidelity.py::test_default_codec_preserves_reproduced_values[bool-and-int-rle]"
+      ],
+      "mutated_source_sha256": "49fa4d04aeca1e586118b60324ccf02782ac163fad25de7b70653c884b9a5ce9",
+      "name": "bypass-scalar-type-guard",
+      "public_container_test": "tests/test_codec_fidelity.py::test_default_codec_preserves_reproduced_values[bool-and-int-rle]",
+      "pytest_summary": "2 failed in 0.07s",
+      "status": "killed-by-both",
+      "unexpected_failures": [],
+      "unit_test": "tests/test_codec_fidelity.py::test_rle_preserves_exact_type_and_float_bits[bool-int-distinction]"
+    },
+    {
+      "description": "Permit float values and deltas in the DELTA writer, reproducing cancellation loss.",
+      "killed_by": [
+        "tests/test_codec_performance_contracts.py::test_direct_delta_encoder_still_rejects_malformed_inputs[unsafe-float-cancellation]",
+        "tests/test_codec_fidelity.py::test_default_codec_preserves_reproduced_values[float-cancellation]"
+      ],
+      "mutated_source_sha256": "e18c094ccdbc6b862256f4c975dc79a79d157e7c1b7c266e73c1c96667689237",
+      "name": "unsafe-floating-delta",
+      "public_container_test": "tests/test_codec_fidelity.py::test_default_codec_preserves_reproduced_values[float-cancellation]",
+      "pytest_summary": "2 failed in 0.07s",
+      "status": "killed-by-both",
+      "unexpected_failures": [],
+      "unit_test": "tests/test_codec_performance_contracts.py::test_direct_delta_encoder_still_rejects_malformed_inputs[unsafe-float-cancellation]"
+    }
+  ],
+  "passed": true,
+  "repository_commit": "5a3ee0ea048c9eb794870ced2e9c79d61910b700",
+  "runtime": {
+    "msgpack": "1.0.0",
+    "msgpack_backend": "msgpack.fallback",
+    "python": "3.11.15",
+    "zstandard": "0.21.0"
+  },
+  "source_snapshot_sha256": "ab679096e41212eefd8d0f176ddbb67282446df6470771530e37dbb2233c8baa"
+}

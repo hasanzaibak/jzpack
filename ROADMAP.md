@@ -43,8 +43,10 @@ See the [implementation plan](docs/IMPLEMENTATION-PLAN.md) for acceptance gates 
 - [x] Add a bounded writer that sends independent chunks directly to sinks.
 - [x] Test row, byte, complexity, backpressure, cancellation, and atomic-output contracts.
 - [x] Add isolated RSS and allocation probes for schema-diverse, nested, and large-string workloads.
-- [ ] Extend scale validation to larger real sources and a streamed MessagePack comparison.
-- [ ] Reduce profiled bounded-writer CPU costs without weakening snapshots or limits.
+- [x] Reduce profiled ASCII sizing and validated single-run RLE decode costs, with retained paired evidence.
+- [x] Complete a genuinely streamed MessagePack comparison with disclosed integrity and memory boundaries.
+- [ ] Extend scale validation to larger real sources and additional hosts.
+- [ ] Reduce repeated bounded-writer inspection, snapshot, and encoded-body work without weakening limits.
 - [ ] Compare access architectures before selecting a new wire format.
 - [ ] Add optional schema evolution and projection/selective decoding.
 - [ ] Add random-access metadata for large archives.

@@ -210,3 +210,32 @@ records the hashes, gates, approval, and verification scope.
 The next experiments are isolated on `codex/jzpack-rle-single-run`, `codex/jzpack-writer-ascii`,
 and `codex/jzpack-streamed-baseline`. They are not included in 0.5.1; review and measurements
 must clear each exact candidate before integration. Universal performance leadership remains unproved.
+
+## Fourth-wave integration and 0.5.2 preparation
+
+Core checkpoint `070cbf5` integrates the single-run RLE change `a029f17`, ASCII
+sizing change `d7dd1d9`, diagnostic contracts `492adad`, and streamed comparison
+`070cbf5`. RLE, ASCII, and diagnostic changes received different-author read-only
+GO reviews. Two Luna reviewers then hit the account usage limit. The streamed
+comparison was cleared through the orchestrator's read-only cold second pass,
+explicitly self-review, after timing/lifecycle and provenance corrections. Its
+accepted four-file source manifest is
+`a02e7a315e4c53a1bfd96b90aa182e46660b3f83137b4ca0036f16ed5f02ba17`.
+
+All 468 tests pass in both current and exact-minimum local environments. Ruff,
+compilation, and whitespace checks pass. Selected fidelity mutations again fail
+the intended distinct unit/public assertions in both runtimes. The public GH
+Archive fidelity check preserves all 11,351 parsed records through list and lazy
+writer APIs in both runtimes, without a timing or memory claim.
+
+The unchanged API and v3 grammar are governed by README and FORMAT; the repo
+still has no architecture diagram index. The new baseline is a repository
+experiment, not a production decoder. [Its report](STREAMED-BASELINE.md) discloses
+known row count, checksum completion, whole-archive input/list decode, and native
+decompressor memory limitations. The writer is about 27–28 times slower to encode
+two measured profiles despite smaller archives. Native or combined record-walk
+work remains an experiment subject to fidelity, bounds, CPU, and RSS gates.
+
+The 0.5.2 package is prepared separately from published 0.5.1. Publication still
+requires its own built-wheel smoke check, exact-commit hosted matrix, configured
+trusted-publishing approval, official artifact hashes, and fresh installed smoke.
