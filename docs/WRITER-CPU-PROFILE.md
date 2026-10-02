@@ -75,6 +75,11 @@ exact before/after source hashes are retained in
 [`writer-ascii-paired-wave3.json`](../benchmarks/results/writer-ascii-paired-wave3.json).
 The baseline writer hash is `12298714f7180385d75646946fcf5b10585966a5654bb90afaf02584632378a0`;
 the candidate hash is `01f5613e83027cf90c9f81d62dc866f759deec94fa4be235eb1366a07f88661d`.
+The candidate was uncommitted during capture. The raw report's
+`candidate_revision` records the measurement checkout HEAD (`3f2e37e…`), which
+is also the baseline revision; it does not identify the patched writer bytes.
+The complete runtime source hashes identify those bytes. The unchanged
+candidate was subsequently committed at `d7dd1d9`.
 Combining validation with the defensive snapshot is a broader future
 experiment and was not included here.
 
@@ -98,6 +103,16 @@ source files:
 PYTHONPATH=. python benchmarks/compare_writer_ascii.py --samples 3 \
   --output /tmp/writer-ascii-paired.json
 ```
+
+For this historical paired comparison, use the candidate checkout at
+`d7dd1d9` with the other runtime sources matching the pinned baseline. The tool
+fails closed if any of those sources changed, so a later integration containing
+additional runtime changes cannot reproduce this isolated ASCII comparison
+directly. The live profiling tool can describe a later checkout independently.
+`tests/test_writer_profile_contracts.py` checks loading from an ordinary checkout
+and rejection of altered frozen corpus sources for both tools. Git attributes
+retain LF bytes for Python sources and JSON/historical source evidence; a real
+checkout test with CRLF conversion enabled verifies the pinned source hashes.
 
 The profile report contains sanitized function names, source paths, call
 counts, and times; the paired report contains input fingerprints, exact

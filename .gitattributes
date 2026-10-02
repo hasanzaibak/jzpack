@@ -1,0 +1,4 @@
+# Keep source and retained evidence byte hashes stable across Git checkouts.
+*.py text eol=lf
+*.json text eol=lf
+benchmarks/results/*.py.txt text eol=lf
