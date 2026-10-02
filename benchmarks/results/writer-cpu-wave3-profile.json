@@ -1,0 +1,3377 @@
+{
+  "cases": [
+    {
+      "canonical_input_bytes": 14363207,
+      "input_sha256": "76e060ef90cb9f6dd3366e52f75dd6f172d26f210165bdbcfabeadba7ab3cf91",
+      "methods": [
+        {
+          "archive_bytes": 1266330,
+          "archive_sha256": "ff90c1802188350abec29ebaf26049a2ecf0b70e41b6c23c4e743843065f1ac8",
+          "label": "compress(prebuilt-list)"
+        },
+        {
+          "archive_bytes": 1440234,
+          "archive_sha256": "efa68fde9810d7ace59ea08461abd14246c1cd4fff11a73c1bec83434ecd74bb",
+          "label": "write_records(prebuilt-list,BytesIO)"
+        },
+        {
+          "archive_bytes": 1440234,
+          "archive_sha256": "efa68fde9810d7ace59ea08461abd14246c1cd4fff11a73c1bec83434ecd74bb",
+          "label": "write_records(lazy-iter_records,BytesIO)"
+        }
+      ],
+      "profile": "schema-diverse",
+      "profiles": [
+        {
+          "label": "schema-diverse:compress(prebuilt-list)",
+          "profiled_wall_seconds": 0.580881,
+          "top_cumulative": [
+            {
+              "calls": 1,
+              "cumulative_seconds": 0.580851,
+              "file": "benchmarks/profile_writer_cpu.py",
+              "function": "<lambda>",
+              "line": 149,
+              "primitive_calls": 1,
+              "self_seconds": 1e-06
+            },
+            {
+              "calls": 1,
+              "cumulative_seconds": 0.58085,
+              "file": "jzpack/__init__.py",
+              "function": "compress",
+              "line": 28,
+              "primitive_calls": 1,
+              "self_seconds": 0.003361
+            },
+            {
+              "calls": 1,
+              "cumulative_seconds": 0.575334,
+              "file": "jzpack/compressor.py",
+              "function": "compress",
+              "line": 26,
+              "primitive_calls": 1,
+              "self_seconds": 0.000244
+            },
+            {
+              "calls": 1,
+              "cumulative_seconds": 0.452355,
+              "file": "jzpack/schema.py",
+              "function": "add_batch",
+              "line": 13,
+              "primitive_calls": 1,
+              "self_seconds": 0.004403
+            },
+            {
+              "calls": 49998,
+              "cumulative_seconds": 0.447892,
+              "file": "jzpack/schema.py",
+              "function": "add_record",
+              "line": 40,
+              "primitive_calls": 49998,
+              "self_seconds": 0.015761
+            },
+            {
+              "calls": 50000,
+              "cumulative_seconds": 0.270207,
+              "file": "jzpack/schema.py",
+              "function": "_flatten",
+              "line": 100,
+              "primitive_calls": 50000,
+              "self_seconds": 0.083686
+            },
+            {
+              "calls": 1457973,
+              "cumulative_seconds": 0.183604,
+              "file": "[extension/builtin]",
+              "function": "<built-in method builtins.isinstance>",
+              "line": 0,
+              "primitive_calls": 1457973,
+              "self_seconds": 0.085252
+            },
+            {
+              "calls": 49998,
+              "cumulative_seconds": 0.16197,
+              "file": "jzpack/schema.py",
+              "function": "_add_flat_record",
+              "line": 43,
+              "primitive_calls": 49998,
+              "self_seconds": 0.010137
+            },
+            {
+              "calls": 50000,
+              "cumulative_seconds": 0.12676,
+              "file": "jzpack/schema.py",
+              "function": "_add_flat_record_with_keys",
+              "line": 47,
+              "primitive_calls": 50000,
+              "self_seconds": 0.070143
+            },
+            {
+              "calls": 753983,
+              "cumulative_seconds": 0.098352,
+              "file": "<frozen abc>",
+              "function": "__instancecheck__",
+              "line": 117,
+              "primitive_calls": 753983,
+              "self_seconds": 0.050985
+            },
+            {
+              "calls": 1,
+              "cumulative_seconds": 0.097743,
+              "file": "jzpack/compressor.py",
+              "function": "_build_payload",
+              "line": 79,
+              "primitive_calls": 1,
+              "self_seconds": 0.001793
+            },
+            {
+              "calls": 7637,
+              "cumulative_seconds": 0.07354,
+              "file": "jzpack/analyzer.py",
+              "function": "encode",
+              "line": 92,
+              "primitive_calls": 7637,
+              "self_seconds": 0.001375
+            },
+            {
+              "calls": 7637,
+              "cumulative_seconds": 0.066247,
+              "file": "jzpack/analyzer.py",
+              "function": "determine_encoding",
+              "line": 19,
+              "primitive_calls": 7637,
+              "self_seconds": 0.002164
+            },
+            {
+              "calls": 753983,
+              "cumulative_seconds": 0.047367,
+              "file": "[extension/builtin]",
+              "function": "<built-in method _abc._abc_instancecheck>",
+              "line": 0,
+              "primitive_calls": 753983,
+              "self_seconds": 0.047314
+            },
+            {
+              "calls": 796946,
+              "cumulative_seconds": 0.03896,
+              "file": "[extension/builtin]",
+              "function": "<method 'append' of 'list' objects>",
+              "line": 0,
+              "primitive_calls": 796946,
+              "self_seconds": 0.03896
+            },
+            {
+              "calls": 2661,
+              "cumulative_seconds": 0.035887,
+              "file": "jzpack/analyzer.py",
+              "function": "_is_rle_suitable",
+              "line": 34,
+              "primitive_calls": 2661,
+              "self_seconds": 0.013601
+            },
+            {
+              "calls": 50000,
+              "cumulative_seconds": 0.025086,
+              "file": "[extension/builtin]",
+              "function": "<built-in method builtins.sorted>",
+              "line": 0,
+              "primitive_calls": 50000,
+              "self_seconds": 0.025086
+            },
+            {
+              "calls": 1,
+              "cumulative_seconds": 0.024944,
+              "file": "jzpack/compressor.py",
+              "function": "_serialize_v3_payload",
+              "line": 93,
+              "primitive_calls": 1,
+              "self_seconds": 9e-06
+            },
+            {
+              "calls": 1,
+              "cumulative_seconds": 0.024649,
+              "file": "jzpack/serializer.py",
+              "function": "serialize_with_body",
+              "line": 65,
+              "primitive_calls": 1,
+              "self_seconds": 6e-06
+            },
+            {
+              "calls": 2,
+              "cumulative_seconds": 0.022419,
+              "file": "jzpack/encoders.py",
+              "function": "encode",
+              "line": 52,
+              "primitive_calls": 2,
+              "self_seconds": 0.007209
+            },
+            {
+              "calls": 50000,
+              "cumulative_seconds": 0.019502,
+              "file": "jzpack/schema.py",
+              "function": "_get_schema_id",
+              "line": 117,
+              "primitive_calls": 50000,
+              "self_seconds": 0.019466
+            },
+            {
+              "calls": 1,
+              "cumulative_seconds": 0.016851,
+              "file": "jzpack/serializer.py",
+              "function": "serialize",
+              "line": 10,
+              "primitive_calls": 1,
+              "self_seconds": 2e-06
+            },
+            {
+              "calls": 135525,
+              "cumulative_seconds": 0.01523,
+              "file": "jzpack/encoders.py",
+              "function": "supports_value",
+              "line": 28,
+              "primitive_calls": 135525,
+              "self_seconds": 0.014081
+            },
+            {
+              "calls": 50011,
+              "cumulative_seconds": 0.013409,
+              "file": "jzpack/encoders.py",
+              "function": "values_equal",
+              "line": 35,
+              "primitive_calls": 50011,
+              "self_seconds": 0.008156
+            },
+            {
+              "calls": 2660,
+              "cumulative_seconds": 0.013193,
+              "file": "jzpack/encoders.py",
+              "function": "can_encode",
+              "line": 109,
+              "primitive_calls": 2660,
+              "self_seconds": 0.006743
+            },
+            {
+              "calls": 82853,
+              "cumulative_seconds": 0.012222,
+              "file": "jzpack/encoders.py",
+              "function": "_supported_values_equal",
+              "line": 43,
+              "primitive_calls": 82853,
+              "self_seconds": 0.010482
+            },
+            {
+              "calls": 1,
+              "cumulative_seconds": 0.007721,
+              "file": "jzpack/serializer.py",
+              "function": "compress",
+              "line": 27,
+              "primitive_calls": 1,
+              "self_seconds": 4e-06
+            },
+            {
+              "calls": 1,
+              "cumulative_seconds": 0.007717,
+              "file": "[extension/builtin]",
+              "function": "<method 'compress' of 'zstandard.backend_c.ZstdCompressor' objects>",
+              "line": 0,
+              "primitive_calls": 1,
+              "self_seconds": 0.007717
+            },
+            {
+              "calls": 124988,
+              "cumulative_seconds": 0.007578,
+              "file": "jzpack/encoders.py",
+              "function": "_is_supported_integer",
+              "line": 12,
+              "primitive_calls": 124988,
+              "self_seconds": 0.007578
+            },
+            {
+              "calls": 307,
+              "cumulative_seconds": 0.006725,
+              "file": "jzpack/analyzer.py",
+              "function": "_is_dictionary_suitable",
+              "line": 75,
+              "primitive_calls": 307,
+              "self_seconds": 0.003229
+            }
+          ],
+          "top_self": [
+            {
+              "calls": 1457973,
+              "cumulative_seconds": 0.183604,
+              "file": "[extension/builtin]",
+              "function": "<built-in method builtins.isinstance>",
+              "line": 0,
+              "primitive_calls": 1457973,
+              "self_seconds": 0.085252
+            },
+            {
+              "calls": 50000,
+              "cumulative_seconds": 0.270207,
+              "file": "jzpack/schema.py",
+              "function": "_flatten",
+              "line": 100,
+              "primitive_calls": 50000,
+              "self_seconds": 0.083686
+            },
+            {
+              "calls": 50000,
+              "cumulative_seconds": 0.12676,
+              "file": "jzpack/schema.py",
+              "function": "_add_flat_record_with_keys",
+              "line": 47,
+              "primitive_calls": 50000,
+              "self_seconds": 0.070143
+            },
+            {
+              "calls": 753983,
+              "cumulative_seconds": 0.098352,
+              "file": "<frozen abc>",
+              "function": "__instancecheck__",
+              "line": 117,
+              "primitive_calls": 753983,
+              "self_seconds": 0.050985
+            },
+            {
+              "calls": 753983,
+              "cumulative_seconds": 0.047367,
+              "file": "[extension/builtin]",
+              "function": "<built-in method _abc._abc_instancecheck>",
+              "line": 0,
+              "primitive_calls": 753983,
+              "self_seconds": 0.047314
+            },
+            {
+              "calls": 796946,
+              "cumulative_seconds": 0.03896,
+              "file": "[extension/builtin]",
+              "function": "<method 'append' of 'list' objects>",
+              "line": 0,
+              "primitive_calls": 796946,
+              "self_seconds": 0.03896
+            },
+            {
+              "calls": 50000,
+              "cumulative_seconds": 0.025086,
+              "file": "[extension/builtin]",
+              "function": "<built-in method builtins.sorted>",
+              "line": 0,
+              "primitive_calls": 50000,
+              "self_seconds": 0.025086
+            },
+            {
+              "calls": 50000,
+              "cumulative_seconds": 0.019502,
+              "file": "jzpack/schema.py",
+              "function": "_get_schema_id",
+              "line": 117,
+              "primitive_calls": 50000,
+              "self_seconds": 0.019466
+            },
+            {
+              "calls": 49998,
+              "cumulative_seconds": 0.447892,
+              "file": "jzpack/schema.py",
+              "function": "add_record",
+              "line": 40,
+              "primitive_calls": 49998,
+              "self_seconds": 0.015761
+            },
+            {
+              "calls": 135525,
+              "cumulative_seconds": 0.01523,
+              "file": "jzpack/encoders.py",
+              "function": "supports_value",
+              "line": 28,
+              "primitive_calls": 135525,
+              "self_seconds": 0.014081
+            },
+            {
+              "calls": 2661,
+              "cumulative_seconds": 0.035887,
+              "file": "jzpack/analyzer.py",
+              "function": "_is_rle_suitable",
+              "line": 34,
+              "primitive_calls": 2661,
+              "self_seconds": 0.013601
+            },
+            {
+              "calls": 82853,
+              "cumulative_seconds": 0.012222,
+              "file": "jzpack/encoders.py",
+              "function": "_supported_values_equal",
+              "line": 43,
+              "primitive_calls": 82853,
+              "self_seconds": 0.010482
+            },
+            {
+              "calls": 49998,
+              "cumulative_seconds": 0.16197,
+              "file": "jzpack/schema.py",
+              "function": "_add_flat_record",
+              "line": 43,
+              "primitive_calls": 49998,
+              "self_seconds": 0.010137
+            },
+            {
+              "calls": 50011,
+              "cumulative_seconds": 0.013409,
+              "file": "jzpack/encoders.py",
+              "function": "values_equal",
+              "line": 35,
+              "primitive_calls": 50011,
+              "self_seconds": 0.008156
+            },
+            {
+              "calls": 1,
+              "cumulative_seconds": 0.007717,
+              "file": "[extension/builtin]",
+              "function": "<method 'compress' of 'zstandard.backend_c.ZstdCompressor' objects>",
+              "line": 0,
+              "primitive_calls": 1,
+              "self_seconds": 0.007717
+            },
+            {
+              "calls": 124988,
+              "cumulative_seconds": 0.007578,
+              "file": "jzpack/encoders.py",
+              "function": "_is_supported_integer",
+              "line": 12,
+              "primitive_calls": 124988,
+              "self_seconds": 0.007578
+            },
+            {
+              "calls": 2,
+              "cumulative_seconds": 0.022419,
+              "file": "jzpack/encoders.py",
+              "function": "encode",
+              "line": 52,
+              "primitive_calls": 2,
+              "self_seconds": 0.007209
+            },
+            {
+              "calls": 2660,
+              "cumulative_seconds": 0.013193,
+              "file": "jzpack/encoders.py",
+              "function": "can_encode",
+              "line": 109,
+              "primitive_calls": 2660,
+              "self_seconds": 0.006743
+            },
+            {
+              "calls": 58152,
+              "cumulative_seconds": 0.004947,
+              "file": "jzpack/analyzer.py",
+              "function": "<genexpr>",
+              "line": 29,
+              "primitive_calls": 58152,
+              "self_seconds": 0.004947
+            },
+            {
+              "calls": 1,
+              "cumulative_seconds": 0.452355,
+              "file": "jzpack/schema.py",
+              "function": "add_batch",
+              "line": 13,
+              "primitive_calls": 1,
+              "self_seconds": 0.004403
+            },
+            {
+              "calls": 1,
+              "cumulative_seconds": 0.58085,
+              "file": "jzpack/__init__.py",
+              "function": "compress",
+              "line": 28,
+              "primitive_calls": 1,
+              "self_seconds": 0.003361
+            },
+            {
+              "calls": 307,
+              "cumulative_seconds": 0.006725,
+              "file": "jzpack/analyzer.py",
+              "function": "_is_dictionary_suitable",
+              "line": 75,
+              "primitive_calls": 307,
+              "self_seconds": 0.003229
+            },
+            {
+              "calls": 50001,
+              "cumulative_seconds": 0.002963,
+              "file": "[extension/builtin]",
+              "function": "<method 'items' of 'dict' objects>",
+              "line": 0,
+              "primitive_calls": 50001,
+              "self_seconds": 0.002963
+            },
+            {
+              "calls": 45655,
+              "cumulative_seconds": 0.002757,
+              "file": "[extension/builtin]",
+              "function": "<method 'add' of 'set' objects>",
+              "line": 0,
+              "primitive_calls": 45655,
+              "self_seconds": 0.002757
+            },
+            {
+              "calls": 13,
+              "cumulative_seconds": 0.004078,
+              "file": "jzpack/encoders.py",
+              "function": "encode",
+              "line": 195,
+              "primitive_calls": 13,
+              "self_seconds": 0.002253
+            },
+            {
+              "calls": 7637,
+              "cumulative_seconds": 0.066247,
+              "file": "jzpack/analyzer.py",
+              "function": "determine_encoding",
+              "line": 19,
+              "primitive_calls": 7637,
+              "self_seconds": 0.002164
+            },
+            {
+              "calls": 1,
+              "cumulative_seconds": 0.002144,
+              "file": "jzpack/serializer.py",
+              "function": "__init__",
+              "line": 20,
+              "primitive_calls": 1,
+              "self_seconds": 0.002144
+            },
+            {
+              "calls": 2660,
+              "cumulative_seconds": 0.006584,
+              "file": "[extension/builtin]",
+              "function": "<built-in method builtins.all>",
+              "line": 0,
+              "primitive_calls": 2660,
+              "self_seconds": 0.001821
+            },
+            {
+              "calls": 1,
+              "cumulative_seconds": 0.097743,
+              "file": "jzpack/compressor.py",
+              "function": "_build_payload",
+              "line": 79,
+              "primitive_calls": 1,
+              "self_seconds": 0.001793
+            },
+            {
+              "calls": 38420,
+              "cumulative_seconds": 0.001753,
+              "file": "[extension/builtin]",
+              "function": "<method 'get' of 'dict' objects>",
+              "line": 0,
+              "primitive_calls": 38420,
+              "self_seconds": 0.001753
+            }
+          ]
+        },
+        {
+          "label": "schema-diverse:write_records(prebuilt-list,BytesIO)",
+          "profiled_wall_seconds": 3.829931,
+          "top_cumulative": [
+            {
+              "calls": 1,
+              "cumulative_seconds": 3.829901,
+              "file": "benchmarks/profile_writer_cpu.py",
+              "function": "<lambda>",
+              "line": 157,
+              "primitive_calls": 1,
+              "self_seconds": 1e-06
+            },
+            {
+              "calls": 1,
+              "cumulative_seconds": 3.8299,
+              "file": "benchmarks/profile_writer_cpu.py",
+              "function": "_profile_writer",
+              "line": 123,
+              "primitive_calls": 1,
+              "self_seconds": 6e-06
+            },
+            {
+              "calls": 1,
+              "cumulative_seconds": 3.829893,
+              "file": "jzpack/writer.py",
+              "function": "write_records",
+              "line": 270,
+              "primitive_calls": 1,
+              "self_seconds": 6.2e-05
+            },
+            {
+              "calls": 1,
+              "cumulative_seconds": 3.829803,
+              "file": "jzpack/writer.py",
+              "function": "_write_stream",
+              "line": 323,
+              "primitive_calls": 1,
+              "self_seconds": 0.050247
+            },
+            {
+              "calls": 50000,
+              "cumulative_seconds": 1.583661,
+              "file": "jzpack/writer.py",
+              "function": "inspect",
+              "line": 85,
+              "primitive_calls": 50000,
+              "self_seconds": 0.024402
+            },
+            {
+              "calls": 50000,
+              "cumulative_seconds": 1.540867,
+              "file": "jzpack/writer.py",
+              "function": "_measure_mapping",
+              "line": 129,
+              "primitive_calls": 50000,
+              "self_seconds": 0.507493
+            },
+            {
+              "calls": 23,
+              "cumulative_seconds": 1.213911,
+              "file": "jzpack/writer.py",
+              "function": "_flush_chunk",
+              "line": 356,
+              "primitive_calls": 23,
+              "self_seconds": 0.00178
+            },
+            {
+              "calls": 23,
+              "cumulative_seconds": 1.211162,
+              "file": "jzpack/writer.py",
+              "function": "encode",
+              "line": 248,
+              "primitive_calls": 23,
+              "self_seconds": 7.2e-05
+            },
+            {
+              "calls": 23,
+              "cumulative_seconds": 1.057818,
+              "file": "jzpack/writer.py",
+              "function": "_messagepack_size",
+              "line": 574,
+              "primitive_calls": 23,
+              "self_seconds": 1.8e-05
+            },
+            {
+              "calls": 1234092,
+              "cumulative_seconds": 1.0578,
+              "file": "jzpack/writer.py",
+              "function": "visit",
+              "line": 590,
+              "primitive_calls": 23,
+              "self_seconds": 0.416151
+            },
+            {
+              "calls": 1257667,
+              "cumulative_seconds": 0.607144,
+              "file": "jzpack/writer.py",
+              "function": "_string_utf8_size",
+              "line": 658,
+              "primitive_calls": 1257667,
+              "self_seconds": 0.404674
+            },
+            {
+              "calls": 50000,
+              "cumulative_seconds": 0.546563,
+              "file": "jzpack/writer.py",
+              "function": "add",
+              "line": 232,
+              "primitive_calls": 50000,
+              "self_seconds": 0.016821
+            },
+            {
+              "calls": 1021353,
+              "cumulative_seconds": 0.544713,
+              "file": "jzpack/writer.py",
+              "function": "add_scalar",
+              "line": 583,
+              "primitive_calls": 1021353,
+              "self_seconds": 0.172092
+            },
+            {
+              "calls": 50000,
+              "cumulative_seconds": 0.518088,
+              "file": "jzpack/schema.py",
+              "function": "add_record",
+              "line": 40,
+              "primitive_calls": 50000,
+              "self_seconds": 0.018885
+            },
+            {
+              "calls": 1725335,
+              "cumulative_seconds": 0.512461,
+              "file": "jzpack/writer.py",
+              "function": "_scalar_size",
+              "line": 672,
+              "primitive_calls": 1725335,
+              "self_seconds": 0.230499
+            },
+            {
+              "calls": 703982,
+              "cumulative_seconds": 0.479869,
+              "file": "jzpack/writer.py",
+              "function": "_measure_value",
+              "line": 177,
+              "primitive_calls": 703982,
+              "self_seconds": 0.220696
+            },
+            {
+              "calls": 50000,
+              "cumulative_seconds": 0.401974,
+              "file": "jzpack/writer.py",
+              "function": "_prepare_record",
+              "line": 482,
+              "primitive_calls": 50000,
+              "self_seconds": 0.031482
+            },
+            {
+              "calls": 753982,
+              "cumulative_seconds": 0.323397,
+              "file": "jzpack/writer.py",
+              "function": "_snapshot_value",
+              "line": 493,
+              "primitive_calls": 50000,
+              "self_seconds": 0.264401
+            },
+            {
+              "calls": 50000,
+              "cumulative_seconds": 0.317585,
+              "file": "jzpack/schema.py",
+              "function": "_flatten",
+              "line": 100,
+              "primitive_calls": 50000,
+              "self_seconds": 0.095618
+            },
+            {
+              "calls": 2900842,
+              "cumulative_seconds": 0.282912,
+              "file": "[extension/builtin]",
+              "function": "<built-in method builtins.isinstance>",
+              "line": 0,
+              "primitive_calls": 2900842,
+              "self_seconds": 0.166465
+            },
+            {
+              "calls": 50000,
+              "cumulative_seconds": 0.181618,
+              "file": "jzpack/schema.py",
+              "function": "_add_flat_record",
+              "line": 43,
+              "primitive_calls": 50000,
+              "self_seconds": 0.0133
+            },
+            {
+              "calls": 4354621,
+              "cumulative_seconds": 0.144606,
+              "file": "[extension/builtin]",
+              "function": "<built-in method builtins.len>",
+              "line": 0,
+              "primitive_calls": 4354621,
+              "self_seconds": 0.144606
+            },
+            {
+              "calls": 50000,
+              "cumulative_seconds": 0.141725,
+              "file": "jzpack/schema.py",
+              "function": "_add_flat_record_with_keys",
+              "line": 47,
+              "primitive_calls": 50000,
+              "self_seconds": 0.080478
+            },
+            {
+              "calls": 23,
+              "cumulative_seconds": 0.129411,
+              "file": "jzpack/compressor.py",
+              "function": "_build_payload",
+              "line": 79,
+              "primitive_calls": 23,
+              "self_seconds": 0.013057
+            },
+            {
+              "calls": 753985,
+              "cumulative_seconds": 0.116447,
+              "file": "<frozen abc>",
+              "function": "__instancecheck__",
+              "line": 117,
+              "primitive_calls": 753985,
+              "self_seconds": 0.06063
+            },
+            {
+              "calls": 52584,
+              "cumulative_seconds": 0.093731,
+              "file": "jzpack/analyzer.py",
+              "function": "encode",
+              "line": 92,
+              "primitive_calls": 52584,
+              "self_seconds": 0.008854
+            },
+            {
+              "calls": 1257667,
+              "cumulative_seconds": 0.082733,
+              "file": "[extension/builtin]",
+              "function": "<method 'encode' of 'str' objects>",
+              "line": 0,
+              "primitive_calls": 1257667,
+              "self_seconds": 0.082733
+            },
+            {
+              "calls": 1457964,
+              "cumulative_seconds": 0.079808,
+              "file": "jzpack/writer.py",
+              "function": "_add_bytes",
+              "line": 96,
+              "primitive_calls": 1457964,
+              "self_seconds": 0.079808
+            },
+            {
+              "calls": 52584,
+              "cumulative_seconds": 0.068994,
+              "file": "jzpack/analyzer.py",
+              "function": "determine_encoding",
+              "line": 19,
+              "primitive_calls": 52584,
+              "self_seconds": 0.00793
+            },
+            {
+              "calls": 1457964,
+              "cumulative_seconds": 0.065448,
+              "file": "jzpack/writer.py",
+              "function": "_add_node",
+              "line": 101,
+              "primitive_calls": 1457964,
+              "self_seconds": 0.065448
+            }
+          ],
+          "top_self": [
+            {
+              "calls": 50000,
+              "cumulative_seconds": 1.540867,
+              "file": "jzpack/writer.py",
+              "function": "_measure_mapping",
+              "line": 129,
+              "primitive_calls": 50000,
+              "self_seconds": 0.507493
+            },
+            {
+              "calls": 1234092,
+              "cumulative_seconds": 1.0578,
+              "file": "jzpack/writer.py",
+              "function": "visit",
+              "line": 590,
+              "primitive_calls": 23,
+              "self_seconds": 0.416151
+            },
+            {
+              "calls": 1257667,
+              "cumulative_seconds": 0.607144,
+              "file": "jzpack/writer.py",
+              "function": "_string_utf8_size",
+              "line": 658,
+              "primitive_calls": 1257667,
+              "self_seconds": 0.404674
+            },
+            {
+              "calls": 753982,
+              "cumulative_seconds": 0.323397,
+              "file": "jzpack/writer.py",
+              "function": "_snapshot_value",
+              "line": 493,
+              "primitive_calls": 50000,
+              "self_seconds": 0.264401
+            },
+            {
+              "calls": 1725335,
+              "cumulative_seconds": 0.512461,
+              "file": "jzpack/writer.py",
+              "function": "_scalar_size",
+              "line": 672,
+              "primitive_calls": 1725335,
+              "self_seconds": 0.230499
+            },
+            {
+              "calls": 703982,
+              "cumulative_seconds": 0.479869,
+              "file": "jzpack/writer.py",
+              "function": "_measure_value",
+              "line": 177,
+              "primitive_calls": 703982,
+              "self_seconds": 0.220696
+            },
+            {
+              "calls": 1021353,
+              "cumulative_seconds": 0.544713,
+              "file": "jzpack/writer.py",
+              "function": "add_scalar",
+              "line": 583,
+              "primitive_calls": 1021353,
+              "self_seconds": 0.172092
+            },
+            {
+              "calls": 2900842,
+              "cumulative_seconds": 0.282912,
+              "file": "[extension/builtin]",
+              "function": "<built-in method builtins.isinstance>",
+              "line": 0,
+              "primitive_calls": 2900842,
+              "self_seconds": 0.166465
+            },
+            {
+              "calls": 4354621,
+              "cumulative_seconds": 0.144606,
+              "file": "[extension/builtin]",
+              "function": "<built-in method builtins.len>",
+              "line": 0,
+              "primitive_calls": 4354621,
+              "self_seconds": 0.144606
+            },
+            {
+              "calls": 50000,
+              "cumulative_seconds": 0.317585,
+              "file": "jzpack/schema.py",
+              "function": "_flatten",
+              "line": 100,
+              "primitive_calls": 50000,
+              "self_seconds": 0.095618
+            },
+            {
+              "calls": 1257667,
+              "cumulative_seconds": 0.082733,
+              "file": "[extension/builtin]",
+              "function": "<method 'encode' of 'str' objects>",
+              "line": 0,
+              "primitive_calls": 1257667,
+              "self_seconds": 0.082733
+            },
+            {
+              "calls": 50000,
+              "cumulative_seconds": 0.141725,
+              "file": "jzpack/schema.py",
+              "function": "_add_flat_record_with_keys",
+              "line": 47,
+              "primitive_calls": 50000,
+              "self_seconds": 0.080478
+            },
+            {
+              "calls": 1457964,
+              "cumulative_seconds": 0.079808,
+              "file": "jzpack/writer.py",
+              "function": "_add_bytes",
+              "line": 96,
+              "primitive_calls": 1457964,
+              "self_seconds": 0.079808
+            },
+            {
+              "calls": 1457964,
+              "cumulative_seconds": 0.065448,
+              "file": "jzpack/writer.py",
+              "function": "_add_node",
+              "line": 101,
+              "primitive_calls": 1457964,
+              "self_seconds": 0.065448
+            },
+            {
+              "calls": 1234092,
+              "cumulative_seconds": 0.062814,
+              "file": "jzpack/writer.py",
+              "function": "add",
+              "line": 577,
+              "primitive_calls": 1234092,
+              "self_seconds": 0.062814
+            },
+            {
+              "calls": 753985,
+              "cumulative_seconds": 0.116447,
+              "file": "<frozen abc>",
+              "function": "__instancecheck__",
+              "line": 117,
+              "primitive_calls": 753985,
+              "self_seconds": 0.06063
+            },
+            {
+              "calls": 100000,
+              "cumulative_seconds": 0.057348,
+              "file": "[extension/builtin]",
+              "function": "<built-in method builtins.sorted>",
+              "line": 0,
+              "primitive_calls": 100000,
+              "self_seconds": 0.057348
+            },
+            {
+              "calls": 753985,
+              "cumulative_seconds": 0.055818,
+              "file": "[extension/builtin]",
+              "function": "<built-in method _abc._abc_instancecheck>",
+              "line": 0,
+              "primitive_calls": 753985,
+              "self_seconds": 0.055812
+            },
+            {
+              "calls": 845637,
+              "cumulative_seconds": 0.05419,
+              "file": "[extension/builtin]",
+              "function": "<method 'add' of 'set' objects>",
+              "line": 0,
+              "primitive_calls": 845637,
+              "self_seconds": 0.05419
+            },
+            {
+              "calls": 703982,
+              "cumulative_seconds": 0.052714,
+              "file": "jzpack/writer.py",
+              "function": "_add_schema_path",
+              "line": 106,
+              "primitive_calls": 703982,
+              "self_seconds": 0.052714
+            },
+            {
+              "calls": 1,
+              "cumulative_seconds": 3.829803,
+              "file": "jzpack/writer.py",
+              "function": "_write_stream",
+              "line": 323,
+              "primitive_calls": 1,
+              "self_seconds": 0.050247
+            },
+            {
+              "calls": 1257667,
+              "cumulative_seconds": 0.049445,
+              "file": "jzpack/writer.py",
+              "function": "_string_header_size",
+              "line": 636,
+              "primitive_calls": 1257667,
+              "self_seconds": 0.049445
+            },
+            {
+              "calls": 797524,
+              "cumulative_seconds": 0.042409,
+              "file": "[extension/builtin]",
+              "function": "<method 'append' of 'list' objects>",
+              "line": 0,
+              "primitive_calls": 797524,
+              "self_seconds": 0.042409
+            },
+            {
+              "calls": 50000,
+              "cumulative_seconds": 0.401974,
+              "file": "jzpack/writer.py",
+              "function": "_prepare_record",
+              "line": 482,
+              "primitive_calls": 50000,
+              "self_seconds": 0.031482
+            },
+            {
+              "calls": 50000,
+              "cumulative_seconds": 1.583661,
+              "file": "jzpack/writer.py",
+              "function": "inspect",
+              "line": 85,
+              "primitive_calls": 50000,
+              "self_seconds": 0.024402
+            },
+            {
+              "calls": 50000,
+              "cumulative_seconds": 0.020785,
+              "file": "jzpack/schema.py",
+              "function": "_get_schema_id",
+              "line": 117,
+              "primitive_calls": 50000,
+              "self_seconds": 0.020576
+            },
+            {
+              "calls": 50000,
+              "cumulative_seconds": 0.518088,
+              "file": "jzpack/schema.py",
+              "function": "add_record",
+              "line": 40,
+              "primitive_calls": 50000,
+              "self_seconds": 0.018885
+            },
+            {
+              "calls": 50000,
+              "cumulative_seconds": 0.01732,
+              "file": "jzpack/writer.py",
+              "function": "_must_flush",
+              "line": 447,
+              "primitive_calls": 50000,
+              "self_seconds": 0.017087
+            },
+            {
+              "calls": 50000,
+              "cumulative_seconds": 0.546563,
+              "file": "jzpack/writer.py",
+              "function": "add",
+              "line": 232,
+              "primitive_calls": 50000,
+              "self_seconds": 0.016821
+            },
+            {
+              "calls": 206908,
+              "cumulative_seconds": 0.015154,
+              "file": "[extension/builtin]",
+              "function": "<method 'items' of 'dict' objects>",
+              "line": 0,
+              "primitive_calls": 206908,
+              "self_seconds": 0.015154
+            }
+          ]
+        },
+        {
+          "label": "schema-diverse:write_records(lazy-iter_records,BytesIO)",
+          "profiled_wall_seconds": 4.182238,
+          "top_cumulative": [
+            {
+              "calls": 1,
+              "cumulative_seconds": 4.182214,
+              "file": "benchmarks/profile_writer_cpu.py",
+              "function": "<lambda>",
+              "line": 165,
+              "primitive_calls": 1,
+              "self_seconds": 2e-06
+            },
+            {
+              "calls": 1,
+              "cumulative_seconds": 4.182212,
+              "file": "benchmarks/profile_writer_cpu.py",
+              "function": "_profile_writer",
+              "line": 123,
+              "primitive_calls": 1,
+              "self_seconds": 5e-06
+            },
+            {
+              "calls": 1,
+              "cumulative_seconds": 4.182204,
+              "file": "jzpack/writer.py",
+              "function": "write_records",
+              "line": 270,
+              "primitive_calls": 1,
+              "self_seconds": 8.5e-05
+            },
+            {
+              "calls": 1,
+              "cumulative_seconds": 4.182088,
+              "file": "jzpack/writer.py",
+              "function": "_write_stream",
+              "line": 323,
+              "primitive_calls": 1,
+              "self_seconds": 0.058578
+            },
+            {
+              "calls": 50000,
+              "cumulative_seconds": 1.578019,
+              "file": "jzpack/writer.py",
+              "function": "inspect",
+              "line": 85,
+              "primitive_calls": 50000,
+              "self_seconds": 0.024015
+            },
+            {
+              "calls": 50000,
+              "cumulative_seconds": 1.53529,
+              "file": "jzpack/writer.py",
+              "function": "_measure_mapping",
+              "line": 129,
+              "primitive_calls": 50000,
+              "self_seconds": 0.501252
+            },
+            {
+              "calls": 23,
+              "cumulative_seconds": 1.189681,
+              "file": "jzpack/writer.py",
+              "function": "_flush_chunk",
+              "line": 356,
+              "primitive_calls": 23,
+              "self_seconds": 0.001798
+            },
+            {
+              "calls": 23,
+              "cumulative_seconds": 1.186969,
+              "file": "jzpack/writer.py",
+              "function": "encode",
+              "line": 248,
+              "primitive_calls": 23,
+              "self_seconds": 6e-05
+            },
+            {
+              "calls": 23,
+              "cumulative_seconds": 1.035014,
+              "file": "jzpack/writer.py",
+              "function": "_messagepack_size",
+              "line": 574,
+              "primitive_calls": 23,
+              "self_seconds": 1.6e-05
+            },
+            {
+              "calls": 1234092,
+              "cumulative_seconds": 1.034999,
+              "file": "jzpack/writer.py",
+              "function": "visit",
+              "line": 590,
+              "primitive_calls": 23,
+              "self_seconds": 0.406404
+            },
+            {
+              "calls": 1257667,
+              "cumulative_seconds": 0.603526,
+              "file": "jzpack/writer.py",
+              "function": "_string_utf8_size",
+              "line": 658,
+              "primitive_calls": 1257667,
+              "self_seconds": 0.400721
+            },
+            {
+              "calls": 50000,
+              "cumulative_seconds": 0.545949,
+              "file": "jzpack/writer.py",
+              "function": "add",
+              "line": 232,
+              "primitive_calls": 50000,
+              "self_seconds": 0.016426
+            },
+            {
+              "calls": 1021353,
+              "cumulative_seconds": 0.534272,
+              "file": "jzpack/writer.py",
+              "function": "add_scalar",
+              "line": 583,
+              "primitive_calls": 1021353,
+              "self_seconds": 0.168022
+            },
+            {
+              "calls": 50000,
+              "cumulative_seconds": 0.518217,
+              "file": "jzpack/schema.py",
+              "function": "add_record",
+              "line": 40,
+              "primitive_calls": 50000,
+              "self_seconds": 0.018792
+            },
+            {
+              "calls": 1725335,
+              "cumulative_seconds": 0.510172,
+              "file": "jzpack/writer.py",
+              "function": "_scalar_size",
+              "line": 672,
+              "primitive_calls": 1725335,
+              "self_seconds": 0.230603
+            },
+            {
+              "calls": 703982,
+              "cumulative_seconds": 0.481688,
+              "file": "jzpack/writer.py",
+              "function": "_measure_value",
+              "line": 177,
+              "primitive_calls": 703982,
+              "self_seconds": 0.22206
+            },
+            {
+              "calls": 50000,
+              "cumulative_seconds": 0.403938,
+              "file": "jzpack/writer.py",
+              "function": "_prepare_record",
+              "line": 482,
+              "primitive_calls": 50000,
+              "self_seconds": 0.031883
+            },
+            {
+              "calls": 50001,
+              "cumulative_seconds": 0.373772,
+              "file": "benchmarks/corpus_wave3.py",
+              "function": "iter_records",
+              "line": 21,
+              "primitive_calls": 50001,
+              "self_seconds": 0.005486
+            },
+            {
+              "calls": 50001,
+              "cumulative_seconds": 0.368285,
+              "file": "benchmarks/corpus_wave3.py",
+              "function": "_schema_diverse",
+              "line": 146,
+              "primitive_calls": 50001,
+              "self_seconds": 0.231045
+            },
+            {
+              "calls": 753982,
+              "cumulative_seconds": 0.325304,
+              "file": "jzpack/writer.py",
+              "function": "_snapshot_value",
+              "line": 493,
+              "primitive_calls": 50000,
+              "self_seconds": 0.266651
+            },
+            {
+              "calls": 50000,
+              "cumulative_seconds": 0.317562,
+              "file": "jzpack/schema.py",
+              "function": "_flatten",
+              "line": 100,
+              "primitive_calls": 50000,
+              "self_seconds": 0.095592
+            },
+            {
+              "calls": 2900848,
+              "cumulative_seconds": 0.281346,
+              "file": "[extension/builtin]",
+              "function": "<built-in method builtins.isinstance>",
+              "line": 0,
+              "primitive_calls": 2900848,
+              "self_seconds": 0.165091
+            },
+            {
+              "calls": 50000,
+              "cumulative_seconds": 0.181863,
+              "file": "jzpack/schema.py",
+              "function": "_add_flat_record",
+              "line": 43,
+              "primitive_calls": 50000,
+              "self_seconds": 0.013274
+            },
+            {
+              "calls": 4354621,
+              "cumulative_seconds": 0.144442,
+              "file": "[extension/builtin]",
+              "function": "<built-in method builtins.len>",
+              "line": 0,
+              "primitive_calls": 4354621,
+              "self_seconds": 0.144442
+            },
+            {
+              "calls": 50000,
+              "cumulative_seconds": 0.142593,
+              "file": "jzpack/schema.py",
+              "function": "_add_flat_record_with_keys",
+              "line": 47,
+              "primitive_calls": 50000,
+              "self_seconds": 0.082331
+            },
+            {
+              "calls": 600000,
+              "cumulative_seconds": 0.137239,
+              "file": "benchmarks/corpus_wave3.py",
+              "function": "_mix64",
+              "line": 231,
+              "primitive_calls": 600000,
+              "self_seconds": 0.137239
+            },
+            {
+              "calls": 23,
+              "cumulative_seconds": 0.128501,
+              "file": "jzpack/compressor.py",
+              "function": "_build_payload",
+              "line": 79,
+              "primitive_calls": 23,
+              "self_seconds": 0.012685
+            },
+            {
+              "calls": 753985,
+              "cumulative_seconds": 0.116255,
+              "file": "<frozen abc>",
+              "function": "__instancecheck__",
+              "line": 117,
+              "primitive_calls": 753985,
+              "self_seconds": 0.060509
+            },
+            {
+              "calls": 52584,
+              "cumulative_seconds": 0.092771,
+              "file": "jzpack/analyzer.py",
+              "function": "encode",
+              "line": 92,
+              "primitive_calls": 52584,
+              "self_seconds": 0.00864
+            },
+            {
+              "calls": 1257667,
+              "cumulative_seconds": 0.08291,
+              "file": "[extension/builtin]",
+              "function": "<method 'encode' of 'str' objects>",
+              "line": 0,
+              "primitive_calls": 1257667,
+              "self_seconds": 0.08291
+            }
+          ],
+          "top_self": [
+            {
+              "calls": 50000,
+              "cumulative_seconds": 1.53529,
+              "file": "jzpack/writer.py",
+              "function": "_measure_mapping",
+              "line": 129,
+              "primitive_calls": 50000,
+              "self_seconds": 0.501252
+            },
+            {
+              "calls": 1234092,
+              "cumulative_seconds": 1.034999,
+              "file": "jzpack/writer.py",
+              "function": "visit",
+              "line": 590,
+              "primitive_calls": 23,
+              "self_seconds": 0.406404
+            },
+            {
+              "calls": 1257667,
+              "cumulative_seconds": 0.603526,
+              "file": "jzpack/writer.py",
+              "function": "_string_utf8_size",
+              "line": 658,
+              "primitive_calls": 1257667,
+              "self_seconds": 0.400721
+            },
+            {
+              "calls": 753982,
+              "cumulative_seconds": 0.325304,
+              "file": "jzpack/writer.py",
+              "function": "_snapshot_value",
+              "line": 493,
+              "primitive_calls": 50000,
+              "self_seconds": 0.266651
+            },
+            {
+              "calls": 50001,
+              "cumulative_seconds": 0.368285,
+              "file": "benchmarks/corpus_wave3.py",
+              "function": "_schema_diverse",
+              "line": 146,
+              "primitive_calls": 50001,
+              "self_seconds": 0.231045
+            },
+            {
+              "calls": 1725335,
+              "cumulative_seconds": 0.510172,
+              "file": "jzpack/writer.py",
+              "function": "_scalar_size",
+              "line": 672,
+              "primitive_calls": 1725335,
+              "self_seconds": 0.230603
+            },
+            {
+              "calls": 703982,
+              "cumulative_seconds": 0.481688,
+              "file": "jzpack/writer.py",
+              "function": "_measure_value",
+              "line": 177,
+              "primitive_calls": 703982,
+              "self_seconds": 0.22206
+            },
+            {
+              "calls": 1021353,
+              "cumulative_seconds": 0.534272,
+              "file": "jzpack/writer.py",
+              "function": "add_scalar",
+              "line": 583,
+              "primitive_calls": 1021353,
+              "self_seconds": 0.168022
+            },
+            {
+              "calls": 2900848,
+              "cumulative_seconds": 0.281346,
+              "file": "[extension/builtin]",
+              "function": "<built-in method builtins.isinstance>",
+              "line": 0,
+              "primitive_calls": 2900848,
+              "self_seconds": 0.165091
+            },
+            {
+              "calls": 4354621,
+              "cumulative_seconds": 0.144442,
+              "file": "[extension/builtin]",
+              "function": "<built-in method builtins.len>",
+              "line": 0,
+              "primitive_calls": 4354621,
+              "self_seconds": 0.144442
+            },
+            {
+              "calls": 600000,
+              "cumulative_seconds": 0.137239,
+              "file": "benchmarks/corpus_wave3.py",
+              "function": "_mix64",
+              "line": 231,
+              "primitive_calls": 600000,
+              "self_seconds": 0.137239
+            },
+            {
+              "calls": 50000,
+              "cumulative_seconds": 0.317562,
+              "file": "jzpack/schema.py",
+              "function": "_flatten",
+              "line": 100,
+              "primitive_calls": 50000,
+              "self_seconds": 0.095592
+            },
+            {
+              "calls": 1257667,
+              "cumulative_seconds": 0.08291,
+              "file": "[extension/builtin]",
+              "function": "<method 'encode' of 'str' objects>",
+              "line": 0,
+              "primitive_calls": 1257667,
+              "self_seconds": 0.08291
+            },
+            {
+              "calls": 50000,
+              "cumulative_seconds": 0.142593,
+              "file": "jzpack/schema.py",
+              "function": "_add_flat_record_with_keys",
+              "line": 47,
+              "primitive_calls": 50000,
+              "self_seconds": 0.082331
+            },
+            {
+              "calls": 1457964,
+              "cumulative_seconds": 0.079847,
+              "file": "jzpack/writer.py",
+              "function": "_add_bytes",
+              "line": 96,
+              "primitive_calls": 1457964,
+              "self_seconds": 0.079847
+            },
+            {
+              "calls": 1457964,
+              "cumulative_seconds": 0.065436,
+              "file": "jzpack/writer.py",
+              "function": "_add_node",
+              "line": 101,
+              "primitive_calls": 1457964,
+              "self_seconds": 0.065436
+            },
+            {
+              "calls": 753985,
+              "cumulative_seconds": 0.116255,
+              "file": "<frozen abc>",
+              "function": "__instancecheck__",
+              "line": 117,
+              "primitive_calls": 753985,
+              "self_seconds": 0.060509
+            },
+            {
+              "calls": 1,
+              "cumulative_seconds": 4.182088,
+              "file": "jzpack/writer.py",
+              "function": "_write_stream",
+              "line": 323,
+              "primitive_calls": 1,
+              "self_seconds": 0.058578
+            },
+            {
+              "calls": 1234092,
+              "cumulative_seconds": 0.058391,
+              "file": "jzpack/writer.py",
+              "function": "add",
+              "line": 577,
+              "primitive_calls": 1234092,
+              "self_seconds": 0.058391
+            },
+            {
+              "calls": 100000,
+              "cumulative_seconds": 0.056264,
+              "file": "[extension/builtin]",
+              "function": "<built-in method builtins.sorted>",
+              "line": 0,
+              "primitive_calls": 100000,
+              "self_seconds": 0.056264
+            },
+            {
+              "calls": 753985,
+              "cumulative_seconds": 0.055746,
+              "file": "[extension/builtin]",
+              "function": "<built-in method _abc._abc_instancecheck>",
+              "line": 0,
+              "primitive_calls": 753985,
+              "self_seconds": 0.055734
+            },
+            {
+              "calls": 845637,
+              "cumulative_seconds": 0.054393,
+              "file": "[extension/builtin]",
+              "function": "<method 'add' of 'set' objects>",
+              "line": 0,
+              "primitive_calls": 845637,
+              "self_seconds": 0.054393
+            },
+            {
+              "calls": 703982,
+              "cumulative_seconds": 0.052333,
+              "file": "jzpack/writer.py",
+              "function": "_add_schema_path",
+              "line": 106,
+              "primitive_calls": 703982,
+              "self_seconds": 0.052333
+            },
+            {
+              "calls": 1257667,
+              "cumulative_seconds": 0.049601,
+              "file": "jzpack/writer.py",
+              "function": "_string_header_size",
+              "line": 636,
+              "primitive_calls": 1257667,
+              "self_seconds": 0.049601
+            },
+            {
+              "calls": 797524,
+              "cumulative_seconds": 0.042135,
+              "file": "[extension/builtin]",
+              "function": "<method 'append' of 'list' objects>",
+              "line": 0,
+              "primitive_calls": 797524,
+              "self_seconds": 0.042135
+            },
+            {
+              "calls": 50000,
+              "cumulative_seconds": 0.403938,
+              "file": "jzpack/writer.py",
+              "function": "_prepare_record",
+              "line": 482,
+              "primitive_calls": 50000,
+              "self_seconds": 0.031883
+            },
+            {
+              "calls": 50000,
+              "cumulative_seconds": 1.578019,
+              "file": "jzpack/writer.py",
+              "function": "inspect",
+              "line": 85,
+              "primitive_calls": 50000,
+              "self_seconds": 0.024015
+            },
+            {
+              "calls": 50000,
+              "cumulative_seconds": 0.020085,
+              "file": "jzpack/schema.py",
+              "function": "_get_schema_id",
+              "line": 117,
+              "primitive_calls": 50000,
+              "self_seconds": 0.019891
+            },
+            {
+              "calls": 50000,
+              "cumulative_seconds": 0.518217,
+              "file": "jzpack/schema.py",
+              "function": "add_record",
+              "line": 40,
+              "primitive_calls": 50000,
+              "self_seconds": 0.018792
+            },
+            {
+              "calls": 50000,
+              "cumulative_seconds": 0.545949,
+              "file": "jzpack/writer.py",
+              "function": "add",
+              "line": 232,
+              "primitive_calls": 50000,
+              "self_seconds": 0.016426
+            }
+          ]
+        }
+      ],
+      "records": 50000,
+      "seed": 20261001
+    },
+    {
+      "canonical_input_bytes": 19567513,
+      "input_sha256": "64d11d7f5bf23a15eaf88a262e9c0ad5e0716e29c96e1da491956b2a720027c7",
+      "methods": [
+        {
+          "archive_bytes": 913354,
+          "archive_sha256": "053f385471174124c4e8ba6ba5aa87a3d21cd4ee0f3b246ad8de60c8f4acd8c4",
+          "label": "compress(prebuilt-list)"
+        },
+        {
+          "archive_bytes": 1283701,
+          "archive_sha256": "6f57de7c47d8a955b780df481496ddd7eb811002f5850f0f225e77383a1a6701",
+          "label": "write_records(prebuilt-list,BytesIO)"
+        },
+        {
+          "archive_bytes": 1283701,
+          "archive_sha256": "6f57de7c47d8a955b780df481496ddd7eb811002f5850f0f225e77383a1a6701",
+          "label": "write_records(lazy-iter_records,BytesIO)"
+        }
+      ],
+      "profile": "nested-records",
+      "profiles": [
+        {
+          "label": "nested-records:compress(prebuilt-list)",
+          "profiled_wall_seconds": 0.367751,
+          "top_cumulative": [
+            {
+              "calls": 1,
+              "cumulative_seconds": 0.367725,
+              "file": "benchmarks/profile_writer_cpu.py",
+              "function": "<lambda>",
+              "line": 149,
+              "primitive_calls": 1,
+              "self_seconds": 1e-06
+            },
+            {
+              "calls": 1,
+              "cumulative_seconds": 0.367725,
+              "file": "jzpack/__init__.py",
+              "function": "compress",
+              "line": 28,
+              "primitive_calls": 1,
+              "self_seconds": 0.000812
+            },
+            {
+              "calls": 1,
+              "cumulative_seconds": 0.366902,
+              "file": "jzpack/compressor.py",
+              "function": "compress",
+              "line": 26,
+              "primitive_calls": 1,
+              "self_seconds": 0.007157
+            },
+            {
+              "calls": 1,
+              "cumulative_seconds": 0.244488,
+              "file": "jzpack/schema.py",
+              "function": "add_batch",
+              "line": 13,
+              "primitive_calls": 1,
+              "self_seconds": 0.013635
+            },
+            {
+              "calls": 120000,
+              "cumulative_seconds": 0.208664,
+              "file": "jzpack/schema.py",
+              "function": "_flatten",
+              "line": 100,
+              "primitive_calls": 40000,
+              "self_seconds": 0.075048
+            },
+            {
+              "calls": 840009,
+              "cumulative_seconds": 0.118,
+              "file": "[extension/builtin]",
+              "function": "<built-in method builtins.isinstance>",
+              "line": 0,
+              "primitive_calls": 840009,
+              "self_seconds": 0.054296
+            },
+            {
+              "calls": 1,
+              "cumulative_seconds": 0.076158,
+              "file": "jzpack/compressor.py",
+              "function": "_build_payload",
+              "line": 79,
+              "primitive_calls": 1,
+              "self_seconds": 8e-06
+            },
+            {
+              "calls": 480001,
+              "cumulative_seconds": 0.063704,
+              "file": "<frozen abc>",
+              "function": "__instancecheck__",
+              "line": 117,
+              "primitive_calls": 480001,
+              "self_seconds": 0.034298
+            },
+            {
+              "calls": 7,
+              "cumulative_seconds": 0.063166,
+              "file": "jzpack/analyzer.py",
+              "function": "encode",
+              "line": 92,
+              "primitive_calls": 7,
+              "self_seconds": 4e-06
+            },
+            {
+              "calls": 7,
+              "cumulative_seconds": 0.040918,
+              "file": "jzpack/analyzer.py",
+              "function": "determine_encoding",
+              "line": 19,
+              "primitive_calls": 7,
+              "self_seconds": 1.5e-05
+            },
+            {
+              "calls": 1,
+              "cumulative_seconds": 0.039094,
+              "file": "jzpack/compressor.py",
+              "function": "_serialize_v3_payload",
+              "line": 93,
+              "primitive_calls": 1,
+              "self_seconds": 8e-06
+            },
+            {
+              "calls": 1,
+              "cumulative_seconds": 0.03892,
+              "file": "jzpack/serializer.py",
+              "function": "serialize_with_body",
+              "line": 65,
+              "primitive_calls": 1,
+              "self_seconds": 8e-06
+            },
+            {
+              "calls": 1,
+              "cumulative_seconds": 0.031833,
+              "file": "jzpack/serializer.py",
+              "function": "serialize",
+              "line": 10,
+              "primitive_calls": 1,
+              "self_seconds": 1e-06
+            },
+            {
+              "calls": 480001,
+              "cumulative_seconds": 0.029406,
+              "file": "[extension/builtin]",
+              "function": "<built-in method _abc._abc_instancecheck>",
+              "line": 0,
+              "primitive_calls": 480001,
+              "self_seconds": 0.029406
+            },
+            {
+              "calls": 7,
+              "cumulative_seconds": 0.022244,
+              "file": "jzpack/analyzer.py",
+              "function": "_apply_encoding",
+              "line": 137,
+              "primitive_calls": 7,
+              "self_seconds": 5e-06
+            },
+            {
+              "calls": 328003,
+              "cumulative_seconds": 0.019623,
+              "file": "jzpack/encoders.py",
+              "function": "_is_supported_integer",
+              "line": 12,
+              "primitive_calls": 328003,
+              "self_seconds": 0.019623
+            },
+            {
+              "calls": 2,
+              "cumulative_seconds": 0.018453,
+              "file": "jzpack/encoders.py",
+              "function": "encode",
+              "line": 126,
+              "primitive_calls": 2,
+              "self_seconds": 0.009021
+            },
+            {
+              "calls": 7,
+              "cumulative_seconds": 0.017911,
+              "file": "jzpack/encoders.py",
+              "function": "can_encode",
+              "line": 109,
+              "primitive_calls": 7,
+              "self_seconds": 0.008229
+            },
+            {
+              "calls": 7,
+              "cumulative_seconds": 0.0148,
+              "file": "jzpack/analyzer.py",
+              "function": "_is_rle_suitable",
+              "line": 34,
+              "primitive_calls": 7,
+              "self_seconds": 0.005847
+            },
+            {
+              "calls": 1,
+              "cumulative_seconds": 0.012984,
+              "file": "jzpack/encoders.py",
+              "function": "encode",
+              "line": 52,
+              "primitive_calls": 1,
+              "self_seconds": 0.002713
+            },
+            {
+              "calls": 1,
+              "cumulative_seconds": 0.010459,
+              "file": "jzpack/schema.py",
+              "function": "_add_uniform_flat_batch",
+              "line": 65,
+              "primitive_calls": 1,
+              "self_seconds": 0.010402
+            },
+            {
+              "calls": 39999,
+              "cumulative_seconds": 0.010271,
+              "file": "jzpack/encoders.py",
+              "function": "values_equal",
+              "line": 35,
+              "primitive_calls": 39999,
+              "self_seconds": 0.006275
+            },
+            {
+              "calls": 40000,
+              "cumulative_seconds": 0.009351,
+              "file": "[extension/builtin]",
+              "function": "<built-in method builtins.sorted>",
+              "line": 0,
+              "primitive_calls": 40000,
+              "self_seconds": 0.009351
+            },
+            {
+              "calls": 82006,
+              "cumulative_seconds": 0.008659,
+              "file": "jzpack/encoders.py",
+              "function": "supports_value",
+              "line": 28,
+              "primitive_calls": 82006,
+              "self_seconds": 0.008148
+            },
+            {
+              "calls": 80000,
+              "cumulative_seconds": 0.008512,
+              "file": "[extension/builtin]",
+              "function": "<method 'update' of 'dict' objects>",
+              "line": 0,
+              "primitive_calls": 80000,
+              "self_seconds": 0.008512
+            },
+            {
+              "calls": 120001,
+              "cumulative_seconds": 0.007107,
+              "file": "[extension/builtin]",
+              "function": "<method 'items' of 'dict' objects>",
+              "line": 0,
+              "primitive_calls": 120001,
+              "self_seconds": 0.007107
+            },
+            {
+              "calls": 1,
+              "cumulative_seconds": 0.007059,
+              "file": "jzpack/serializer.py",
+              "function": "compress",
+              "line": 27,
+              "primitive_calls": 1,
+              "self_seconds": 3e-06
+            },
+            {
+              "calls": 1,
+              "cumulative_seconds": 0.007056,
+              "file": "[extension/builtin]",
+              "function": "<method 'compress' of 'zstandard.backend_c.ZstdCompressor' objects>",
+              "line": 0,
+              "primitive_calls": 1,
+              "self_seconds": 0.007056
+            },
+            {
+              "calls": 1,
+              "cumulative_seconds": 0.005272,
+              "file": "jzpack/analyzer.py",
+              "function": "_is_dictionary_suitable",
+              "line": 75,
+              "primitive_calls": 1,
+              "self_seconds": 0.002899
+            },
+            {
+              "calls": 42000,
+              "cumulative_seconds": 0.00429,
+              "file": "jzpack/encoders.py",
+              "function": "_supported_values_equal",
+              "line": 43,
+              "primitive_calls": 42000,
+              "self_seconds": 0.00429
+            }
+          ],
+          "top_self": [
+            {
+              "calls": 120000,
+              "cumulative_seconds": 0.208664,
+              "file": "jzpack/schema.py",
+              "function": "_flatten",
+              "line": 100,
+              "primitive_calls": 40000,
+              "self_seconds": 0.075048
+            },
+            {
+              "calls": 840009,
+              "cumulative_seconds": 0.118,
+              "file": "[extension/builtin]",
+              "function": "<built-in method builtins.isinstance>",
+              "line": 0,
+              "primitive_calls": 840009,
+              "self_seconds": 0.054296
+            },
+            {
+              "calls": 480001,
+              "cumulative_seconds": 0.063704,
+              "file": "<frozen abc>",
+              "function": "__instancecheck__",
+              "line": 117,
+              "primitive_calls": 480001,
+              "self_seconds": 0.034298
+            },
+            {
+              "calls": 480001,
+              "cumulative_seconds": 0.029406,
+              "file": "[extension/builtin]",
+              "function": "<built-in method _abc._abc_instancecheck>",
+              "line": 0,
+              "primitive_calls": 480001,
+              "self_seconds": 0.029406
+            },
+            {
+              "calls": 328003,
+              "cumulative_seconds": 0.019623,
+              "file": "jzpack/encoders.py",
+              "function": "_is_supported_integer",
+              "line": 12,
+              "primitive_calls": 328003,
+              "self_seconds": 0.019623
+            },
+            {
+              "calls": 1,
+              "cumulative_seconds": 0.244488,
+              "file": "jzpack/schema.py",
+              "function": "add_batch",
+              "line": 13,
+              "primitive_calls": 1,
+              "self_seconds": 0.013635
+            },
+            {
+              "calls": 1,
+              "cumulative_seconds": 0.010459,
+              "file": "jzpack/schema.py",
+              "function": "_add_uniform_flat_batch",
+              "line": 65,
+              "primitive_calls": 1,
+              "self_seconds": 0.010402
+            },
+            {
+              "calls": 40000,
+              "cumulative_seconds": 0.009351,
+              "file": "[extension/builtin]",
+              "function": "<built-in method builtins.sorted>",
+              "line": 0,
+              "primitive_calls": 40000,
+              "self_seconds": 0.009351
+            },
+            {
+              "calls": 2,
+              "cumulative_seconds": 0.018453,
+              "file": "jzpack/encoders.py",
+              "function": "encode",
+              "line": 126,
+              "primitive_calls": 2,
+              "self_seconds": 0.009021
+            },
+            {
+              "calls": 80000,
+              "cumulative_seconds": 0.008512,
+              "file": "[extension/builtin]",
+              "function": "<method 'update' of 'dict' objects>",
+              "line": 0,
+              "primitive_calls": 80000,
+              "self_seconds": 0.008512
+            },
+            {
+              "calls": 7,
+              "cumulative_seconds": 0.017911,
+              "file": "jzpack/encoders.py",
+              "function": "can_encode",
+              "line": 109,
+              "primitive_calls": 7,
+              "self_seconds": 0.008229
+            },
+            {
+              "calls": 82006,
+              "cumulative_seconds": 0.008659,
+              "file": "jzpack/encoders.py",
+              "function": "supports_value",
+              "line": 28,
+              "primitive_calls": 82006,
+              "self_seconds": 0.008148
+            },
+            {
+              "calls": 1,
+              "cumulative_seconds": 0.366902,
+              "file": "jzpack/compressor.py",
+              "function": "compress",
+              "line": 26,
+              "primitive_calls": 1,
+              "self_seconds": 0.007157
+            },
+            {
+              "calls": 120001,
+              "cumulative_seconds": 0.007107,
+              "file": "[extension/builtin]",
+              "function": "<method 'items' of 'dict' objects>",
+              "line": 0,
+              "primitive_calls": 120001,
+              "self_seconds": 0.007107
+            },
+            {
+              "calls": 1,
+              "cumulative_seconds": 0.007056,
+              "file": "[extension/builtin]",
+              "function": "<method 'compress' of 'zstandard.backend_c.ZstdCompressor' objects>",
+              "line": 0,
+              "primitive_calls": 1,
+              "self_seconds": 0.007056
+            },
+            {
+              "calls": 39999,
+              "cumulative_seconds": 0.010271,
+              "file": "jzpack/encoders.py",
+              "function": "values_equal",
+              "line": 35,
+              "primitive_calls": 39999,
+              "self_seconds": 0.006275
+            },
+            {
+              "calls": 7,
+              "cumulative_seconds": 0.0148,
+              "file": "jzpack/analyzer.py",
+              "function": "_is_rle_suitable",
+              "line": 34,
+              "primitive_calls": 7,
+              "self_seconds": 0.005847
+            },
+            {
+              "calls": 42000,
+              "cumulative_seconds": 0.00429,
+              "file": "jzpack/encoders.py",
+              "function": "_supported_values_equal",
+              "line": 43,
+              "primitive_calls": 42000,
+              "self_seconds": 0.00429
+            },
+            {
+              "calls": 1,
+              "cumulative_seconds": 0.005272,
+              "file": "jzpack/analyzer.py",
+              "function": "_is_dictionary_suitable",
+              "line": 75,
+              "primitive_calls": 1,
+              "self_seconds": 0.002899
+            },
+            {
+              "calls": 1,
+              "cumulative_seconds": 0.012984,
+              "file": "jzpack/encoders.py",
+              "function": "encode",
+              "line": 52,
+              "primitive_calls": 1,
+              "self_seconds": 0.002713
+            },
+            {
+              "calls": 40003,
+              "cumulative_seconds": 0.002379,
+              "file": "[extension/builtin]",
+              "function": "<method 'append' of 'list' objects>",
+              "line": 0,
+              "primitive_calls": 40003,
+              "self_seconds": 0.002379
+            },
+            {
+              "calls": 1,
+              "cumulative_seconds": 0.003785,
+              "file": "jzpack/encoders.py",
+              "function": "encode",
+              "line": 195,
+              "primitive_calls": 1,
+              "self_seconds": 0.002153
+            },
+            {
+              "calls": 40009,
+              "cumulative_seconds": 0.001652,
+              "file": "jzpack/analyzer.py",
+              "function": "<genexpr>",
+              "line": 29,
+              "primitive_calls": 40009,
+              "self_seconds": 0.001652
+            },
+            {
+              "calls": 40000,
+              "cumulative_seconds": 0.001632,
+              "file": "[extension/builtin]",
+              "function": "<method 'get' of 'dict' objects>",
+              "line": 0,
+              "primitive_calls": 40000,
+              "self_seconds": 0.001632
+            },
+            {
+              "calls": 40098,
+              "cumulative_seconds": 0.001575,
+              "file": "[extension/builtin]",
+              "function": "<method 'add' of 'set' objects>",
+              "line": 0,
+              "primitive_calls": 40098,
+              "self_seconds": 0.001575
+            },
+            {
+              "calls": 5,
+              "cumulative_seconds": 0.00288,
+              "file": "[extension/builtin]",
+              "function": "<built-in method builtins.all>",
+              "line": 0,
+              "primitive_calls": 5,
+              "self_seconds": 0.00123
+            },
+            {
+              "calls": 1,
+              "cumulative_seconds": 0.367725,
+              "file": "jzpack/__init__.py",
+              "function": "compress",
+              "line": 28,
+              "primitive_calls": 1,
+              "self_seconds": 0.000812
+            },
+            {
+              "calls": 40141,
+              "cumulative_seconds": 0.000811,
+              "file": "[extension/builtin]",
+              "function": "<built-in method builtins.len>",
+              "line": 0,
+              "primitive_calls": 40141,
+              "self_seconds": 0.000811
+            },
+            {
+              "calls": 1,
+              "cumulative_seconds": 0.000164,
+              "file": "jzpack/chunks.py",
+              "function": "serialize_v3_container",
+              "line": 133,
+              "primitive_calls": 1,
+              "self_seconds": 9.6e-05
+            },
+            {
+              "calls": 1,
+              "cumulative_seconds": 5.5e-05,
+              "file": "[extension/builtin]",
+              "function": "<method 'extend' of 'list' objects>",
+              "line": 0,
+              "primitive_calls": 1,
+              "self_seconds": 5.5e-05
+            }
+          ]
+        },
+        {
+          "label": "nested-records:write_records(prebuilt-list,BytesIO)",
+          "profiled_wall_seconds": 6.612008,
+          "top_cumulative": [
+            {
+              "calls": 1,
+              "cumulative_seconds": 6.611982,
+              "file": "benchmarks/profile_writer_cpu.py",
+              "function": "<lambda>",
+              "line": 157,
+              "primitive_calls": 1,
+              "self_seconds": 1e-06
+            },
+            {
+              "calls": 1,
+              "cumulative_seconds": 6.611981,
+              "file": "benchmarks/profile_writer_cpu.py",
+              "function": "_profile_writer",
+              "line": 123,
+              "primitive_calls": 1,
+              "self_seconds": 5e-06
+            },
+            {
+              "calls": 1,
+              "cumulative_seconds": 6.611975,
+              "file": "jzpack/writer.py",
+              "function": "write_records",
+              "line": 270,
+              "primitive_calls": 1,
+              "self_seconds": 0.000112
+            },
+            {
+              "calls": 1,
+              "cumulative_seconds": 6.611844,
+              "file": "jzpack/writer.py",
+              "function": "_write_stream",
+              "line": 323,
+              "primitive_calls": 1,
+              "self_seconds": 0.043822
+            },
+            {
+              "calls": 40000,
+              "cumulative_seconds": 3.189106,
+              "file": "jzpack/writer.py",
+              "function": "inspect",
+              "line": 85,
+              "primitive_calls": 40000,
+              "self_seconds": 0.020374
+            },
+            {
+              "calls": 120000,
+              "cumulative_seconds": 3.153571,
+              "file": "jzpack/writer.py",
+              "function": "_measure_mapping",
+              "line": 129,
+              "primitive_calls": 40000,
+              "self_seconds": 0.362181
+            },
+            {
+              "calls": 1540000,
+              "cumulative_seconds": 2.403813,
+              "file": "jzpack/writer.py",
+              "function": "_measure_value",
+              "line": 177,
+              "primitive_calls": 280000,
+              "self_seconds": 1.180909
+            },
+            {
+              "calls": 42,
+              "cumulative_seconds": 2.165918,
+              "file": "jzpack/writer.py",
+              "function": "_flush_chunk",
+              "line": 356,
+              "primitive_calls": 42,
+              "self_seconds": 0.000172
+            },
+            {
+              "calls": 42,
+              "cumulative_seconds": 2.164097,
+              "file": "jzpack/writer.py",
+              "function": "encode",
+              "line": 248,
+              "primitive_calls": 42,
+              "self_seconds": 0.000128
+            },
+            {
+              "calls": 42,
+              "cumulative_seconds": 2.045527,
+              "file": "jzpack/writer.py",
+              "function": "_messagepack_size",
+              "line": 574,
+              "primitive_calls": 42,
+              "self_seconds": 2.6e-05
+            },
+            {
+              "calls": 2263234,
+              "cumulative_seconds": 2.045501,
+              "file": "jzpack/writer.py",
+              "function": "visit",
+              "line": 590,
+              "primitive_calls": 42,
+              "self_seconds": 0.764565
+            },
+            {
+              "calls": 1822016,
+              "cumulative_seconds": 1.104023,
+              "file": "jzpack/writer.py",
+              "function": "add_scalar",
+              "line": 583,
+              "primitive_calls": 1822016,
+              "self_seconds": 0.306186
+            },
+            {
+              "calls": 2201638,
+              "cumulative_seconds": 1.049756,
+              "file": "jzpack/writer.py",
+              "function": "_string_utf8_size",
+              "line": 658,
+              "primitive_calls": 2201638,
+              "self_seconds": 0.692442
+            },
+            {
+              "calls": 2922016,
+              "cumulative_seconds": 0.967428,
+              "file": "jzpack/writer.py",
+              "function": "_scalar_size",
+              "line": 672,
+              "primitive_calls": 2922016,
+              "self_seconds": 0.405268
+            },
+            {
+              "calls": 40000,
+              "cumulative_seconds": 0.797459,
+              "file": "jzpack/writer.py",
+              "function": "_prepare_record",
+              "line": 482,
+              "primitive_calls": 40000,
+              "self_seconds": 0.026576
+            },
+            {
+              "calls": 1660000,
+              "cumulative_seconds": 0.743977,
+              "file": "jzpack/writer.py",
+              "function": "_snapshot_value",
+              "line": 493,
+              "primitive_calls": 40000,
+              "self_seconds": 0.598783
+            },
+            {
+              "calls": 40000,
+              "cumulative_seconds": 0.391736,
+              "file": "jzpack/writer.py",
+              "function": "add",
+              "line": 232,
+              "primitive_calls": 40000,
+              "self_seconds": 0.013149
+            },
+            {
+              "calls": 40000,
+              "cumulative_seconds": 0.372599,
+              "file": "jzpack/schema.py",
+              "function": "add_record",
+              "line": 40,
+              "primitive_calls": 40000,
+              "self_seconds": 0.013698
+            },
+            {
+              "calls": 8852317,
+              "cumulative_seconds": 0.297426,
+              "file": "[extension/builtin]",
+              "function": "<built-in method builtins.len>",
+              "line": 0,
+              "primitive_calls": 8852317,
+              "self_seconds": 0.297426
+            },
+            {
+              "calls": 120000,
+              "cumulative_seconds": 0.267916,
+              "file": "jzpack/schema.py",
+              "function": "_flatten",
+              "line": 100,
+              "primitive_calls": 40000,
+              "self_seconds": 0.098067
+            },
+            {
+              "calls": 3102677,
+              "cumulative_seconds": 0.254206,
+              "file": "[extension/builtin]",
+              "function": "<built-in method builtins.isinstance>",
+              "line": 0,
+              "primitive_calls": 3102677,
+              "self_seconds": 0.173802
+            },
+            {
+              "calls": 560000,
+              "cumulative_seconds": 0.243568,
+              "file": "jzpack/writer.py",
+              "function": "_container_enter",
+              "line": 118,
+              "primitive_calls": 560000,
+              "self_seconds": 0.148304
+            },
+            {
+              "calls": 2740000,
+              "cumulative_seconds": 0.161892,
+              "file": "jzpack/writer.py",
+              "function": "_add_bytes",
+              "line": 96,
+              "primitive_calls": 2740000,
+              "self_seconds": 0.161892
+            },
+            {
+              "calls": 2201638,
+              "cumulative_seconds": 0.154518,
+              "file": "[extension/builtin]",
+              "function": "<method 'encode' of 'str' objects>",
+              "line": 0,
+              "primitive_calls": 2201638,
+              "self_seconds": 0.154518
+            },
+            {
+              "calls": 2740000,
+              "cumulative_seconds": 0.124677,
+              "file": "jzpack/writer.py",
+              "function": "_add_node",
+              "line": 101,
+              "primitive_calls": 2740000,
+              "self_seconds": 0.124677
+            },
+            {
+              "calls": 2263234,
+              "cumulative_seconds": 0.110843,
+              "file": "jzpack/writer.py",
+              "function": "add",
+              "line": 577,
+              "primitive_calls": 2263234,
+              "self_seconds": 0.110843
+            },
+            {
+              "calls": 560000,
+              "cumulative_seconds": 0.101751,
+              "file": "jzpack/writer.py",
+              "function": "_container_exit",
+              "line": 126,
+              "primitive_calls": 560000,
+              "self_seconds": 0.062498
+            },
+            {
+              "calls": 1444204,
+              "cumulative_seconds": 0.099222,
+              "file": "[extension/builtin]",
+              "function": "<method 'add' of 'set' objects>",
+              "line": 0,
+              "primitive_calls": 1444204,
+              "self_seconds": 0.099222
+            },
+            {
+              "calls": 40000,
+              "cumulative_seconds": 0.090985,
+              "file": "jzpack/schema.py",
+              "function": "_add_flat_record",
+              "line": 43,
+              "primitive_calls": 40000,
+              "self_seconds": 0.011291
+            },
+            {
+              "calls": 2201638,
+              "cumulative_seconds": 0.086466,
+              "file": "jzpack/writer.py",
+              "function": "_string_header_size",
+              "line": 636,
+              "primitive_calls": 2201638,
+              "self_seconds": 0.086466
+            }
+          ],
+          "top_self": [
+            {
+              "calls": 1540000,
+              "cumulative_seconds": 2.403813,
+              "file": "jzpack/writer.py",
+              "function": "_measure_value",
+              "line": 177,
+              "primitive_calls": 280000,
+              "self_seconds": 1.180909
+            },
+            {
+              "calls": 2263234,
+              "cumulative_seconds": 2.045501,
+              "file": "jzpack/writer.py",
+              "function": "visit",
+              "line": 590,
+              "primitive_calls": 42,
+              "self_seconds": 0.764565
+            },
+            {
+              "calls": 2201638,
+              "cumulative_seconds": 1.049756,
+              "file": "jzpack/writer.py",
+              "function": "_string_utf8_size",
+              "line": 658,
+              "primitive_calls": 2201638,
+              "self_seconds": 0.692442
+            },
+            {
+              "calls": 1660000,
+              "cumulative_seconds": 0.743977,
+              "file": "jzpack/writer.py",
+              "function": "_snapshot_value",
+              "line": 493,
+              "primitive_calls": 40000,
+              "self_seconds": 0.598783
+            },
+            {
+              "calls": 2922016,
+              "cumulative_seconds": 0.967428,
+              "file": "jzpack/writer.py",
+              "function": "_scalar_size",
+              "line": 672,
+              "primitive_calls": 2922016,
+              "self_seconds": 0.405268
+            },
+            {
+              "calls": 120000,
+              "cumulative_seconds": 3.153571,
+              "file": "jzpack/writer.py",
+              "function": "_measure_mapping",
+              "line": 129,
+              "primitive_calls": 40000,
+              "self_seconds": 0.362181
+            },
+            {
+              "calls": 1822016,
+              "cumulative_seconds": 1.104023,
+              "file": "jzpack/writer.py",
+              "function": "add_scalar",
+              "line": 583,
+              "primitive_calls": 1822016,
+              "self_seconds": 0.306186
+            },
+            {
+              "calls": 8852317,
+              "cumulative_seconds": 0.297426,
+              "file": "[extension/builtin]",
+              "function": "<built-in method builtins.len>",
+              "line": 0,
+              "primitive_calls": 8852317,
+              "self_seconds": 0.297426
+            },
+            {
+              "calls": 3102677,
+              "cumulative_seconds": 0.254206,
+              "file": "[extension/builtin]",
+              "function": "<built-in method builtins.isinstance>",
+              "line": 0,
+              "primitive_calls": 3102677,
+              "self_seconds": 0.173802
+            },
+            {
+              "calls": 2740000,
+              "cumulative_seconds": 0.161892,
+              "file": "jzpack/writer.py",
+              "function": "_add_bytes",
+              "line": 96,
+              "primitive_calls": 2740000,
+              "self_seconds": 0.161892
+            },
+            {
+              "calls": 2201638,
+              "cumulative_seconds": 0.154518,
+              "file": "[extension/builtin]",
+              "function": "<method 'encode' of 'str' objects>",
+              "line": 0,
+              "primitive_calls": 2201638,
+              "self_seconds": 0.154518
+            },
+            {
+              "calls": 560000,
+              "cumulative_seconds": 0.243568,
+              "file": "jzpack/writer.py",
+              "function": "_container_enter",
+              "line": 118,
+              "primitive_calls": 560000,
+              "self_seconds": 0.148304
+            },
+            {
+              "calls": 2740000,
+              "cumulative_seconds": 0.124677,
+              "file": "jzpack/writer.py",
+              "function": "_add_node",
+              "line": 101,
+              "primitive_calls": 2740000,
+              "self_seconds": 0.124677
+            },
+            {
+              "calls": 2263234,
+              "cumulative_seconds": 0.110843,
+              "file": "jzpack/writer.py",
+              "function": "add",
+              "line": 577,
+              "primitive_calls": 2263234,
+              "self_seconds": 0.110843
+            },
+            {
+              "calls": 1444204,
+              "cumulative_seconds": 0.099222,
+              "file": "[extension/builtin]",
+              "function": "<method 'add' of 'set' objects>",
+              "line": 0,
+              "primitive_calls": 1444204,
+              "self_seconds": 0.099222
+            },
+            {
+              "calls": 120000,
+              "cumulative_seconds": 0.267916,
+              "file": "jzpack/schema.py",
+              "function": "_flatten",
+              "line": 100,
+              "primitive_calls": 40000,
+              "self_seconds": 0.098067
+            },
+            {
+              "calls": 2201638,
+              "cumulative_seconds": 0.086466,
+              "file": "jzpack/writer.py",
+              "function": "_string_header_size",
+              "line": 636,
+              "primitive_calls": 2201638,
+              "self_seconds": 0.086466
+            },
+            {
+              "calls": 1120000,
+              "cumulative_seconds": 0.078714,
+              "file": "[extension/builtin]",
+              "function": "<method 'remove' of 'set' objects>",
+              "line": 0,
+              "primitive_calls": 1120000,
+              "self_seconds": 0.078714
+            },
+            {
+              "calls": 1080463,
+              "cumulative_seconds": 0.073641,
+              "file": "[extension/builtin]",
+              "function": "<method 'items' of 'dict' objects>",
+              "line": 0,
+              "primitive_calls": 1080463,
+              "self_seconds": 0.073641
+            },
+            {
+              "calls": 560000,
+              "cumulative_seconds": 0.101751,
+              "file": "jzpack/writer.py",
+              "function": "_container_exit",
+              "line": 126,
+              "primitive_calls": 560000,
+              "self_seconds": 0.062498
+            },
+            {
+              "calls": 1120000,
+              "cumulative_seconds": 0.051713,
+              "file": "[extension/builtin]",
+              "function": "<built-in method builtins.id>",
+              "line": 0,
+              "primitive_calls": 1120000,
+              "self_seconds": 0.051713
+            },
+            {
+              "calls": 1,
+              "cumulative_seconds": 6.611844,
+              "file": "jzpack/writer.py",
+              "function": "_write_stream",
+              "line": 323,
+              "primitive_calls": 1,
+              "self_seconds": 0.043822
+            },
+            {
+              "calls": 480003,
+              "cumulative_seconds": 0.080404,
+              "file": "<frozen abc>",
+              "function": "__instancecheck__",
+              "line": 117,
+              "primitive_calls": 480003,
+              "self_seconds": 0.042574
+            },
+            {
+              "calls": 40000,
+              "cumulative_seconds": 0.068796,
+              "file": "jzpack/schema.py",
+              "function": "_add_flat_record_with_keys",
+              "line": 47,
+              "primitive_calls": 40000,
+              "self_seconds": 0.039876
+            },
+            {
+              "calls": 480003,
+              "cumulative_seconds": 0.03783,
+              "file": "[extension/builtin]",
+              "function": "<built-in method _abc._abc_instancecheck>",
+              "line": 0,
+              "primitive_calls": 480003,
+              "self_seconds": 0.03783
+            },
+            {
+              "calls": 560000,
+              "cumulative_seconds": 0.026939,
+              "file": "jzpack/writer.py",
+              "function": "_check_depth",
+              "line": 114,
+              "primitive_calls": 560000,
+              "self_seconds": 0.026939
+            },
+            {
+              "calls": 40000,
+              "cumulative_seconds": 0.797459,
+              "file": "jzpack/writer.py",
+              "function": "_prepare_record",
+              "line": 482,
+              "primitive_calls": 40000,
+              "self_seconds": 0.026576
+            },
+            {
+              "calls": 600420,
+              "cumulative_seconds": 0.026288,
+              "file": "jzpack/writer.py",
+              "function": "_map_header_size",
+              "line": 616,
+              "primitive_calls": 600420,
+              "self_seconds": 0.026288
+            },
+            {
+              "calls": 280000,
+              "cumulative_seconds": 0.025081,
+              "file": "jzpack/writer.py",
+              "function": "_add_schema_path",
+              "line": 106,
+              "primitive_calls": 280000,
+              "self_seconds": 0.025081
+            },
+            {
+              "calls": 80000,
+              "cumulative_seconds": 0.024018,
+              "file": "[extension/builtin]",
+              "function": "<built-in method builtins.sorted>",
+              "line": 0,
+              "primitive_calls": 80000,
+              "self_seconds": 0.024018
+            }
+          ]
+        },
+        {
+          "label": "nested-records:write_records(lazy-iter_records,BytesIO)",
+          "profiled_wall_seconds": 6.915599,
+          "top_cumulative": [
+            {
+              "calls": 1,
+              "cumulative_seconds": 6.915572,
+              "file": "benchmarks/profile_writer_cpu.py",
+              "function": "<lambda>",
+              "line": 165,
+              "primitive_calls": 1,
+              "self_seconds": 2e-06
+            },
+            {
+              "calls": 1,
+              "cumulative_seconds": 6.91557,
+              "file": "benchmarks/profile_writer_cpu.py",
+              "function": "_profile_writer",
+              "line": 123,
+              "primitive_calls": 1,
+              "self_seconds": 5e-06
+            },
+            {
+              "calls": 1,
+              "cumulative_seconds": 6.915565,
+              "file": "jzpack/writer.py",
+              "function": "write_records",
+              "line": 270,
+              "primitive_calls": 1,
+              "self_seconds": 0.000155
+            },
+            {
+              "calls": 1,
+              "cumulative_seconds": 6.915394,
+              "file": "jzpack/writer.py",
+              "function": "_write_stream",
+              "line": 323,
+              "primitive_calls": 1,
+              "self_seconds": 0.054745
+            },
+            {
+              "calls": 40000,
+              "cumulative_seconds": 3.327686,
+              "file": "jzpack/writer.py",
+              "function": "inspect",
+              "line": 85,
+              "primitive_calls": 40000,
+              "self_seconds": 0.020782
+            },
+            {
+              "calls": 120000,
+              "cumulative_seconds": 3.2913,
+              "file": "jzpack/writer.py",
+              "function": "_measure_mapping",
+              "line": 129,
+              "primitive_calls": 40000,
+              "self_seconds": 0.394607
+            },
+            {
+              "calls": 1540000,
+              "cumulative_seconds": 2.471715,
+              "file": "jzpack/writer.py",
+              "function": "_measure_value",
+              "line": 177,
+              "primitive_calls": 280000,
+              "self_seconds": 1.211062
+            },
+            {
+              "calls": 42,
+              "cumulative_seconds": 2.219402,
+              "file": "jzpack/writer.py",
+              "function": "_flush_chunk",
+              "line": 356,
+              "primitive_calls": 42,
+              "self_seconds": 0.000181
+            },
+            {
+              "calls": 42,
+              "cumulative_seconds": 2.217662,
+              "file": "jzpack/writer.py",
+              "function": "encode",
+              "line": 248,
+              "primitive_calls": 42,
+              "self_seconds": 0.000127
+            },
+            {
+              "calls": 42,
+              "cumulative_seconds": 2.09783,
+              "file": "jzpack/writer.py",
+              "function": "_messagepack_size",
+              "line": 574,
+              "primitive_calls": 42,
+              "self_seconds": 3e-05
+            },
+            {
+              "calls": 2263234,
+              "cumulative_seconds": 2.097801,
+              "file": "jzpack/writer.py",
+              "function": "visit",
+              "line": 590,
+              "primitive_calls": 42,
+              "self_seconds": 0.788152
+            },
+            {
+              "calls": 1822016,
+              "cumulative_seconds": 1.127887,
+              "file": "jzpack/writer.py",
+              "function": "add_scalar",
+              "line": 583,
+              "primitive_calls": 1822016,
+              "self_seconds": 0.314207
+            },
+            {
+              "calls": 2201638,
+              "cumulative_seconds": 1.076827,
+              "file": "jzpack/writer.py",
+              "function": "_string_utf8_size",
+              "line": 658,
+              "primitive_calls": 2201638,
+              "self_seconds": 0.70922
+            },
+            {
+              "calls": 2922016,
+              "cumulative_seconds": 0.988709,
+              "file": "jzpack/writer.py",
+              "function": "_scalar_size",
+              "line": 672,
+              "primitive_calls": 2922016,
+              "self_seconds": 0.414507
+            },
+            {
+              "calls": 40000,
+              "cumulative_seconds": 0.786932,
+              "file": "jzpack/writer.py",
+              "function": "_prepare_record",
+              "line": 482,
+              "primitive_calls": 40000,
+              "self_seconds": 0.027461
+            },
+            {
+              "calls": 1660000,
+              "cumulative_seconds": 0.731296,
+              "file": "jzpack/writer.py",
+              "function": "_snapshot_value",
+              "line": 493,
+              "primitive_calls": 40000,
+              "self_seconds": 0.582647
+            },
+            {
+              "calls": 40000,
+              "cumulative_seconds": 0.401475,
+              "file": "jzpack/writer.py",
+              "function": "add",
+              "line": 232,
+              "primitive_calls": 40000,
+              "self_seconds": 0.013053
+            },
+            {
+              "calls": 40000,
+              "cumulative_seconds": 0.382241,
+              "file": "jzpack/schema.py",
+              "function": "add_record",
+              "line": 40,
+              "primitive_calls": 40000,
+              "self_seconds": 0.013845
+            },
+            {
+              "calls": 9012317,
+              "cumulative_seconds": 0.312589,
+              "file": "[extension/builtin]",
+              "function": "<built-in method builtins.len>",
+              "line": 0,
+              "primitive_calls": 9012317,
+              "self_seconds": 0.312589
+            },
+            {
+              "calls": 560000,
+              "cumulative_seconds": 0.282244,
+              "file": "jzpack/writer.py",
+              "function": "_container_enter",
+              "line": 118,
+              "primitive_calls": 560000,
+              "self_seconds": 0.183982
+            },
+            {
+              "calls": 120000,
+              "cumulative_seconds": 0.275236,
+              "file": "jzpack/schema.py",
+              "function": "_flatten",
+              "line": 100,
+              "primitive_calls": 40000,
+              "self_seconds": 0.100803
+            },
+            {
+              "calls": 3102683,
+              "cumulative_seconds": 0.261122,
+              "file": "[extension/builtin]",
+              "function": "<built-in method builtins.isinstance>",
+              "line": 0,
+              "primitive_calls": 3102683,
+              "self_seconds": 0.179605
+            },
+            {
+              "calls": 2740000,
+              "cumulative_seconds": 0.164712,
+              "file": "jzpack/writer.py",
+              "function": "_add_bytes",
+              "line": 96,
+              "primitive_calls": 2740000,
+              "self_seconds": 0.164712
+            },
+            {
+              "calls": 2201638,
+              "cumulative_seconds": 0.159026,
+              "file": "[extension/builtin]",
+              "function": "<method 'encode' of 'str' objects>",
+              "line": 0,
+              "primitive_calls": 2201638,
+              "self_seconds": 0.159026
+            },
+            {
+              "calls": 2740000,
+              "cumulative_seconds": 0.128585,
+              "file": "jzpack/writer.py",
+              "function": "_add_node",
+              "line": 101,
+              "primitive_calls": 2740000,
+              "self_seconds": 0.128585
+            },
+            {
+              "calls": 2263234,
+              "cumulative_seconds": 0.113159,
+              "file": "jzpack/writer.py",
+              "function": "add",
+              "line": 577,
+              "primitive_calls": 2263234,
+              "self_seconds": 0.113159
+            },
+            {
+              "calls": 560000,
+              "cumulative_seconds": 0.104295,
+              "file": "jzpack/writer.py",
+              "function": "_container_exit",
+              "line": 126,
+              "primitive_calls": 560000,
+              "self_seconds": 0.064053
+            },
+            {
+              "calls": 1444204,
+              "cumulative_seconds": 0.102759,
+              "file": "[extension/builtin]",
+              "function": "<method 'add' of 'set' objects>",
+              "line": 0,
+              "primitive_calls": 1444204,
+              "self_seconds": 0.102759
+            },
+            {
+              "calls": 40001,
+              "cumulative_seconds": 0.100978,
+              "file": "benchmarks/corpus_wave3.py",
+              "function": "iter_records",
+              "line": 21,
+              "primitive_calls": 40001,
+              "self_seconds": 0.004831
+            },
+            {
+              "calls": 40001,
+              "cumulative_seconds": 0.096146,
+              "file": "benchmarks/corpus_wave3.py",
+              "function": "_nested_records",
+              "line": 171,
+              "primitive_calls": 40001,
+              "self_seconds": 0.080286
+            }
+          ],
+          "top_self": [
+            {
+              "calls": 1540000,
+              "cumulative_seconds": 2.471715,
+              "file": "jzpack/writer.py",
+              "function": "_measure_value",
+              "line": 177,
+              "primitive_calls": 280000,
+              "self_seconds": 1.211062
+            },
+            {
+              "calls": 2263234,
+              "cumulative_seconds": 2.097801,
+              "file": "jzpack/writer.py",
+              "function": "visit",
+              "line": 590,
+              "primitive_calls": 42,
+              "self_seconds": 0.788152
+            },
+            {
+              "calls": 2201638,
+              "cumulative_seconds": 1.076827,
+              "file": "jzpack/writer.py",
+              "function": "_string_utf8_size",
+              "line": 658,
+              "primitive_calls": 2201638,
+              "self_seconds": 0.70922
+            },
+            {
+              "calls": 1660000,
+              "cumulative_seconds": 0.731296,
+              "file": "jzpack/writer.py",
+              "function": "_snapshot_value",
+              "line": 493,
+              "primitive_calls": 40000,
+              "self_seconds": 0.582647
+            },
+            {
+              "calls": 2922016,
+              "cumulative_seconds": 0.988709,
+              "file": "jzpack/writer.py",
+              "function": "_scalar_size",
+              "line": 672,
+              "primitive_calls": 2922016,
+              "self_seconds": 0.414507
+            },
+            {
+              "calls": 120000,
+              "cumulative_seconds": 3.2913,
+              "file": "jzpack/writer.py",
+              "function": "_measure_mapping",
+              "line": 129,
+              "primitive_calls": 40000,
+              "self_seconds": 0.394607
+            },
+            {
+              "calls": 1822016,
+              "cumulative_seconds": 1.127887,
+              "file": "jzpack/writer.py",
+              "function": "add_scalar",
+              "line": 583,
+              "primitive_calls": 1822016,
+              "self_seconds": 0.314207
+            },
+            {
+              "calls": 9012317,
+              "cumulative_seconds": 0.312589,
+              "file": "[extension/builtin]",
+              "function": "<built-in method builtins.len>",
+              "line": 0,
+              "primitive_calls": 9012317,
+              "self_seconds": 0.312589
+            },
+            {
+              "calls": 560000,
+              "cumulative_seconds": 0.282244,
+              "file": "jzpack/writer.py",
+              "function": "_container_enter",
+              "line": 118,
+              "primitive_calls": 560000,
+              "self_seconds": 0.183982
+            },
+            {
+              "calls": 3102683,
+              "cumulative_seconds": 0.261122,
+              "file": "[extension/builtin]",
+              "function": "<built-in method builtins.isinstance>",
+              "line": 0,
+              "primitive_calls": 3102683,
+              "self_seconds": 0.179605
+            },
+            {
+              "calls": 2740000,
+              "cumulative_seconds": 0.164712,
+              "file": "jzpack/writer.py",
+              "function": "_add_bytes",
+              "line": 96,
+              "primitive_calls": 2740000,
+              "self_seconds": 0.164712
+            },
+            {
+              "calls": 2201638,
+              "cumulative_seconds": 0.159026,
+              "file": "[extension/builtin]",
+              "function": "<method 'encode' of 'str' objects>",
+              "line": 0,
+              "primitive_calls": 2201638,
+              "self_seconds": 0.159026
+            },
+            {
+              "calls": 2740000,
+              "cumulative_seconds": 0.128585,
+              "file": "jzpack/writer.py",
+              "function": "_add_node",
+              "line": 101,
+              "primitive_calls": 2740000,
+              "self_seconds": 0.128585
+            },
+            {
+              "calls": 2263234,
+              "cumulative_seconds": 0.113159,
+              "file": "jzpack/writer.py",
+              "function": "add",
+              "line": 577,
+              "primitive_calls": 2263234,
+              "self_seconds": 0.113159
+            },
+            {
+              "calls": 1444204,
+              "cumulative_seconds": 0.102759,
+              "file": "[extension/builtin]",
+              "function": "<method 'add' of 'set' objects>",
+              "line": 0,
+              "primitive_calls": 1444204,
+              "self_seconds": 0.102759
+            },
+            {
+              "calls": 120000,
+              "cumulative_seconds": 0.275236,
+              "file": "jzpack/schema.py",
+              "function": "_flatten",
+              "line": 100,
+              "primitive_calls": 40000,
+              "self_seconds": 0.100803
+            },
+            {
+              "calls": 2201638,
+              "cumulative_seconds": 0.087955,
+              "file": "jzpack/writer.py",
+              "function": "_string_header_size",
+              "line": 636,
+              "primitive_calls": 2201638,
+              "self_seconds": 0.087955
+            },
+            {
+              "calls": 1120000,
+              "cumulative_seconds": 0.080548,
+              "file": "[extension/builtin]",
+              "function": "<method 'remove' of 'set' objects>",
+              "line": 0,
+              "primitive_calls": 1120000,
+              "self_seconds": 0.080548
+            },
+            {
+              "calls": 40001,
+              "cumulative_seconds": 0.096146,
+              "file": "benchmarks/corpus_wave3.py",
+              "function": "_nested_records",
+              "line": 171,
+              "primitive_calls": 40001,
+              "self_seconds": 0.080286
+            },
+            {
+              "calls": 1080463,
+              "cumulative_seconds": 0.075863,
+              "file": "[extension/builtin]",
+              "function": "<method 'items' of 'dict' objects>",
+              "line": 0,
+              "primitive_calls": 1080463,
+              "self_seconds": 0.075863
+            },
+            {
+              "calls": 560000,
+              "cumulative_seconds": 0.104295,
+              "file": "jzpack/writer.py",
+              "function": "_container_exit",
+              "line": 126,
+              "primitive_calls": 560000,
+              "self_seconds": 0.064053
+            },
+            {
+              "calls": 1,
+              "cumulative_seconds": 6.915394,
+              "file": "jzpack/writer.py",
+              "function": "_write_stream",
+              "line": 323,
+              "primitive_calls": 1,
+              "self_seconds": 0.054745
+            },
+            {
+              "calls": 1120000,
+              "cumulative_seconds": 0.052177,
+              "file": "[extension/builtin]",
+              "function": "<built-in method builtins.id>",
+              "line": 0,
+              "primitive_calls": 1120000,
+              "self_seconds": 0.052177
+            },
+            {
+              "calls": 480003,
+              "cumulative_seconds": 0.081517,
+              "file": "<frozen abc>",
+              "function": "__instancecheck__",
+              "line": 117,
+              "primitive_calls": 480003,
+              "self_seconds": 0.042651
+            },
+            {
+              "calls": 40000,
+              "cumulative_seconds": 0.070496,
+              "file": "jzpack/schema.py",
+              "function": "_add_flat_record_with_keys",
+              "line": 47,
+              "primitive_calls": 40000,
+              "self_seconds": 0.040909
+            },
+            {
+              "calls": 480003,
+              "cumulative_seconds": 0.038866,
+              "file": "[extension/builtin]",
+              "function": "<built-in method _abc._abc_instancecheck>",
+              "line": 0,
+              "primitive_calls": 480003,
+              "self_seconds": 0.038866
+            },
+            {
+              "calls": 440168,
+              "cumulative_seconds": 0.028452,
+              "file": "[extension/builtin]",
+              "function": "<method 'append' of 'list' objects>",
+              "line": 0,
+              "primitive_calls": 440168,
+              "self_seconds": 0.028452
+            },
+            {
+              "calls": 560000,
+              "cumulative_seconds": 0.027938,
+              "file": "jzpack/writer.py",
+              "function": "_check_depth",
+              "line": 114,
+              "primitive_calls": 560000,
+              "self_seconds": 0.027938
+            },
+            {
+              "calls": 40000,
+              "cumulative_seconds": 0.786932,
+              "file": "jzpack/writer.py",
+              "function": "_prepare_record",
+              "line": 482,
+              "primitive_calls": 40000,
+              "self_seconds": 0.027461
+            },
+            {
+              "calls": 600420,
+              "cumulative_seconds": 0.027247,
+              "file": "jzpack/writer.py",
+              "function": "_map_header_size",
+              "line": 616,
+              "primitive_calls": 600420,
+              "self_seconds": 0.027247
+            }
+          ]
+        }
+      ],
+      "records": 40000,
+      "seed": 20261001
+    }
+  ],
+  "configuration": {
+    "compression_level": 3,
+    "container_bytes": "memory and writer output are summarized independently; byte equality is not required because chunk policies differ",
+    "input_mode_comparison": "compress and writer each receive the same prebuilt list; lazy writer separately includes corpus generation",
+    "round_trip": "each archive checked after profiling with wave-3 recursive type and float64-bit oracle",
+    "samples_per_case_and_method": 1,
+    "sink": "un-instrumented io.BytesIO; no per-write hashing or first-chunk timer"
+  },
+  "environment": {
+    "jzpack": "0.5.0",
+    "msgpack": "1.2.3",
+    "platform": "macOS-27.2-arm64-arm-64bit",
+    "python": "3.12.13 (main, May  4 2026, 23:56:25) [Clang 21.0.0 (clang-2100.0.123.102)]",
+    "zstandard": "0.25.0"
+  },
+  "format": "jzpack-writer-cprofile-v1",
+  "profile_harness_sha256": "324731b4a680e3d42a0c9bf04ed7db1fa60fade8a25c25bf7341da30ca5629f7",
+  "profile_harness_source_artifact": "benchmarks/results/writer-cpu-wave3-profile-harness.py.txt",
+  "purpose": "single-pass CPU hotspot diagnosis; not a wall-clock benchmark",
+  "runtime_source_sha256": {
+    "jzpack/analyzer.py": "5a045774ce99c53ef5c373d42a1f7dd0693a36920afa1a311f34fd88932f01ae",
+    "jzpack/chunks.py": "e88d8f7be686fd7c81b012e42acd22d9b5f3fe9646fb7cde3d34b276f13b1059",
+    "jzpack/compressor.py": "45069d484a78f0afc5c01415409f617b014ffd86a9685337f4edb49e1eafe5fa",
+    "jzpack/encoders.py": "9793fcd8d0bf0e7b848b89ebdd48fb30329a9f89225bcdefb35d3525f040db69",
+    "jzpack/schema.py": "31d875e4cbc48b4c2f5b1a1fb6f9350ef7e46cf11f6fbf4f54f5d33f17952971",
+    "jzpack/serializer.py": "88089d61f66bc084bca3aa7fe43f4332bc8887705f5828388796382b265e96a3",
+    "jzpack/writer.py": "12298714f7180385d75646946fcf5b10585966a5654bb90afaf02584632378a0"
+  },
+  "source_revision": "3a487571e652a4ab321a4847502ae189e2a13c3e",
+  "wave3_sources": {
+    "comparison_harness_sha256": "7f3aca615ef0df8a6ca92901708ce115263eb6b295c1dd908244e5fa08438b44",
+    "corpus_generator_sha256": "596960e45e66cf63e13b47ea08f010dd97e65d0669d1301e13e47f78f912d221"
+  }
+}

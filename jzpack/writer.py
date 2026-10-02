@@ -658,6 +658,8 @@ def _binary_header_size(length: int) -> int:
 def _string_utf8_size(value: str, remaining_bytes: int) -> int:
     if len(value) > remaining_bytes:
         raise ResourceLimitError("record exceeds max_record_bytes")
+    if value.isascii():
+        return len(value)
     utf8_bytes = 0
     for offset in range(0, len(value), 4096):
         try:
