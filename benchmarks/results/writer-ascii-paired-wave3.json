@@ -1,0 +1,197 @@
+{
+  "base_revision": "3f2e37e1db3c3b9653fc52bc02330128d8157440",
+  "baseline_runtime_source_sha256": {
+    "jzpack/analyzer.py": "5a045774ce99c53ef5c373d42a1f7dd0693a36920afa1a311f34fd88932f01ae",
+    "jzpack/chunks.py": "e88d8f7be686fd7c81b012e42acd22d9b5f3fe9646fb7cde3d34b276f13b1059",
+    "jzpack/compressor.py": "45069d484a78f0afc5c01415409f617b014ffd86a9685337f4edb49e1eafe5fa",
+    "jzpack/encoders.py": "9793fcd8d0bf0e7b848b89ebdd48fb30329a9f89225bcdefb35d3525f040db69",
+    "jzpack/schema.py": "75787c6f54badc28ddf5c1eab8742cc64ae30b3dda0d5ef42b7cba00c547761e",
+    "jzpack/serializer.py": "88089d61f66bc084bca3aa7fe43f4332bc8887705f5828388796382b265e96a3",
+    "jzpack/writer.py": "12298714f7180385d75646946fcf5b10585966a5654bb90afaf02584632378a0"
+  },
+  "candidate_revision": "3f2e37e1db3c3b9653fc52bc02330128d8157440",
+  "candidate_runtime_source_sha256": {
+    "jzpack/analyzer.py": "5a045774ce99c53ef5c373d42a1f7dd0693a36920afa1a311f34fd88932f01ae",
+    "jzpack/chunks.py": "e88d8f7be686fd7c81b012e42acd22d9b5f3fe9646fb7cde3d34b276f13b1059",
+    "jzpack/compressor.py": "45069d484a78f0afc5c01415409f617b014ffd86a9685337f4edb49e1eafe5fa",
+    "jzpack/encoders.py": "9793fcd8d0bf0e7b848b89ebdd48fb30329a9f89225bcdefb35d3525f040db69",
+    "jzpack/schema.py": "75787c6f54badc28ddf5c1eab8742cc64ae30b3dda0d5ef42b7cba00c547761e",
+    "jzpack/serializer.py": "88089d61f66bc084bca3aa7fe43f4332bc8887705f5828388796382b265e96a3",
+    "jzpack/writer.py": "01f5613e83027cf90c9f81d62dc866f759deec94fa4be235eb1366a07f88661d"
+  },
+  "cases": [
+    {
+      "after_median_seconds": 0.9372719590028282,
+      "after_over_before_median_ratio": 0.8665144472092825,
+      "after_samples_seconds": [
+        0.9397937920002732,
+        0.9372719590028282,
+        0.9328372919990215
+      ],
+      "archive_sha256_samples": [
+        "efa68fde9810d7ace59ea08461abd14246c1cd4fff11a73c1bec83434ecd74bb",
+        "efa68fde9810d7ace59ea08461abd14246c1cd4fff11a73c1bec83434ecd74bb",
+        "efa68fde9810d7ace59ea08461abd14246c1cd4fff11a73c1bec83434ecd74bb"
+      ],
+      "before_after_output_bytes_identical": true,
+      "before_median_seconds": 1.0816576250072103,
+      "before_samples_seconds": [
+        1.0816576250072103,
+        1.1166469999880064,
+        1.065955625002971
+      ],
+      "canonical_input_bytes": 14363207,
+      "exact_round_trip_validated": true,
+      "input_generation_in_timed_region": false,
+      "input_mode": "prebuilt-list",
+      "input_sha256": "76e060ef90cb9f6dd3366e52f75dd6f172d26f210165bdbcfabeadba7ab3cf91",
+      "output_bytes_samples": [
+        1440234,
+        1440234,
+        1440234
+      ],
+      "paired_order": [
+        "before/after",
+        "after/before"
+      ],
+      "profile": "schema-diverse",
+      "record_count": 50000
+    },
+    {
+      "after_median_seconds": 1.2923343339934945,
+      "after_over_before_median_ratio": 0.9377852420294414,
+      "after_samples_seconds": [
+        1.264002125011757,
+        1.3060919999988982,
+        1.2923343339934945
+      ],
+      "archive_sha256_samples": [
+        "efa68fde9810d7ace59ea08461abd14246c1cd4fff11a73c1bec83434ecd74bb",
+        "efa68fde9810d7ace59ea08461abd14246c1cd4fff11a73c1bec83434ecd74bb",
+        "efa68fde9810d7ace59ea08461abd14246c1cd4fff11a73c1bec83434ecd74bb"
+      ],
+      "before_after_output_bytes_identical": true,
+      "before_median_seconds": 1.3780706670077052,
+      "before_samples_seconds": [
+        1.3747289589955471,
+        1.3963718750019325,
+        1.3780706670077052
+      ],
+      "canonical_input_bytes": 14363207,
+      "exact_round_trip_validated": true,
+      "input_generation_in_timed_region": true,
+      "input_mode": "lazy-iter-records",
+      "input_sha256": "76e060ef90cb9f6dd3366e52f75dd6f172d26f210165bdbcfabeadba7ab3cf91",
+      "output_bytes_samples": [
+        1440234,
+        1440234,
+        1440234
+      ],
+      "paired_order": [
+        "before/after",
+        "after/before"
+      ],
+      "profile": "schema-diverse",
+      "record_count": 50000
+    },
+    {
+      "after_median_seconds": 1.424644291997538,
+      "after_over_before_median_ratio": 0.8424241274933745,
+      "after_samples_seconds": [
+        1.424644291997538,
+        1.4238372090039775,
+        1.4379551250021905
+      ],
+      "archive_sha256_samples": [
+        "6f57de7c47d8a955b780df481496ddd7eb811002f5850f0f225e77383a1a6701",
+        "6f57de7c47d8a955b780df481496ddd7eb811002f5850f0f225e77383a1a6701",
+        "6f57de7c47d8a955b780df481496ddd7eb811002f5850f0f225e77383a1a6701"
+      ],
+      "before_after_output_bytes_identical": true,
+      "before_median_seconds": 1.6911247499956517,
+      "before_samples_seconds": [
+        1.6911247499956517,
+        1.6681812920141965,
+        1.697932833005325
+      ],
+      "canonical_input_bytes": 19567513,
+      "exact_round_trip_validated": true,
+      "input_generation_in_timed_region": false,
+      "input_mode": "prebuilt-list",
+      "input_sha256": "64d11d7f5bf23a15eaf88a262e9c0ad5e0716e29c96e1da491956b2a720027c7",
+      "output_bytes_samples": [
+        1283701,
+        1283701,
+        1283701
+      ],
+      "paired_order": [
+        "before/after",
+        "after/before"
+      ],
+      "profile": "nested-records",
+      "record_count": 40000
+    },
+    {
+      "after_median_seconds": 1.492315333991428,
+      "after_over_before_median_ratio": 0.8439155621118096,
+      "after_samples_seconds": [
+        1.5013259580009617,
+        1.4922770830016816,
+        1.492315333991428
+      ],
+      "archive_sha256_samples": [
+        "6f57de7c47d8a955b780df481496ddd7eb811002f5850f0f225e77383a1a6701",
+        "6f57de7c47d8a955b780df481496ddd7eb811002f5850f0f225e77383a1a6701",
+        "6f57de7c47d8a955b780df481496ddd7eb811002f5850f0f225e77383a1a6701"
+      ],
+      "before_after_output_bytes_identical": true,
+      "before_median_seconds": 1.768323042007978,
+      "before_samples_seconds": [
+        1.7843116659933003,
+        1.7427091249992372,
+        1.768323042007978
+      ],
+      "canonical_input_bytes": 19567513,
+      "exact_round_trip_validated": true,
+      "input_generation_in_timed_region": true,
+      "input_mode": "lazy-iter-records",
+      "input_sha256": "64d11d7f5bf23a15eaf88a262e9c0ad5e0716e29c96e1da491956b2a720027c7",
+      "output_bytes_samples": [
+        1283701,
+        1283701,
+        1283701
+      ],
+      "paired_order": [
+        "before/after",
+        "after/before"
+      ],
+      "profile": "nested-records",
+      "record_count": 40000
+    }
+  ],
+  "comparison_harness_sha256": "c4285671f9f6aae647d7137b5077c48170fc04f63a06b268f4a6680b9f2228ca",
+  "configuration": {
+    "acceptance": "every before/after archive must be byte-identical",
+    "compression_level": 3,
+    "lazy_iter_records": "same frozen generator function and deterministic arguments; record generation occurs in timer",
+    "order": "alternates baseline-first and candidate-first by sample; modes/profile order fixed",
+    "prebuilt_list": "same list object is passed to both packages; corpus construction occurs before timer",
+    "round_trip": "outside timer; wave-3 recursive type and float64-bit oracle on every archive",
+    "samples_per_variant": 3,
+    "sink": "plain io.BytesIO; written byte count and output hash calculated after timer",
+    "warmups": 0
+  },
+  "environment": {
+    "jzpack": "0.5.0",
+    "msgpack": "1.2.3",
+    "platform": "macOS-27.2-arm64-arm-64bit",
+    "python": "3.12.13 (main, May  4 2026, 23:56:25) [Clang 21.0.0 (clang-2100.0.123.102)]",
+    "zstandard": "0.25.0"
+  },
+  "format": "jzpack-writer-ascii-paired-v1",
+  "purpose": "alternating paired encode timing; platform/workload evidence only",
+  "wave3_sources": {
+    "comparison_harness_sha256": "7f3aca615ef0df8a6ca92901708ce115263eb6b295c1dd908244e5fa08438b44",
+    "corpus_generator_sha256": "596960e45e66cf63e13b47ea08f010dd97e65d0669d1301e13e47f78f912d221"
+  }
+}
