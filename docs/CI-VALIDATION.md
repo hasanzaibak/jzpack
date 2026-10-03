@@ -100,3 +100,14 @@ lanes each passed all 469 tests: Linux Python 3.10–3.14, exact minimum runtime
 dependencies on Python 3.10, and macOS/Windows on Python 3.13. The quality lane passed
 lint, distribution build, and cache-sentinel checks. This run records the stable Python
 3.14 matrix expansion; later source changes still require their own exact-commit CI run.
+
+## Release 0.5.4 checkpoint
+
+The [exact-release run](https://github.com/hasanzaibak/jzpack/actions/runs/37101412003)
+passed all nine jobs for `232fa5d6539fbe65202ce4134279e8057167eeeb`. All eight full-suite
+test lanes passed 470 tests each: Linux Python 3.10–3.14, the Python 3.10 minimum-runtime
+dependency lane, and macOS/Windows on Python 3.13. The quality job passed lint, wheel and
+source distribution builds, and the cache-sentinel archive check. The
+[publication run](https://github.com/hasanzaibak/jzpack/actions/runs/37101557733) completed both build and
+trusted-publish jobs; the [release record](evidence/release-0.5.4.json) stores the official
+artifact hashes and installed-package verification.

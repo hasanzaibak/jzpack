@@ -11,12 +11,19 @@ and installation checks.
 | 0.5.0 | Published | [GitHub](https://github.com/hasanzaibak/jzpack/releases/tag/v0.5.0) · [PyPI](https://pypi.org/project/jzpack/0.5.0/) · [verification record](evidence/release-0.5.0.json) |
 | 0.5.1 | Published | [GitHub](https://github.com/hasanzaibak/jzpack/releases/tag/v0.5.1) · [PyPI](https://pypi.org/project/jzpack/0.5.1/) · [verification record](evidence/release-0.5.1.json) |
 | 0.5.2 | Published | [GitHub](https://github.com/hasanzaibak/jzpack/releases/tag/v0.5.2) · [PyPI](https://pypi.org/project/jzpack/0.5.2/) · [verification record](evidence/release-0.5.2.json) |
-| 0.5.3 | Published; latest recorded release | [GitHub](https://github.com/hasanzaibak/jzpack/releases/tag/v0.5.3) · [PyPI](https://pypi.org/project/jzpack/0.5.3/) · [verification record](evidence/release-0.5.3.json) |
+| 0.5.3 | Published | [GitHub](https://github.com/hasanzaibak/jzpack/releases/tag/v0.5.3) · [PyPI](https://pypi.org/project/jzpack/0.5.3/) · [verification record](evidence/release-0.5.3.json) |
+| 0.5.4 | Published; latest recorded release | [GitHub](https://github.com/hasanzaibak/jzpack/releases/tag/v0.5.4) · [PyPI](https://pypi.org/project/jzpack/0.5.4/) · [verification record](evidence/release-0.5.4.json) |
 
 Version 0.5.3 passed its exact-commit hosted checks and trusted-publishing
 workflow. PyPI artifact hashes were matched to workflow artifacts, and an install from
 the official index passed the recorded smoke checks. The verification record is
 authoritative for the full scope and limitations.
+
+Version 0.5.4 passed all nine exact-commit CI jobs, including eight full-suite lanes
+with 470 tests each, and was published through PyPI Trusted Publishing. The official
+wheel and source distribution match the GitHub Actions artifacts byte-for-byte; a
+fresh Python 3.12 install from PyPI passed the installed-package smoke check. See the
+[0.5.4 record](evidence/release-0.5.4.json) for hashes, provenance, and limits.
 
 ## Review and packaging caveats
 
@@ -30,6 +37,13 @@ Version 0.5.3 fixes the PyPI documentation links and excludes generated caches f
 source archives. Both official artifact hashes match the local and workflow builds.
 The refreshed build/test/artifact actions and cache-sentinel guard passed hosted
 execution; publication protections remained enabled.
+
+Version 0.5.4 reuses flattened schema values from the bounded writer's defensive
+snapshot, removing a repeated schema walk. The measured writer preparation change
+reduces encoding medians by 14.214% on the
+schema-diverse case and 4.848% on the nested case; its large-string result remains
+within run noise. One public GH Archive sample improved 14.9% in an encoding-only
+comparison. These workload measurements do not establish universal leadership.
 
 ## Remaining evidence gaps
 

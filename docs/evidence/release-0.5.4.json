@@ -1,0 +1,99 @@
+{
+  "version": "0.5.4",
+  "release_commit": "232fa5d6539fbe65202ce4134279e8057167eeeb",
+  "release_url": "https://github.com/hasanzaibak/jzpack/releases/tag/v0.5.4",
+  "ci_url": "https://github.com/hasanzaibak/jzpack/actions/runs/37101412003",
+  "publish_url": "https://github.com/hasanzaibak/jzpack/actions/runs/37101557733",
+  "pypi_json_url": "https://pypi.org/pypi/jzpack/0.5.4/json",
+  "distributions": [
+    {
+      "filename": "jzpack-0.5.4-py3-none-any.whl",
+      "sha256": "acec83e17fb67e6ef02ce67b2c527bee8cb5bfda8694e4c3246bb0de9f4991f3",
+      "uploaded_at": "2026-10-03T06:04:15.483881Z",
+      "workflow_artifact_hash_matches": true
+    },
+    {
+      "filename": "jzpack-0.5.4.tar.gz",
+      "sha256": "18e20cb1148c71bdacef05021cc03ab2fe018d6504e360a2688834b160e62e62",
+      "uploaded_at": "2026-10-03T06:04:16.865968Z",
+      "workflow_artifact_hash_matches": true
+    }
+  ],
+  "review": {
+    "result": "Two different-author reviewers returned GO with no P0-P2 findings for the exact release delta.",
+    "reviewed_range": {
+      "base_tag": "v0.5.3",
+      "base_commit": "eca4fea9977eb8785b95df9db13c2e1af6d297fb",
+      "release_commit": "232fa5d6539fbe65202ce4134279e8057167eeeb"
+    },
+    "release_delta_sha256": {
+      "algorithm": "SHA-256",
+      "input": "git diff --binary v0.5.3 232fa5d6539fbe65202ce4134279e8057167eeeb",
+      "value": "f3083e149d0df605b35289b84bf618861468819c288c900a5a83c16780907309"
+    }
+  },
+  "checks": {
+    "current_python_tests_passed": 470,
+    "minimum_dependency_tests_passed": 470,
+    "python_3_14_tests_passed": 470,
+    "hosted_ci_jobs_passed": 9,
+    "hosted_test_lanes": 8,
+    "hosted_test_lanes_each_passed": 470,
+    "quality_job_passed": true,
+    "publish_jobs_passed": [
+      "build",
+      "publish"
+    ],
+    "ruff": true,
+    "compileall": true,
+    "wheel_and_sdist_build": true,
+    "cache_sentinel_excluded_from_sdist": true,
+    "readme_link_regression_passed": true,
+    "all_wheel_runtime_sources_match_reviewed_checkout": true
+  },
+  "environment_approval": {
+    "environment": "pypi",
+    "deployment_id": 6824006810,
+    "configured_reviewer_account": "hasanzaibak",
+    "normal_approval_under_prior_user_publication_authorization": true,
+    "protection_configuration_modified": false,
+    "deployment_state": "success"
+  },
+  "pypi_description": {
+    "exact_readme_match": true,
+    "roadmap_url": "https://github.com/hasanzaibak/jzpack/blob/main/ROADMAP.md",
+    "rendered_pypi_roadmap_link_followed_to_existing_github_document": true
+  },
+  "pypi_install_smoke": {
+    "command": "python -m pip install --no-cache-dir --index-url https://pypi.org/simple jzpack==0.5.4",
+    "working_directory": "outside the source checkout",
+    "source_pythonpath_override": false,
+    "installed_version_verified": true,
+    "checks": [
+      "exact built-in scalar types and float64 bits",
+      "multi-chunk write_records round trip"
+    ],
+    "result": "passed",
+    "runtime": {
+      "python": "3.12.13",
+      "msgpack": "1.2.3",
+      "zstandard": "0.25.0",
+      "platform": "macOS arm64"
+    }
+  },
+  "performance_scope": {
+    "optimization": "Reuses flattened record values and schema signatures gathered from the defensive writer snapshot, avoiding a repeated schema-flattening traversal before chunk encoding.",
+    "measured_results": {
+      "schema_diverse_50000_rows_median_change_percent": -14.214,
+      "nested_40000_rows_median_change_percent": -4.848,
+      "large_string_case": "within run noise",
+      "public_gh_archive_11351_records_encoding_only_median_change_percent": -14.9,
+      "public_gh_archive_writer_archive_bytes_identical": true
+    },
+    "limitations": [
+      "The measured gains apply only to the recorded workloads and environment.",
+      "The streamed MessagePack comparator uses a different format and integrity/resource contract; it is not a like-for-like package ranking.",
+      "Universal performance leadership, complete input coverage, and broad adoption remain unproved."
+    ]
+  }
+}
