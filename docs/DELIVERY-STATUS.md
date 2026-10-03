@@ -82,14 +82,14 @@ comparison. These workload measurements do not establish universal leadership.
   2.8–4.1% for high entropy. Nested-array results are inconclusive; optional-fields
   makes no Delta calls. Traced allocation peaks rise by small, workload-dependent amounts;
   RSS was not measured. These measurements do not establish universal performance leadership.
-- **Unpublished candidate:** A built-in schema-flatten dispatch candidate shows 13.4–20.7%
+- **0.5.7 release candidate:** The merged built-in schema-flatten dispatch change shows 13.4–20.7%
   public encode median-time reductions across selected schema-diverse, nested, and
   integer-series synthetic cases; a fresh-process nested repeat shows 15.6–18.3% reductions
   with outliers. All baseline/candidate archives and exact corpus-oracle round trips matched.
-  Memory was not measured. The candidate remains under review and is separate from 0.5.6;
-  see the [paired captures](../BENCHMARKS.md#seventh-wave-schema-ingestion-dispatch-candidate).
+  Memory was not measured. It is separate from published 0.5.6; 0.5.7 publication is pending.
+  See the [paired captures](../BENCHMARKS.md#seventh-wave-schema-ingestion-dispatch-candidate).
 - **Unestablished:** Universal performance leadership, complete input coverage, and broad adoption have not been established. The [test coverage map](TEST-COVERAGE.md) records visible verification gaps.
-- **Planned:** After review of the schema-ingestion candidate, profile the remaining
+- **Planned:** After publishing 0.5.7, profile the remaining
   writer encoded-body sizing and decoder reconstruction passes as the next distinct costs.
   Larger real inputs and additional environments remain needed before broad performance
   claims; changes still require exact fidelity, resource-limit checks, and paired CPU,

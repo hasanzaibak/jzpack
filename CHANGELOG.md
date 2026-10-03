@@ -1,8 +1,9 @@
 # Changelog
 
-## Unreleased
+## 0.5.7 — 2026-10-03
 
-- Candidate schema-ingestion dispatch skips repeated mapping checks for built-in leaf types while retaining subclass and generic `Mapping` behavior. Regression coverage and workload-specific, byte-identical benchmark captures are retained; this candidate is not part of published 0.5.6.
+- Reduce repeated mapping checks for built-in leaf types during schema ingestion while retaining subclass and generic `Mapping` behavior.
+- Add regression coverage and source-pinned, byte-identical workload-specific benchmark captures.
 
 ## 0.5.6 — 2026-10-03
 

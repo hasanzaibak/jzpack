@@ -351,7 +351,7 @@ source hash is `e27671e2231de90991d175fec83727797ceeb42860838be19baa49bd4e7649e2
 Both captures used CPython 3.12.13 on macOS 27.2 arm64 with msgpack 1.2.3 and
 python-zstandard 0.25.0.
 
-This branch candidate is separate from published 0.5.6. It has not been shown to
+This change is merged for 0.5.7; publication is pending. It has not been shown to
 improve other runtimes or workloads, and no universal performance leadership is
 claimed.
 

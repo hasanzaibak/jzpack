@@ -6,7 +6,7 @@ from .compressor import JZPackCompressor, StreamingCompressor
 from .errors import InvalidFormatError, JZPackError, ResourceLimitError, UnsupportedVersionError
 from .writer import write_records
 
-__version__ = "0.5.6"
+__version__ = "0.5.7"
 __all__ = [
     "__version__",
     "compress",
