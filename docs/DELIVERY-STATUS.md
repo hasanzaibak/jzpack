@@ -239,3 +239,28 @@ work remains an experiment subject to fidelity, bounds, CPU, and RSS gates.
 The 0.5.2 package is prepared separately from published 0.5.1. Publication still
 requires its own built-wheel smoke check, exact-commit hosted matrix, configured
 trusted-publishing approval, official artifact hashes, and fresh installed smoke.
+
+### Verified 0.5.2 publication
+
+Version [0.5.2](https://github.com/hasanzaibak/jzpack/releases/tag/v0.5.2) was merged
+and pushed at `a3c9f557ae86e22d80ab2829ec1d8fc72d95a806`. All eight
+[exact-commit CI jobs](https://github.com/hasanzaibak/jzpack/actions/runs/36955599304)
+passed, with all 468 tests in each of seven test lanes. The
+[trusted-publishing run](https://github.com/hasanzaibak/jzpack/actions/runs/36955699245)
+passed after normal configured approval under the user's publication authorization.
+Protection settings remained enabled.
+
+Official [PyPI metadata](https://pypi.org/project/jzpack/0.5.2/) lists the wheel
+and source distribution; both hashes match downloaded workflow artifacts. The
+wheel also matches the local built/smoke-tested wheel, and all nine runtime
+modules match the reviewed source. A fresh official-index install outside the
+checkout passed exact nested type/float-bit, ASCII/Unicode, constant-column, and
+multi-chunk writer checks. [The release record](evidence/release-0.5.2.json) retains
+verification scope and hashes.
+
+The local source build includes generated Hypothesis caches; the published
+workflow source archive does not. Common file contents match. Explicit cache
+exclusion is follow-up packaging work, not a published-runtime defect. CI also
+reported deprecated action runtimes; action upgrades require their own review
+and hosted evidence. Remaining CPU and memory work stays conditional on measured
+parity and bounds.

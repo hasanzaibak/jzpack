@@ -75,3 +75,9 @@ The separate public GH Archive check preserves all 11,351 parsed records through
 list and lazy writer APIs in both environments. It does not measure performance
 or establish JSON-text preservation. Dependency-version archive bytes may differ.
 Final release platform evidence requires its own hosted matrix.
+
+The [0.5.2 exact-release matrix](https://github.com/hasanzaibak/jzpack/actions/runs/36955599304)
+subsequently passed all 468 tests in every one of seven hosted test lanes. The
+[release evidence](evidence/release-0.5.2.json) records official artifact hashes
+and the separate fresh-installed smoke scope. This does not clear future source
+changes or establish exhaustive assertion coverage.

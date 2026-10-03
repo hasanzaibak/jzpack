@@ -74,3 +74,12 @@ All eight [exact-release CI jobs](https://github.com/hasanzaibak/jzpack/actions/
 passed for `bb59b4cc3c4e64c8e1621d49afb2be78fdb1c07f`, including the 404-test suite on the
 supported hosted Python/platform lanes and exact minimum dependencies on Python 3.10.
 This clears that release snapshot only; subsequent runtime changes require their own checks.
+
+## Release 0.5.2 checkpoint
+
+All eight [exact-release CI jobs](https://github.com/hasanzaibak/jzpack/actions/runs/36955599304)
+passed for `a3c9f557ae86e22d80ab2829ec1d8fc72d95a806`. Every one of the seven
+test lanes passed all 468 tests, including Linux Python 3.10–3.13, exact minimum
+dependencies on Python 3.10, macOS, and Windows. The quality job passed lint and
+distribution builds. Deprecated action-runtime annotations remain maintenance
+work; this successful run does not verify a future action upgrade.
