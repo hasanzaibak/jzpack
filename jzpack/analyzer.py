@@ -3,6 +3,8 @@ from typing import Any
 from .encoders import DeltaEncoder, DictionaryEncoder, EncodingType, RLEEncoder
 from .errors import ResourceLimitError
 
+_MAX_CACHED_RLE_RUNS = 32
+
 
 class EncodingThresholds:
     RLE_MAX_RUN_RATIO = 0.1
@@ -17,42 +19,75 @@ class ColumnAnalyzer:
         self._thresholds = thresholds or EncodingThresholds()
 
     def determine_encoding(self, values: list) -> EncodingType:
-        if len(values) < self._thresholds.MIN_ROWS:
-            return EncodingType.RAW
+        encoding_type, _ = self._determine_encoding_and_rle_runs(values, cache_rle_runs=False)
+        return encoding_type
 
-        if self._is_rle_suitable(values):
-            return EncodingType.RLE
+    def _determine_encoding_and_rle_runs(
+        self, values: list, *, cache_rle_runs: bool
+    ) -> tuple[EncodingType, list[list[Any]] | None]:
+        if len(values) < self._thresholds.MIN_ROWS:
+            return EncodingType.RAW, None
+
+        rle_suitable, rle_runs = self._analyze_rle(
+            values,
+            collect_runs=cache_rle_runs and type(values) is list,
+        )
+        if rle_suitable:
+            return EncodingType.RLE, rle_runs
 
         if DeltaEncoder.can_encode(values) and self._is_delta_suitable(values):
-            return EncodingType.DELTA
+            return EncodingType.DELTA, None
 
         if all(type(value) is str for value in values) and self._is_dictionary_suitable(values):
-            return EncodingType.DICTIONARY
+            return EncodingType.DICTIONARY, None
 
-        return EncodingType.RAW
+        return EncodingType.RAW, None
 
     def _is_rle_suitable(self, values: list) -> bool:
+        suitable, _ = self._analyze_rle(values, collect_runs=False)
+        return suitable
+
+    def _analyze_rle(
+        self, values: list, *, collect_runs: bool
+    ) -> tuple[bool, list[list[Any]] | None]:
         n = len(values)
         if not values:
-            return True
+            return True, [] if collect_runs else None
 
         max_runs = int(n * self._thresholds.RLE_MAX_RUN_RATIO)
         runs = 1
         current = values[0]
+        count = 1
         if not RLEEncoder.supports_value(current):
-            return False
+            return False, None
+
+        encoded_runs: list[list[Any]] | None = [] if collect_runs else None
 
         for i in range(1, n):
             value = values[i]
             if not RLEEncoder.supports_value(value):
-                return False
+                return False, None
             if not RLEEncoder._supported_values_equal(value, current):
+                previous = current
+                previous_count = count
                 runs += 1
                 current = value
+                count = 1
                 if runs > max_runs:
-                    return False
+                    return False, None
+                if encoded_runs is not None:
+                    if runs > _MAX_CACHED_RLE_RUNS:
+                        encoded_runs = None
+                    else:
+                        encoded_runs.append([previous, previous_count])
+            else:
+                count += 1
 
-        return True
+        if encoded_runs is None:
+            return True, None
+
+        encoded_runs.append([current, count])
+        return True, encoded_runs
 
     def _is_delta_suitable(self, values: list) -> bool:
         n = len(values)
@@ -93,8 +128,11 @@ class ColumnEncoder:
         if self._skip_analysis or not values:
             return self._encode_raw(values)
 
-        encoding_type = self._analyzer.determine_encoding(values)
-        return self._apply_encoding(values, encoding_type)
+        encoding_type, rle_runs = self._analyzer._determine_encoding_and_rle_runs(
+            values,
+            cache_rle_runs=True,
+        )
+        return self._apply_encoding(values, encoding_type, rle_runs=rle_runs)
 
     def decode(self, encoded: dict[str, Any], max_values: int | None = None) -> list:
         if max_values is not None and (
@@ -134,9 +172,16 @@ class ColumnEncoder:
             raise ResourceLimitError("Column payload exceeds the maximum output size")
         return values
 
-    def _apply_encoding(self, values: list, encoding_type: EncodingType) -> dict[str, Any]:
+    def _apply_encoding(
+        self,
+        values: list,
+        encoding_type: EncodingType,
+        *,
+        rle_runs: list[list[Any]] | None = None,
+    ) -> dict[str, Any]:
         if encoding_type == EncodingType.RLE:
-            return {"t": EncodingType.RLE, "d": RLEEncoder.encode(values)}
+            runs = rle_runs if rle_runs is not None else RLEEncoder.encode(values)
+            return {"t": EncodingType.RLE, "d": runs}
 
         if encoding_type == EncodingType.DELTA:
             base, deltas = DeltaEncoder.encode(values)

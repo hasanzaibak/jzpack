@@ -1,0 +1,216 @@
+{
+  "base_revision": "995db735be80649945d10024238f2578e04c14e1",
+  "benchmark": {
+    "allocation_measurement": {
+      "maximum_cached_rle_runs": 32,
+      "metric": "tracemalloc peak bytes above pre-call traced current bytes",
+      "samples_per_variant": 3,
+      "scope": "traced Python allocations only; not RSS or native allocations",
+      "workloads": {
+        "constant": {
+          "baseline_peak_traced_python_bytes_median": 180,
+          "candidate_change_percent": 8.888888888888879,
+          "candidate_peak_traced_python_bytes_median": 196,
+          "expected_encoding": 1,
+          "rows": 100000,
+          "run_ratio": 1e-05,
+          "runs": 1,
+          "value_kind": "string"
+        },
+        "first-over-threshold-integer-runs": {
+          "baseline_peak_traced_python_bytes_median": 3900,
+          "candidate_change_percent": 0.0,
+          "candidate_peak_traced_python_bytes_median": 3900,
+          "expected_encoding": 0,
+          "rows": 100001,
+          "run_ratio": 0.1000089999100009,
+          "runs": 10001,
+          "value_kind": "integer"
+        },
+        "one-percent-runs": {
+          "baseline_peak_traced_python_bytes_median": 76408,
+          "candidate_change_percent": 0.0,
+          "candidate_peak_traced_python_bytes_median": 76408,
+          "expected_encoding": 1,
+          "rows": 100000,
+          "run_ratio": 0.01,
+          "runs": 1000,
+          "value_kind": "string"
+        },
+        "threshold-ten-percent-runs": {
+          "baseline_peak_traced_python_bytes_median": 800728,
+          "candidate_change_percent": 0.0,
+          "candidate_peak_traced_python_bytes_median": 800728,
+          "expected_encoding": 1,
+          "rows": 100000,
+          "run_ratio": 0.1,
+          "runs": 10000,
+          "value_kind": "string"
+        }
+      }
+    },
+    "harness_sha256": "facb028ea8cebf89dacda71ac47c16719db826cf81fe4fa2f3edbbed9bfd8d99",
+    "report_sha256": "c2c53b7208f88cfc9f27d9f76bf303f8477eba26d562bab876a6a4466fb3693e",
+    "workloads": [
+      {
+        "baseline_median_ns": 14682958,
+        "candidate_change_percent": -49.1289493574796,
+        "candidate_median_ns": 7469375,
+        "candidate_wins": 15,
+        "column_wire_bytes_identical": true,
+        "name": "repeated-string-column",
+        "pairs": 15
+      },
+      {
+        "archive_bytes_identical": true,
+        "baseline_median_ns": 2176667,
+        "candidate_change_percent": -13.65812960824968,
+        "candidate_median_ns": 1879375,
+        "candidate_wins": 15,
+        "name": "public-repeated-string-archive",
+        "pairs": 15
+      },
+      {
+        "archive_bytes_identical": true,
+        "baseline_median_ns": 3718167,
+        "candidate_change_percent": -0.4852390976521459,
+        "candidate_median_ns": 3700125,
+        "candidate_wins": 7,
+        "name": "high-entropy",
+        "pairs": 15
+      },
+      {
+        "archive_bytes_identical": true,
+        "baseline_median_ns": 5015292,
+        "candidate_change_percent": 0.5341862447889367,
+        "candidate_median_ns": 5042083,
+        "candidate_wins": 9,
+        "name": "integer-series",
+        "pairs": 15
+      },
+      {
+        "archive_bytes_identical": true,
+        "baseline_median_ns": 9231833,
+        "candidate_change_percent": -2.4245780875802203,
+        "candidate_median_ns": 9008000,
+        "candidate_wins": 14,
+        "name": "mixed-events",
+        "pairs": 15
+      },
+      {
+        "archive_bytes_identical": true,
+        "baseline_median_ns": 7127375,
+        "candidate_change_percent": 2.4483067047826212,
+        "candidate_median_ns": 7301875,
+        "candidate_wins": 6,
+        "name": "nested-arrays",
+        "pairs": 15
+      },
+      {
+        "archive_bytes_identical": true,
+        "baseline_median_ns": 6215334,
+        "candidate_change_percent": 0.11664698952622565,
+        "candidate_median_ns": 6222584,
+        "candidate_wins": 7,
+        "name": "optional-fields",
+        "pairs": 15
+      }
+    ]
+  },
+  "candidate_analyzer_sha256": "310a87e4c6be83bf76caeaf10d992e6a9b1c7595a290409f68ec2330ceabca8d",
+  "candidate_head": "995db735be80649945d10024238f2578e04c14e1",
+  "candidate_package_diff_sha256": "812ca645b3988f8e2e4eb0f90e705b2be46107fd19697e0fd234fa9ced1263a4",
+  "changed_files_sha256": {
+    "benchmarks/compare_rle_run_reuse.py": "facb028ea8cebf89dacda71ac47c16719db826cf81fe4fa2f3edbbed9bfd8d99",
+    "benchmarks/results/rle-run-reuse.json": "c2c53b7208f88cfc9f27d9f76bf303f8477eba26d562bab876a6a4466fb3693e",
+    "docs/RLE-RUN-REUSE.md": "f31e2296633cdfabc3d9672a66d04811797928b51c1e1def914ec8fdd57ea150",
+    "jzpack/analyzer.py": "310a87e4c6be83bf76caeaf10d992e6a9b1c7595a290409f68ec2330ceabca8d",
+    "tests/test_rle_run_reuse.py": "54a532262e3b1045f51631718b7fa67440f6cd053e72e9dc57889f7abc4e559b"
+  },
+  "commit_created": false,
+  "complete_diff_construction": {
+    "algorithm": "SHA-256 of concatenated bytes yielded by Python 3.12.13 difflib.diff_bytes(difflib.unified_diff, ...), default three context lines",
+    "base_bytes": "git show 995db735be80649945d10024238f2578e04c14e1:<path>; use empty bytes when path is absent at base",
+    "candidate_bytes": "current worktree bytes for each path",
+    "excluded": "docs/evidence/rle-run-reuse-manifest.json, to avoid a self-referential hash",
+    "labels": "fromfile=b'a/'+path.encode(); tofile=b'b/'+path.encode()",
+    "line_splitting": "splitlines(keepends=True)",
+    "path_order": [
+      "benchmarks/compare_rle_run_reuse.py",
+      "benchmarks/results/rle-run-reuse.json",
+      "docs/RLE-RUN-REUSE.md",
+      "jzpack/analyzer.py",
+      "tests/test_rle_run_reuse.py"
+    ]
+  },
+  "complete_diff_sha256": "13dfc0b01024905feaa66f171cdb823d0344d87bd1983e64d11ccd29b8489c40",
+  "environment": {
+    "jzpack": "0.5.3",
+    "machine": "arm64",
+    "msgpack": "1.2.3",
+    "platform": "macOS-27.2-arm64-arm-64bit",
+    "python": "3.12.13 (main, May  4 2026, 23:56:25) [Clang 21.0.0 (clang-2100.0.123.102)]",
+    "python_implementation": "CPython",
+    "zstandard": "0.25.0",
+    "zstandard_native": [
+      1,
+      5,
+      7
+    ]
+  },
+  "format": "jzpack-rle-run-reuse-final-manifest-v3",
+  "frozen": true,
+  "push_or_merge": false,
+  "runtime_source_differences": [
+    "jzpack/analyzer.py"
+  ],
+  "source_hashes": {
+    "baseline_jzpack_files_sha256": {
+      "jzpack/__init__.py": "44d1407dd877c971f4ec2ac006a9183c2e86c609eb4a3dad11048999272ebc9f",
+      "jzpack/analyzer.py": "5a045774ce99c53ef5c373d42a1f7dd0693a36920afa1a311f34fd88932f01ae",
+      "jzpack/chunks.py": "e88d8f7be686fd7c81b012e42acd22d9b5f3fe9646fb7cde3d34b276f13b1059",
+      "jzpack/compressor.py": "45069d484a78f0afc5c01415409f617b014ffd86a9685337f4edb49e1eafe5fa",
+      "jzpack/encoders.py": "7a24623c54f0f21de910bbbbb267ed051efd29f2507354063f0675d41e048c87",
+      "jzpack/errors.py": "db1cd7bf6b036261a98bc24a4f184e243a583e684dd5f2b19f6324bfbf999e99",
+      "jzpack/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "jzpack/schema.py": "75787c6f54badc28ddf5c1eab8742cc64ae30b3dda0d5ef42b7cba00c547761e",
+      "jzpack/serializer.py": "88089d61f66bc084bca3aa7fe43f4332bc8887705f5828388796382b265e96a3",
+      "jzpack/writer.py": "74fd13652d8563bf7827d1e71a85bcc92d3552256c7865c79263ca70036d5b78"
+    },
+    "benchmark_script_sha256": "facb028ea8cebf89dacda71ac47c16719db826cf81fe4fa2f3edbbed9bfd8d99",
+    "candidate_jzpack_files_sha256": {
+      "jzpack/__init__.py": "44d1407dd877c971f4ec2ac006a9183c2e86c609eb4a3dad11048999272ebc9f",
+      "jzpack/analyzer.py": "310a87e4c6be83bf76caeaf10d992e6a9b1c7595a290409f68ec2330ceabca8d",
+      "jzpack/chunks.py": "e88d8f7be686fd7c81b012e42acd22d9b5f3fe9646fb7cde3d34b276f13b1059",
+      "jzpack/compressor.py": "45069d484a78f0afc5c01415409f617b014ffd86a9685337f4edb49e1eafe5fa",
+      "jzpack/encoders.py": "7a24623c54f0f21de910bbbbb267ed051efd29f2507354063f0675d41e048c87",
+      "jzpack/errors.py": "db1cd7bf6b036261a98bc24a4f184e243a583e684dd5f2b19f6324bfbf999e99",
+      "jzpack/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "jzpack/schema.py": "75787c6f54badc28ddf5c1eab8742cc64ae30b3dda0d5ef42b7cba00c547761e",
+      "jzpack/serializer.py": "88089d61f66bc084bca3aa7fe43f4332bc8887705f5828388796382b265e96a3",
+      "jzpack/writer.py": "74fd13652d8563bf7827d1e71a85bcc92d3552256c7865c79263ca70036d5b78"
+    },
+    "candidate_patch_sha256": "812ca645b3988f8e2e4eb0f90e705b2be46107fd19697e0fd234fa9ced1263a4",
+    "corpus_v1_generator_sha256": "edbc687cfcc8569eddcf1eb60145b2f6cb506c93f04418f8ab66870821517422",
+    "exact_oracle_sha256": "596960e45e66cf63e13b47ea08f010dd97e65d0669d1301e13e47f78f912d221"
+  },
+  "validation": {
+    "benchmark": "15 alternating pairs per timed workload, 2 warmups; byte equality and exact round trips outside timers; allocation samples measured separately",
+    "current": {
+      "compileall": "passed",
+      "msgpack": "1.2.3",
+      "pytest": "476 passed",
+      "python": "3.12.13",
+      "zstandard": "0.25.0"
+    },
+    "git_diff_check": "passed; tracked and untracked files checked",
+    "minimum_runtime_dependencies": {
+      "compileall": "passed",
+      "msgpack": "1.0.0",
+      "pytest": "476 passed",
+      "python": "3.11.15",
+      "zstandard": "0.21.0"
+    },
+    "ruff_check": "passed"
+  }
+}
