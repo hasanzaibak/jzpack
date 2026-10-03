@@ -24,24 +24,32 @@ behavior, and output integrity remain required contracts; see [the writer profil
 [writer resource model and measurements](WRITER.md), [the streamed comparison](STREAMED-BASELINE.md),
 and the [benchmark index](../BENCHMARKS.md).
 
-The current unpublished decoder candidate appends reconstructed values only for
-exact built-in lists; list subclasses retain indexed reconstruction and its prior
-error behavior under inconsistent length and iteration methods. Two source-pinned
-captures show repeatable package-level decode improvements for the measured
-high-entropy, integer-series, and mixed-event corpus profiles, with small traced
-allocation increases. Nested-array results are inconclusive, optional-fields does
-not invoke delta decoding, and RSS was not measured. See the
-[paired Delta decoder evidence](../BENCHMARKS.md#sixth-wave-delta-decoder-append-path).
-The candidate still requires review of the complete evidence and documentation
-change before delivery.
+Published 0.5.6 appends reconstructed DELTA values for exact built-in lists;
+list subclasses retain indexed reconstruction and its prior error behavior under
+inconsistent length and iteration methods. Two source-pinned captures show
+repeatable package-level median-time reductions for the measured high-entropy,
+integer-series, and mixed-event profiles, with small traced-allocation increases.
+Nested-array results are inconclusive, optional-fields does not invoke delta
+decoding, and RSS was not measured. See the
+[paired Delta decoder evidence](../BENCHMARKS.md#sixth-wave-delta-decoder-append-path)
+and [0.5.6 delivery ledger](RELEASES.md#verified-deliveries).
+
+An unpublished schema-ingestion candidate adds identity-based dispatch for built-in
+leaf values in `SchemaManager._flatten`, while retaining the recursive path for dict
+and generic `Mapping` subclasses. The first capture shows 13.4–20.7% public encode
+median-time reductions on selected synthetic profiles; the fresh-process nested
+repeat shows 15.6–18.3% reductions, with timing outliers. Exact archive bytes and
+corpus-oracle round trips match, but memory was not measured. This candidate is
+separate from published 0.5.6 and remains under review; see the
+[schema-ingestion measurements](../BENCHMARKS.md#seventh-wave-schema-ingestion-dispatch-candidate).
 
 ## Planned work
 
-1. **Planned: continue reducing writer and decoder CPU cost.** Profile the remaining
-   encoded-body sizing and schema-reconstruction passes after the measured Delta decoder
-   candidate. Accept further changes only when exact-value and failure tests pass, resource
-   limits remain enforced before allocation, and paired measurements include CPU, memory,
-   and archive size.
+1. **Planned: profile encoded-body sizing and schema reconstruction.** After review of
+   the schema-ingestion candidate, profile the remaining writer body-sizing and decoder
+   reconstruction passes as the next distinct costs. Accept changes only when exact-value
+   and failure tests pass, resource limits remain enforced before allocation, and paired
+   measurements include CPU, memory, and archive size.
 2. **Planned: expand scale evidence.** Repeat representative measurements on larger real
    inputs and additional supported environments. Keep parsing, archive work, memory, and
    integrity boundaries explicit; distinguish fidelity checks from performance results.

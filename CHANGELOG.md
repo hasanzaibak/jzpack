@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Candidate schema-ingestion dispatch skips repeated mapping checks for built-in leaf types while retaining subclass and generic `Mapping` behavior. Regression coverage and workload-specific, byte-identical benchmark captures are retained; this candidate is not part of published 0.5.6.
+
 ## 0.5.6 — 2026-10-03
 
 - Append reconstructed DELTA values for exact built-in lists while preserving the indexed subclass path and output-limit behavior.

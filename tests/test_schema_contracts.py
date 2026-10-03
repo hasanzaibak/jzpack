@@ -95,6 +95,48 @@ def test_userdict_root_and_nested_mappings_keep_generic_mapping_behavior() -> No
     ]
 
 
+def test_flatten_fastpath_keeps_dict_and_string_subclasses() -> None:
+    class StringKey(str):
+        pass
+
+    class DictMapping(dict):
+        pass
+
+    class ListLeaf(list):
+        pass
+
+    key = StringKey("value")
+    nested = DictMapping({key: [1, {"inside": True}]})
+    record = DictMapping({"outer": nested, "empty": DictMapping()})
+    flat = SchemaManager()._flatten(record)
+
+    value_path = next(path for path in flat if path[-1] == "value")
+    assert value_path[-1] is key
+    assert flat[value_path] is nested[key]
+    assert flat[("empty",)] == {}
+    assert decompress(compress(record)) == [
+        {"outer": {"value": [1, {"inside": True}]}, "empty": {}}
+    ]
+
+    leaf = ListLeaf([{"inside": True}])
+    flattened_leaf = SchemaManager()._flatten({"sequence": leaf})
+    assert flattened_leaf[("sequence",)] is leaf
+
+
+def test_flatten_fastpath_accepts_dict_subclass_with_unhashable_metaclass() -> None:
+    class UnhashableMeta(type):
+        __hash__ = None
+
+    class MappingDict(dict, metaclass=UnhashableMeta):
+        pass
+
+    nested = MappingDict({"value": 7})
+    record = {"outer": nested}
+
+    assert SchemaManager()._flatten(record) == {("outer", "value"): 7}
+    assert decompress(compress(record)) == [{"outer": {"value": 7}}]
+
+
 @pytest.mark.parametrize(
     "record",
     [
