@@ -224,6 +224,33 @@ no memory measurement. Its streamed comparator is about 20× faster and writes a
 different, smaller archive. These results are one source and one host, not a
 cross-platform ranking; compressed bytes can also differ across dependency versions.
 
+## Fifth-wave shallow schema reconstruction
+
+The shallow-path specialization in `SchemaReconstructor.reconstruct_records`
+binds flat fields and columns once per schema, then builds rows with a dict
+comprehension. Schemas containing any nested path retain the existing row
+builder. The fixed-archive comparison against base `d5653b8` uses 50,000
+schema-diverse rows, 40,000 nested rows, and a 50,000-row homogeneous control;
+each case uses the same pre-change archive hash. Decode medians are milliseconds.
+
+| Shape | Baseline | Candidate | Change |
+|---|---:|---:|---:|
+| Schema-diverse | 89.508 | 75.783 | −15.33% |
+| Nested records | 394.642 | 379.653 | −3.80% |
+| Homogeneous | 54.225 | 41.196 | −24.03% |
+
+Three fresh processes per variant and shape each take five timed samples after
+one warmup. Exact values, types, float64 bits, record order, and decoded dict key
+order are checked outside the timer. The nested result is within process-level
+run variation and does not establish a nested-path speedup. Traced peak memory
+rose by under 1 KB per shape; median RSS high-water deltas were unchanged. These
+memory probes do not establish a memory guarantee. The complete raw
+samples, fixed input/archive fingerprints, baseline/candidate source and patch
+hashes, harness hash, and runtime details are in the
+[schema reconstruction report](benchmarks/results/schema-flat-fastpath-d5653-candidate.json).
+This is evidence for the measured synthetic shapes on one macOS ARM64 host, not
+a general package speed claim.
+
 ## Limits of these results
 
 These are small, in-memory synthetic workloads on one macOS ARM64 machine. They show behavior for

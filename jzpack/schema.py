@@ -141,6 +141,13 @@ class SchemaReconstructor:
             if key not in columns or len(columns[key]) != num_records:
                 raise ValueError("Invalid JZPK payload: column length does not match row count")
 
+        if all(len(key) == 1 for key in keys):
+            flat_columns = [(key[0], columns[key]) for key in keys]
+            return [
+                {field: values[index] for field, values in flat_columns}
+                for index in range(num_records)
+            ]
+
         return [self._build_record(columns, keys, i) for i in range(num_records)]
 
     def _normalize_path(self, key: str | list[str] | tuple[str, ...]) -> Path:

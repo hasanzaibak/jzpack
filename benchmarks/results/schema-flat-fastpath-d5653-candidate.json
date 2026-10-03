@@ -1,0 +1,669 @@
+{
+  "benchmark": "jzpack-shallow-schema-reconstruction",
+  "configuration": {
+    "archive_generation": "once per fixed corpus outside timers; each archive SHA-256 must match the pre-change baseline",
+    "corpus": "benchmarks.corpus_wave3.build_records; homogeneous control fills absent optional values from schema-diverse corpus",
+    "memory": "fresh process; archive preloaded; one decode; tracemalloc peak and, when resource is available, process RSS high-water delta measured separately",
+    "memory_limitations": "tracemalloc excludes native allocations; ru_maxrss is a process high-water delta and can understate marginal allocation",
+    "memory_processes_per_case_and_variant": 3,
+    "samples_per_process": 5,
+    "seed": 1729,
+    "timer": "time.perf_counter_ns around JZPackCompressor.decompress only",
+    "timing_processes_per_case_and_variant": 3,
+    "validation": "records_difference exact types/values/float64 bits/full row order plus recursive dict insertion order, all after timer",
+    "variants": {
+      "baseline": "reconstruction method from d5653b806f952fc602474409d4d0be83311c33c3",
+      "candidate": "checked-in shallow-path specialization; nested paths use current existing builder"
+    },
+    "warmups_per_process": 1
+  },
+  "contract_audit": {
+    "direct_schema_contracts": {
+      "bad_column_length": "candidate matches baseline values/order or exception type/message",
+      "empty_rows": "candidate matches baseline values/order or exception type/message",
+      "nested_mixed_order": "candidate matches baseline values/order or exception type/message",
+      "ordered_duplicate_flat_paths": "candidate matches baseline values/order or exception type/message",
+      "zero_rows": "candidate matches baseline values/order or exception type/message"
+    },
+    "ordering_scope": "candidate preserves baseline schema-path iteration order; original input mapping key order is not a round-trip contract",
+    "public_round_trip": "passed: record order, exact types/float64 bits, nested/dotted paths, null/missing, empty maps"
+  },
+  "provenance": {
+    "base_revision": "d5653b806f952fc602474409d4d0be83311c33c3",
+    "baseline_schema_sha256": "519570e439896b3bdc64ed892c892e5084f2b54482edf4569728eea890e5e4df",
+    "benchmark_script": "benchmarks/compare_schema_flat_fastpath.py",
+    "benchmark_script_sha256": "17129bce0cca9cc6688edc388d3e82a92ac26763aa66a06104a114f78005f4bb",
+    "branch": "codex/schema-flat-fastpath-d5653",
+    "candidate_snapshot": "working tree snapshot pinned by source and patch hashes",
+    "candidate_source_sha256": {
+      "jzpack/schema.py": "5f7bd3d837ae7965fc54036a1e6a27844aebfda710bfbbf205b0627d79d0e3d7",
+      "tests/test_schema_reconstruction_fastpath.py": "f438eaf5b911a0591574373e975a64e5c2cfebf2ec129db6684216dd580424ad"
+    },
+    "corpus_generator_sha256": "596960e45e66cf63e13b47ea08f010dd97e65d0669d1301e13e47f78f912d221",
+    "head_revision": "d5653b806f952fc602474409d4d0be83311c33c3",
+    "implementation_and_test_patch_sha256": "845f973770e1b2812f27717719434971f5757fac2b48fc8a429fb3bd75da245f",
+    "jzpack_version": "0.5.5",
+    "msgpack": "1.2.3",
+    "platform": "macOS-27.2-arm64-arm-64bit",
+    "python_executable_basename": "python",
+    "python_version": "3.12.13 (main, May  4 2026, 23:56:25) [Clang 21.0.0 (clang-2100.0.123.102)]",
+    "repository_worktree_status_at_capture": [
+      "M  BENCHMARKS.md",
+      "AM benchmarks/compare_schema_flat_fastpath.py",
+      "A  benchmarks/results/schema-flat-fastpath-d5653-candidate.json",
+      "M  docs/TEST-COVERAGE.md",
+      "M  jzpack/schema.py",
+      "A  tests/test_schema_reconstruction_fastpath.py"
+    ],
+    "tracked_candidate_files": [
+      "jzpack/schema.py",
+      "tests/test_schema_reconstruction_fastpath.py"
+    ],
+    "zstandard": "0.25.0",
+    "zstandard_native": [
+      1,
+      5,
+      7
+    ]
+  },
+  "schema_version": 1,
+  "workloads": {
+    "homogeneous": {
+      "archive_sha256": "9b4a2296b97a0895236dbf68a07958be46e5f355c4f472ccf947a37a1ba4ca3c",
+      "archive_sha256_matches_prechange_baseline": true,
+      "archive_size_bytes": 645303,
+      "baseline_round_trip_values_and_candidate_order_checked_before_timing": true,
+      "canonical_input_bytes": 15271685,
+      "distinct_top_level_key_sets": 1,
+      "input_sha256": "7b73e09608aa6657fb5c3812ae037979e4b7cbf7941f8240279f611c4ef48c72",
+      "record_count": 50000,
+      "variants": {
+        "baseline": {
+          "memory_runs": [
+            {
+              "case": "homogeneous",
+              "decoded_records": 50000,
+              "exact_validation": "passed outside memory measurement",
+              "process_peak_rss_delta_bytes": 116178944,
+              "tracemalloc_peak_delta_bytes": 51901956,
+              "variant": "baseline",
+              "worker_mode": "memory"
+            },
+            {
+              "case": "homogeneous",
+              "decoded_records": 50000,
+              "exact_validation": "passed outside memory measurement",
+              "process_peak_rss_delta_bytes": 116211712,
+              "tracemalloc_peak_delta_bytes": 51901956,
+              "variant": "baseline",
+              "worker_mode": "memory"
+            },
+            {
+              "case": "homogeneous",
+              "decoded_records": 50000,
+              "exact_validation": "passed outside memory measurement",
+              "process_peak_rss_delta_bytes": 116178944,
+              "tracemalloc_peak_delta_bytes": 51901956,
+              "variant": "baseline",
+              "worker_mode": "memory"
+            }
+          ],
+          "memory_summary": {
+            "process_peak_rss_delta_bytes": 116178944,
+            "tracemalloc_peak_delta_bytes": 51901956
+          },
+          "timing_runs": [
+            {
+              "case": "homogeneous",
+              "exact_validations": 6,
+              "key_order_validation": "passed outside timer",
+              "median_ns": 53789959,
+              "samples_ns": [
+                54340583,
+                53789959,
+                53527250,
+                51858458,
+                56849583
+              ],
+              "variant": "baseline",
+              "worker_mode": "time"
+            },
+            {
+              "case": "homogeneous",
+              "exact_validations": 6,
+              "key_order_validation": "passed outside timer",
+              "median_ns": 53699750,
+              "samples_ns": [
+                53279542,
+                53699750,
+                53198958,
+                54224625,
+                53748792
+              ],
+              "variant": "baseline",
+              "worker_mode": "time"
+            },
+            {
+              "case": "homogeneous",
+              "exact_validations": 6,
+              "key_order_validation": "passed outside timer",
+              "median_ns": 56815375,
+              "samples_ns": [
+                55391833,
+                57677416,
+                56815375,
+                54951583,
+                57251667
+              ],
+              "variant": "baseline",
+              "worker_mode": "time"
+            }
+          ],
+          "timing_summary": {
+            "maximum_ns": 57677416,
+            "median_ns": 54224625,
+            "minimum_ns": 51858458,
+            "process_medians_ns": [
+              53789959,
+              53699750,
+              56815375
+            ],
+            "sample_count": 15
+          }
+        },
+        "candidate": {
+          "median_change_vs_baseline_percent": -24.026753527571653,
+          "memory_runs": [
+            {
+              "case": "homogeneous",
+              "decoded_records": 50000,
+              "exact_validation": "passed outside memory measurement",
+              "process_peak_rss_delta_bytes": 116178944,
+              "tracemalloc_peak_delta_bytes": 51902812,
+              "variant": "candidate",
+              "worker_mode": "memory"
+            },
+            {
+              "case": "homogeneous",
+              "decoded_records": 50000,
+              "exact_validation": "passed outside memory measurement",
+              "process_peak_rss_delta_bytes": 116162560,
+              "tracemalloc_peak_delta_bytes": 51902812,
+              "variant": "candidate",
+              "worker_mode": "memory"
+            },
+            {
+              "case": "homogeneous",
+              "decoded_records": 50000,
+              "exact_validation": "passed outside memory measurement",
+              "process_peak_rss_delta_bytes": 116195328,
+              "tracemalloc_peak_delta_bytes": 51902812,
+              "variant": "candidate",
+              "worker_mode": "memory"
+            }
+          ],
+          "memory_summary": {
+            "process_peak_rss_delta_bytes": 116178944,
+            "tracemalloc_peak_delta_bytes": 51902812
+          },
+          "timing_runs": [
+            {
+              "case": "homogeneous",
+              "exact_validations": 6,
+              "key_order_validation": "passed outside timer",
+              "median_ns": 41348417,
+              "samples_ns": [
+                42557500,
+                41348417,
+                43256709,
+                41087666,
+                40992583
+              ],
+              "variant": "candidate",
+              "worker_mode": "time"
+            },
+            {
+              "case": "homogeneous",
+              "exact_validations": 6,
+              "key_order_validation": "passed outside timer",
+              "median_ns": 40628458,
+              "samples_ns": [
+                40551334,
+                41365667,
+                40991250,
+                38983958,
+                40628458
+              ],
+              "variant": "candidate",
+              "worker_mode": "time"
+            },
+            {
+              "case": "homogeneous",
+              "exact_validations": 6,
+              "key_order_validation": "passed outside timer",
+              "median_ns": 41643625,
+              "samples_ns": [
+                41643625,
+                41762667,
+                41196208,
+                40790250,
+                41885125
+              ],
+              "variant": "candidate",
+              "worker_mode": "time"
+            }
+          ],
+          "timing_summary": {
+            "maximum_ns": 43256709,
+            "median_ns": 41196208,
+            "minimum_ns": 38983958,
+            "process_medians_ns": [
+              41348417,
+              40628458,
+              41643625
+            ],
+            "sample_count": 15
+          }
+        }
+      }
+    },
+    "nested-records": {
+      "archive_sha256": "053f385471174124c4e8ba6ba5aa87a3d21cd4ee0f3b246ad8de60c8f4acd8c4",
+      "archive_sha256_matches_prechange_baseline": true,
+      "archive_size_bytes": 913354,
+      "baseline_round_trip_values_and_candidate_order_checked_before_timing": true,
+      "canonical_input_bytes": 19567513,
+      "distinct_top_level_key_sets": 1,
+      "input_sha256": "64d11d7f5bf23a15eaf88a262e9c0ad5e0716e29c96e1da491956b2a720027c7",
+      "record_count": 40000,
+      "variants": {
+        "baseline": {
+          "memory_runs": [
+            {
+              "case": "nested-records",
+              "decoded_records": 40000,
+              "exact_validation": "passed outside memory measurement",
+              "process_peak_rss_delta_bytes": 300761088,
+              "tracemalloc_peak_delta_bytes": 126052291,
+              "variant": "baseline",
+              "worker_mode": "memory"
+            },
+            {
+              "case": "nested-records",
+              "decoded_records": 40000,
+              "exact_validation": "passed outside memory measurement",
+              "process_peak_rss_delta_bytes": 300744704,
+              "tracemalloc_peak_delta_bytes": 126052291,
+              "variant": "baseline",
+              "worker_mode": "memory"
+            },
+            {
+              "case": "nested-records",
+              "decoded_records": 40000,
+              "exact_validation": "passed outside memory measurement",
+              "process_peak_rss_delta_bytes": 300777472,
+              "tracemalloc_peak_delta_bytes": 126052291,
+              "variant": "baseline",
+              "worker_mode": "memory"
+            }
+          ],
+          "memory_summary": {
+            "process_peak_rss_delta_bytes": 300761088,
+            "tracemalloc_peak_delta_bytes": 126052291
+          },
+          "timing_runs": [
+            {
+              "case": "nested-records",
+              "exact_validations": 6,
+              "key_order_validation": "passed outside timer",
+              "median_ns": 384039000,
+              "samples_ns": [
+                311757375,
+                365074459,
+                419765250,
+                457313292,
+                384039000
+              ],
+              "variant": "baseline",
+              "worker_mode": "time"
+            },
+            {
+              "case": "nested-records",
+              "exact_validations": 6,
+              "key_order_validation": "passed outside timer",
+              "median_ns": 366332708,
+              "samples_ns": [
+                299670292,
+                402717166,
+                366332708,
+                472655459,
+                361742750
+              ],
+              "variant": "baseline",
+              "worker_mode": "time"
+            },
+            {
+              "case": "nested-records",
+              "exact_validations": 6,
+              "key_order_validation": "passed outside timer",
+              "median_ns": 403600583,
+              "samples_ns": [
+                303878000,
+                403600583,
+                409482083,
+                394642458,
+                450814584
+              ],
+              "variant": "baseline",
+              "worker_mode": "time"
+            }
+          ],
+          "timing_summary": {
+            "maximum_ns": 472655459,
+            "median_ns": 394642458,
+            "minimum_ns": 299670292,
+            "process_medians_ns": [
+              384039000,
+              366332708,
+              403600583
+            ],
+            "sample_count": 15
+          }
+        },
+        "candidate": {
+          "median_change_vs_baseline_percent": -3.7983219230810716,
+          "memory_runs": [
+            {
+              "case": "nested-records",
+              "decoded_records": 40000,
+              "exact_validation": "passed outside memory measurement",
+              "process_peak_rss_delta_bytes": 300761088,
+              "tracemalloc_peak_delta_bytes": 126052619,
+              "variant": "candidate",
+              "worker_mode": "memory"
+            },
+            {
+              "case": "nested-records",
+              "decoded_records": 40000,
+              "exact_validation": "passed outside memory measurement",
+              "process_peak_rss_delta_bytes": 300744704,
+              "tracemalloc_peak_delta_bytes": 126052619,
+              "variant": "candidate",
+              "worker_mode": "memory"
+            },
+            {
+              "case": "nested-records",
+              "decoded_records": 40000,
+              "exact_validation": "passed outside memory measurement",
+              "process_peak_rss_delta_bytes": 300761088,
+              "tracemalloc_peak_delta_bytes": 126052619,
+              "variant": "candidate",
+              "worker_mode": "memory"
+            }
+          ],
+          "memory_summary": {
+            "process_peak_rss_delta_bytes": 300761088,
+            "tracemalloc_peak_delta_bytes": 126052619
+          },
+          "timing_runs": [
+            {
+              "case": "nested-records",
+              "exact_validations": 6,
+              "key_order_validation": "passed outside timer",
+              "median_ns": 361648333,
+              "samples_ns": [
+                352754875,
+                361648333,
+                365940166,
+                361484375,
+                412251041
+              ],
+              "variant": "candidate",
+              "worker_mode": "time"
+            },
+            {
+              "case": "nested-records",
+              "exact_validations": 6,
+              "key_order_validation": "passed outside timer",
+              "median_ns": 426722125,
+              "samples_ns": [
+                301379416,
+                427447166,
+                469790958,
+                426722125,
+                414020833
+              ],
+              "variant": "candidate",
+              "worker_mode": "time"
+            },
+            {
+              "case": "nested-records",
+              "exact_validations": 6,
+              "key_order_validation": "passed outside timer",
+              "median_ns": 379652667,
+              "samples_ns": [
+                337934792,
+                415423458,
+                376497625,
+                379652667,
+                432939541
+              ],
+              "variant": "candidate",
+              "worker_mode": "time"
+            }
+          ],
+          "timing_summary": {
+            "maximum_ns": 469790958,
+            "median_ns": 379652667,
+            "minimum_ns": 301379416,
+            "process_medians_ns": [
+              361648333,
+              426722125,
+              379652667
+            ],
+            "sample_count": 15
+          }
+        }
+      }
+    },
+    "schema-diverse": {
+      "archive_sha256": "bb7ccbed457684dd133d676b1aea03c8a848334c08aeb975c62ed6cf75862a65",
+      "archive_sha256_matches_prechange_baseline": true,
+      "archive_size_bytes": 1258085,
+      "baseline_round_trip_values_and_candidate_order_checked_before_timing": true,
+      "canonical_input_bytes": 14362666,
+      "distinct_top_level_key_sets": 630,
+      "input_sha256": "7c5e91be9c457c5cf25ca3d6fc9a42cc035ccac676ef319c2e8bb3f60756f749",
+      "record_count": 50000,
+      "variants": {
+        "baseline": {
+          "memory_runs": [
+            {
+              "case": "schema-diverse",
+              "decoded_records": 50000,
+              "exact_validation": "passed outside memory measurement",
+              "process_peak_rss_delta_bytes": 135987200,
+              "tracemalloc_peak_delta_bytes": 60474921,
+              "variant": "baseline",
+              "worker_mode": "memory"
+            },
+            {
+              "case": "schema-diverse",
+              "decoded_records": 50000,
+              "exact_validation": "passed outside memory measurement",
+              "process_peak_rss_delta_bytes": 136019968,
+              "tracemalloc_peak_delta_bytes": 60474921,
+              "variant": "baseline",
+              "worker_mode": "memory"
+            },
+            {
+              "case": "schema-diverse",
+              "decoded_records": 50000,
+              "exact_validation": "passed outside memory measurement",
+              "process_peak_rss_delta_bytes": 136036352,
+              "tracemalloc_peak_delta_bytes": 60474921,
+              "variant": "baseline",
+              "worker_mode": "memory"
+            }
+          ],
+          "memory_summary": {
+            "process_peak_rss_delta_bytes": 136019968,
+            "tracemalloc_peak_delta_bytes": 60474921
+          },
+          "timing_runs": [
+            {
+              "case": "schema-diverse",
+              "exact_validations": 6,
+              "key_order_validation": "passed outside timer",
+              "median_ns": 109971916,
+              "samples_ns": [
+                79037416,
+                109971916,
+                129161166,
+                114338250,
+                95621792
+              ],
+              "variant": "baseline",
+              "worker_mode": "time"
+            },
+            {
+              "case": "schema-diverse",
+              "exact_validations": 6,
+              "key_order_validation": "passed outside timer",
+              "median_ns": 86592500,
+              "samples_ns": [
+                86592500,
+                82450583,
+                89508125,
+                94442500,
+                86169250
+              ],
+              "variant": "baseline",
+              "worker_mode": "time"
+            },
+            {
+              "case": "schema-diverse",
+              "exact_validations": 6,
+              "key_order_validation": "passed outside timer",
+              "median_ns": 83500291,
+              "samples_ns": [
+                83500291,
+                83390917,
+                92059834,
+                95346709,
+                82430625
+              ],
+              "variant": "baseline",
+              "worker_mode": "time"
+            }
+          ],
+          "timing_summary": {
+            "maximum_ns": 129161166,
+            "median_ns": 89508125,
+            "minimum_ns": 79037416,
+            "process_medians_ns": [
+              109971916,
+              86592500,
+              83500291
+            ],
+            "sample_count": 15
+          }
+        },
+        "candidate": {
+          "median_change_vs_baseline_percent": -15.334362103998945,
+          "memory_runs": [
+            {
+              "case": "schema-diverse",
+              "decoded_records": 50000,
+              "exact_validation": "passed outside memory measurement",
+              "process_peak_rss_delta_bytes": 136019968,
+              "tracemalloc_peak_delta_bytes": 60475649,
+              "variant": "candidate",
+              "worker_mode": "memory"
+            },
+            {
+              "case": "schema-diverse",
+              "decoded_records": 50000,
+              "exact_validation": "passed outside memory measurement",
+              "process_peak_rss_delta_bytes": 136052736,
+              "tracemalloc_peak_delta_bytes": 60475649,
+              "variant": "candidate",
+              "worker_mode": "memory"
+            },
+            {
+              "case": "schema-diverse",
+              "decoded_records": 50000,
+              "exact_validation": "passed outside memory measurement",
+              "process_peak_rss_delta_bytes": 135987200,
+              "tracemalloc_peak_delta_bytes": 60475649,
+              "variant": "candidate",
+              "worker_mode": "memory"
+            }
+          ],
+          "memory_summary": {
+            "process_peak_rss_delta_bytes": 136019968,
+            "tracemalloc_peak_delta_bytes": 60475649
+          },
+          "timing_runs": [
+            {
+              "case": "schema-diverse",
+              "exact_validations": 6,
+              "key_order_validation": "passed outside timer",
+              "median_ns": 85337750,
+              "samples_ns": [
+                88806792,
+                72598666,
+                76727416,
+                85337750,
+                98115375
+              ],
+              "variant": "candidate",
+              "worker_mode": "time"
+            },
+            {
+              "case": "schema-diverse",
+              "exact_validations": 6,
+              "key_order_validation": "passed outside timer",
+              "median_ns": 70894542,
+              "samples_ns": [
+                64585958,
+                67779208,
+                76088458,
+                75782625,
+                70894542
+              ],
+              "variant": "candidate",
+              "worker_mode": "time"
+            },
+            {
+              "case": "schema-diverse",
+              "exact_validations": 6,
+              "key_order_validation": "passed outside timer",
+              "median_ns": 70418208,
+              "samples_ns": [
+                65509041,
+                68745083,
+                77528333,
+                76745167,
+                70418208
+              ],
+              "variant": "candidate",
+              "worker_mode": "time"
+            }
+          ],
+          "timing_summary": {
+            "maximum_ns": 98115375,
+            "median_ns": 75782625,
+            "minimum_ns": 64585958,
+            "process_medians_ns": [
+              85337750,
+              70894542,
+              70418208
+            ],
+            "sample_count": 15
+          }
+        }
+      }
+    }
+  }
+}
