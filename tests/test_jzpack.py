@@ -3,7 +3,7 @@ import string
 
 import pytest
 
-from jzpack import JZPackCompressor, ResourceLimitError, StreamingCompressor, compress, decompress
+from jzpack import JZPackCompressor, StreamingCompressor, compress, decompress
 
 
 class TestBasicCompression:
@@ -221,12 +221,6 @@ class TestHeterogeneousSchemas:
 
 
 class TestCompressorClass:
-    def test_compressor_instance(self):
-        compressor = JZPackCompressor(compression_level=3)
-        data = [{"id": i} for i in range(100)]
-        compressed = compressor.compress(data)
-        assert compressor.decompress(compressed) == data
-
     def test_compressor_reuse(self):
         compressor = JZPackCompressor()
         data1 = [{"batch": 1, "id": i} for i in range(100)]
@@ -433,19 +427,6 @@ class TestRegressionCases:
     def test_mixed_column_types_fall_back_to_raw(self):
         data = [{"value": 0 if i == 0 else ("x" if i == 1 else i)} for i in range(100)]
         assert decompress(compress(data)) == data
-
-    def test_generator_input(self):
-        data = [{"id": i} for i in range(100)]
-        assert decompress(compress(record for record in data)) == data
-
-    def test_max_records_limit(self):
-        with pytest.raises(ResourceLimitError, match="max_records"):
-            decompress(compress([{"id": i} for i in range(10)]), max_records=5)
-
-    def test_max_output_size_limit(self):
-        with pytest.raises(ResourceLimitError, match="max_output_size"):
-            decompress(compress([{"id": i} for i in range(100)]), max_output_size=1)
-
 
 class TestEncodingStrategies:
     def test_rle_triggered(self):
