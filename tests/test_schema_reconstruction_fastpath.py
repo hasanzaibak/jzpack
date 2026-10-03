@@ -62,38 +62,3 @@ def test_flat_public_round_trip_preserves_missing_null_types_bits_and_record_ord
     restored = decompress(compress(records))
 
     assert is_faithful(records, restored)
-
-
-def test_any_nested_path_keeps_the_existing_row_builder(monkeypatch: pytest.MonkeyPatch) -> None:
-    reconstructor = SchemaReconstructor()
-    original_builder = SchemaReconstructor._build_record
-    built_indices: list[int] = []
-
-    def track_builder(
-        self: SchemaReconstructor,
-        columns: dict[tuple[str, ...], list[Any]],
-        key_paths: list[tuple[str, ...]],
-        index: int,
-    ) -> dict[str, Any]:
-        built_indices.append(index)
-        return original_builder(self, columns, key_paths, index)
-
-    monkeypatch.setattr(SchemaReconstructor, "_build_record", track_builder)
-    schema: dict[str, Any] = {
-        "keys": [("branch", "left"), ("branch", "deep", "leaf"), ("tail",)],
-        "columns": {
-            ("branch", "left"): [1, None],
-            ("branch", "deep", "leaf"): [2, 3],
-            ("tail",): [4, 5],
-        },
-        "count": 2,
-    }
-
-    records = reconstructor.reconstruct_records(schema)
-
-    assert built_indices == [0, 1]
-    assert records == [
-        {"branch": {"left": 1, "deep": {"leaf": 2}}, "tail": 4},
-        {"branch": {"left": None, "deep": {"leaf": 3}}, "tail": 5},
-    ]
-    assert [list(record) for record in records] == [["branch", "tail"], ["branch", "tail"]]

@@ -235,16 +235,16 @@ each case uses the same pre-change archive hash. Decode medians are milliseconds
 
 | Shape | Baseline | Candidate | Change |
 |---|---:|---:|---:|
-| Schema-diverse | 89.508 | 75.783 | −15.33% |
-| Nested records | 394.642 | 379.653 | −3.80% |
-| Homogeneous | 54.225 | 41.196 | −24.03% |
+| Schema-diverse | 89.695 | 75.971 | −15.30% |
+| Nested records | 395.589 | 395.357 | −0.06% |
+| Homogeneous | 55.983 | 41.654 | −25.60% |
 
 Three fresh processes per variant and shape each take five timed samples after
 one warmup. Exact values, types, float64 bits, record order, and decoded dict key
 order are checked outside the timer. The nested result is within process-level
 run variation and does not establish a nested-path speedup. Traced peak memory
-rose by under 1 KB per shape; median RSS high-water deltas were unchanged. These
-memory probes do not establish a memory guarantee. The complete raw
+rose by under 1 KB per shape; median RSS high-water deltas changed by at most
+192 KiB. These memory probes do not establish a memory guarantee. The complete raw
 samples, fixed input/archive fingerprints, baseline/candidate source and patch
 hashes, harness hash, and runtime details are in the
 [schema reconstruction report](benchmarks/results/schema-flat-fastpath-d5653-candidate.json).

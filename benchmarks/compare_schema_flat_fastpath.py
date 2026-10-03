@@ -22,6 +22,7 @@ import platform
 import statistics
 import subprocess
 import sys
+import tempfile
 import time
 import tracemalloc
 from pathlib import Path
@@ -38,7 +39,12 @@ from jzpack.schema import SchemaReconstructor
 
 REPOSITORY = Path(__file__).resolve().parents[1]
 DEFAULT_OUTPUT = REPOSITORY / "benchmarks/results/schema-flat-fastpath-d5653-candidate.json"
-TEMP_ROOT = Path(os.environ.get("JZPACK_SCHEMA_BENCH_TMPDIR", "/tmp/jzpack-schema-flat-fastpath-d5653"))
+TEMP_ROOT = Path(
+    os.environ.get(
+        "JZPACK_SCHEMA_BENCH_TMPDIR",
+        str(Path(tempfile.gettempdir()) / "jzpack-schema-flat-fastpath-d5653"),
+    )
+)
 BASE_REVISION = "d5653b806f952fc602474409d4d0be83311c33c3"
 SEED = 1729
 CASES = (("schema-diverse", 50_000), ("nested-records", 40_000), ("homogeneous", 50_000))
