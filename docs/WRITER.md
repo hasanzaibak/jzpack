@@ -129,3 +129,22 @@ including process startup varied between about 25.0 MB and 25.5 MB at the median
 deltas were noisy and non-monotonic. This small synthetic run is consistent with the configured
 chunk bounds, but does not establish a general RSS ceiling; it does not represent arbitrary records,
 allocator states, operating systems, or Zstandard workspaces.
+
+## Encoding-time comparison
+
+The bounded preflight also avoids rebuilding the candidate chunk body for each record. Two repeated,
+alternating five-sample comparisons against revision `2a7af898` measured 50,000-record schema-diverse
+inputs and 40,000-record nested inputs. The same deterministic corpus was used on both sides; exact
+archive bytes and round trips matched in every sample. Lazy-input timing includes record generation,
+while prebuilt-list timing excludes corpus creation. Both runs used Python 3.12.13 on macOS arm64.
+
+| Records and input | Median wall time saved | Median CPU time saved |
+|:---|---:|---:|
+| 50,000, schema-diverse, prebuilt list | 4.40–4.47% | 4.40–4.45% |
+| 50,000, schema-diverse, lazy iterator | 3.12–3.37% | 3.12–3.37% |
+| 40,000, nested records, prebuilt list | 10.03–10.30% | 10.03–10.30% |
+| 40,000, nested records, lazy iterator | 8.28–9.47% | 8.28–9.52% |
+
+The raw paired measurements, hashes, and environment are available in [run 2](../benchmarks/results/writer-preflight-2a7af-run2.json)
+and [run 3](../benchmarks/results/writer-preflight-2a7af-run3.json). These are workload-specific results
+from one machine and do not establish a universal speedup.

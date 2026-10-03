@@ -1,0 +1,300 @@
+{
+  "base_revision": "2a7af898db041beae0183d0ddf9fe6f034e5b7bd",
+  "baseline_runtime_source_sha256": {
+    "jzpack/analyzer.py": "310a87e4c6be83bf76caeaf10d992e6a9b1c7595a290409f68ec2330ceabca8d",
+    "jzpack/chunks.py": "e88d8f7be686fd7c81b012e42acd22d9b5f3fe9646fb7cde3d34b276f13b1059",
+    "jzpack/compressor.py": "45069d484a78f0afc5c01415409f617b014ffd86a9685337f4edb49e1eafe5fa",
+    "jzpack/encoders.py": "7a24623c54f0f21de910bbbbb267ed051efd29f2507354063f0675d41e048c87",
+    "jzpack/schema.py": "75787c6f54badc28ddf5c1eab8742cc64ae30b3dda0d5ef42b7cba00c547761e",
+    "jzpack/serializer.py": "88089d61f66bc084bca3aa7fe43f4332bc8887705f5828388796382b265e96a3",
+    "jzpack/writer.py": "74fd13652d8563bf7827d1e71a85bcc92d3552256c7865c79263ca70036d5b78"
+  },
+  "candidate_patch_base": "2a7af898db041beae0183d0ddf9fe6f034e5b7bd",
+  "candidate_patch_sha256": "0ed86803d0ccd3b9f860cbd9913868d0f8b8c43185cc27222b005f41d7f7b2f2",
+  "candidate_revision": "2a7af898db041beae0183d0ddf9fe6f034e5b7bd",
+  "candidate_runtime_source_sha256": {
+    "jzpack/analyzer.py": "310a87e4c6be83bf76caeaf10d992e6a9b1c7595a290409f68ec2330ceabca8d",
+    "jzpack/chunks.py": "e88d8f7be686fd7c81b012e42acd22d9b5f3fe9646fb7cde3d34b276f13b1059",
+    "jzpack/compressor.py": "45069d484a78f0afc5c01415409f617b014ffd86a9685337f4edb49e1eafe5fa",
+    "jzpack/encoders.py": "7a24623c54f0f21de910bbbbb267ed051efd29f2507354063f0675d41e048c87",
+    "jzpack/schema.py": "75787c6f54badc28ddf5c1eab8742cc64ae30b3dda0d5ef42b7cba00c547761e",
+    "jzpack/serializer.py": "88089d61f66bc084bca3aa7fe43f4332bc8887705f5828388796382b265e96a3",
+    "jzpack/writer.py": "0b3b56ce780b5726598873122c82066f53a9b5b703cd39e76d70065b539d83cc"
+  },
+  "cases": [
+    {
+      "after_cpu_median_seconds": 0.8048799999999989,
+      "after_cpu_samples_seconds": [
+        0.8025209999999998,
+        0.8168820000000001,
+        0.802251,
+        0.8124890000000002,
+        0.8048799999999989
+      ],
+      "after_median_seconds": 0.8053608750051353,
+      "after_over_before_cpu_median_ratio": 0.9555229745531807,
+      "after_over_before_median_ratio": 0.9552721760744927,
+      "after_samples_seconds": [
+        0.8031093750032596,
+        0.8176310830021976,
+        0.8028099590010243,
+        0.8136399579962017,
+        0.8053608750051353
+      ],
+      "archive_sha256_samples": [
+        "efa68fde9810d7ace59ea08461abd14246c1cd4fff11a73c1bec83434ecd74bb",
+        "efa68fde9810d7ace59ea08461abd14246c1cd4fff11a73c1bec83434ecd74bb",
+        "efa68fde9810d7ace59ea08461abd14246c1cd4fff11a73c1bec83434ecd74bb",
+        "efa68fde9810d7ace59ea08461abd14246c1cd4fff11a73c1bec83434ecd74bb",
+        "efa68fde9810d7ace59ea08461abd14246c1cd4fff11a73c1bec83434ecd74bb"
+      ],
+      "before_after_output_bytes_identical": true,
+      "before_cpu_median_seconds": 0.8423449999999999,
+      "before_cpu_samples_seconds": [
+        0.8335830000000001,
+        0.8435830000000002,
+        0.8423449999999999,
+        0.8537740000000014,
+        0.8419670000000004
+      ],
+      "before_median_seconds": 0.8430695409915643,
+      "before_samples_seconds": [
+        0.8341552500060061,
+        0.8441826250054874,
+        0.8430695409915643,
+        0.854677499999525,
+        0.842448625000543
+      ],
+      "canonical_input_bytes": 14363207,
+      "exact_round_trip_validated": true,
+      "input_generation_in_timed_region": false,
+      "input_mode": "prebuilt-list",
+      "input_sha256": "76e060ef90cb9f6dd3366e52f75dd6f172d26f210165bdbcfabeadba7ab3cf91",
+      "output_bytes_samples": [
+        1440234,
+        1440234,
+        1440234,
+        1440234,
+        1440234
+      ],
+      "paired_order": [
+        "before/after",
+        "after/before"
+      ],
+      "profile": "schema-diverse",
+      "record_count": 50000
+    },
+    {
+      "after_cpu_median_seconds": 1.1468540000000012,
+      "after_cpu_samples_seconds": [
+        1.1502389999999991,
+        1.144006000000001,
+        1.1478649999999995,
+        1.1468540000000012,
+        1.1404229999999984
+      ],
+      "after_median_seconds": 1.147603125005844,
+      "after_over_before_cpu_median_ratio": 0.9687813341825672,
+      "after_over_before_median_ratio": 0.9687826756818257,
+      "after_samples_seconds": [
+        1.1512475420022383,
+        1.1446529170061694,
+        1.14880904200254,
+        1.147603125005844,
+        1.1411484999989625
+      ],
+      "archive_sha256_samples": [
+        "efa68fde9810d7ace59ea08461abd14246c1cd4fff11a73c1bec83434ecd74bb",
+        "efa68fde9810d7ace59ea08461abd14246c1cd4fff11a73c1bec83434ecd74bb",
+        "efa68fde9810d7ace59ea08461abd14246c1cd4fff11a73c1bec83434ecd74bb",
+        "efa68fde9810d7ace59ea08461abd14246c1cd4fff11a73c1bec83434ecd74bb",
+        "efa68fde9810d7ace59ea08461abd14246c1cd4fff11a73c1bec83434ecd74bb"
+      ],
+      "before_after_output_bytes_identical": true,
+      "before_cpu_median_seconds": 1.1838110000000022,
+      "before_cpu_samples_seconds": [
+        1.1659699999999997,
+        1.1789259999999988,
+        1.1902790000000003,
+        1.1838110000000022,
+        1.1965419999999973
+      ],
+      "before_median_seconds": 1.18458262499189,
+      "before_samples_seconds": [
+        1.1666359999944689,
+        1.179821332989377,
+        1.1911688749969471,
+        1.18458262499189,
+        1.197392583009787
+      ],
+      "canonical_input_bytes": 14363207,
+      "exact_round_trip_validated": true,
+      "input_generation_in_timed_region": true,
+      "input_mode": "lazy-iter-records",
+      "input_sha256": "76e060ef90cb9f6dd3366e52f75dd6f172d26f210165bdbcfabeadba7ab3cf91",
+      "output_bytes_samples": [
+        1440234,
+        1440234,
+        1440234,
+        1440234,
+        1440234
+      ],
+      "paired_order": [
+        "before/after",
+        "after/before"
+      ],
+      "profile": "schema-diverse",
+      "record_count": 50000
+    },
+    {
+      "after_cpu_median_seconds": 1.2482380000000006,
+      "after_cpu_samples_seconds": [
+        1.2547780000000017,
+        1.242436999999999,
+        1.274481999999999,
+        1.2482380000000006,
+        1.2475549999999984
+      ],
+      "after_median_seconds": 1.2490472079953179,
+      "after_over_before_cpu_median_ratio": 0.8996990763264986,
+      "after_over_before_median_ratio": 0.899677747670501,
+      "after_samples_seconds": [
+        1.2557208330108551,
+        1.2432357910001883,
+        1.2753692920086905,
+        1.2490472079953179,
+        1.2483606250025332
+      ],
+      "archive_sha256_samples": [
+        "6f57de7c47d8a955b780df481496ddd7eb811002f5850f0f225e77383a1a6701",
+        "6f57de7c47d8a955b780df481496ddd7eb811002f5850f0f225e77383a1a6701",
+        "6f57de7c47d8a955b780df481496ddd7eb811002f5850f0f225e77383a1a6701",
+        "6f57de7c47d8a955b780df481496ddd7eb811002f5850f0f225e77383a1a6701",
+        "6f57de7c47d8a955b780df481496ddd7eb811002f5850f0f225e77383a1a6701"
+      ],
+      "before_after_output_bytes_identical": true,
+      "before_cpu_median_seconds": 1.387394999999998,
+      "before_cpu_samples_seconds": [
+        1.3850930000000012,
+        1.3564780000000027,
+        1.405306000000003,
+        1.3977590000000006,
+        1.387394999999998
+      ],
+      "before_median_seconds": 1.3883273330138763,
+      "before_samples_seconds": [
+        1.3866600840119645,
+        1.3574005420086905,
+        1.4066043329949025,
+        1.3991144169995096,
+        1.3883273330138763
+      ],
+      "canonical_input_bytes": 19567513,
+      "exact_round_trip_validated": true,
+      "input_generation_in_timed_region": false,
+      "input_mode": "prebuilt-list",
+      "input_sha256": "64d11d7f5bf23a15eaf88a262e9c0ad5e0716e29c96e1da491956b2a720027c7",
+      "output_bytes_samples": [
+        1283701,
+        1283701,
+        1283701,
+        1283701,
+        1283701
+      ],
+      "paired_order": [
+        "before/after",
+        "after/before"
+      ],
+      "profile": "nested-records",
+      "record_count": 40000
+    },
+    {
+      "after_cpu_median_seconds": 1.3143129999999985,
+      "after_cpu_samples_seconds": [
+        1.303251000000003,
+        1.3373599999999968,
+        1.3492279999999965,
+        1.3030139999999975,
+        1.3143129999999985
+      ],
+      "after_median_seconds": 1.315913124999497,
+      "after_over_before_cpu_median_ratio": 0.9047754433307608,
+      "after_over_before_median_ratio": 0.9053459179381005,
+      "after_samples_seconds": [
+        1.3041977920074714,
+        1.3385510420048377,
+        1.3505608749983367,
+        1.3038524589937879,
+        1.315913124999497
+      ],
+      "archive_sha256_samples": [
+        "6f57de7c47d8a955b780df481496ddd7eb811002f5850f0f225e77383a1a6701",
+        "6f57de7c47d8a955b780df481496ddd7eb811002f5850f0f225e77383a1a6701",
+        "6f57de7c47d8a955b780df481496ddd7eb811002f5850f0f225e77383a1a6701",
+        "6f57de7c47d8a955b780df481496ddd7eb811002f5850f0f225e77383a1a6701",
+        "6f57de7c47d8a955b780df481496ddd7eb811002f5850f0f225e77383a1a6701"
+      ],
+      "before_after_output_bytes_identical": true,
+      "before_cpu_median_seconds": 1.4526400000000024,
+      "before_cpu_samples_seconds": [
+        1.4575049999999976,
+        1.4570330000000027,
+        1.4324320000000057,
+        1.4526400000000024,
+        1.436633999999998
+      ],
+      "before_median_seconds": 1.453492083994206,
+      "before_samples_seconds": [
+        1.4586455000098795,
+        1.4579495829966618,
+        1.433840041005169,
+        1.453492083994206,
+        1.4380792919982923
+      ],
+      "canonical_input_bytes": 19567513,
+      "exact_round_trip_validated": true,
+      "input_generation_in_timed_region": true,
+      "input_mode": "lazy-iter-records",
+      "input_sha256": "64d11d7f5bf23a15eaf88a262e9c0ad5e0716e29c96e1da491956b2a720027c7",
+      "output_bytes_samples": [
+        1283701,
+        1283701,
+        1283701,
+        1283701,
+        1283701
+      ],
+      "paired_order": [
+        "before/after",
+        "after/before"
+      ],
+      "profile": "nested-records",
+      "record_count": 40000
+    }
+  ],
+  "comparison_harness_sha256": "c4285671f9f6aae647d7137b5077c48170fc04f63a06b268f4a6680b9f2228ca",
+  "configuration": {
+    "acceptance": "every before/after archive must be byte-identical",
+    "compression_level": 3,
+    "lazy_iter_records": "same frozen generator function and deterministic arguments; record generation occurs in timer",
+    "order": "alternates baseline-first and candidate-first by sample; modes/profile order fixed",
+    "prebuilt_list": "same list object is passed to both packages; corpus construction occurs before timer",
+    "round_trip": "outside timer; wave-3 recursive type and float64-bit oracle on every archive",
+    "samples_per_variant": 5,
+    "sink": "plain io.BytesIO; written byte count and output hash calculated after timer",
+    "warmups": 0
+  },
+  "cpu_timer_note": "process_time sampled around the same paired encode call; archive correctness checks remain outside timer",
+  "environment": {
+    "jzpack": "0.5.4",
+    "msgpack": "1.2.3",
+    "platform": "macOS-27.2-arm64-arm-64bit",
+    "python": "3.12.13 (main, May  4 2026, 23:56:25) [Clang 21.0.0 (clang-2100.0.123.102)]",
+    "zstandard": "0.25.0"
+  },
+  "format": "jzpack-writer-ascii-paired-v1",
+  "purpose": "alternating paired encode timing; platform/workload evidence only",
+  "wave3_sources": {
+    "comparison_harness_sha256": "7f3aca615ef0df8a6ca92901708ce115263eb6b295c1dd908244e5fa08438b44",
+    "corpus_generator_sha256": "596960e45e66cf63e13b47ea08f010dd97e65d0669d1301e13e47f78f912d221"
+  }
+}
