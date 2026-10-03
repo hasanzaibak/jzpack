@@ -1,0 +1,748 @@
+{
+  "baseline_revision": "2a7af898db041beae0183d0ddf9fe6f034e5b7bd",
+  "candidate_base_revision": "2a7af898db041beae0183d0ddf9fe6f034e5b7bd",
+  "candidate_patch_sha256": "879ec262947e3503a7df7d9e31a2527dcc538bc2629e7d488efe0883a567c462",
+  "cases": [
+    {
+      "after": {
+        "archive_bytes": [
+          1266330,
+          1266330,
+          1266330,
+          1266330,
+          1266330,
+          1266330,
+          1266330,
+          1266330,
+          1266330
+        ],
+        "archive_sha256": [
+          "ff90c1802188350abec29ebaf26049a2ecf0b70e41b6c23c4e743843065f1ac8",
+          "ff90c1802188350abec29ebaf26049a2ecf0b70e41b6c23c4e743843065f1ac8",
+          "ff90c1802188350abec29ebaf26049a2ecf0b70e41b6c23c4e743843065f1ac8",
+          "ff90c1802188350abec29ebaf26049a2ecf0b70e41b6c23c4e743843065f1ac8",
+          "ff90c1802188350abec29ebaf26049a2ecf0b70e41b6c23c4e743843065f1ac8",
+          "ff90c1802188350abec29ebaf26049a2ecf0b70e41b6c23c4e743843065f1ac8",
+          "ff90c1802188350abec29ebaf26049a2ecf0b70e41b6c23c4e743843065f1ac8",
+          "ff90c1802188350abec29ebaf26049a2ecf0b70e41b6c23c4e743843065f1ac8",
+          "ff90c1802188350abec29ebaf26049a2ecf0b70e41b6c23c4e743843065f1ac8"
+        ],
+        "cpu_seconds": [
+          0.2393749999999999,
+          0.22230700000000003,
+          0.22739900000000013,
+          0.22623099999999985,
+          0.22695100000000012,
+          0.2293529999999997,
+          0.2278640000000003,
+          0.2207139999999992,
+          0.22810600000000036
+        ],
+        "wall_seconds": [
+          0.23980458299047314,
+          0.2224370840121992,
+          0.2276114590058569,
+          0.22637245799705852,
+          0.22714904200984165,
+          0.2294829589955043,
+          0.22797958299634047,
+          0.22082533400680404,
+          0.22823974999482743
+        ]
+      },
+      "after_cpu_seconds_median": 0.22739900000000013,
+      "after_over_before_cpu_seconds_ratio": 0.9520298756159553,
+      "after_over_before_wall_seconds_ratio": 0.9523394064726918,
+      "after_wall_seconds_median": 0.2276114590058569,
+      "alternating_samples": 9,
+      "archive_byte_identical": true,
+      "archive_bytes": 1266330,
+      "archive_sha256": "ff90c1802188350abec29ebaf26049a2ecf0b70e41b6c23c4e743843065f1ac8",
+      "before": {
+        "archive_bytes": [
+          1266330,
+          1266330,
+          1266330,
+          1266330,
+          1266330,
+          1266330,
+          1266330,
+          1266330,
+          1266330
+        ],
+        "archive_sha256": [
+          "ff90c1802188350abec29ebaf26049a2ecf0b70e41b6c23c4e743843065f1ac8",
+          "ff90c1802188350abec29ebaf26049a2ecf0b70e41b6c23c4e743843065f1ac8",
+          "ff90c1802188350abec29ebaf26049a2ecf0b70e41b6c23c4e743843065f1ac8",
+          "ff90c1802188350abec29ebaf26049a2ecf0b70e41b6c23c4e743843065f1ac8",
+          "ff90c1802188350abec29ebaf26049a2ecf0b70e41b6c23c4e743843065f1ac8",
+          "ff90c1802188350abec29ebaf26049a2ecf0b70e41b6c23c4e743843065f1ac8",
+          "ff90c1802188350abec29ebaf26049a2ecf0b70e41b6c23c4e743843065f1ac8",
+          "ff90c1802188350abec29ebaf26049a2ecf0b70e41b6c23c4e743843065f1ac8",
+          "ff90c1802188350abec29ebaf26049a2ecf0b70e41b6c23c4e743843065f1ac8"
+        ],
+        "cpu_seconds": [
+          0.24410599999999993,
+          0.23426800000000014,
+          0.24890199999999973,
+          0.2380659999999999,
+          0.23010100000000033,
+          0.23969299999999993,
+          0.23885699999999987,
+          0.2331960000000004,
+          0.2554420000000004
+        ],
+        "wall_seconds": [
+          0.24427520799508784,
+          0.23447420900629368,
+          0.24932104199251626,
+          0.23822320900217164,
+          0.23024895800335798,
+          0.23984737500722986,
+          0.23900245800905395,
+          0.23335950000910088,
+          0.2559340000007069
+        ]
+      },
+      "before_cpu_seconds_median": 0.23885699999999987,
+      "before_wall_seconds_median": 0.23900245800905395,
+      "case": {
+        "count": 50000,
+        "mode": "records",
+        "name": "wave3-schema-diverse-50k",
+        "profile": "schema-diverse"
+      },
+      "cpu_seconds_change_percent": -4.797012438404469,
+      "exact_round_trip_outside_timer": true,
+      "input_bytes": 14363207,
+      "input_sha256": "76e060ef90cb9f6dd3366e52f75dd6f172d26f210165bdbcfabeadba7ab3cf91",
+      "paired_order": [
+        "before/after",
+        "after/before"
+      ],
+      "wall_seconds_change_percent": -4.766059352730823,
+      "warmups_per_variant": 2
+    },
+    {
+      "after": {
+        "archive_bytes": [
+          913354,
+          913354,
+          913354,
+          913354,
+          913354,
+          913354,
+          913354,
+          913354,
+          913354
+        ],
+        "archive_sha256": [
+          "053f385471174124c4e8ba6ba5aa87a3d21cd4ee0f3b246ad8de60c8f4acd8c4",
+          "053f385471174124c4e8ba6ba5aa87a3d21cd4ee0f3b246ad8de60c8f4acd8c4",
+          "053f385471174124c4e8ba6ba5aa87a3d21cd4ee0f3b246ad8de60c8f4acd8c4",
+          "053f385471174124c4e8ba6ba5aa87a3d21cd4ee0f3b246ad8de60c8f4acd8c4",
+          "053f385471174124c4e8ba6ba5aa87a3d21cd4ee0f3b246ad8de60c8f4acd8c4",
+          "053f385471174124c4e8ba6ba5aa87a3d21cd4ee0f3b246ad8de60c8f4acd8c4",
+          "053f385471174124c4e8ba6ba5aa87a3d21cd4ee0f3b246ad8de60c8f4acd8c4",
+          "053f385471174124c4e8ba6ba5aa87a3d21cd4ee0f3b246ad8de60c8f4acd8c4",
+          "053f385471174124c4e8ba6ba5aa87a3d21cd4ee0f3b246ad8de60c8f4acd8c4"
+        ],
+        "cpu_seconds": [
+          0.16253200000000012,
+          0.15819800000000006,
+          0.1550760000000002,
+          0.15497000000000005,
+          0.15716200000000047,
+          0.1568290000000001,
+          0.15746600000000033,
+          0.15705499999999972,
+          0.15730500000000003
+        ],
+        "wall_seconds": [
+          0.16264520899858326,
+          0.15828787500504404,
+          0.15516125000431202,
+          0.15507720899768174,
+          0.15725550000206567,
+          0.15692329200101085,
+          0.15755795800941996,
+          0.15714774999651127,
+          0.15739675000077114
+        ]
+      },
+      "after_cpu_seconds_median": 0.15716200000000047,
+      "after_over_before_cpu_seconds_ratio": 0.9554269456636724,
+      "after_over_before_wall_seconds_ratio": 0.9555042721859451,
+      "after_wall_seconds_median": 0.15725550000206567,
+      "alternating_samples": 9,
+      "archive_byte_identical": true,
+      "archive_bytes": 913354,
+      "archive_sha256": "053f385471174124c4e8ba6ba5aa87a3d21cd4ee0f3b246ad8de60c8f4acd8c4",
+      "before": {
+        "archive_bytes": [
+          913354,
+          913354,
+          913354,
+          913354,
+          913354,
+          913354,
+          913354,
+          913354,
+          913354
+        ],
+        "archive_sha256": [
+          "053f385471174124c4e8ba6ba5aa87a3d21cd4ee0f3b246ad8de60c8f4acd8c4",
+          "053f385471174124c4e8ba6ba5aa87a3d21cd4ee0f3b246ad8de60c8f4acd8c4",
+          "053f385471174124c4e8ba6ba5aa87a3d21cd4ee0f3b246ad8de60c8f4acd8c4",
+          "053f385471174124c4e8ba6ba5aa87a3d21cd4ee0f3b246ad8de60c8f4acd8c4",
+          "053f385471174124c4e8ba6ba5aa87a3d21cd4ee0f3b246ad8de60c8f4acd8c4",
+          "053f385471174124c4e8ba6ba5aa87a3d21cd4ee0f3b246ad8de60c8f4acd8c4",
+          "053f385471174124c4e8ba6ba5aa87a3d21cd4ee0f3b246ad8de60c8f4acd8c4",
+          "053f385471174124c4e8ba6ba5aa87a3d21cd4ee0f3b246ad8de60c8f4acd8c4",
+          "053f385471174124c4e8ba6ba5aa87a3d21cd4ee0f3b246ad8de60c8f4acd8c4"
+        ],
+        "cpu_seconds": [
+          0.16886299999999999,
+          0.16468999999999978,
+          0.16486900000000038,
+          0.16314700000000038,
+          0.16380899999999965,
+          0.16449400000000036,
+          0.16409999999999947,
+          0.16390199999999933,
+          0.16506600000000038
+        ],
+        "wall_seconds": [
+          0.1689652090135496,
+          0.16477762500289828,
+          0.16496920899953693,
+          0.16321129199059214,
+          0.16395212500356138,
+          0.16457854201144073,
+          0.16418658300244715,
+          0.16398716700496152,
+          0.16516795800998807
+        ]
+      },
+      "before_cpu_seconds_median": 0.16449400000000036,
+      "before_wall_seconds_median": 0.16457854201144073,
+      "case": {
+        "count": 40000,
+        "mode": "records",
+        "name": "wave3-nested-records-40k",
+        "profile": "nested-records"
+      },
+      "cpu_seconds_change_percent": -4.457305433632763,
+      "exact_round_trip_outside_timer": true,
+      "input_bytes": 19567513,
+      "input_sha256": "64d11d7f5bf23a15eaf88a262e9c0ad5e0716e29c96e1da491956b2a720027c7",
+      "paired_order": [
+        "before/after",
+        "after/before"
+      ],
+      "wall_seconds_change_percent": -4.449572781405486,
+      "warmups_per_variant": 2
+    },
+    {
+      "after": {
+        "archive_bytes": [
+          307,
+          307,
+          307,
+          307,
+          307,
+          307,
+          307,
+          307,
+          307
+        ],
+        "archive_sha256": [
+          "f61a9ab2f14affb3274f454f5135d50aa8a3de238204641457498f2c11925777",
+          "f61a9ab2f14affb3274f454f5135d50aa8a3de238204641457498f2c11925777",
+          "f61a9ab2f14affb3274f454f5135d50aa8a3de238204641457498f2c11925777",
+          "f61a9ab2f14affb3274f454f5135d50aa8a3de238204641457498f2c11925777",
+          "f61a9ab2f14affb3274f454f5135d50aa8a3de238204641457498f2c11925777",
+          "f61a9ab2f14affb3274f454f5135d50aa8a3de238204641457498f2c11925777",
+          "f61a9ab2f14affb3274f454f5135d50aa8a3de238204641457498f2c11925777",
+          "f61a9ab2f14affb3274f454f5135d50aa8a3de238204641457498f2c11925777",
+          "f61a9ab2f14affb3274f454f5135d50aa8a3de238204641457498f2c11925777"
+        ],
+        "cpu_seconds": [
+          0.00013300000000000117,
+          7.700000000000068e-05,
+          8.199999999999874e-05,
+          6.700000000000456e-05,
+          6.899999999999962e-05,
+          6.599999999999662e-05,
+          7.400000000000462e-05,
+          6.599999999999662e-05,
+          6.899999999999962e-05
+        ],
+        "wall_seconds": [
+          0.00013466599921230227,
+          7.729099888820201e-05,
+          8.254099520854652e-05,
+          6.733300688210875e-05,
+          6.937500438652933e-05,
+          6.666600529570132e-05,
+          7.47500016586855e-05,
+          6.641700747422874e-05,
+          6.845899042673409e-05
+        ]
+      },
+      "after_cpu_seconds_median": 6.899999999999962e-05,
+      "after_over_before_cpu_seconds_ratio": 0.9718309859154655,
+      "after_over_before_wall_seconds_ratio": 0.9668991052244524,
+      "after_wall_seconds_median": 6.937500438652933e-05,
+      "alternating_samples": 9,
+      "archive_byte_identical": true,
+      "archive_bytes": 307,
+      "archive_sha256": "f61a9ab2f14affb3274f454f5135d50aa8a3de238204641457498f2c11925777",
+      "before": {
+        "archive_bytes": [
+          307,
+          307,
+          307,
+          307,
+          307,
+          307,
+          307,
+          307,
+          307
+        ],
+        "archive_sha256": [
+          "f61a9ab2f14affb3274f454f5135d50aa8a3de238204641457498f2c11925777",
+          "f61a9ab2f14affb3274f454f5135d50aa8a3de238204641457498f2c11925777",
+          "f61a9ab2f14affb3274f454f5135d50aa8a3de238204641457498f2c11925777",
+          "f61a9ab2f14affb3274f454f5135d50aa8a3de238204641457498f2c11925777",
+          "f61a9ab2f14affb3274f454f5135d50aa8a3de238204641457498f2c11925777",
+          "f61a9ab2f14affb3274f454f5135d50aa8a3de238204641457498f2c11925777",
+          "f61a9ab2f14affb3274f454f5135d50aa8a3de238204641457498f2c11925777",
+          "f61a9ab2f14affb3274f454f5135d50aa8a3de238204641457498f2c11925777",
+          "f61a9ab2f14affb3274f454f5135d50aa8a3de238204641457498f2c11925777"
+        ],
+        "cpu_seconds": [
+          0.0001439999999999983,
+          9.40000000000038e-05,
+          7.100000000000162e-05,
+          7.100000000000162e-05,
+          7.000000000000062e-05,
+          7.100000000000162e-05,
+          6.699999999999762e-05,
+          7.799999999999474e-05,
+          7.100000000000162e-05
+        ],
+        "wall_seconds": [
+          0.000144041987368837,
+          9.579199831932783e-05,
+          7.083400851115584e-05,
+          7.174999336712062e-05,
+          7.125000411178917e-05,
+          7.087500125635415e-05,
+          6.825001037213951e-05,
+          7.895899761933833e-05,
+          7.233300129882991e-05
+        ]
+      },
+      "before_cpu_seconds_median": 7.100000000000162e-05,
+      "before_wall_seconds_median": 7.174999336712062e-05,
+      "case": {
+        "count": 1,
+        "mode": "single-mapping",
+        "name": "single-mapping",
+        "profile": "schema-diverse"
+      },
+      "cpu_seconds_change_percent": -2.816901408453454,
+      "exact_round_trip_outside_timer": true,
+      "input_bytes": 255,
+      "input_sha256": "8f9bff85dffb93535d1ddee349d671b8bac84e5c07ec285c4fb3a503290f19e1",
+      "paired_order": [
+        "before/after",
+        "after/before"
+      ],
+      "wall_seconds_change_percent": -3.3100894775547562,
+      "warmups_per_variant": 2
+    },
+    {
+      "after": {
+        "archive_bytes": [
+          2671,
+          2671,
+          2671,
+          2671,
+          2671,
+          2671,
+          2671,
+          2671,
+          2671
+        ],
+        "archive_sha256": [
+          "ee67f33bd280b56529bc43e1b81c796ea34d01e8651f7a30e35e0e538c3a2cbe",
+          "ee67f33bd280b56529bc43e1b81c796ea34d01e8651f7a30e35e0e538c3a2cbe",
+          "ee67f33bd280b56529bc43e1b81c796ea34d01e8651f7a30e35e0e538c3a2cbe",
+          "ee67f33bd280b56529bc43e1b81c796ea34d01e8651f7a30e35e0e538c3a2cbe",
+          "ee67f33bd280b56529bc43e1b81c796ea34d01e8651f7a30e35e0e538c3a2cbe",
+          "ee67f33bd280b56529bc43e1b81c796ea34d01e8651f7a30e35e0e538c3a2cbe",
+          "ee67f33bd280b56529bc43e1b81c796ea34d01e8651f7a30e35e0e538c3a2cbe",
+          "ee67f33bd280b56529bc43e1b81c796ea34d01e8651f7a30e35e0e538c3a2cbe",
+          "ee67f33bd280b56529bc43e1b81c796ea34d01e8651f7a30e35e0e538c3a2cbe"
+        ],
+        "cpu_seconds": [
+          0.0006059999999999954,
+          0.0005129999999999996,
+          0.0006019999999999984,
+          0.0005140000000000006,
+          0.0005189999999999986,
+          0.0004970000000000044,
+          0.0005180000000000046,
+          0.0005150000000000016,
+          0.0005140000000000006
+        ],
+        "wall_seconds": [
+          0.0006069170049158856,
+          0.0005143340094946325,
+          0.0006022079905960709,
+          0.0005145839968463406,
+          0.0005219589947955683,
+          0.0004983749968232587,
+          0.0005181659944355488,
+          0.0005158749991096556,
+          0.0005135419924044982
+        ]
+      },
+      "after_cpu_seconds_median": 0.0005150000000000016,
+      "after_over_before_cpu_seconds_ratio": 0.9449541284403632,
+      "after_over_before_wall_seconds_ratio": 0.9394491135859754,
+      "after_wall_seconds_median": 0.0005158749991096556,
+      "alternating_samples": 9,
+      "archive_byte_identical": true,
+      "archive_bytes": 2671,
+      "archive_sha256": "ee67f33bd280b56529bc43e1b81c796ea34d01e8651f7a30e35e0e538c3a2cbe",
+      "before": {
+        "archive_bytes": [
+          2671,
+          2671,
+          2671,
+          2671,
+          2671,
+          2671,
+          2671,
+          2671,
+          2671
+        ],
+        "archive_sha256": [
+          "ee67f33bd280b56529bc43e1b81c796ea34d01e8651f7a30e35e0e538c3a2cbe",
+          "ee67f33bd280b56529bc43e1b81c796ea34d01e8651f7a30e35e0e538c3a2cbe",
+          "ee67f33bd280b56529bc43e1b81c796ea34d01e8651f7a30e35e0e538c3a2cbe",
+          "ee67f33bd280b56529bc43e1b81c796ea34d01e8651f7a30e35e0e538c3a2cbe",
+          "ee67f33bd280b56529bc43e1b81c796ea34d01e8651f7a30e35e0e538c3a2cbe",
+          "ee67f33bd280b56529bc43e1b81c796ea34d01e8651f7a30e35e0e538c3a2cbe",
+          "ee67f33bd280b56529bc43e1b81c796ea34d01e8651f7a30e35e0e538c3a2cbe",
+          "ee67f33bd280b56529bc43e1b81c796ea34d01e8651f7a30e35e0e538c3a2cbe",
+          "ee67f33bd280b56529bc43e1b81c796ea34d01e8651f7a30e35e0e538c3a2cbe"
+        ],
+        "cpu_seconds": [
+          0.0006419999999999967,
+          0.0005450000000000038,
+          0.0006600000000000009,
+          0.0005319999999999978,
+          0.0006119999999999945,
+          0.0005310000000000037,
+          0.0005230000000000026,
+          0.0005749999999999991,
+          0.0005230000000000026
+        ],
+        "wall_seconds": [
+          0.0006421669968403876,
+          0.0005491250049090013,
+          0.0006609580013900995,
+          0.0005334580055205151,
+          0.0006124169885879382,
+          0.0005320000054780394,
+          0.0005246670043561608,
+          0.0005759589985245839,
+          0.0005232909898040816
+        ]
+      },
+      "before_cpu_seconds_median": 0.0005450000000000038,
+      "before_wall_seconds_median": 0.0005491250049090013,
+      "case": {
+        "count": 64,
+        "mode": "records",
+        "name": "small-schema-diverse-64",
+        "profile": "schema-diverse"
+      },
+      "cpu_seconds_change_percent": -5.50458715596368,
+      "exact_round_trip_outside_timer": true,
+      "input_bytes": 17636,
+      "input_sha256": "c83e5b139739b3ccf7dfb83b87c479c244bb510906e6dd720ee2ad3093635873",
+      "paired_order": [
+        "before/after",
+        "after/before"
+      ],
+      "wall_seconds_change_percent": -6.055088641402461,
+      "warmups_per_variant": 2
+    },
+    {
+      "after": {
+        "archive_bytes": [
+          1723,
+          1723,
+          1723,
+          1723,
+          1723,
+          1723,
+          1723,
+          1723,
+          1723
+        ],
+        "archive_sha256": [
+          "b1e38baa7d7918613ee8cdc46f7f86c69cf9a33d8c2abf02a54f4cda97d2d674",
+          "b1e38baa7d7918613ee8cdc46f7f86c69cf9a33d8c2abf02a54f4cda97d2d674",
+          "b1e38baa7d7918613ee8cdc46f7f86c69cf9a33d8c2abf02a54f4cda97d2d674",
+          "b1e38baa7d7918613ee8cdc46f7f86c69cf9a33d8c2abf02a54f4cda97d2d674",
+          "b1e38baa7d7918613ee8cdc46f7f86c69cf9a33d8c2abf02a54f4cda97d2d674",
+          "b1e38baa7d7918613ee8cdc46f7f86c69cf9a33d8c2abf02a54f4cda97d2d674",
+          "b1e38baa7d7918613ee8cdc46f7f86c69cf9a33d8c2abf02a54f4cda97d2d674",
+          "b1e38baa7d7918613ee8cdc46f7f86c69cf9a33d8c2abf02a54f4cda97d2d674",
+          "b1e38baa7d7918613ee8cdc46f7f86c69cf9a33d8c2abf02a54f4cda97d2d674"
+        ],
+        "cpu_seconds": [
+          0.0002549999999999983,
+          0.00020699999999999885,
+          0.00020399999999999585,
+          0.0002030000000000018,
+          0.00024300000000000016,
+          0.00019500000000000073,
+          0.00019399999999999973,
+          0.00018799999999999373,
+          0.0001959999999999948
+        ],
+        "wall_seconds": [
+          0.0002572920056991279,
+          0.00020816699543502182,
+          0.0002046250010607764,
+          0.00020349999249447137,
+          0.00024362499243579805,
+          0.00019637501100078225,
+          0.00019391599926166236,
+          0.00018850000924430788,
+          0.0001960420049726963
+        ]
+      },
+      "after_cpu_seconds_median": 0.0002030000000000018,
+      "after_over_before_cpu_seconds_ratio": 0.9759615384615478,
+      "after_over_before_wall_seconds_ratio": 0.9702026029023353,
+      "after_wall_seconds_median": 0.00020349999249447137,
+      "alternating_samples": 9,
+      "archive_byte_identical": true,
+      "archive_bytes": 1723,
+      "archive_sha256": "b1e38baa7d7918613ee8cdc46f7f86c69cf9a33d8c2abf02a54f4cda97d2d674",
+      "before": {
+        "archive_bytes": [
+          1723,
+          1723,
+          1723,
+          1723,
+          1723,
+          1723,
+          1723,
+          1723,
+          1723
+        ],
+        "archive_sha256": [
+          "b1e38baa7d7918613ee8cdc46f7f86c69cf9a33d8c2abf02a54f4cda97d2d674",
+          "b1e38baa7d7918613ee8cdc46f7f86c69cf9a33d8c2abf02a54f4cda97d2d674",
+          "b1e38baa7d7918613ee8cdc46f7f86c69cf9a33d8c2abf02a54f4cda97d2d674",
+          "b1e38baa7d7918613ee8cdc46f7f86c69cf9a33d8c2abf02a54f4cda97d2d674",
+          "b1e38baa7d7918613ee8cdc46f7f86c69cf9a33d8c2abf02a54f4cda97d2d674",
+          "b1e38baa7d7918613ee8cdc46f7f86c69cf9a33d8c2abf02a54f4cda97d2d674",
+          "b1e38baa7d7918613ee8cdc46f7f86c69cf9a33d8c2abf02a54f4cda97d2d674",
+          "b1e38baa7d7918613ee8cdc46f7f86c69cf9a33d8c2abf02a54f4cda97d2d674",
+          "b1e38baa7d7918613ee8cdc46f7f86c69cf9a33d8c2abf02a54f4cda97d2d674"
+        ],
+        "cpu_seconds": [
+          0.0002930000000000016,
+          0.00022300000000000098,
+          0.00020699999999999885,
+          0.00020699999999999885,
+          0.0002160000000000009,
+          0.00022699999999999804,
+          0.0002030000000000018,
+          0.00020399999999999585,
+          0.00020799999999999985
+        ],
+        "wall_seconds": [
+          0.0002953749935841188,
+          0.00022445899958256632,
+          0.0002083750005112961,
+          0.00020854199829045683,
+          0.0002166659978684038,
+          0.00023062499531079084,
+          0.0002026670117629692,
+          0.00020391699217725545,
+          0.00020974999642930925
+        ]
+      },
+      "before_cpu_seconds_median": 0.00020799999999999985,
+      "before_wall_seconds_median": 0.00020974999642930925,
+      "case": {
+        "count": 32,
+        "mode": "records",
+        "name": "small-nested-records-32",
+        "profile": "nested-records"
+      },
+      "cpu_seconds_change_percent": -2.403846153845224,
+      "exact_round_trip_outside_timer": true,
+      "input_bytes": 14528,
+      "input_sha256": "02126eb5f8b650005b9bcfebecd225a0ccc1c40cec8a78b6b5a85dd1a73a7ca9",
+      "paired_order": [
+        "before/after",
+        "after/before"
+      ],
+      "wall_seconds_change_percent": -2.9797397097664713,
+      "warmups_per_variant": 2
+    }
+  ],
+  "elapsed_seconds": 32.92407020799874,
+  "format": "jzpack-schema-flat-dict-fastpath-v1",
+  "memory_cases": {
+    "single-mapping": {
+      "after": {
+        "archive_bytes": 307,
+        "archive_sha256": "f61a9ab2f14affb3274f454f5135d50aa8a3de238204641457498f2c11925777",
+        "exact_round_trip": true,
+        "input_bytes": 255,
+        "input_sha256": "8f9bff85dffb93535d1ddee349d671b8bac84e5c07ec285c4fb3a503290f19e1",
+        "msgpack": "1.2.3",
+        "platform": "macOS-27.2-arm64-arm-64bit",
+        "python": "3.12.13",
+        "rss_highwater_after": 26722304,
+        "rss_highwater_before": 26460160,
+        "rss_highwater_delta": 262144,
+        "rss_unit": "bytes",
+        "tracemalloc_current_bytes": 16187,
+        "tracemalloc_peak_bytes": 282128,
+        "zstandard": "0.25.0"
+      },
+      "before": {
+        "archive_bytes": 307,
+        "archive_sha256": "f61a9ab2f14affb3274f454f5135d50aa8a3de238204641457498f2c11925777",
+        "exact_round_trip": true,
+        "input_bytes": 255,
+        "input_sha256": "8f9bff85dffb93535d1ddee349d671b8bac84e5c07ec285c4fb3a503290f19e1",
+        "msgpack": "1.2.3",
+        "platform": "macOS-27.2-arm64-arm-64bit",
+        "python": "3.12.13",
+        "rss_highwater_after": 26755072,
+        "rss_highwater_before": 26460160,
+        "rss_highwater_delta": 294912,
+        "rss_unit": "bytes",
+        "tracemalloc_current_bytes": 16132,
+        "tracemalloc_peak_bytes": 282073,
+        "zstandard": "0.25.0"
+      }
+    },
+    "wave3-nested-records-40k": {
+      "after": {
+        "archive_bytes": 913354,
+        "archive_sha256": "053f385471174124c4e8ba6ba5aa87a3d21cd4ee0f3b246ad8de60c8f4acd8c4",
+        "exact_round_trip": true,
+        "input_bytes": 19567513,
+        "input_sha256": "64d11d7f5bf23a15eaf88a262e9c0ad5e0716e29c96e1da491956b2a720027c7",
+        "msgpack": "1.2.3",
+        "platform": "macOS-27.2-arm64-arm-64bit",
+        "python": "3.12.13",
+        "rss_highwater_after": 200622080,
+        "rss_highwater_before": 133267456,
+        "rss_highwater_delta": 67354624,
+        "rss_unit": "bytes",
+        "tracemalloc_current_bytes": 1140706,
+        "tracemalloc_peak_bytes": 34370373,
+        "zstandard": "0.25.0"
+      },
+      "before": {
+        "archive_bytes": 913354,
+        "archive_sha256": "053f385471174124c4e8ba6ba5aa87a3d21cd4ee0f3b246ad8de60c8f4acd8c4",
+        "exact_round_trip": true,
+        "input_bytes": 19567513,
+        "input_sha256": "64d11d7f5bf23a15eaf88a262e9c0ad5e0716e29c96e1da491956b2a720027c7",
+        "msgpack": "1.2.3",
+        "platform": "macOS-27.2-arm64-arm-64bit",
+        "python": "3.12.13",
+        "rss_highwater_after": 200818688,
+        "rss_highwater_before": 133365760,
+        "rss_highwater_delta": 67452928,
+        "rss_unit": "bytes",
+        "tracemalloc_current_bytes": 1140706,
+        "tracemalloc_peak_bytes": 34370373,
+        "zstandard": "0.25.0"
+      }
+    },
+    "wave3-schema-diverse-50k": {
+      "after": {
+        "archive_bytes": 1266330,
+        "archive_sha256": "ff90c1802188350abec29ebaf26049a2ecf0b70e41b6c23c4e743843065f1ac8",
+        "exact_round_trip": true,
+        "input_bytes": 14363207,
+        "input_sha256": "76e060ef90cb9f6dd3366e52f75dd6f172d26f210165bdbcfabeadba7ab3cf91",
+        "msgpack": "1.2.3",
+        "platform": "macOS-27.2-arm64-arm-64bit",
+        "python": "3.12.13",
+        "rss_highwater_after": 163659776,
+        "rss_highwater_before": 107102208,
+        "rss_highwater_delta": 56557568,
+        "rss_unit": "bytes",
+        "tracemalloc_current_bytes": 1486479,
+        "tracemalloc_peak_bytes": 27073592,
+        "zstandard": "0.25.0"
+      },
+      "before": {
+        "archive_bytes": 1266330,
+        "archive_sha256": "ff90c1802188350abec29ebaf26049a2ecf0b70e41b6c23c4e743843065f1ac8",
+        "exact_round_trip": true,
+        "input_bytes": 14363207,
+        "input_sha256": "76e060ef90cb9f6dd3366e52f75dd6f172d26f210165bdbcfabeadba7ab3cf91",
+        "msgpack": "1.2.3",
+        "platform": "macOS-27.2-arm64-arm-64bit",
+        "python": "3.12.13",
+        "rss_highwater_after": 163430400,
+        "rss_highwater_before": 107069440,
+        "rss_highwater_delta": 56360960,
+        "rss_unit": "bytes",
+        "tracemalloc_current_bytes": 1487037,
+        "tracemalloc_peak_bytes": 27074150,
+        "zstandard": "0.25.0"
+      }
+    }
+  },
+  "provenance_note": "Candidate is the exact schema.py and test_schema_contracts.py patch identified above; report omits machine-specific checkout paths. The benchmark sources are identified by source_hashes.",
+  "purpose": "paired normal-compress comparison; cProfile evidence alone is not treated as a performance claim",
+  "python_executable": "/Users/alzaibak/.codex/worktrees/schema-flat-fastpath/jzpack/.venv/bin/python",
+  "samples": 9,
+  "source_hashes": {
+    "bench_script": "9963a06f9b9d2fb4047066e25af636867ef716dde3d0feaf316f431f333f1df5",
+    "corpus_wave3_py": "596960e45e66cf63e13b47ea08f010dd97e65d0669d1301e13e47f78f912d221",
+    "worker_script": "95fe1f23fed341138d79ada3027fe73d06521996a3234c829419eaf9704d3108",
+    "writer_cpu_profile_json": "e04a9cf9d95699a806332bfb05caaff49cedc98fe23a6c48a7551539704c7fac"
+  },
+  "source_tree_sha256": {
+    "baseline": {
+      "jzpack/schema.py": "75787c6f54badc28ddf5c1eab8742cc64ae30b3dda0d5ef42b7cba00c547761e",
+      "tests/test_schema_contracts.py": "c50100e4ea1e62a2b686169518ff7de986c98ec179b48ed3ae7bcd87ac84357d"
+    },
+    "candidate": {
+      "jzpack/schema.py": "519570e439896b3bdc64ed892c892e5084f2b54482edf4569728eea890e5e4df",
+      "tests/test_schema_contracts.py": "03ab9b05460485899e682894ce060c65e4543d700bc3b47cecfb829b12a8b36c"
+    }
+  },
+  "timer": {
+    "cpu": "time.process_time around compress only",
+    "exact_round_trip": "performed after each timed compression",
+    "input_generation": "prebuilt before timer from frozen wave-3 corpus generator",
+    "memory": "separate fresh process per variant and case; tracemalloc starts after input build; RSS high-water before/after",
+    "pairing": "one process per variant and case; warm both; alternate before/after order",
+    "wall": "time.perf_counter around compress only"
+  },
+  "warmups": 2
+}

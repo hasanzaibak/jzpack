@@ -98,7 +98,7 @@ class SchemaManager:
         self._schema_id_cache.clear()
 
     def _flatten(self, obj: Mapping[str, Any], prefix: Path = ()) -> dict[Path, Any]:
-        if not isinstance(obj, Mapping):
+        if type(obj) is not dict and not isinstance(obj, Mapping):
             raise TypeError("JZPack records must be mappings")
 
         items = {}

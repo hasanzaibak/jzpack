@@ -1,0 +1,748 @@
+{
+  "baseline_revision": "2a7af898db041beae0183d0ddf9fe6f034e5b7bd",
+  "candidate_base_revision": "2a7af898db041beae0183d0ddf9fe6f034e5b7bd",
+  "candidate_patch_sha256": "879ec262947e3503a7df7d9e31a2527dcc538bc2629e7d488efe0883a567c462",
+  "cases": [
+    {
+      "after": {
+        "archive_bytes": [
+          1266330,
+          1266330,
+          1266330,
+          1266330,
+          1266330,
+          1266330,
+          1266330,
+          1266330,
+          1266330
+        ],
+        "archive_sha256": [
+          "ff90c1802188350abec29ebaf26049a2ecf0b70e41b6c23c4e743843065f1ac8",
+          "ff90c1802188350abec29ebaf26049a2ecf0b70e41b6c23c4e743843065f1ac8",
+          "ff90c1802188350abec29ebaf26049a2ecf0b70e41b6c23c4e743843065f1ac8",
+          "ff90c1802188350abec29ebaf26049a2ecf0b70e41b6c23c4e743843065f1ac8",
+          "ff90c1802188350abec29ebaf26049a2ecf0b70e41b6c23c4e743843065f1ac8",
+          "ff90c1802188350abec29ebaf26049a2ecf0b70e41b6c23c4e743843065f1ac8",
+          "ff90c1802188350abec29ebaf26049a2ecf0b70e41b6c23c4e743843065f1ac8",
+          "ff90c1802188350abec29ebaf26049a2ecf0b70e41b6c23c4e743843065f1ac8",
+          "ff90c1802188350abec29ebaf26049a2ecf0b70e41b6c23c4e743843065f1ac8"
+        ],
+        "cpu_seconds": [
+          0.2360899999999999,
+          0.22592299999999987,
+          0.2306680000000001,
+          0.23041100000000014,
+          0.22719599999999973,
+          0.2311860000000001,
+          0.22892899999999994,
+          0.2216459999999998,
+          0.23069199999999945
+        ],
+        "wall_seconds": [
+          0.23620395798934624,
+          0.22607849999621976,
+          0.2308458339975914,
+          0.2305858750041807,
+          0.2274951670115115,
+          0.2313335420039948,
+          0.22914045900688507,
+          0.2217867080034921,
+          0.230830334010534
+        ]
+      },
+      "after_cpu_seconds_median": 0.23041100000000014,
+      "after_over_before_cpu_seconds_ratio": 0.9573174785195536,
+      "after_over_before_wall_seconds_ratio": 0.9574900887526596,
+      "after_wall_seconds_median": 0.2305858750041807,
+      "alternating_samples": 9,
+      "archive_byte_identical": true,
+      "archive_bytes": 1266330,
+      "archive_sha256": "ff90c1802188350abec29ebaf26049a2ecf0b70e41b6c23c4e743843065f1ac8",
+      "before": {
+        "archive_bytes": [
+          1266330,
+          1266330,
+          1266330,
+          1266330,
+          1266330,
+          1266330,
+          1266330,
+          1266330,
+          1266330
+        ],
+        "archive_sha256": [
+          "ff90c1802188350abec29ebaf26049a2ecf0b70e41b6c23c4e743843065f1ac8",
+          "ff90c1802188350abec29ebaf26049a2ecf0b70e41b6c23c4e743843065f1ac8",
+          "ff90c1802188350abec29ebaf26049a2ecf0b70e41b6c23c4e743843065f1ac8",
+          "ff90c1802188350abec29ebaf26049a2ecf0b70e41b6c23c4e743843065f1ac8",
+          "ff90c1802188350abec29ebaf26049a2ecf0b70e41b6c23c4e743843065f1ac8",
+          "ff90c1802188350abec29ebaf26049a2ecf0b70e41b6c23c4e743843065f1ac8",
+          "ff90c1802188350abec29ebaf26049a2ecf0b70e41b6c23c4e743843065f1ac8",
+          "ff90c1802188350abec29ebaf26049a2ecf0b70e41b6c23c4e743843065f1ac8",
+          "ff90c1802188350abec29ebaf26049a2ecf0b70e41b6c23c4e743843065f1ac8"
+        ],
+        "cpu_seconds": [
+          0.2442280000000001,
+          0.23762099999999986,
+          0.2532359999999998,
+          0.2406839999999999,
+          0.233962,
+          0.24499899999999997,
+          0.2404310000000005,
+          0.23418799999999962,
+          0.24642300000000006
+        ],
+        "wall_seconds": [
+          0.2444292919972213,
+          0.23780662500939798,
+          0.25368991600407753,
+          0.24082324998744298,
+          0.23410875000990927,
+          0.24525404199084733,
+          0.24059837499225978,
+          0.234414625010686,
+          0.24676399999589194
+        ]
+      },
+      "before_cpu_seconds_median": 0.2406839999999999,
+      "before_wall_seconds_median": 0.24082324998744298,
+      "case": {
+        "count": 50000,
+        "mode": "records",
+        "name": "wave3-schema-diverse-50k",
+        "profile": "schema-diverse"
+      },
+      "cpu_seconds_change_percent": -4.268252148044638,
+      "exact_round_trip_outside_timer": true,
+      "input_bytes": 14363207,
+      "input_sha256": "76e060ef90cb9f6dd3366e52f75dd6f172d26f210165bdbcfabeadba7ab3cf91",
+      "paired_order": [
+        "before/after",
+        "after/before"
+      ],
+      "wall_seconds_change_percent": -4.250991124734038,
+      "warmups_per_variant": 2
+    },
+    {
+      "after": {
+        "archive_bytes": [
+          913354,
+          913354,
+          913354,
+          913354,
+          913354,
+          913354,
+          913354,
+          913354,
+          913354
+        ],
+        "archive_sha256": [
+          "053f385471174124c4e8ba6ba5aa87a3d21cd4ee0f3b246ad8de60c8f4acd8c4",
+          "053f385471174124c4e8ba6ba5aa87a3d21cd4ee0f3b246ad8de60c8f4acd8c4",
+          "053f385471174124c4e8ba6ba5aa87a3d21cd4ee0f3b246ad8de60c8f4acd8c4",
+          "053f385471174124c4e8ba6ba5aa87a3d21cd4ee0f3b246ad8de60c8f4acd8c4",
+          "053f385471174124c4e8ba6ba5aa87a3d21cd4ee0f3b246ad8de60c8f4acd8c4",
+          "053f385471174124c4e8ba6ba5aa87a3d21cd4ee0f3b246ad8de60c8f4acd8c4",
+          "053f385471174124c4e8ba6ba5aa87a3d21cd4ee0f3b246ad8de60c8f4acd8c4",
+          "053f385471174124c4e8ba6ba5aa87a3d21cd4ee0f3b246ad8de60c8f4acd8c4",
+          "053f385471174124c4e8ba6ba5aa87a3d21cd4ee0f3b246ad8de60c8f4acd8c4"
+        ],
+        "cpu_seconds": [
+          0.162922,
+          0.16107399999999972,
+          0.1590799999999999,
+          0.15982699999999994,
+          0.16056500000000007,
+          0.1588750000000001,
+          0.15761499999999984,
+          0.1587670000000001,
+          0.15887899999999977
+        ],
+        "wall_seconds": [
+          0.16304508299799636,
+          0.16118737500801217,
+          0.15917699999408796,
+          0.15992287501285318,
+          0.1606890840048436,
+          0.15897508298803587,
+          0.15773649999755435,
+          0.15883908300020266,
+          0.15896058399812318
+        ]
+      },
+      "after_cpu_seconds_median": 0.1590799999999999,
+      "after_over_before_cpu_seconds_ratio": 0.9609761991059554,
+      "after_over_before_wall_seconds_ratio": 0.9608673220290098,
+      "after_wall_seconds_median": 0.15917699999408796,
+      "alternating_samples": 9,
+      "archive_byte_identical": true,
+      "archive_bytes": 913354,
+      "archive_sha256": "053f385471174124c4e8ba6ba5aa87a3d21cd4ee0f3b246ad8de60c8f4acd8c4",
+      "before": {
+        "archive_bytes": [
+          913354,
+          913354,
+          913354,
+          913354,
+          913354,
+          913354,
+          913354,
+          913354,
+          913354
+        ],
+        "archive_sha256": [
+          "053f385471174124c4e8ba6ba5aa87a3d21cd4ee0f3b246ad8de60c8f4acd8c4",
+          "053f385471174124c4e8ba6ba5aa87a3d21cd4ee0f3b246ad8de60c8f4acd8c4",
+          "053f385471174124c4e8ba6ba5aa87a3d21cd4ee0f3b246ad8de60c8f4acd8c4",
+          "053f385471174124c4e8ba6ba5aa87a3d21cd4ee0f3b246ad8de60c8f4acd8c4",
+          "053f385471174124c4e8ba6ba5aa87a3d21cd4ee0f3b246ad8de60c8f4acd8c4",
+          "053f385471174124c4e8ba6ba5aa87a3d21cd4ee0f3b246ad8de60c8f4acd8c4",
+          "053f385471174124c4e8ba6ba5aa87a3d21cd4ee0f3b246ad8de60c8f4acd8c4",
+          "053f385471174124c4e8ba6ba5aa87a3d21cd4ee0f3b246ad8de60c8f4acd8c4",
+          "053f385471174124c4e8ba6ba5aa87a3d21cd4ee0f3b246ad8de60c8f4acd8c4"
+        ],
+        "cpu_seconds": [
+          0.1691619999999998,
+          0.1655730000000002,
+          0.17527999999999988,
+          0.1654119999999999,
+          0.16516299999999973,
+          0.16499500000000022,
+          0.16554000000000002,
+          0.1650930000000006,
+          0.1765559999999997
+        ],
+        "wall_seconds": [
+          0.16928537499916274,
+          0.16571320799994282,
+          0.176016042008996,
+          0.16551345800689887,
+          0.16532195900799707,
+          0.16509854199830443,
+          0.16565970800002106,
+          0.16523666700231843,
+          0.17686479099211283
+        ]
+      },
+      "before_cpu_seconds_median": 0.16554000000000002,
+      "before_wall_seconds_median": 0.16565970800002106,
+      "case": {
+        "count": 40000,
+        "mode": "records",
+        "name": "wave3-nested-records-40k",
+        "profile": "nested-records"
+      },
+      "cpu_seconds_change_percent": -3.902380089404456,
+      "exact_round_trip_outside_timer": true,
+      "input_bytes": 19567513,
+      "input_sha256": "64d11d7f5bf23a15eaf88a262e9c0ad5e0716e29c96e1da491956b2a720027c7",
+      "paired_order": [
+        "before/after",
+        "after/before"
+      ],
+      "wall_seconds_change_percent": -3.913267797099018,
+      "warmups_per_variant": 2
+    },
+    {
+      "after": {
+        "archive_bytes": [
+          307,
+          307,
+          307,
+          307,
+          307,
+          307,
+          307,
+          307,
+          307
+        ],
+        "archive_sha256": [
+          "f61a9ab2f14affb3274f454f5135d50aa8a3de238204641457498f2c11925777",
+          "f61a9ab2f14affb3274f454f5135d50aa8a3de238204641457498f2c11925777",
+          "f61a9ab2f14affb3274f454f5135d50aa8a3de238204641457498f2c11925777",
+          "f61a9ab2f14affb3274f454f5135d50aa8a3de238204641457498f2c11925777",
+          "f61a9ab2f14affb3274f454f5135d50aa8a3de238204641457498f2c11925777",
+          "f61a9ab2f14affb3274f454f5135d50aa8a3de238204641457498f2c11925777",
+          "f61a9ab2f14affb3274f454f5135d50aa8a3de238204641457498f2c11925777",
+          "f61a9ab2f14affb3274f454f5135d50aa8a3de238204641457498f2c11925777",
+          "f61a9ab2f14affb3274f454f5135d50aa8a3de238204641457498f2c11925777"
+        ],
+        "cpu_seconds": [
+          0.00012699999999999517,
+          8.79999999999978e-05,
+          7.400000000000462e-05,
+          7.499999999999868e-05,
+          7.499999999999868e-05,
+          7.399999999999768e-05,
+          7.400000000000462e-05,
+          7.100000000000162e-05,
+          6.999999999999368e-05
+        ],
+        "wall_seconds": [
+          0.0001289169886149466,
+          8.874999184627086e-05,
+          7.545801054220647e-05,
+          7.441699563059956e-05,
+          7.650000043213367e-05,
+          7.545799599029124e-05,
+          7.47500016586855e-05,
+          7.162499241530895e-05,
+          7.049999840091914e-05
+        ]
+      },
+      "after_cpu_seconds_median": 7.400000000000462e-05,
+      "after_over_before_cpu_seconds_ratio": 0.9736842105263807,
+      "after_over_before_wall_seconds_ratio": 0.9831660416137362,
+      "after_wall_seconds_median": 7.545799599029124e-05,
+      "alternating_samples": 9,
+      "archive_byte_identical": true,
+      "archive_bytes": 307,
+      "archive_sha256": "f61a9ab2f14affb3274f454f5135d50aa8a3de238204641457498f2c11925777",
+      "before": {
+        "archive_bytes": [
+          307,
+          307,
+          307,
+          307,
+          307,
+          307,
+          307,
+          307,
+          307
+        ],
+        "archive_sha256": [
+          "f61a9ab2f14affb3274f454f5135d50aa8a3de238204641457498f2c11925777",
+          "f61a9ab2f14affb3274f454f5135d50aa8a3de238204641457498f2c11925777",
+          "f61a9ab2f14affb3274f454f5135d50aa8a3de238204641457498f2c11925777",
+          "f61a9ab2f14affb3274f454f5135d50aa8a3de238204641457498f2c11925777",
+          "f61a9ab2f14affb3274f454f5135d50aa8a3de238204641457498f2c11925777",
+          "f61a9ab2f14affb3274f454f5135d50aa8a3de238204641457498f2c11925777",
+          "f61a9ab2f14affb3274f454f5135d50aa8a3de238204641457498f2c11925777",
+          "f61a9ab2f14affb3274f454f5135d50aa8a3de238204641457498f2c11925777",
+          "f61a9ab2f14affb3274f454f5135d50aa8a3de238204641457498f2c11925777"
+        ],
+        "cpu_seconds": [
+          0.0001520000000000063,
+          8.700000000000374e-05,
+          7.599999999999968e-05,
+          7.300000000000362e-05,
+          7.499999999999868e-05,
+          8.099999999999774e-05,
+          6.799999999999862e-05,
+          7.599999999999968e-05,
+          7.299999999999668e-05
+        ],
+        "wall_seconds": [
+          0.0001522919919807464,
+          8.808300481177866e-05,
+          7.633300265297294e-05,
+          7.412501145154238e-05,
+          7.80830014264211e-05,
+          8.087499008979648e-05,
+          6.845900497864932e-05,
+          7.675000233575702e-05,
+          7.341700256802142e-05
+        ]
+      },
+      "before_cpu_seconds_median": 7.599999999999968e-05,
+      "before_wall_seconds_median": 7.675000233575702e-05,
+      "case": {
+        "count": 1,
+        "mode": "single-mapping",
+        "name": "single-mapping",
+        "profile": "schema-diverse"
+      },
+      "cpu_seconds_change_percent": -2.6315789473619344,
+      "exact_round_trip_outside_timer": true,
+      "input_bytes": 255,
+      "input_sha256": "8f9bff85dffb93535d1ddee349d671b8bac84e5c07ec285c4fb3a503290f19e1",
+      "paired_order": [
+        "before/after",
+        "after/before"
+      ],
+      "wall_seconds_change_percent": -1.683395838626378,
+      "warmups_per_variant": 2
+    },
+    {
+      "after": {
+        "archive_bytes": [
+          2671,
+          2671,
+          2671,
+          2671,
+          2671,
+          2671,
+          2671,
+          2671,
+          2671
+        ],
+        "archive_sha256": [
+          "ee67f33bd280b56529bc43e1b81c796ea34d01e8651f7a30e35e0e538c3a2cbe",
+          "ee67f33bd280b56529bc43e1b81c796ea34d01e8651f7a30e35e0e538c3a2cbe",
+          "ee67f33bd280b56529bc43e1b81c796ea34d01e8651f7a30e35e0e538c3a2cbe",
+          "ee67f33bd280b56529bc43e1b81c796ea34d01e8651f7a30e35e0e538c3a2cbe",
+          "ee67f33bd280b56529bc43e1b81c796ea34d01e8651f7a30e35e0e538c3a2cbe",
+          "ee67f33bd280b56529bc43e1b81c796ea34d01e8651f7a30e35e0e538c3a2cbe",
+          "ee67f33bd280b56529bc43e1b81c796ea34d01e8651f7a30e35e0e538c3a2cbe",
+          "ee67f33bd280b56529bc43e1b81c796ea34d01e8651f7a30e35e0e538c3a2cbe",
+          "ee67f33bd280b56529bc43e1b81c796ea34d01e8651f7a30e35e0e538c3a2cbe"
+        ],
+        "cpu_seconds": [
+          0.0006209999999999966,
+          0.0005259999999999987,
+          0.0006000000000000033,
+          0.0005250000000000046,
+          0.0005280000000000007,
+          0.0005119999999999986,
+          0.0005170000000000036,
+          0.0005160000000000026,
+          0.0005220000000000016
+        ],
+        "wall_seconds": [
+          0.0006232919986359775,
+          0.0005273330025374889,
+          0.0005999999993946403,
+          0.0005248749948805198,
+          0.0005317079921951517,
+          0.0005127909971633926,
+          0.0005170420045033097,
+          0.000516707994393073,
+          0.0005227500078035519
+        ]
+      },
+      "after_cpu_seconds_median": 0.0005250000000000046,
+      "after_over_before_cpu_seconds_ratio": 0.9868421052631579,
+      "after_over_before_wall_seconds_ratio": 0.9846009038672895,
+      "after_wall_seconds_median": 0.0005248749948805198,
+      "alternating_samples": 9,
+      "archive_byte_identical": true,
+      "archive_bytes": 2671,
+      "archive_sha256": "ee67f33bd280b56529bc43e1b81c796ea34d01e8651f7a30e35e0e538c3a2cbe",
+      "before": {
+        "archive_bytes": [
+          2671,
+          2671,
+          2671,
+          2671,
+          2671,
+          2671,
+          2671,
+          2671,
+          2671
+        ],
+        "archive_sha256": [
+          "ee67f33bd280b56529bc43e1b81c796ea34d01e8651f7a30e35e0e538c3a2cbe",
+          "ee67f33bd280b56529bc43e1b81c796ea34d01e8651f7a30e35e0e538c3a2cbe",
+          "ee67f33bd280b56529bc43e1b81c796ea34d01e8651f7a30e35e0e538c3a2cbe",
+          "ee67f33bd280b56529bc43e1b81c796ea34d01e8651f7a30e35e0e538c3a2cbe",
+          "ee67f33bd280b56529bc43e1b81c796ea34d01e8651f7a30e35e0e538c3a2cbe",
+          "ee67f33bd280b56529bc43e1b81c796ea34d01e8651f7a30e35e0e538c3a2cbe",
+          "ee67f33bd280b56529bc43e1b81c796ea34d01e8651f7a30e35e0e538c3a2cbe",
+          "ee67f33bd280b56529bc43e1b81c796ea34d01e8651f7a30e35e0e538c3a2cbe",
+          "ee67f33bd280b56529bc43e1b81c796ea34d01e8651f7a30e35e0e538c3a2cbe"
+        ],
+        "cpu_seconds": [
+          0.0006659999999999999,
+          0.0005470000000000058,
+          0.0006180000000000005,
+          0.0005320000000000047,
+          0.0005539999999999989,
+          0.0005240000000000036,
+          0.0005220000000000016,
+          0.0005230000000000026,
+          0.0005199999999999996
+        ],
+        "wall_seconds": [
+          0.0006670420116279274,
+          0.000547791991266422,
+          0.0006183340010466054,
+          0.0005330840067472309,
+          0.0005543750012293458,
+          0.0005287090025376529,
+          0.00052299999515526,
+          0.0005230410024523735,
+          0.0005198750004637986
+        ]
+      },
+      "before_cpu_seconds_median": 0.0005320000000000047,
+      "before_wall_seconds_median": 0.0005330840067472309,
+      "case": {
+        "count": 64,
+        "mode": "records",
+        "name": "small-schema-diverse-64",
+        "profile": "schema-diverse"
+      },
+      "cpu_seconds_change_percent": -1.3157894736842146,
+      "exact_round_trip_outside_timer": true,
+      "input_bytes": 17636,
+      "input_sha256": "c83e5b139739b3ccf7dfb83b87c479c244bb510906e6dd720ee2ad3093635873",
+      "paired_order": [
+        "before/after",
+        "after/before"
+      ],
+      "wall_seconds_change_percent": -1.539909613271051,
+      "warmups_per_variant": 2
+    },
+    {
+      "after": {
+        "archive_bytes": [
+          1723,
+          1723,
+          1723,
+          1723,
+          1723,
+          1723,
+          1723,
+          1723,
+          1723
+        ],
+        "archive_sha256": [
+          "b1e38baa7d7918613ee8cdc46f7f86c69cf9a33d8c2abf02a54f4cda97d2d674",
+          "b1e38baa7d7918613ee8cdc46f7f86c69cf9a33d8c2abf02a54f4cda97d2d674",
+          "b1e38baa7d7918613ee8cdc46f7f86c69cf9a33d8c2abf02a54f4cda97d2d674",
+          "b1e38baa7d7918613ee8cdc46f7f86c69cf9a33d8c2abf02a54f4cda97d2d674",
+          "b1e38baa7d7918613ee8cdc46f7f86c69cf9a33d8c2abf02a54f4cda97d2d674",
+          "b1e38baa7d7918613ee8cdc46f7f86c69cf9a33d8c2abf02a54f4cda97d2d674",
+          "b1e38baa7d7918613ee8cdc46f7f86c69cf9a33d8c2abf02a54f4cda97d2d674",
+          "b1e38baa7d7918613ee8cdc46f7f86c69cf9a33d8c2abf02a54f4cda97d2d674",
+          "b1e38baa7d7918613ee8cdc46f7f86c69cf9a33d8c2abf02a54f4cda97d2d674"
+        ],
+        "cpu_seconds": [
+          0.0002689999999999984,
+          0.00020799999999999985,
+          0.0002149999999999999,
+          0.00020199999999999385,
+          0.00021300000000000485,
+          0.00023899999999999616,
+          0.00020399999999999585,
+          0.00019299999999999873,
+          0.00020000000000000573
+        ],
+        "wall_seconds": [
+          0.0002703749923966825,
+          0.0002087079919874668,
+          0.00021608300448860973,
+          0.0002021670079557225,
+          0.00021337499492801726,
+          0.00023966599837876856,
+          0.00020412499725352973,
+          0.00019420799799263477,
+          0.00020079099340364337
+        ]
+      },
+      "after_cpu_seconds_median": 0.00020799999999999985,
+      "after_over_before_cpu_seconds_ratio": 0.976525821596253,
+      "after_over_before_wall_seconds_ratio": 0.9647489341539512,
+      "after_wall_seconds_median": 0.0002087079919874668,
+      "alternating_samples": 9,
+      "archive_byte_identical": true,
+      "archive_bytes": 1723,
+      "archive_sha256": "b1e38baa7d7918613ee8cdc46f7f86c69cf9a33d8c2abf02a54f4cda97d2d674",
+      "before": {
+        "archive_bytes": [
+          1723,
+          1723,
+          1723,
+          1723,
+          1723,
+          1723,
+          1723,
+          1723,
+          1723
+        ],
+        "archive_sha256": [
+          "b1e38baa7d7918613ee8cdc46f7f86c69cf9a33d8c2abf02a54f4cda97d2d674",
+          "b1e38baa7d7918613ee8cdc46f7f86c69cf9a33d8c2abf02a54f4cda97d2d674",
+          "b1e38baa7d7918613ee8cdc46f7f86c69cf9a33d8c2abf02a54f4cda97d2d674",
+          "b1e38baa7d7918613ee8cdc46f7f86c69cf9a33d8c2abf02a54f4cda97d2d674",
+          "b1e38baa7d7918613ee8cdc46f7f86c69cf9a33d8c2abf02a54f4cda97d2d674",
+          "b1e38baa7d7918613ee8cdc46f7f86c69cf9a33d8c2abf02a54f4cda97d2d674",
+          "b1e38baa7d7918613ee8cdc46f7f86c69cf9a33d8c2abf02a54f4cda97d2d674",
+          "b1e38baa7d7918613ee8cdc46f7f86c69cf9a33d8c2abf02a54f4cda97d2d674",
+          "b1e38baa7d7918613ee8cdc46f7f86c69cf9a33d8c2abf02a54f4cda97d2d674"
+        ],
+        "cpu_seconds": [
+          0.0002750000000000044,
+          0.00024199999999999916,
+          0.0002149999999999999,
+          0.0002160000000000009,
+          0.00021000000000000185,
+          0.0002129999999999979,
+          0.00020699999999999885,
+          0.00020900000000000085,
+          0.0002040000000000028
+        ],
+        "wall_seconds": [
+          0.00027629200485534966,
+          0.00024358299560844898,
+          0.0002163339959224686,
+          0.00021662500512320548,
+          0.00021041600848548114,
+          0.00021729100262746215,
+          0.00020816699543502182,
+          0.00020933400082867593,
+          0.00020525000581983477
+        ]
+      },
+      "before_cpu_seconds_median": 0.0002129999999999979,
+      "before_wall_seconds_median": 0.0002163339959224686,
+      "case": {
+        "count": 32,
+        "mode": "records",
+        "name": "small-nested-records-32",
+        "profile": "nested-records"
+      },
+      "cpu_seconds_change_percent": -2.3474178403746992,
+      "exact_round_trip_outside_timer": true,
+      "input_bytes": 14528,
+      "input_sha256": "02126eb5f8b650005b9bcfebecd225a0ccc1c40cec8a78b6b5a85dd1a73a7ca9",
+      "paired_order": [
+        "before/after",
+        "after/before"
+      ],
+      "wall_seconds_change_percent": -3.5251065846048757,
+      "warmups_per_variant": 2
+    }
+  ],
+  "elapsed_seconds": 33.245632958001806,
+  "format": "jzpack-schema-flat-dict-fastpath-v1",
+  "memory_cases": {
+    "single-mapping": {
+      "after": {
+        "archive_bytes": 307,
+        "archive_sha256": "f61a9ab2f14affb3274f454f5135d50aa8a3de238204641457498f2c11925777",
+        "exact_round_trip": true,
+        "input_bytes": 255,
+        "input_sha256": "8f9bff85dffb93535d1ddee349d671b8bac84e5c07ec285c4fb3a503290f19e1",
+        "msgpack": "1.2.3",
+        "platform": "macOS-27.2-arm64-arm-64bit",
+        "python": "3.12.13",
+        "rss_highwater_after": 26673152,
+        "rss_highwater_before": 26361856,
+        "rss_highwater_delta": 311296,
+        "rss_unit": "bytes",
+        "tracemalloc_current_bytes": 16132,
+        "tracemalloc_peak_bytes": 282073,
+        "zstandard": "0.25.0"
+      },
+      "before": {
+        "archive_bytes": 307,
+        "archive_sha256": "f61a9ab2f14affb3274f454f5135d50aa8a3de238204641457498f2c11925777",
+        "exact_round_trip": true,
+        "input_bytes": 255,
+        "input_sha256": "8f9bff85dffb93535d1ddee349d671b8bac84e5c07ec285c4fb3a503290f19e1",
+        "msgpack": "1.2.3",
+        "platform": "macOS-27.2-arm64-arm-64bit",
+        "python": "3.12.13",
+        "rss_highwater_after": 26689536,
+        "rss_highwater_before": 26394624,
+        "rss_highwater_delta": 294912,
+        "rss_unit": "bytes",
+        "tracemalloc_current_bytes": 16187,
+        "tracemalloc_peak_bytes": 282128,
+        "zstandard": "0.25.0"
+      }
+    },
+    "wave3-nested-records-40k": {
+      "after": {
+        "archive_bytes": 913354,
+        "archive_sha256": "053f385471174124c4e8ba6ba5aa87a3d21cd4ee0f3b246ad8de60c8f4acd8c4",
+        "exact_round_trip": true,
+        "input_bytes": 19567513,
+        "input_sha256": "64d11d7f5bf23a15eaf88a262e9c0ad5e0716e29c96e1da491956b2a720027c7",
+        "msgpack": "1.2.3",
+        "platform": "macOS-27.2-arm64-arm-64bit",
+        "python": "3.12.13",
+        "rss_highwater_after": 200949760,
+        "rss_highwater_before": 133562368,
+        "rss_highwater_delta": 67387392,
+        "rss_unit": "bytes",
+        "tracemalloc_current_bytes": 1140706,
+        "tracemalloc_peak_bytes": 34370373,
+        "zstandard": "0.25.0"
+      },
+      "before": {
+        "archive_bytes": 913354,
+        "archive_sha256": "053f385471174124c4e8ba6ba5aa87a3d21cd4ee0f3b246ad8de60c8f4acd8c4",
+        "exact_round_trip": true,
+        "input_bytes": 19567513,
+        "input_sha256": "64d11d7f5bf23a15eaf88a262e9c0ad5e0716e29c96e1da491956b2a720027c7",
+        "msgpack": "1.2.3",
+        "platform": "macOS-27.2-arm64-arm-64bit",
+        "python": "3.12.13",
+        "rss_highwater_after": 200949760,
+        "rss_highwater_before": 133578752,
+        "rss_highwater_delta": 67371008,
+        "rss_unit": "bytes",
+        "tracemalloc_current_bytes": 1140706,
+        "tracemalloc_peak_bytes": 34370373,
+        "zstandard": "0.25.0"
+      }
+    },
+    "wave3-schema-diverse-50k": {
+      "after": {
+        "archive_bytes": 1266330,
+        "archive_sha256": "ff90c1802188350abec29ebaf26049a2ecf0b70e41b6c23c4e743843065f1ac8",
+        "exact_round_trip": true,
+        "input_bytes": 14363207,
+        "input_sha256": "76e060ef90cb9f6dd3366e52f75dd6f172d26f210165bdbcfabeadba7ab3cf91",
+        "msgpack": "1.2.3",
+        "platform": "macOS-27.2-arm64-arm-64bit",
+        "python": "3.12.13",
+        "rss_highwater_after": 163692544,
+        "rss_highwater_before": 107151360,
+        "rss_highwater_delta": 56541184,
+        "rss_unit": "bytes",
+        "tracemalloc_current_bytes": 1486534,
+        "tracemalloc_peak_bytes": 27073647,
+        "zstandard": "0.25.0"
+      },
+      "before": {
+        "archive_bytes": 1266330,
+        "archive_sha256": "ff90c1802188350abec29ebaf26049a2ecf0b70e41b6c23c4e743843065f1ac8",
+        "exact_round_trip": true,
+        "input_bytes": 14363207,
+        "input_sha256": "76e060ef90cb9f6dd3366e52f75dd6f172d26f210165bdbcfabeadba7ab3cf91",
+        "msgpack": "1.2.3",
+        "platform": "macOS-27.2-arm64-arm-64bit",
+        "python": "3.12.13",
+        "rss_highwater_after": 163397632,
+        "rss_highwater_before": 107053056,
+        "rss_highwater_delta": 56344576,
+        "rss_unit": "bytes",
+        "tracemalloc_current_bytes": 1486982,
+        "tracemalloc_peak_bytes": 27074095,
+        "zstandard": "0.25.0"
+      }
+    }
+  },
+  "provenance_note": "Candidate is the exact schema.py and test_schema_contracts.py patch identified above; report omits machine-specific checkout paths. The benchmark sources are identified by source_hashes.",
+  "purpose": "paired normal-compress comparison; cProfile evidence alone is not treated as a performance claim",
+  "python_executable": "/Users/alzaibak/.codex/worktrees/schema-flat-fastpath/jzpack/.venv/bin/python",
+  "samples": 9,
+  "source_hashes": {
+    "bench_script": "9963a06f9b9d2fb4047066e25af636867ef716dde3d0feaf316f431f333f1df5",
+    "corpus_wave3_py": "596960e45e66cf63e13b47ea08f010dd97e65d0669d1301e13e47f78f912d221",
+    "worker_script": "95fe1f23fed341138d79ada3027fe73d06521996a3234c829419eaf9704d3108",
+    "writer_cpu_profile_json": "e04a9cf9d95699a806332bfb05caaff49cedc98fe23a6c48a7551539704c7fac"
+  },
+  "source_tree_sha256": {
+    "baseline": {
+      "jzpack/schema.py": "75787c6f54badc28ddf5c1eab8742cc64ae30b3dda0d5ef42b7cba00c547761e",
+      "tests/test_schema_contracts.py": "c50100e4ea1e62a2b686169518ff7de986c98ec179b48ed3ae7bcd87ac84357d"
+    },
+    "candidate": {
+      "jzpack/schema.py": "519570e439896b3bdc64ed892c892e5084f2b54482edf4569728eea890e5e4df",
+      "tests/test_schema_contracts.py": "03ab9b05460485899e682894ce060c65e4543d700bc3b47cecfb829b12a8b36c"
+    }
+  },
+  "timer": {
+    "cpu": "time.process_time around compress only",
+    "exact_round_trip": "performed after each timed compression",
+    "input_generation": "prebuilt before timer from frozen wave-3 corpus generator",
+    "memory": "separate fresh process per variant and case; tracemalloc starts after input build; RSS high-water before/after",
+    "pairing": "one process per variant and case; warm both; alternate before/after order",
+    "wall": "time.perf_counter around compress only"
+  },
+  "warmups": 2
+}

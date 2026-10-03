@@ -1,0 +1,47 @@
+{
+  "baseline": {
+    "error_message": "JZPack records must use string keys",
+    "error_type": "TypeError",
+    "input_pattern_sha256": "35507b949d70fe013fff7828eb65a2970a8c116e04b8c00a62c8b5f33b1945d6",
+    "invalid_record_position": 50000,
+    "records": 50000,
+    "rss_highwater_after": 64569344,
+    "rss_highwater_before": 34947072,
+    "rss_highwater_delta": 29622272,
+    "rss_unit": "bytes",
+    "tracemalloc_current_bytes": 106779,
+    "tracemalloc_peak_bytes": 14453739
+  },
+  "baseline_commit": "2a7af898db041beae0183d0ddf9fe6f034e5b7bd",
+  "candidate": {
+    "error_message": "JZPack records must use string keys",
+    "error_type": "TypeError",
+    "input_pattern_sha256": "35507b949d70fe013fff7828eb65a2970a8c116e04b8c00a62c8b5f33b1945d6",
+    "invalid_record_position": 50000,
+    "records": 50000,
+    "rss_highwater_after": 64552960,
+    "rss_highwater_before": 34897920,
+    "rss_highwater_delta": 29655040,
+    "rss_unit": "bytes",
+    "tracemalloc_current_bytes": 106276,
+    "tracemalloc_peak_bytes": 14453236
+  },
+  "candidate_base_commit": "2a7af898db041beae0183d0ddf9fe6f034e5b7bd",
+  "candidate_patch_description": "dict-root Mapping fast-path only",
+  "candidate_patch_sha256": "879ec262947e3503a7df7d9e31a2527dcc538bc2629e7d488efe0883a567c462",
+  "format": "jzpack-late-invalid-memory-v1",
+  "platform": "macOS-27.2-arm64-arm-64bit",
+  "provenance_note": "Candidate is the exact schema.py and test_schema_contracts.py patch identified above; benchmark worker is identified by worker_sha256.",
+  "python": "3.12.13",
+  "source_tree_sha256": {
+    "baseline": {
+      "jzpack/schema.py": "75787c6f54badc28ddf5c1eab8742cc64ae30b3dda0d5ef42b7cba00c547761e",
+      "tests/test_schema_contracts.py": "c50100e4ea1e62a2b686169518ff7de986c98ec179b48ed3ae7bcd87ac84357d"
+    },
+    "candidate": {
+      "jzpack/schema.py": "519570e439896b3bdc64ed892c892e5084f2b54482edf4569728eea890e5e4df",
+      "tests/test_schema_contracts.py": "03ab9b05460485899e682894ce060c65e4543d700bc3b47cecfb829b12a8b36c"
+    }
+  },
+  "worker_sha256": "e59f122512961ab599beb7c7b478c3b2289778810ea09a9a82785b1551fe120d"
+}
