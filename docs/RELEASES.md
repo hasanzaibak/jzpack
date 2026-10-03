@@ -21,6 +21,13 @@ environment. Never bypass an environment approval or substitute an unreviewed lo
 6. Record the release URL, workflow evidence, and installed-package verification in the delivery
    ledger. Keep remaining performance and coverage gaps explicit.
 
+## Source distribution contents
+
+The root `.gitignore` and Hatch sdist exclusions omit `.hypothesis` and `.ruff_cache` from source
+archives. Before release, build with cache sentinel files present and confirm that the archive
+excludes them while retaining the package, `py.typed`, `LICENSE`, `README.md`, tests, and required
+fixtures.
+
 Version 0.5.0 retains the v3 wire format and historical float DELTA reads. Its safer encoder cannot
 restore values already lost by an older encoder. The new bounded `write_records` API complements
 the existing APIs; `StreamingCompressor` still accumulates its archive in memory. Resource limits
