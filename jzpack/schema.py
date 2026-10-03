@@ -98,16 +98,31 @@ class SchemaManager:
         self._schema_id_cache.clear()
 
     def _flatten(self, obj: Mapping[str, Any], prefix: Path = ()) -> dict[Path, Any]:
-        if type(obj) is not dict and not isinstance(obj, Mapping):
+        if type(obj) is not dict and not isinstance(obj, dict) and not isinstance(obj, Mapping):
             raise TypeError("JZPack records must be mappings")
 
         items = {}
         for key, value in obj.items():
-            if not isinstance(key, str):
+            if type(key) is not str and not isinstance(key, str):
                 raise TypeError("JZPack records must use string keys")
 
             full_key = prefix + (key,)
-            if isinstance(value, Mapping):
+            value_type = type(value)
+            if value_type is dict:
+                nested = self._flatten(value, full_key)
+                items.update(nested) if nested else items.update({full_key: {}})
+            elif (
+                value_type is int
+                or value_type is str
+                or value_type is bool
+                or value_type is type(None)
+                or value_type is float
+                or value_type is bytes
+                or value_type is list
+                or value_type is tuple
+            ):
+                items[full_key] = value
+            elif isinstance(value, dict) or isinstance(value, Mapping):
                 nested = self._flatten(value, full_key)
                 items.update(nested) if nested else items.update({full_key: {}})
             else:

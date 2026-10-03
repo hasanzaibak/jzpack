@@ -302,6 +302,59 @@ These fixed synthetic cases support a targeted decode improvement on this host;
 they do not establish universal leadership, cross-platform speed, or general
 memory behavior.
 
+## Seventh-wave schema-ingestion dispatch candidate
+
+The unpublished `SchemaManager._flatten` candidate uses identity checks to
+avoid `Mapping` ABC checks for built-in leaf values while retaining recursive
+handling for dict and generic `Mapping` subclasses. The baseline method was
+loaded from commit `900911fa2060578f9a1dce9c73c0c48dcceae036`; only `_flatten`
+differs between timed variants. Each case and `fast` mode uses prebuilt fixed
+inputs, one warmup, and nine alternating public `compress(..., level=3)` pairs.
+Archive-byte equality and the corpus fidelity oracle are checked outside the
+timer. All paired archives matched byte-for-byte and all round trips passed.
+
+The first capture's medians are milliseconds, baseline → candidate; parentheses
+show median time reduction and candidate wins among nine pairs.
+
+| Profile | Rows | `fast=False` | `fast=True` |
+|---|---:|---:|---:|
+| Schema-diverse | 10,000 | 45.513 → 38.685 (15.0%; 9/9) | 40.271 → 32.754 (18.7%; 9/9) |
+| Schema-diverse | 50,000 | 231.388 → 192.368 (16.9%; 9/9) | 207.644 → 169.416 (18.4%; 9/9) |
+| Nested records | 10,000 | 39.793 → 33.289 (16.3%; 8/9) | 33.714 → 27.389 (18.8%; 8/9) |
+| Nested records | 50,000 | 198.071 → 167.285 (15.5%; 7/9) | 174.831 → 143.943 (17.7%; 7/9) |
+| Integer series | 50,000 | 89.007 → 77.080 (13.4%; 9/9) | 62.406 → 49.503 (20.7%; 9/9) |
+
+A fresh-process capture repeated the nested cases. Its 10,000-row median
+encode-time reductions were 16.1% (8/9 pairs) with `fast=False` and 18.3% (8/9)
+with `fast=True`. At 50,000 rows the reductions were 15.6% (7/9) and 17.3%
+(7/9), respectively. Both captures contain outliers, so these paired medians are
+a workload-specific signal, not a performance guarantee. Memory was not measured.
+
+The source-pinned raw [first capture](benchmarks/results/schema-flatten-dispatch-candidate.json)
+and [nested repeat](benchmarks/results/schema-flatten-dispatch-nested-repeat.json)
+retain every pair, archive and corpus hashes, and capture-time source, patch,
+harness, and runtime provenance. Each report keeps the original measurement
+script hash as `capture_harness_sha256` and records the current replay-capable
+script hash as `replay_harness_sha256`; the timed-loop logic did not change.
+The current [first harness](benchmarks/compare_schema_flatten_dispatch.py) and
+[repeat harness](benchmarks/compare_schema_flatten_dispatch_repeat.py) accept a
+clean descendant of the baseline and derive provenance from committed,
+staged, unstaged, and untracked changes. A temporary committed-descendant smoke
+at `5f5c3f327c107df65e17858f483a01b8ed610fc8` passed through both harnesses,
+including exact archive and fidelity checks; its smoke timings are excluded
+from the table. The replay-script SHA-256 values are
+`fb634bdb00a7d773c239c1ae18f9e678deca8ef326e92e00d0d3a7b77048ab24` and
+`593d6821261f82045c2eb3183bf37b7dae527ec34484474b768587bed280d6a2`.
+The candidate schema source hash is
+`363678543b32a41998ebc116dbef4827c08c7f67419f73955bfc8dcb0c87c045`; the test
+source hash is `e27671e2231de90991d175fec83727797ceeb42860838be19baa49bd4e7649e2`.
+Both captures used CPython 3.12.13 on macOS 27.2 arm64 with msgpack 1.2.3 and
+python-zstandard 0.25.0.
+
+This branch candidate is separate from published 0.5.6. It has not been shown to
+improve other runtimes or workloads, and no universal performance leadership is
+claimed.
+
 ## Limits of these results
 
 These are small, in-memory synthetic workloads on one macOS ARM64 machine. They show behavior for

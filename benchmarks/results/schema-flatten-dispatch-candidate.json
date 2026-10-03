@@ -1,0 +1,1250 @@
+{
+  "base_revision": "900911fa2060578f9a1dce9c73c0c48dcceae036",
+  "baseline_schema_sha256": "5f7bd3d837ae7965fc54036a1e6a27844aebfda710bfbbf205b0627d79d0e3d7",
+  "branch": "codex/schema-ingestion-optimization",
+  "candidate_source_sha256": {
+    "jzpack/schema.py": "363678543b32a41998ebc116dbef4827c08c7f67419f73955bfc8dcb0c87c045",
+    "tests/test_schema_contracts.py": "e27671e2231de90991d175fec83727797ceeb42860838be19baa49bd4e7649e2"
+  },
+  "capture_binary_patch_sha256": "209cb25eb2c9e048a2e5585520e43462a1d5fbb1c83e5f53937b8c1dec99ebf5",
+  "capture_harness_sha256": "e5cf7c8e7fd4c4b837a078bc2b15a83850f234c033c36611a78193e8b84509be",
+  "capture_head": "900911fa2060578f9a1dce9c73c0c48dcceae036",
+  "cases": [
+    {
+      "archive_bytes": 264963,
+      "archive_sha256": "5efdbc19c2dbe1cc4fbf2b03cab0c436e4a9946014e23b7901164f14447998ac",
+      "baseline_candidate_archives_identical": true,
+      "baseline_median_ms": 45.513208,
+      "baseline_range_ms": [
+        44.540042,
+        47.244833
+      ],
+      "candidate_median_ms": 38.685,
+      "candidate_range_ms": [
+        36.783583,
+        47.228292
+      ],
+      "corpus": "wave3",
+      "count": 10000,
+      "fast": false,
+      "faster_candidate_pairs": 9,
+      "input_canonical_bytes": 2851452,
+      "input_fingerprint_sha256": "aaf5201d627329af3e46fb686fe1571179dff5158411338097133252b6bbd916",
+      "pair_count": 9,
+      "paired_speedup_median": 1.1765078971177458,
+      "profile": "schema-diverse",
+      "raw_pairs": [
+        {
+          "baseline_ns": 46161083,
+          "baseline_over_candidate": 1.2549371006081709,
+          "candidate_ns": 36783583,
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 1
+        },
+        {
+          "baseline_ns": 44713500,
+          "baseline_over_candidate": 1.146933776235884,
+          "candidate_ns": 38985250,
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 2
+        },
+        {
+          "baseline_ns": 44540042,
+          "baseline_over_candidate": 1.20291524370894,
+          "candidate_ns": 37026750,
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 3
+        },
+        {
+          "baseline_ns": 44593041,
+          "baseline_over_candidate": 1.1496249420715163,
+          "candidate_ns": 38789208,
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 4
+        },
+        {
+          "baseline_ns": 46729833,
+          "baseline_over_candidate": 1.021555733726666,
+          "candidate_ns": 45743792,
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 5
+        },
+        {
+          "baseline_ns": 47244833,
+          "baseline_over_candidate": 1.0003502349820315,
+          "candidate_ns": 47228292,
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 6
+        },
+        {
+          "baseline_ns": 45513208,
+          "baseline_over_candidate": 1.1765078971177458,
+          "candidate_ns": 38685000,
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 7
+        },
+        {
+          "baseline_ns": 44990834,
+          "baseline_over_candidate": 1.209932460450074,
+          "candidate_ns": 37184583,
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 8
+        },
+        {
+          "baseline_ns": 46729375,
+          "baseline_over_candidate": 1.2649903222750098,
+          "candidate_ns": 36940500,
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 9
+        }
+      ],
+      "round_trip_fidelity": "passed outside timer with corpus is_faithful oracle (exact types, recursive values, float bits; corpus has no float values)"
+    },
+    {
+      "archive_bytes": 268853,
+      "archive_sha256": "67ab86d169d378b535ad7f828fbc116ba57fc8d6b60078fbfa9170f97d18146e",
+      "baseline_candidate_archives_identical": true,
+      "baseline_median_ms": 40.271042,
+      "baseline_range_ms": [
+        39.47825,
+        43.423416
+      ],
+      "candidate_median_ms": 32.754,
+      "candidate_range_ms": [
+        31.935917,
+        35.593209
+      ],
+      "corpus": "wave3",
+      "count": 10000,
+      "fast": true,
+      "faster_candidate_pairs": 9,
+      "input_canonical_bytes": 2851452,
+      "input_fingerprint_sha256": "aaf5201d627329af3e46fb686fe1571179dff5158411338097133252b6bbd916",
+      "pair_count": 9,
+      "paired_speedup_median": 1.2321057862402678,
+      "profile": "schema-diverse",
+      "raw_pairs": [
+        {
+          "baseline_ns": 40271042,
+          "baseline_over_candidate": 1.2294999694693778,
+          "candidate_ns": 32754000,
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 1
+        },
+        {
+          "baseline_ns": 39979875,
+          "baseline_over_candidate": 1.152431774124972,
+          "candidate_ns": 34691750,
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 2
+        },
+        {
+          "baseline_ns": 40136000,
+          "baseline_over_candidate": 1.2321057862402678,
+          "candidate_ns": 32575125,
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 3
+        },
+        {
+          "baseline_ns": 43423416,
+          "baseline_over_candidate": 1.2662918286685048,
+          "candidate_ns": 34291792,
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 4
+        },
+        {
+          "baseline_ns": 43313250,
+          "baseline_over_candidate": 1.2168964590970148,
+          "candidate_ns": 35593209,
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 5
+        },
+        {
+          "baseline_ns": 40295584,
+          "baseline_over_candidate": 1.2559728051776435,
+          "candidate_ns": 32083166,
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 6
+        },
+        {
+          "baseline_ns": 39478250,
+          "baseline_over_candidate": 1.1532641480496908,
+          "candidate_ns": 34231750,
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 7
+        },
+        {
+          "baseline_ns": 40021917,
+          "baseline_over_candidate": 1.2531945458149831,
+          "candidate_ns": 31935917,
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 8
+        },
+        {
+          "baseline_ns": 42847167,
+          "baseline_over_candidate": 1.3412250473388274,
+          "candidate_ns": 31946292,
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 9
+        }
+      ],
+      "round_trip_fidelity": "passed outside timer with corpus is_faithful oracle (exact types, recursive values, float bits; corpus has no float values)"
+    },
+    {
+      "archive_bytes": 1266330,
+      "archive_sha256": "ff90c1802188350abec29ebaf26049a2ecf0b70e41b6c23c4e743843065f1ac8",
+      "baseline_candidate_archives_identical": true,
+      "baseline_median_ms": 231.387792,
+      "baseline_range_ms": [
+        221.247416,
+        233.463708
+      ],
+      "candidate_median_ms": 192.367666,
+      "candidate_range_ms": [
+        183.577959,
+        199.402791
+      ],
+      "corpus": "wave3",
+      "count": 50000,
+      "fast": false,
+      "faster_candidate_pairs": 9,
+      "input_canonical_bytes": 14363207,
+      "input_fingerprint_sha256": "76e060ef90cb9f6dd3366e52f75dd6f172d26f210165bdbcfabeadba7ab3cf91",
+      "pair_count": 9,
+      "paired_speedup_median": 1.2056879375343579,
+      "profile": "schema-diverse",
+      "raw_pairs": [
+        {
+          "baseline_ns": 231387792,
+          "baseline_over_candidate": 1.2056879375343579,
+          "candidate_ns": 191913500,
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 1
+        },
+        {
+          "baseline_ns": 227488417,
+          "baseline_over_candidate": 1.2391924294135985,
+          "candidate_ns": 183577959,
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 2
+        },
+        {
+          "baseline_ns": 231657250,
+          "baseline_over_candidate": 1.2126871404565829,
+          "candidate_ns": 191028042,
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 3
+        },
+        {
+          "baseline_ns": 221247416,
+          "baseline_over_candidate": 1.1501027164183955,
+          "candidate_ns": 192371875,
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 4
+        },
+        {
+          "baseline_ns": 224644834,
+          "baseline_over_candidate": 1.1265882131007885,
+          "candidate_ns": 199402791,
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 5
+        },
+        {
+          "baseline_ns": 231511041,
+          "baseline_over_candidate": 1.1744712613866597,
+          "candidate_ns": 197119375,
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 6
+        },
+        {
+          "baseline_ns": 221469042,
+          "baseline_over_candidate": 1.132349849975139,
+          "candidate_ns": 195583584,
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 7
+        },
+        {
+          "baseline_ns": 233228833,
+          "baseline_over_candidate": 1.2124118249685474,
+          "candidate_ns": 192367666,
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 8
+        },
+        {
+          "baseline_ns": 233463708,
+          "baseline_over_candidate": 1.229302530539042,
+          "candidate_ns": 189915584,
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 9
+        }
+      ],
+      "round_trip_fidelity": "passed outside timer with corpus is_faithful oracle (exact types, recursive values, float bits; corpus has no float values)"
+    },
+    {
+      "archive_bytes": 1291762,
+      "archive_sha256": "9fba712c9eb30ac8528097a30702e2bdea252da79d4847c4e521172c668071ff",
+      "baseline_candidate_archives_identical": true,
+      "baseline_median_ms": 207.644375,
+      "baseline_range_ms": [
+        199.290875,
+        213.211584
+      ],
+      "candidate_median_ms": 169.416458,
+      "candidate_range_ms": [
+        165.31775,
+        174.457834
+      ],
+      "corpus": "wave3",
+      "count": 50000,
+      "fast": true,
+      "faster_candidate_pairs": 9,
+      "input_canonical_bytes": 14363207,
+      "input_fingerprint_sha256": "76e060ef90cb9f6dd3366e52f75dd6f172d26f210165bdbcfabeadba7ab3cf91",
+      "pair_count": 9,
+      "paired_speedup_median": 1.2224899507066078,
+      "profile": "schema-diverse",
+      "raw_pairs": [
+        {
+          "baseline_ns": 207644375,
+          "baseline_over_candidate": 1.228968546963525,
+          "candidate_ns": 168958250,
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 1
+        },
+        {
+          "baseline_ns": 199290875,
+          "baseline_over_candidate": 1.171359593149907,
+          "candidate_ns": 170136375,
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 2
+        },
+        {
+          "baseline_ns": 206431334,
+          "baseline_over_candidate": 1.2224899507066078,
+          "candidate_ns": 168861375,
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 3
+        },
+        {
+          "baseline_ns": 209360958,
+          "baseline_over_candidate": 1.2333121700933758,
+          "candidate_ns": 169755041,
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 4
+        },
+        {
+          "baseline_ns": 200439125,
+          "baseline_over_candidate": 1.1961602313156259,
+          "candidate_ns": 167568792,
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 5
+        },
+        {
+          "baseline_ns": 209125125,
+          "baseline_over_candidate": 1.2343849438759957,
+          "candidate_ns": 169416458,
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 6
+        },
+        {
+          "baseline_ns": 201217083,
+          "baseline_over_candidate": 1.2171535300958307,
+          "candidate_ns": 165317750,
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 7
+        },
+        {
+          "baseline_ns": 210956708,
+          "baseline_over_candidate": 1.2290440696078595,
+          "candidate_ns": 171642916,
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 8
+        },
+        {
+          "baseline_ns": 213211584,
+          "baseline_over_candidate": 1.2221382044672182,
+          "candidate_ns": 174457834,
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 9
+        }
+      ],
+      "round_trip_fidelity": "passed outside timer with corpus is_faithful oracle (exact types, recursive values, float bits; corpus has no float values)"
+    },
+    {
+      "archive_bytes": 229454,
+      "archive_sha256": "771aff1cbf435226280dba4ecbe2764525c1fca09e05a78cafd53aef396beb99",
+      "baseline_candidate_archives_identical": true,
+      "baseline_median_ms": 39.792875,
+      "baseline_range_ms": [
+        38.524833,
+        66.192792
+      ],
+      "candidate_median_ms": 33.289334,
+      "candidate_range_ms": [
+        31.834042,
+        52.170709
+      ],
+      "corpus": "wave3",
+      "count": 10000,
+      "fast": false,
+      "faster_candidate_pairs": 8,
+      "input_canonical_bytes": 4862716,
+      "input_fingerprint_sha256": "9890f2d73d8125f33d025a789e2ae28d1ad06faa072c15eed028c161fc41712a",
+      "pair_count": 9,
+      "paired_speedup_median": 1.2043909241308817,
+      "profile": "nested-records",
+      "raw_pairs": [
+        {
+          "baseline_ns": 60094250,
+          "baseline_over_candidate": 1.7858529498531166,
+          "candidate_ns": 33650167,
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 1
+        },
+        {
+          "baseline_ns": 39792875,
+          "baseline_over_candidate": 1.2043909241308817,
+          "candidate_ns": 33039833,
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 2
+        },
+        {
+          "baseline_ns": 39617083,
+          "baseline_over_candidate": 1.2004252339236545,
+          "candidate_ns": 33002541,
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 3
+        },
+        {
+          "baseline_ns": 39923167,
+          "baseline_over_candidate": 0.7652410282559127,
+          "candidate_ns": 52170709,
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 4
+        },
+        {
+          "baseline_ns": 39321417,
+          "baseline_over_candidate": 1.181201672583777,
+          "candidate_ns": 33289334,
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 5
+        },
+        {
+          "baseline_ns": 40655542,
+          "baseline_over_candidate": 1.2137930190291726,
+          "candidate_ns": 33494625,
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 6
+        },
+        {
+          "baseline_ns": 66192792,
+          "baseline_over_candidate": 1.9190349276297194,
+          "candidate_ns": 34492750,
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 7
+        },
+        {
+          "baseline_ns": 38524833,
+          "baseline_over_candidate": 1.165979373954889,
+          "candidate_ns": 33040750,
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 8
+        },
+        {
+          "baseline_ns": 38657291,
+          "baseline_over_candidate": 1.2143381289752648,
+          "candidate_ns": 31834042,
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 9
+        }
+      ],
+      "round_trip_fidelity": "passed outside timer with corpus is_faithful oracle (exact types, recursive values, float bits; corpus has no float values)"
+    },
+    {
+      "archive_bytes": 251956,
+      "archive_sha256": "e14f33a2dcc8da7fdceecd7b21d2abfaeac77b914b997ae4954f2a6ee9ae524b",
+      "baseline_candidate_archives_identical": true,
+      "baseline_median_ms": 33.714292,
+      "baseline_range_ms": [
+        33.179959,
+        53.317125
+      ],
+      "candidate_median_ms": 27.389416,
+      "candidate_range_ms": [
+        26.749541,
+        44.678708
+      ],
+      "corpus": "wave3",
+      "count": 10000,
+      "fast": true,
+      "faster_candidate_pairs": 8,
+      "input_canonical_bytes": 4862716,
+      "input_fingerprint_sha256": "9890f2d73d8125f33d025a789e2ae28d1ad06faa072c15eed028c161fc41712a",
+      "pair_count": 9,
+      "paired_speedup_median": 1.2517121942286027,
+      "profile": "nested-records",
+      "raw_pairs": [
+        {
+          "baseline_ns": 53317125,
+          "baseline_over_candidate": 1.9240274548839589,
+          "candidate_ns": 27711208,
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 1
+        },
+        {
+          "baseline_ns": 33679084,
+          "baseline_over_candidate": 1.1915999823094954,
+          "candidate_ns": 28263750,
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 2
+        },
+        {
+          "baseline_ns": 34297625,
+          "baseline_over_candidate": 1.2679480680530821,
+          "candidate_ns": 27049708,
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 3
+        },
+        {
+          "baseline_ns": 33179959,
+          "baseline_over_candidate": 0.7426347019703434,
+          "candidate_ns": 44678708,
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 4
+        },
+        {
+          "baseline_ns": 34283666,
+          "baseline_over_candidate": 1.2517121942286027,
+          "candidate_ns": 27389416,
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 5
+        },
+        {
+          "baseline_ns": 33714292,
+          "baseline_over_candidate": 1.2322081073796067,
+          "candidate_ns": 27360875,
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 6
+        },
+        {
+          "baseline_ns": 50547167,
+          "baseline_over_candidate": 1.8840613380388183,
+          "candidate_ns": 26828833,
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 7
+        },
+        {
+          "baseline_ns": 33655958,
+          "baseline_over_candidate": 1.1722134765848533,
+          "candidate_ns": 28711458,
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 8
+        },
+        {
+          "baseline_ns": 33602958,
+          "baseline_over_candidate": 1.2562069008959817,
+          "candidate_ns": 26749541,
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 9
+        }
+      ],
+      "round_trip_fidelity": "passed outside timer with corpus is_faithful oracle (exact types, recursive values, float bits; corpus has no float values)"
+    },
+    {
+      "archive_bytes": 1131874,
+      "archive_sha256": "18c22076fb2e2b17396197155aef85491f66f0d2cc6dc83ddf5374d87f103865",
+      "baseline_candidate_archives_identical": true,
+      "baseline_median_ms": 198.071209,
+      "baseline_range_ms": [
+        195.201334,
+        297.314834
+      ],
+      "candidate_median_ms": 167.284875,
+      "candidate_range_ms": [
+        165.781709,
+        308.497459
+      ],
+      "corpus": "wave3",
+      "count": 50000,
+      "fast": false,
+      "faster_candidate_pairs": 7,
+      "input_canonical_bytes": 24478157,
+      "input_fingerprint_sha256": "4fd512479673a6e30ce1f07d6d25b01aecf3c8b5bb476f05a52394fa083791df",
+      "pair_count": 9,
+      "paired_speedup_median": 1.1822997691918267,
+      "profile": "nested-records",
+      "raw_pairs": [
+        {
+          "baseline_ns": 198387166,
+          "baseline_over_candidate": 1.1859241070060877,
+          "candidate_ns": 167284875,
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 1
+        },
+        {
+          "baseline_ns": 198899041,
+          "baseline_over_candidate": 1.1871217959590883,
+          "candidate_ns": 167547291,
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 2
+        },
+        {
+          "baseline_ns": 197822083,
+          "baseline_over_candidate": 0.6412438003257589,
+          "candidate_ns": 308497459,
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 3
+        },
+        {
+          "baseline_ns": 196287083,
+          "baseline_over_candidate": 1.1822997691918267,
+          "candidate_ns": 166021417,
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 4
+        },
+        {
+          "baseline_ns": 198888375,
+          "baseline_over_candidate": 1.1724359753738685,
+          "candidate_ns": 169636875,
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 5
+        },
+        {
+          "baseline_ns": 197116375,
+          "baseline_over_candidate": 0.7466403247378485,
+          "candidate_ns": 264004459,
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 6
+        },
+        {
+          "baseline_ns": 198071209,
+          "baseline_over_candidate": 1.1899235781398165,
+          "candidate_ns": 166457084,
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 7
+        },
+        {
+          "baseline_ns": 297314834,
+          "baseline_over_candidate": 1.793411563877653,
+          "candidate_ns": 165781709,
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 8
+        },
+        {
+          "baseline_ns": 195201334,
+          "baseline_over_candidate": 1.1731742463832868,
+          "candidate_ns": 166387333,
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 9
+        }
+      ],
+      "round_trip_fidelity": "passed outside timer with corpus is_faithful oracle (exact types, recursive values, float bits; corpus has no float values)"
+    },
+    {
+      "archive_bytes": 1240213,
+      "archive_sha256": "4ffaaf4519d2912fc9a336e8ef885936979f3965ffa20c34b7fbcabb50bb47dc",
+      "baseline_candidate_archives_identical": true,
+      "baseline_median_ms": 174.831083,
+      "baseline_range_ms": [
+        174.048958,
+        275.48225
+      ],
+      "candidate_median_ms": 143.942875,
+      "candidate_range_ms": [
+        143.492791,
+        283.612833
+      ],
+      "corpus": "wave3",
+      "count": 50000,
+      "fast": true,
+      "faster_candidate_pairs": 7,
+      "input_canonical_bytes": 24478157,
+      "input_fingerprint_sha256": "4fd512479673a6e30ce1f07d6d25b01aecf3c8b5bb476f05a52394fa083791df",
+      "pair_count": 9,
+      "paired_speedup_median": 1.212945659409468,
+      "profile": "nested-records",
+      "raw_pairs": [
+        {
+          "baseline_ns": 174831083,
+          "baseline_over_candidate": 1.2129451506450784,
+          "candidate_ns": 144137666,
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 1
+        },
+        {
+          "baseline_ns": 174599333,
+          "baseline_over_candidate": 1.2153840151331898,
+          "candidate_ns": 143657750,
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 2
+        },
+        {
+          "baseline_ns": 175633709,
+          "baseline_over_candidate": 0.6192727851634273,
+          "candidate_ns": 283612833,
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 3
+        },
+        {
+          "baseline_ns": 174989125,
+          "baseline_over_candidate": 1.2189338366593743,
+          "candidate_ns": 143559166,
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 4
+        },
+        {
+          "baseline_ns": 174367750,
+          "baseline_over_candidate": 1.1640114419989454,
+          "candidate_ns": 149799000,
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 5
+        },
+        {
+          "baseline_ns": 174771000,
+          "baseline_over_candidate": 0.7271529533125124,
+          "candidate_ns": 240349708,
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 6
+        },
+        {
+          "baseline_ns": 174048958,
+          "baseline_over_candidate": 1.212945659409468,
+          "candidate_ns": 143492791,
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 7
+        },
+        {
+          "baseline_ns": 275482250,
+          "baseline_over_candidate": 1.9138303997332275,
+          "candidate_ns": 143942875,
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 8
+        },
+        {
+          "baseline_ns": 175011500,
+          "baseline_over_candidate": 1.2194340630005338,
+          "candidate_ns": 143518625,
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 9
+        }
+      ],
+      "round_trip_fidelity": "passed outside timer with corpus is_faithful oracle (exact types, recursive values, float bits; corpus has no float values)"
+    },
+    {
+      "archive_bytes": 437,
+      "archive_sha256": "240a68eac385319a0674ac8d95c923e411e45c53c2e5ac65707319dac4245463",
+      "baseline_candidate_archives_identical": true,
+      "baseline_median_ms": 89.006834,
+      "baseline_range_ms": [
+        82.6205,
+        90.502292
+      ],
+      "candidate_median_ms": 77.079541,
+      "candidate_range_ms": [
+        74.654708,
+        78.01175
+      ],
+      "corpus": "v1",
+      "count": 50000,
+      "fast": false,
+      "faster_candidate_pairs": 9,
+      "input_canonical_bytes": 4523015,
+      "input_fingerprint_sha256": "4a4845e0e6e8ac94453ae6d119daf4a87053302b24be5628796213d262368560",
+      "pair_count": 9,
+      "paired_speedup_median": 1.154721086156016,
+      "profile": "integer-series",
+      "raw_pairs": [
+        {
+          "baseline_ns": 82620500,
+          "baseline_over_candidate": 1.069909984234139,
+          "candidate_ns": 77221917,
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 1
+        },
+        {
+          "baseline_ns": 89006834,
+          "baseline_over_candidate": 1.1547400626062367,
+          "candidate_ns": 77079541,
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 2
+        },
+        {
+          "baseline_ns": 88747917,
+          "baseline_over_candidate": 1.154721086156016,
+          "candidate_ns": 76856583,
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 3
+        },
+        {
+          "baseline_ns": 89176792,
+          "baseline_over_candidate": 1.1945233514274813,
+          "candidate_ns": 74654708,
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 4
+        },
+        {
+          "baseline_ns": 89817000,
+          "baseline_over_candidate": 1.1816646411356568,
+          "candidate_ns": 76008875,
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 5
+        },
+        {
+          "baseline_ns": 89799083,
+          "baseline_over_candidate": 1.1510968924553031,
+          "candidate_ns": 78011750,
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 6
+        },
+        {
+          "baseline_ns": 87085833,
+          "baseline_over_candidate": 1.1373881919638484,
+          "candidate_ns": 76566500,
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 7
+        },
+        {
+          "baseline_ns": 88606291,
+          "baseline_over_candidate": 1.1385714928570505,
+          "candidate_ns": 77822334,
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 8
+        },
+        {
+          "baseline_ns": 90502292,
+          "baseline_over_candidate": 1.1620990866106822,
+          "candidate_ns": 77878292,
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 9
+        }
+      ],
+      "round_trip_fidelity": "passed outside timer with corpus is_faithful oracle (exact types, recursive values, float bits; corpus has no float values)"
+    },
+    {
+      "archive_bytes": 343050,
+      "archive_sha256": "b381c43758ed172e648ebbce0bebf2aaa6010a1db12ef9e8cfd17435bdb5fecd",
+      "baseline_candidate_archives_identical": true,
+      "baseline_median_ms": 62.406375,
+      "baseline_range_ms": [
+        59.848,
+        64.259083
+      ],
+      "candidate_median_ms": 49.503,
+      "candidate_range_ms": [
+        47.079833,
+        59.999458
+      ],
+      "corpus": "v1",
+      "count": 50000,
+      "fast": true,
+      "faster_candidate_pairs": 9,
+      "input_canonical_bytes": 4523015,
+      "input_fingerprint_sha256": "4a4845e0e6e8ac94453ae6d119daf4a87053302b24be5628796213d262368560",
+      "pair_count": 9,
+      "paired_speedup_median": 1.2494154474198182,
+      "profile": "integer-series",
+      "raw_pairs": [
+        {
+          "baseline_ns": 63364208,
+          "baseline_over_candidate": 1.3458885463761097,
+          "candidate_ns": 47079833,
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 1
+        },
+        {
+          "baseline_ns": 61841625,
+          "baseline_over_candidate": 1.2492500454517907,
+          "candidate_ns": 49503000,
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 2
+        },
+        {
+          "baseline_ns": 61236125,
+          "baseline_over_candidate": 1.2543609674209513,
+          "candidate_ns": 48818583,
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 3
+        },
+        {
+          "baseline_ns": 59848000,
+          "baseline_over_candidate": 1.204396134437398,
+          "candidate_ns": 49691292,
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 4
+        },
+        {
+          "baseline_ns": 62642209,
+          "baseline_over_candidate": 1.280785593583932,
+          "candidate_ns": 48909208,
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 5
+        },
+        {
+          "baseline_ns": 61836875,
+          "baseline_over_candidate": 1.2960784519212127,
+          "candidate_ns": 47710750,
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 6
+        },
+        {
+          "baseline_ns": 62730125,
+          "baseline_over_candidate": 1.1915374040472873,
+          "candidate_ns": 52646375,
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 7
+        },
+        {
+          "baseline_ns": 64259083,
+          "baseline_over_candidate": 1.0709943913160016,
+          "candidate_ns": 59999458,
+          "order": [
+            "candidate",
+            "baseline"
+          ],
+          "pair": 8
+        },
+        {
+          "baseline_ns": 62406375,
+          "baseline_over_candidate": 1.2494154474198182,
+          "candidate_ns": 49948458,
+          "order": [
+            "baseline",
+            "candidate"
+          ],
+          "pair": 9
+        }
+      ],
+      "round_trip_fidelity": "passed outside timer with corpus is_faithful oracle (exact types, recursive values, float bits; corpus has no float values)"
+    }
+  ],
+  "committed_descendant_smoke": {
+    "binary_patch_sha256": "fa5451ebf0c7b1d87000fdaf70be5e8f0bccfc19441e2ee4189c37a8b6232ef0",
+    "candidate_source_sha256": {
+      "jzpack/schema.py": "363678543b32a41998ebc116dbef4827c08c7f67419f73955bfc8dcb0c87c045",
+      "tests/test_schema_contracts.py": "e27671e2231de90991d175fec83727797ceeb42860838be19baa49bd4e7649e2"
+    },
+    "case_mode_count": 2,
+    "harness_sha256": "fb634bdb00a7d773c239c1ae18f9e678deca8ef326e92e00d0d3a7b77048ab24",
+    "head": "5f5c3f327c107df65e17858f483a01b8ed610fc8",
+    "method": "temporary commit descended from the baseline; both harnesses completed one smoke pair per mode with exact archive-byte and fidelity checks",
+    "report_sha256": "cc318addf1c7614e7664127cfa1f587c00c63ba1771d0f7342d40394f01d5f29",
+    "status": "passed"
+  },
+  "harness_path": "benchmarks/compare_schema_flatten_dispatch.py",
+  "method": {
+    "baseline_method": "AST-loaded exact SchemaManager._flatten method from the baseline Git commit; only that method differs between variants",
+    "fidelity_and_byte_validation": "archive equality checked after timer for each call; round trip/corpus oracle validated before timed pairs; warmup archives must be byte-identical",
+    "inputs": "deterministic fixed corpus prebuilt/fingerprinted before timer",
+    "operation": "public jzpack.compress(records, level=3, fast=False|True)",
+    "pair_order": "alternating baseline/candidate order per pair",
+    "paired_repetitions": 9,
+    "script_hashes": "capture_harness_sha256 identifies the script that produced the timed pairs; replay_harness_sha256 identifies the current replay-capable script. The timed-loop logic is unchanged between these revisions.",
+    "timer": "perf_counter_ns around only public compress call; no cProfile or tracemalloc",
+    "warmups": "one per variant, case, and fast mode; output validation outside timer"
+  },
+  "replay_binary_patch_component_sha256": {
+    "committed_since_base": "209cb25eb2c9e048a2e5585520e43462a1d5fbb1c83e5f53937b8c1dec99ebf5",
+    "staged": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "unstaged": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "replay_binary_patch_sha256": "fa5451ebf0c7b1d87000fdaf70be5e8f0bccfc19441e2ee4189c37a8b6232ef0",
+  "replay_change_sets": {
+    "committed_since_base": [
+      "benchmarks/compare_schema_flatten_dispatch.py",
+      "benchmarks/compare_schema_flatten_dispatch_repeat.py",
+      "jzpack/schema.py",
+      "tests/test_schema_contracts.py"
+    ],
+    "staged": [],
+    "unstaged": [],
+    "untracked": []
+  },
+  "replay_harness_sha256": "fb634bdb00a7d773c239c1ae18f9e678deca8ef326e92e00d0d3a7b77048ab24",
+  "runtime": {
+    "machine": "arm64",
+    "msgpack": "1.2.3",
+    "platform": "macOS-27.2-arm64-arm-64bit",
+    "processor": "arm",
+    "python": "3.12.13 (main, May  4 2026, 23:56:25) [Clang 21.0.0 (clang-2100.0.123.102)]",
+    "zstandard": "0.25.0"
+  },
+  "title": "SchemaManager._flatten built-in type dispatch candidate benchmark",
+  "worktree_changes": [
+    "BENCHMARKS.md",
+    "CHANGELOG.md",
+    "benchmarks/compare_schema_flatten_dispatch.py",
+    "benchmarks/compare_schema_flatten_dispatch_repeat.py",
+    "benchmarks/results/schema-flatten-dispatch-candidate.json",
+    "benchmarks/results/schema-flatten-dispatch-nested-repeat.json",
+    "docs/DELIVERY-STATUS.md",
+    "docs/IMPLEMENTATION-PLAN.md",
+    "docs/RELEASES.md",
+    "docs/TEST-COVERAGE.md",
+    "jzpack/schema.py",
+    "tests/test_schema_contracts.py"
+  ]
+}

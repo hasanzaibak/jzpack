@@ -23,6 +23,14 @@ environment. Never bypass an environment approval or substitute an unreviewed lo
 
 ## Verified deliveries
 
+### 0.5.6 — 2026-10-03
+
+- Tag `v0.5.6` points to release commit `900911fa2060578f9a1dce9c73c0c48dcceae036`.
+- [GitHub Release](https://github.com/hasanzaibak/jzpack/releases/tag/v0.5.6) and [PyPI 0.5.6](https://pypi.org/project/jzpack/0.5.6/) are live.
+- [Trusted-publishing run 37156646663](https://github.com/hasanzaibak/jzpack/actions/runs/37156646663) completed its build and publish jobs successfully on the tagged commit.
+- PyPI artifact SHA-256: wheel `21bf6892f882b59bccc473bb354569faea974654a90030fdc205e51abbfaf83f`; source distribution `eb653ec73ede64c609104a09fbd506f7ed8b92583140f7f9b3cbef85bd2705f1`. Both match the local release artifacts.
+- A fresh Python 3.12.13 install from PyPI passed `compress`/`decompress` and `write_records`/`decompress` round trips outside the checkout.
+
 ### 0.5.5 — 2026-10-03
 
 - Tag `v0.5.5` points to release commit `d5653b806f952fc602474409d4d0be83311c33c3`.
