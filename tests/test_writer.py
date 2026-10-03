@@ -380,17 +380,39 @@ def test_container_depth_limit_counts_root_and_nested_dict_or_list_only() -> Non
 
 
 def test_reused_generator_record_is_snapshotted_before_the_next_yield() -> None:
-    reused: dict[str, Any] = {"nested": {"value": 0}, "items": [0]}
+    float_values = [
+        struct.unpack(">d", bytes.fromhex(bits))[0]
+        for bits in (
+            "8000000000000000",
+            "7ff8000000000001",
+            "7ff8000000000002",
+            "7ff0000000000000",
+        )
+    ]
+    reused: dict[str, Any] = {"nested": {"value": 0.0, "empty": {}}, "items": [{"value": 0}]}
+    expected: list[dict[str, Any]] = []
 
     def generate() -> Any:
-        for index in range(4):
-            reused["nested"]["value"] = index
-            reused["items"][0] = index
+        for index, value in enumerate(float_values):
+            reused["nested"]["value"] = value
+            reused["items"][0]["value"] = index
+            expected.append(
+                {"nested": {"value": value, "empty": {}}, "items": [{"value": index}]}
+            )
             yield reused
 
     actual = decompress(_write(generate(), max_chunk_records=2))
-    expected = [{"nested": {"value": index}, "items": [index]} for index in range(4)]
     assert is_faithful(actual, expected)
+
+
+def test_invalid_next_record_fails_before_flushing_the_prepared_chunk() -> None:
+    sink = io.BytesIO()
+
+    with pytest.raises(TypeError, match="does not support values of type object"):
+        write_records([{"id": 1}, {"invalid": object()}], sink, max_chunk_records=1)
+
+    assert len(sink.getvalue()) == 16
+    assert sink.getvalue().startswith(b"JZPK\x03")
 
 
 @pytest.mark.parametrize(

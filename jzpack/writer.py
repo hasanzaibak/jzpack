@@ -67,6 +67,7 @@ class _RecordMeasure:
 @dataclass(frozen=True)
 class _PreparedRecord:
     snapshot: dict[str, Any]
+    flat: dict[Path, Any]
     signature: tuple[Path, ...]
     measure: _RecordMeasure
 
@@ -231,7 +232,9 @@ class _ChunkState:
 
     def add(self, record: _PreparedRecord) -> None:
         existing_id = self.schemas.get(record.signature)
-        schema_id = self.compressor._schema_manager.add_record(record.snapshot)
+        schema_id = self.compressor._schema_manager._add_flat_record_with_keys(
+            record.flat, record.signature
+        )
         if existing_id is None:
             expected_id = f"s{len(self.schemas)}"
             if schema_id != expected_id:
@@ -482,17 +485,17 @@ def _validate_singleton(record: _PreparedRecord, limits: _WriterLimits) -> None:
 def _prepare_record(record: object, measure: _RecordMeasure, max_depth: int) -> _PreparedRecord:
     if type(record) is not dict:
         raise TypeError("write_records accepts only built-in dict records")
-    paths: set[Path] = set()
-    snapshot = _snapshot_value(record, paths, prefix=(), depth=1, schema_mapping=True, max_depth=max_depth)
-    signature = tuple(sorted(paths))
+    flat: dict[Path, Any] = {}
+    snapshot = _snapshot_value(record, flat, prefix=(), depth=1, schema_mapping=True, max_depth=max_depth)
+    signature = tuple(sorted(flat))
     if len(signature) != measure.path_count:
         raise RuntimeError("record path measurement disagrees with its defensive snapshot")
-    return _PreparedRecord(snapshot, signature, measure)
+    return _PreparedRecord(snapshot, flat, signature, measure)
 
 
 def _snapshot_value(
     value: object,
-    paths: set[Path],
+    flat: dict[Path, Any],
     *,
     prefix: Path,
     depth: int,
@@ -516,7 +519,7 @@ def _snapshot_value(
             return [
                 _snapshot_value(
                     item,
-                    paths,
+                    flat,
                     prefix=(),
                     depth=depth + 1,
                     schema_mapping=False,
@@ -529,13 +532,13 @@ def _snapshot_value(
         result: dict[str, Any] = {}
         mapping = value  # type: ignore[assignment]
         if schema_mapping and not mapping and prefix:
-            paths.add(prefix)
+            flat[prefix] = result
         for key, item in mapping.items():
             child_path = prefix + (key,) if schema_mapping else ()
             if schema_mapping and type(item) is dict:
                 result[key] = _snapshot_value(
                     item,
-                    paths,
+                    flat,
                     prefix=child_path,
                     depth=depth + 1,
                     schema_mapping=True,
@@ -543,17 +546,18 @@ def _snapshot_value(
                     active=active,
                 )
             else:
-                if schema_mapping:
-                    paths.add(child_path)
-                result[key] = _snapshot_value(
+                item_snapshot = _snapshot_value(
                     item,
-                    paths,
+                    flat,
                     prefix=(),
                     depth=depth + 1,
                     schema_mapping=False,
                     max_depth=max_depth,
                     active=active,
                 )
+                result[key] = item_snapshot
+                if schema_mapping:
+                    flat[child_path] = item_snapshot
         return result
     finally:
         active.remove(identity)
