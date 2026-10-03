@@ -173,27 +173,49 @@ class DeltaEncoder:
         else:
             raise ValueError("Invalid delta base")
 
-        result = [None] * (len(deltas) + 1)
-        result[0] = base
         current = base
 
-        for i, delta in enumerate(deltas):
-            delta_type = type(delta)
-            if delta_type is int:
-                if delta < MIN_SUPPORTED_INTEGER or delta > MAX_SUPPORTED_INTEGER:
+        if type(deltas) is list:
+            result = [base]
+            for delta in deltas:
+                delta_type = type(delta)
+                if delta_type is int:
+                    if delta < MIN_SUPPORTED_INTEGER or delta > MAX_SUPPORTED_INTEGER:
+                        raise ValueError("Invalid delta value")
+                elif delta_type is not float:
                     raise ValueError("Invalid delta value")
-            elif delta_type is not float:
-                raise ValueError("Invalid delta value")
-            current_is_float = current_is_float or delta_type is float
-            try:
-                current += delta
-            except (OverflowError, TypeError) as exc:
-                raise ValueError("Invalid delta payload") from exc
-            if not current_is_float and (
-                current < MIN_SUPPORTED_INTEGER or current > MAX_SUPPORTED_INTEGER
-            ):
-                raise ValueError("Decoded delta value is outside the supported range")
-            result[i + 1] = current
+                current_is_float = current_is_float or delta_type is float
+                try:
+                    current += delta
+                except (OverflowError, TypeError) as exc:
+                    raise ValueError("Invalid delta payload") from exc
+                if not current_is_float and (
+                    current < MIN_SUPPORTED_INTEGER or current > MAX_SUPPORTED_INTEGER
+                ):
+                    raise ValueError("Decoded delta value is outside the supported range")
+                result.append(current)
+        else:
+            # Preserve the legacy length-based behavior for list subclasses, whose
+            # __len__ and __iter__ implementations may disagree.
+            result = [None] * (len(deltas) + 1)
+            result[0] = base
+            for index, delta in enumerate(deltas):
+                delta_type = type(delta)
+                if delta_type is int:
+                    if delta < MIN_SUPPORTED_INTEGER or delta > MAX_SUPPORTED_INTEGER:
+                        raise ValueError("Invalid delta value")
+                elif delta_type is not float:
+                    raise ValueError("Invalid delta value")
+                current_is_float = current_is_float or delta_type is float
+                try:
+                    current += delta
+                except (OverflowError, TypeError) as exc:
+                    raise ValueError("Invalid delta payload") from exc
+                if not current_is_float and (
+                    current < MIN_SUPPORTED_INTEGER or current > MAX_SUPPORTED_INTEGER
+                ):
+                    raise ValueError("Decoded delta value is outside the supported range")
+                result[index + 1] = current
 
         return result
 

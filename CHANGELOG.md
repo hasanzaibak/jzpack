@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+## 0.5.6 — 2026-10-03
+
+- Append reconstructed DELTA values for exact built-in lists while preserving the indexed subclass path and output-limit behavior.
+- Add an underreporting-list regression and retain source-pinned paired performance evidence for measured decoder workloads.
+
 ## 0.5.5 — 2026-10-03
 
 - Avoid rebuilding the candidate chunk body while checking each incoming record in bounded writes; preserve late validation error precedence.

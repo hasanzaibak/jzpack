@@ -69,6 +69,14 @@ comparison. These workload measurements do not establish universal leadership.
 - **Measured scope:** A single public GH Archive sample adds an encoding-only comparison
   with parsing outside the timer and no memory measurement. It shows a 14.9% median
   improvement over the prior writer on that host; it is not a cross-platform ranking.
+- **Unpublished candidate:** The exact-list Delta decoder append path shows repeatable
+  paired whole-package decode reductions on three fixed synthetic profiles across two
+  source-pinned captures: 8.4–10.6% for integer series, 3.6–5.9% for mixed events, and
+  2.8–4.1% for high entropy. Nested-array results are inconclusive; optional-fields
+  makes no Delta calls. Traced allocation peaks rise by small, workload-dependent amounts;
+  RSS was not measured. The candidate preserves subclass bounds through the legacy indexed
+  path and remains unpublished pending review of the cumulative change. These measurements
+  do not establish universal performance leadership.
 - **Unestablished:** Universal performance leadership, complete input coverage, and broad adoption have not been established. The [test coverage map](TEST-COVERAGE.md) records visible verification gaps.
 - **Planned:** Profile the remaining encoded-body and decoder reconstruction passes on
   representative inputs, then change them only when paired measurements show a useful

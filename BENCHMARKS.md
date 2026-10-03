@@ -251,6 +251,57 @@ hashes, harness hash, and runtime details are in the
 This is evidence for the measured synthetic shapes on one macOS ARM64 host, not
 a general package speed claim.
 
+## Sixth-wave Delta decoder append path
+
+`DeltaEncoder.decode` now uses an append loop for exact built-in `list` payloads.
+List subclasses retain the preallocated indexed path so custom `__len__` and
+`__iter__` implementations cannot make reconstruction exceed the prechecked
+output size. Existing bounds, malformed-value, integer-range, and float-transition
+checks remain in both paths. The focused subclass regression is listed in the
+[test coverage map](docs/TEST-COVERAGE.md).
+
+The [comparison harness](benchmarks/compare_delta_decoder_append.py) pins the
+indexed baseline to `cfdce1d7f2afe1e251ca26753b06a74fe6fa8aa4`, uses the versioned
+corpus at 10,000 and 50,000 records, and records 15 alternating pairs per case.
+Two separate process captures retain raw paired samples, paired medians, the
+ratio of sample medians, input/archive/output hashes, source and harness hashes,
+exact-output checks, runtime versions, and traced Python-allocation peaks:
+[capture 1](benchmarks/results/delta-decoder-append-paired.json) and
+[capture 2](benchmarks/results/delta-decoder-append-paired-repeat.json). Both
+captures used CPython 3.12.13 on macOS 27.2 arm64, jzpack 0.5.5, msgpack 1.2.3,
+python-zstandard 0.25.0 (native Zstandard 1.5.7), and orjson 3.12.0.
+
+Paired-median changes for whole-package decompression were consistent across the
+two captures on high-entropy, integer-series, and mixed-event records. Values are
+percent changes (negative is faster); each cell lists capture 1 / capture 2.
+
+| Profile | 10,000 rows | 50,000 rows | Delta decode calls |
+|---|---:|---:|---:|
+| High entropy | −3.05% / −4.10% | −3.77% / −2.85% | 1 |
+| Integer series | −8.81% / −8.99% | −8.44% / −10.59% | 3 |
+| Mixed events | −4.29% / −3.88% | −5.89% / −3.65% | 15 |
+| Nested arrays | −2.81% / −0.29% | +0.48% / +2.46% | 2 |
+| Optional fields | +0.93% / +2.63% | −0.86% / +17.92% | 0 |
+
+The direct integer-column cases from the integer-series corpus were 18.90–22.70%
+faster at 10,000 values and 18.75–24.51% faster at 50,000 values across the two
+captures, with all 15 pairs faster in each case. The larger direct gains are
+component timings; the table above shows their smaller package-level effect.
+Nested-array results vary by size and run, while optional-fields does not call
+the delta decoder, so neither supports a shape-level speed claim.
+
+For the delta-bearing package profiles, traced Python peaks rose by 1,440–15,360
+bytes at 10,000 records and 23,520–132,960 bytes at 50,000 records across the
+measured cases. Direct list-only peaks rose by 5,008 bytes at 10,000 values and
+44,208 bytes at 50,000 values. These measurements include reconstructed Python
+objects, exclude native allocations, and are not RSS or a memory guarantee. RSS
+was not measured. Optional-fields does not exercise this decoder path and showed
+run-sensitive allocation peaks; it is not evidence of an allocation change.
+
+These fixed synthetic cases support a targeted decode improvement on this host;
+they do not establish universal leadership, cross-platform speed, or general
+memory behavior.
+
 ## Limits of these results
 
 These are small, in-memory synthetic workloads on one macOS ARM64 machine. They show behavior for

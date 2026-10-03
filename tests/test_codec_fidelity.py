@@ -180,6 +180,18 @@ def test_delta_decoder_enforces_expansion_limit_before_reconstruction():
         DeltaEncoder.decode(0, list(range(100)), max_output_size=100)
 
 
+def test_delta_decoder_does_not_append_past_limit_for_underreporting_list_subclass():
+    class UnderreportingList(list):
+        def __len__(self):
+            return 1
+
+        def __iter__(self):
+            return iter((1, 2))
+
+    with pytest.raises(IndexError):
+        DeltaEncoder.decode(0, UnderreportingList(), max_output_size=2)
+
+
 @pytest.mark.parametrize("limit", [True, -1, 1.5])
 @pytest.mark.parametrize(
     "payload",
