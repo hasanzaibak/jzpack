@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+## 0.5.5 — 2026-10-03
+
+- Avoid rebuilding the candidate chunk body while checking each incoming record in bounded writes; preserve late validation error precedence.
+- Speed schema flattening for built-in dictionaries while preserving generic `Mapping` behavior.
+- Add regressions and byte-identical paired performance evidence for schema-diverse and nested workloads.
+
 ## 0.5.4 — 2026-10-03
 
 - Reuse the flattened values from the bounded writer's defensive snapshot instead of walking each prepared record again for schema insertion.
