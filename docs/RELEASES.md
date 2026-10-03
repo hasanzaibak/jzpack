@@ -21,6 +21,17 @@ environment. Never bypass an environment approval or substitute an unreviewed lo
 6. Record the release URL, workflow evidence, and installed-package verification in the delivery
    ledger. Keep remaining performance and coverage gaps explicit.
 
+## Verified deliveries
+
+### 0.5.5 — 2026-10-03
+
+- Tag `v0.5.5` points to release commit `d5653b806f952fc602474409d4d0be83311c33c3`.
+- [GitHub Release](https://github.com/hasanzaibak/jzpack/releases/tag/v0.5.5) and [PyPI 0.5.5](https://pypi.org/project/jzpack/0.5.5/) are live.
+- [CI run 37144871339](https://github.com/hasanzaibak/jzpack/actions/runs/37144871339) passed on the release commit; [trusted-publisher run 37144989563](https://github.com/hasanzaibak/jzpack/actions/runs/37144989563) completed both build and publish jobs successfully.
+- PyPI artifact SHA-256: wheel `0ec8e8d822d5283f1aaf39a2951d57722ccc7729aca687f6939912717523781d`; source distribution `2f53139bdf0faa83848254ca0a9049ea2265e2014995df75b1c611d949112830`.
+- A fresh Python 3.12 environment installed `jzpack==0.5.5` from the PyPI index and passed `compress`/`decompress` and `write_records`/`iter_decompress` round trips outside the checkout, without a `PYTHONPATH` override. A direct install of the hash-verified wheel passed the same smoke checks.
+- Performance measurements remain limited to the recorded workloads and environments; they do not establish universal speed or memory leadership.
+
 ## Source distribution contents
 
 The root `.gitignore` and Hatch sdist exclusions omit `.hypothesis` and `.ruff_cache` from source
