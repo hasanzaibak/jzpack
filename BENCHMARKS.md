@@ -205,11 +205,24 @@ encode times are similar. These measurements justify investigating repeated
 Python record walks and a bounded batch prototype; they do not establish native
 implementation benefits in advance.
 
+The [bounded-writer flatten-reuse profile](docs/WRITER-CPU-PROFILE-WAVE5.md)
+removes one repeated schema-flattening walk by building the flat values during
+the existing defensive snapshot pass. Nine alternating pairs show a 14.214%
+median encode-time reduction for 50,000 schema-diverse records and 4.848% for
+40,000 nested records; the large-string result is within run noise. All writer
+archives matched byte-for-byte. The profile still measures about 23× and 25×
+the streamed comparator time for the schema-diverse and nested shapes, and it
+does not eliminate the separate preflight and body-sizing passes.
+
 A separate [public GitHub event check](docs/evidence/public-gharchive-fidelity-wave4.json)
 round-trips all 11,351 parsed records through both list and lazy writer APIs in
 current and minimum runtimes. The [source record](docs/evidence/public-gharchive-source.json)
-pins the official GH Archive download. This is fidelity evidence only, without
-time or memory measurements; compressed bytes differ across dependency versions.
+pins the official GH Archive download. A companion encoding-only capture in the
+flatten-reuse profile reports a 14.9% median improvement over the prior writer
+on these parsed records; parsing is outside the timer, and the capture includes
+no memory measurement. Its streamed comparator is about 20× faster and writes a
+different, smaller archive. These results are one source and one host, not a
+cross-platform ranking; compressed bytes can also differ across dependency versions.
 
 ## Limits of these results
 

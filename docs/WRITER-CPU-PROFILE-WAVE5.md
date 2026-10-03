@@ -42,12 +42,14 @@ produced the same 3,583,000-byte archive; the streamed archive was 3,160,740
 bytes. All three outputs passed the exact round-trip oracle. GH Archive memory
 was not measured.
 
-Raw source-pinned captures remain outside the repository at `/tmp`:
-`jzpack-writer-paired-cpu-final.json` (SHA-256
+Source-pinned raw captures are retained in [`docs/evidence/performance`](evidence/performance):
+[`writer-wave5-cpu-pairs.json`](evidence/performance/writer-wave5-cpu-pairs.json) (SHA-256
 `bf3868a0ca8530dc1f7541de3b4e95861e07051b02be21d433a648324e4dd0e0`),
-`jzpack-writer-gharchive-paired.json` (`dcf57f4f69b0007db786dd4dde436c0406af075d1aca2e3cf1156030e0ae95cd`),
-and the paired wave-4 before/after captures
-(`8326678d6c7c50aa6957dee239c25ad3f9c904b18269cd4aa44f5b7197073da9`,
+[`writer-wave5-gharchive.json`](evidence/performance/writer-wave5-gharchive.json)
+(`dcf57f4f69b0007db786dd4dde436c0406af075d1aca2e3cf1156030e0ae95cd`), and the
+paired wave-4 memory probes
+([before](evidence/performance/writer-wave4-memory-before.json), SHA-256
+`8326678d6c7c50aa6957dee239c25ad3f9c904b18269cd4aa44f5b7197073da9`; [after](evidence/performance/writer-wave4-memory-after.json),
 `93fbc5d82c14c494c287acc5d2f6e7f354c16c6f3e8fbba0d6abce696c757369`).
 The profile inputs are pinned by `benchmarks/corpus_wave3.py` SHA-256
 `596960e45e66cf63e13b47ea08f010dd97e65d0669d1301e13e47f78f912d221`; the

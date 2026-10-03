@@ -1,0 +1,153 @@
+{
+  "baseline_revision": "1d4b355bef658d87c74a400d4c1c35f8764272ff",
+  "baseline_source_sha256": "01f5613e83027cf90c9f81d62dc866f759deec94fa4be235eb1366a07f88661d",
+  "candidate_source_sha256": "74fd13652d8563bf7827d1e71a85bcc92d3552256c7865c79263ca70036d5b78",
+  "candidate_worktree_head": "1d4b355bef658d87c74a400d4c1c35f8764272ff",
+  "cases": [
+    {
+      "archive_bytes": 1440234,
+      "archive_sha256": "efa68fde9810d7ace59ea08461abd14246c1cd4fff11a73c1bec83434ecd74bb",
+      "archives_byte_identical": true,
+      "baseline_median_seconds": 1.010729874993558,
+      "baseline_samples_seconds": [
+        1.0292666250024922,
+        0.9978675829916028,
+        1.010729874993558,
+        1.0236475419951603,
+        1.00258179201046,
+        1.051148957994883,
+        0.99324749999505,
+        0.9875755420071073,
+        1.0344867919920944
+      ],
+      "candidate_median_seconds": 0.8568603329913458,
+      "candidate_samples_seconds": [
+        0.8567416659934679,
+        0.8560327080049319,
+        0.8753217090124963,
+        0.8556819579971489,
+        0.8861456250015181,
+        0.8996120420051739,
+        0.8568603329913458,
+        0.8535467920009978,
+        0.8790781249990687
+      ],
+      "canonical_input_bytes": 14363207,
+      "exact_candidate_roundtrip": true,
+      "input_sha256": "76e060ef90cb9f6dd3366e52f75dd6f172d26f210165bdbcfabeadba7ab3cf91",
+      "paired_candidate_change_percent_median": -14.214,
+      "paired_candidate_change_percent_samples": [
+        -16.762,
+        -14.214,
+        -13.397,
+        -16.409,
+        -11.614,
+        -14.416,
+        -13.731,
+        -13.571,
+        -15.023
+      ],
+      "profile": "schema-diverse",
+      "record_count": 50000
+    },
+    {
+      "archive_bytes": 1283701,
+      "archive_sha256": "6f57de7c47d8a955b780df481496ddd7eb811002f5850f0f225e77383a1a6701",
+      "archives_byte_identical": true,
+      "baseline_median_seconds": 1.4987862499983748,
+      "baseline_samples_seconds": [
+        1.517876415993669,
+        1.5089131249987986,
+        1.5197855420119595,
+        1.512160957994638,
+        1.4674167500052135,
+        1.4987862499983748,
+        1.4688192080066074,
+        1.4943150829931255,
+        1.477393374996609
+      ],
+      "candidate_median_seconds": 1.424768540993682,
+      "candidate_samples_seconds": [
+        1.3940549169929,
+        1.424768540993682,
+        1.4036548749863869,
+        1.4388552909949794,
+        1.4206030419882154,
+        1.417473041001358,
+        1.4779234170127893,
+        1.4254792499996256,
+        1.4295360410033027
+      ],
+      "canonical_input_bytes": 19567513,
+      "exact_candidate_roundtrip": true,
+      "input_sha256": "64d11d7f5bf23a15eaf88a262e9c0ad5e0716e29c96e1da491956b2a720027c7",
+      "paired_candidate_change_percent_median": -4.848,
+      "paired_candidate_change_percent_samples": [
+        -8.158,
+        -5.577,
+        -7.641,
+        -4.848,
+        -3.19,
+        -5.425,
+        0.62,
+        -4.607,
+        -3.239
+      ],
+      "profile": "nested-records",
+      "record_count": 40000
+    },
+    {
+      "archive_bytes": 4426106,
+      "archive_sha256": "f259faaf4ff6bf9cb0dfa205d165ebe3cc62baeeb88bf4c26947f83c9de41a8f",
+      "archives_byte_identical": true,
+      "baseline_median_seconds": 0.027452792011899874,
+      "baseline_samples_seconds": [
+        0.027862415998242795,
+        0.027643959008855745,
+        0.0274491250020219,
+        0.027452792011899874,
+        0.02755362499738112,
+        0.02725912499590777,
+        0.027213749999646097,
+        0.027145999993081205,
+        0.0277144169958774
+      ],
+      "candidate_median_seconds": 0.026793917000759393,
+      "candidate_samples_seconds": [
+        0.026536125005804934,
+        0.02710304199717939,
+        0.026821958992513828,
+        0.026833166004507802,
+        0.02736841699515935,
+        0.026793917000759393,
+        0.026446959003806114,
+        0.026594124996336177,
+        0.026699084002757445
+      ],
+      "canonical_input_bytes": 8462482,
+      "exact_candidate_roundtrip": true,
+      "input_sha256": "cb3245875e990fd0724430f311925852724641261dd0edbde50ecbf4b085f627",
+      "large_string_bytes_per_record": 16384,
+      "paired_candidate_change_percent_median": -2.257,
+      "paired_candidate_change_percent_samples": [
+        -4.76,
+        -1.957,
+        -2.285,
+        -2.257,
+        -0.672,
+        -1.707,
+        -2.818,
+        -2.033,
+        -3.664
+      ],
+      "profile": "large-strings",
+      "record_count": 512
+    }
+  ],
+  "format": "jzpack-writer-paired-cpu-v2",
+  "pairs_per_case": 9,
+  "platform": "darwin",
+  "python": "3.12.13 (main, May  4 2026, 23:56:25) [Clang 21.0.0 (clang-2100.0.123.102)]",
+  "superseded_capture_note": "The first combined draft used 16,512-byte large strings; that row was replaced by a nine-pair rerun using the frozen wave-4 default of 16,384 bytes. The superseded JSON is retained separately and must not be used for conclusions.",
+  "timed_region": "write_records only to BytesIO; archive retrieval/hash and exact validation outside timer"
+}

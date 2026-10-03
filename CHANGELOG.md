@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+## 0.5.4 — 2026-10-03
+
+- Reuse the flattened values from the bounded writer's defensive snapshot instead of walking each prepared record again for schema insertion.
+- Add regressions for reused generator records, nested empty mappings, exact float bit patterns, and validation failure ordering.
+- Retain source-pinned writer CPU and public GH Archive captures, with timings and comparator limits stated explicitly.
+- Add hosted stable Python 3.14 coverage and classifiers.
+
 ## 0.5.3 — 2026-10-03
 
 - Fix README links for PyPI by using absolute repository URLs and shorten the package introduction.

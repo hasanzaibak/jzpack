@@ -1,0 +1,102 @@
+{
+  "baseline_revision": "1d4b355bef658d87c74a400d4c1c35f8764272ff",
+  "baseline_writer_sha256": "01f5613e83027cf90c9f81d62dc866f759deec94fa4be235eb1366a07f88661d",
+  "candidate_revision": "1d4b355bef658d87c74a400d4c1c35f8764272ff",
+  "candidate_writer_sha256": "74fd13652d8563bf7827d1e71a85bcc92d3552256c7865c79263ca70036d5b78",
+  "compressed_bytes": 3844072,
+  "compressed_sha256": "dc50a9e7cf6fd56cfbb7fa11381a6bcf3657a1e279131b66888ebbfb58652e76",
+  "compression_level": 3,
+  "decompressed_ndjson_sha256": "472b030e957bccc9f322e1191f0e877636fb2cf22decce39bfd9ee30b89e080f",
+  "format": "jzpack-gharchive-paired-v1",
+  "max_source_line_bytes": 58901,
+  "memory_measured": false,
+  "pairs": [
+    {
+      "baseline_writer_ms": 1127.0490419992711,
+      "candidate_writer_ms": 959.1012919991044,
+      "streamed_ms": 48.99729099997785
+    },
+    {
+      "baseline_writer_ms": 1135.5700830026763,
+      "candidate_writer_ms": 981.9979169988073,
+      "streamed_ms": 48.460874997545034
+    },
+    {
+      "baseline_writer_ms": 1118.0162909877254,
+      "candidate_writer_ms": 949.8081670026295,
+      "streamed_ms": 48.30416700860951
+    },
+    {
+      "baseline_writer_ms": 1119.6216249954887,
+      "candidate_writer_ms": 976.7799580004066,
+      "streamed_ms": 48.66445799416397
+    },
+    {
+      "baseline_writer_ms": 1129.4153749913676,
+      "candidate_writer_ms": 950.1352499937639,
+      "streamed_ms": 48.4281670069322
+    },
+    {
+      "baseline_writer_ms": 1112.7664579980774,
+      "candidate_writer_ms": 953.8971669971943,
+      "streamed_ms": 48.908500000834465
+    },
+    {
+      "baseline_writer_ms": 1140.6709159928141,
+      "candidate_writer_ms": 963.0523340019863,
+      "streamed_ms": 48.87908400269225
+    }
+  ],
+  "platform": "darwin",
+  "python": "3.12.13 (main, May  4 2026, 23:56:25) [Clang 21.0.0 (clang-2100.0.123.102)]",
+  "record_count": 11351,
+  "source_url": "https://data.gharchive.org/2015-01-01-15.json.gz",
+  "summary": {
+    "baseline-writer": {
+      "archive_bytes": 3583000,
+      "archive_sha256": "c02bd1befb5f368cf492e27b2073af7ffb40bb4d4247fdd589130c2e402c045f",
+      "exact_roundtrip": true,
+      "median_ms": 1127.0490419992711,
+      "samples_ms": [
+        1127.0490419992711,
+        1135.5700830026763,
+        1118.0162909877254,
+        1119.6216249954887,
+        1129.4153749913676,
+        1112.7664579980774,
+        1140.6709159928141
+      ]
+    },
+    "candidate-writer": {
+      "archive_bytes": 3583000,
+      "archive_sha256": "c02bd1befb5f368cf492e27b2073af7ffb40bb4d4247fdd589130c2e402c045f",
+      "exact_roundtrip": true,
+      "median_ms": 959.1012919991044,
+      "samples_ms": [
+        959.1012919991044,
+        981.9979169988073,
+        949.8081670026295,
+        976.7799580004066,
+        950.1352499937639,
+        953.8971669971943,
+        963.0523340019863
+      ]
+    },
+    "streamed-msgpack-zstd": {
+      "archive_bytes": 3160740,
+      "archive_sha256": "b0621fdd92f0a8a4dcc9ebd95451d856916fa8f2545b9fe6a2e04570f5325966",
+      "exact_roundtrip": true,
+      "median_ms": 48.66445799416397,
+      "samples_ms": [
+        48.99729099997785,
+        48.460874997545034,
+        48.30416700860951,
+        48.66445799416397,
+        48.4281670069322,
+        48.908500000834465,
+        48.87908400269225
+      ]
+    }
+  },
+  "timed_region": "encode to BytesIO; row parsing, archive hashing, and exact full round-trip checks outside timing"
+}

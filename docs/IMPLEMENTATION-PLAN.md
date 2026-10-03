@@ -16,16 +16,18 @@ Treat the test coverage map and independent regression fixtures as acceptance
 evidence, not a test-count target.
 
 Keep the current Python package, format, and dependencies stable while measurements
-guide the next optimization. The bounded writer showed a CPU cost worth investigating in
-the measured comparison, but its limits, exact-value behavior, and output integrity remain
-required contracts; see [the streamed comparison](STREAMED-BASELINE.md) and [the
-benchmark index](../BENCHMARKS.md).
+guide the next optimization. The bounded writer now reuses flattened values from its
+defensive snapshot, removing one repeated schema walk; source-pinned measurements show
+gains on selected shapes while a sizable gap to the streamed comparator remains. Its
+limits, exact-value behavior, and output integrity remain required contracts; see [the
+writer profile](WRITER-CPU-PROFILE-WAVE5.md), [the streamed comparison](STREAMED-BASELINE.md),
+and the [benchmark index](../BENCHMARKS.md).
 
 ## Planned work
 
-1. **Planned: reduce bounded-writer CPU cost.** Profile validation, snapshots, schema
-   preparation, and encoded-body sizing to locate repeated work. Accept an optimization
-   only when exact-value and failure tests pass, resource limits remain enforced before
+1. **Planned: reduce bounded-writer CPU cost.** Profile the remaining preflight and
+   encoded-body sizing passes to locate work worth removing. Accept an optimization only
+   when exact-value and failure tests pass, resource limits remain enforced before
    allocation, and paired measurements include CPU, memory, and archive size.
 2. **Planned: expand scale evidence.** Repeat representative measurements on larger real
    inputs and additional supported environments. Keep parsing, archive work, memory, and

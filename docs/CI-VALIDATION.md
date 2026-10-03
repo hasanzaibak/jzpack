@@ -91,3 +91,12 @@ passed for `eca4fea9977eb8785b95df9db13c2e1af6d297fb`, with 469 tests in each of
 seven test lanes. The refreshed checkout/setup actions and cache-sentinel archive
 guard passed. The [publication record](evidence/release-0.5.3.json) retains artifact
 hashes and the successful upload/download action and protected publishing checks.
+
+## Python 3.14 matrix checkpoint
+
+The [completed CI run](https://github.com/hasanzaibak/jzpack/actions/runs/37098337150)
+passed all nine jobs for `c6a35ce6d08197dda48d298f86712d61b8516595`. Its eight test
+lanes each passed all 469 tests: Linux Python 3.10–3.14, exact minimum runtime
+dependencies on Python 3.10, and macOS/Windows on Python 3.13. The quality lane passed
+lint, distribution build, and cache-sentinel checks. This run records the stable Python
+3.14 matrix expansion; later source changes still require their own exact-commit CI run.

@@ -93,3 +93,12 @@ fails before the exclusion fix and passes afterward.
 The [0.5.3 release record](evidence/release-0.5.3.json) records 469 passing tests in
 both local dependency environments and all seven hosted test lanes. No new coverage
 percentage, mutation score, or exhaustive assertion claim is made.
+
+## Bounded-writer snapshot reuse candidate: 0.5.4
+
+The writer regressions cover reused generator records that are mutated before the
+next yield, nested empty mappings and lists, distinct NaN payloads, signed zero,
+multichunk record order, and invalid-record failure before a prepared chunk is
+flushed. The integrated candidate passes all 470 tests in local Python 3.12,
+minimum-dependency Python 3.11, and Python 3.14 environments. Its exact hosted
+release run is recorded after publication; these local runs do not replace that gate.

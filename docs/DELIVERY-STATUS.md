@@ -37,18 +37,19 @@ execution; publication protections remained enabled.
   production reader. It requires a known row count, may yield rows before final frame
   checksum verification, accepts the full compressed archive as bytes, and does not cap
   native decompressor output. See [the full comparison and limits](STREAMED-BASELINE.md).
-- **Measured:** The bounded writer is substantially slower than the streamed MessagePack
-  baseline on two measured profiles while producing smaller archives; those samples do
-  not establish performance on other workloads. The benchmark report retains the
-  timings, memory scope, and integrity differences.
-- **Measured scope:** Public GH Archive evidence covers fidelity for one parsed source only; it
-  does not measure performance or memory. Benchmark results are source-pinned
-  experiments, not a cross-platform package ranking.
+- **Measured:** The source-tree bounded-writer update removes a repeated schema flattening
+  walk and reduces encoding medians by 14.214% on the schema-diverse case and 4.848% on
+  the nested case; its large-string result is within run noise. The writer remains about
+  23× and 25× slower than the streamed comparator on those cases. See the
+  [source-pinned profile and raw captures](WRITER-CPU-PROFILE-WAVE5.md).
+- **Measured scope:** A single public GH Archive sample adds an encoding-only comparison
+  with parsing outside the timer and no memory measurement. It shows a 14.9% median
+  improvement over the prior writer on that host; it is not a cross-platform ranking.
 - **Unestablished:** Universal performance leadership, complete input coverage, and broad adoption have not been established. The [test coverage map](TEST-COVERAGE.md) records visible verification gaps.
-- **Planned:** The next performance work should profile and reduce repeated bounded-writer
-  validation, snapshot, schema-preparation, and encoded-body work while retaining
-  exact-value behavior and every resource bound. Larger real inputs and additional
-  environments remain needed before broad performance claims.
+- **Planned:** Profile the remaining bounded-writer preflight and encoded-body passes on
+  representative inputs, then remove work only when paired measurements show a useful
+  gain and the full fidelity/resource-limit suite still passes. Larger real inputs and
+  additional environments remain needed before broad performance claims.
 - **Conditional:** Access-format and ecosystem work should stay conditional on concrete workload
   and adoption evidence; a new wire format, cross-language implementation, or adapter
   adds compatibility and maintenance costs.
