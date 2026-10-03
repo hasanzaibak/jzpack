@@ -52,11 +52,6 @@ schema-diverse case and 4.848% on the nested case; its large-string result remai
 within run noise. One public GH Archive sample improved 14.9% in an encoding-only
 comparison. These workload measurements do not establish universal leadership.
 
-Version 0.5.5's bounded-writer preflight change reduced writer latency by 3.1–10.3%
-across two paired five-sample runs on the recorded 50k schema-diverse and 40k nested
-workloads. Archive hashes and round trips matched. These results remain workload- and
-environment-specific; see the [writer benchmark records](WRITER.md#encoding-time-comparison).
-
 ## Remaining evidence gaps
 
 - **Measured scope:** The streamed MessagePack comparison is a benchmark experiment, not a
