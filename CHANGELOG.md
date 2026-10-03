@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+## 0.5.3 — 2026-10-03
+
+- Fix README links for PyPI by using absolute repository URLs and shorten the package introduction.
+- Exclude generated test/tool caches from source distributions.
+- Consolidate duplicated delivery and implementation prose into current, usable guidance.
+- Update GitHub build/test/artifact actions to supported Node.js 24 releases while retaining publication gates.
+
 ## 0.5.2 — 2026-10-02
 
 - Size bounded ASCII strings without temporary UTF-8 encoding; preserve multibyte, surrogate, and hard-limit behavior.

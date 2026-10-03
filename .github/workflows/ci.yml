@@ -78,5 +78,24 @@ jobs:
         run: python -m pip install -e ".[dev]"
       - name: Lint
         run: python -m ruff check .
-      - name: Build distributions
-        run: python -m build
+      - name: Build and verify source distribution
+        run: |
+          python - <<'PYCODE'
+          import subprocess
+          import tarfile
+          from pathlib import Path, PurePosixPath
+
+          caches = {".hypothesis", ".pytest_cache", ".ruff_cache", "__pycache__"}
+          for name in caches:
+              directory = Path(name)
+              directory.mkdir(exist_ok=True)
+              (directory / "distribution-test-sentinel").write_text("generated cache")
+          subprocess.run(["python", "-m", "build"], check=True)
+          archives = list(Path("dist").glob("*.tar.gz"))
+          assert len(archives) == 1, "expected one source distribution"
+          with tarfile.open(archives[0]) as archive:
+              members = [PurePosixPath(member.name) for member in archive]
+          assert all(not caches.intersection(member.parts) for member in members), "cache leaked into source distribution"
+          files = {str(PurePosixPath(*member.parts[1:])) for member in members}
+          assert {"README.md", "LICENSE", "pyproject.toml", "jzpack/__init__.py", "jzpack/py.typed"} <= files, "required source files missing"
+          PYCODE
