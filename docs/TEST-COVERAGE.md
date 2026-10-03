@@ -81,3 +81,15 @@ subsequently passed all 468 tests in every one of seven hosted test lanes. The
 [release evidence](evidence/release-0.5.2.json) records official artifact hashes
 and the separate fresh-installed smoke scope. This does not clear future source
 changes or establish exhaustive assertion coverage.
+
+## Packaging checkpoint: 0.5.3
+
+`tests/test_readme_links.py` rejects relative README documentation links and checks
+the canonical GitHub file destinations locally. It fails against the previous README
+and passes with the fix. The CI quality build creates cache sentinels and rejects
+them in the source archive while requiring essential package files. That guard
+fails before the exclusion fix and passes afterward.
+
+The [0.5.3 release record](evidence/release-0.5.3.json) records 469 passing tests in
+both local dependency environments and all seven hosted test lanes. No new coverage
+percentage, mutation score, or exhaustive assertion claim is made.

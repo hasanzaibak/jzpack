@@ -1,0 +1,95 @@
+{
+  "version": "0.5.3",
+  "release_commit": "eca4fea9977eb8785b95df9db13c2e1af6d297fb",
+  "release_url": "https://github.com/hasanzaibak/jzpack/releases/tag/v0.5.3",
+  "ci_url": "https://github.com/hasanzaibak/jzpack/actions/runs/37095316960",
+  "publish_url": "https://github.com/hasanzaibak/jzpack/actions/runs/37095416079",
+  "pypi_json_url": "https://pypi.org/pypi/jzpack/0.5.3/json",
+  "distributions": [
+    {
+      "filename": "jzpack-0.5.3-py3-none-any.whl",
+      "sha256": "5f4735867d0a045a2111a75717337c7d34ddb9182dbf41ced3321122deaffbd2",
+      "uploaded_at": "2026-10-03T04:07:15.569362Z",
+      "workflow_artifact_hash_matches": true,
+      "local_exact_candidate_build_hash_matches": true
+    },
+    {
+      "filename": "jzpack-0.5.3.tar.gz",
+      "sha256": "aa2adc0b8be8f80c4ccf2c29ffa551d9e2069d107e7d519b8941bec0af0bbbd6",
+      "uploaded_at": "2026-10-03T04:07:16.935830Z",
+      "workflow_artifact_hash_matches": true,
+      "local_exact_candidate_build_hash_matches": true
+    }
+  ],
+  "review": {
+    "result": "different-author Luna/max GO for actions, packaging, documentation cleanup, and final release delta/notes",
+    "root_delta_manifest": "0b3c16d888886f8c93a926d1ef7e105a9980069cced3a06cf85472ec61afb111",
+    "full_12_file_release_delta_manifest": "f65b79ee3836a95665920390003f15a8fec189059addaba442a486ae4e5f4bc5",
+    "tracked_104_file_candidate_manifest": "109d7eef706b311200cf11b6ad854f989121b55f08e16a4712d538278850ad9d",
+    "manifest_scheme": "Sorted filename UTF-8, NUL, raw content bytes, NUL",
+    "release_notes_sha256": "ea769b089103b98d837bf28418a6cd7c1482289de71b21db350a5a2deda8352b",
+    "all_integrated_tracked_files_match_tested_built_snapshot": true
+  },
+  "checks": {
+    "current_tests_passed": 469,
+    "minimum_tests_passed": 469,
+    "hosted_ci_jobs_passed": 8,
+    "hosted_test_lanes": 7,
+    "hosted_test_lanes_each_passed": 469,
+    "publish_jobs_passed": [
+      "build",
+      "publish"
+    ],
+    "ruff": true,
+    "compileall": true,
+    "wheel_and_sdist_build": true,
+    "readme_link_regression_fails_on_baseline_and_passes_on_candidate": true,
+    "cache_sentinel_build_gate_fails_on_baseline_and_passes_on_candidate_and_hosted_ci": true,
+    "sdist_test_source_count": 23,
+    "all_nine_wheel_runtime_sources_match_reviewed_checkout": true,
+    "refreshed_checkout_setup_upload_download_actions_passed": true
+  },
+  "environment_approval": {
+    "environment": "pypi",
+    "deployment_id": 6823047881,
+    "configured_reviewer_account": "hasanzaibak",
+    "normal_approval_under_user_publication_authorization": true,
+    "protection_configuration_modified": false,
+    "deployment_state": "success"
+  },
+  "pypi_description": {
+    "exact_readme_match": true,
+    "all_documentation_links_absolute": true,
+    "roadmap_url": "https://github.com/hasanzaibak/jzpack/blob/main/ROADMAP.md",
+    "rendered_pypi_roadmap_link_followed_to_existing_github_document": true
+  },
+  "pypi_install_smoke": {
+    "command": "python -m pip install --index-url https://pypi.org/simple --no-cache-dir jzpack==0.5.3",
+    "working_directory": "outside source checkout",
+    "source_pythonpath_override": false,
+    "import_from_site_packages_verified": true,
+    "checks": [
+      "installed metadata and exported version",
+      "exact nested scalar types and float64 bits",
+      "shallow/deep nested and literal dotted keys",
+      "long ASCII and multibyte Unicode",
+      "convenience API roundtrip",
+      "writer max_chunk_records=2 roundtrip",
+      "writer byte-count return"
+    ],
+    "result": "passed",
+    "runtime": {
+      "python": "3.12.13",
+      "msgpack": "1.2.3",
+      "zstandard": "0.25.0",
+      "platform": "macOS arm64"
+    },
+    "initial_simple_index_propagation_retry_required": false
+  },
+  "limitations": [
+    "Maintenance release: no new runtime optimization or performance ranking.",
+    "Installed smoke checks are not the full suite against installed distributions.",
+    "Source suites remain non-exhaustive; no new coverage or mutation score was measured.",
+    "Universal performance leadership and broad adoption remain unproved."
+  ]
+}

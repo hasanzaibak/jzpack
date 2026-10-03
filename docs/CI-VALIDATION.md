@@ -10,7 +10,7 @@ minimums are selected.
 | `test` | Ubuntu, Python 3.10–3.13, latest versions satisfying project constraints | Full pytest suite and source/test compilation. `pip install -e ".[dev]"` resolves the latest compatible runtime and development dependencies available when the job runs. |
 | `minimum-dependencies` | Ubuntu, Python 3.10, `msgpack==1.0.0`, `zstandard==0.21.0` | Full pytest suite and source/test compilation. The exact runtime pins are installed with `--no-deps` after the editable development install, then checked through installed package metadata. |
 | `platform-contracts` | macOS and Windows; Python 3.13 | Full pytest suite. The Ubuntu `test` matrix already runs the full suite on Python 3.10–3.13; these additional jobs check platform-specific behavior without duplicating a Linux run. |
-| `quality` | Ubuntu, Python 3.12, latest versions satisfying project constraints | Ruff lint and wheel/source distribution build. |
+| `quality` | Ubuntu, Python 3.12, latest versions satisfying project constraints | Ruff lint, wheel/source distribution build, and cache-sentinel source-archive exclusion checks. |
 
 All jobs use read-only repository permissions. The Python support range comes from
 `requires-python = ">=3.10"` and the declared 3.10–3.13 classifiers in `pyproject.toml`.
@@ -83,3 +83,11 @@ test lanes passed all 468 tests, including Linux Python 3.10–3.13, exact minim
 dependencies on Python 3.10, macOS, and Windows. The quality job passed lint and
 distribution builds. Deprecated action-runtime annotations remain maintenance
 work; this successful run does not verify a future action upgrade.
+
+## Release 0.5.3 checkpoint
+
+All eight [exact-release jobs](https://github.com/hasanzaibak/jzpack/actions/runs/37095316960)
+passed for `eca4fea9977eb8785b95df9db13c2e1af6d297fb`, with 469 tests in each of
+seven test lanes. The refreshed checkout/setup actions and cache-sentinel archive
+guard passed. The [publication record](evidence/release-0.5.3.json) retains artifact
+hashes and the successful upload/download action and protected publishing checks.

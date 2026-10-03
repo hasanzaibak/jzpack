@@ -10,9 +10,10 @@ and installation checks.
 |---|---|---|
 | 0.5.0 | Published | [GitHub](https://github.com/hasanzaibak/jzpack/releases/tag/v0.5.0) · [PyPI](https://pypi.org/project/jzpack/0.5.0/) · [verification record](evidence/release-0.5.0.json) |
 | 0.5.1 | Published | [GitHub](https://github.com/hasanzaibak/jzpack/releases/tag/v0.5.1) · [PyPI](https://pypi.org/project/jzpack/0.5.1/) · [verification record](evidence/release-0.5.1.json) |
-| 0.5.2 | Published; latest recorded release | [GitHub](https://github.com/hasanzaibak/jzpack/releases/tag/v0.5.2) · [PyPI](https://pypi.org/project/jzpack/0.5.2/) · [verification record](evidence/release-0.5.2.json) |
+| 0.5.2 | Published | [GitHub](https://github.com/hasanzaibak/jzpack/releases/tag/v0.5.2) · [PyPI](https://pypi.org/project/jzpack/0.5.2/) · [verification record](evidence/release-0.5.2.json) |
+| 0.5.3 | Published; latest recorded release | [GitHub](https://github.com/hasanzaibak/jzpack/releases/tag/v0.5.3) · [PyPI](https://pypi.org/project/jzpack/0.5.3/) · [verification record](evidence/release-0.5.3.json) |
 
-Version 0.5.2 passed its exact-commit hosted checks and trusted-publishing
+Version 0.5.3 passed its exact-commit hosted checks and trusted-publishing
 workflow. PyPI artifact hashes were matched to workflow artifacts, and an install from
 the official index passed the recorded smoke checks. The verification record is
 authoritative for the full scope and limitations.
@@ -25,13 +26,10 @@ usage limit, the streamed comparator received an orchestrator cold second-pass
 self-review after corrections; that review was not a different-author approval. The
 release record preserves this distinction.
 
-The published source archive excludes generated Hypothesis cache files. The
-local source build included those files, so its archive hash differs from the published
-source archive even though common file contents match. Explicit local build-cache
-exclusion remains packaging follow-up.
-
-CI reported deprecated action runtimes. Updating those actions requires its own review
-and hosted verification; it was not a defect in the published package runtime.
+Version 0.5.3 fixes the PyPI documentation links and excludes generated caches from
+source archives. Both official artifact hashes match the local and workflow builds.
+The refreshed build/test/artifact actions and cache-sentinel guard passed hosted
+execution; publication protections remained enabled.
 
 ## Remaining evidence gaps
 
