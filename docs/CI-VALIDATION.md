@@ -7,13 +7,13 @@ minimums are selected.
 
 | Job | Environment | Checks |
 |---|---|---|
-| `test` | Ubuntu, Python 3.10–3.13, latest versions satisfying project constraints | Full pytest suite and source/test compilation. `pip install -e ".[dev]"` resolves the latest compatible runtime and development dependencies available when the job runs. |
+| `test` | Ubuntu, Python 3.10–3.14, latest versions satisfying project constraints | Full pytest suite and source/test compilation. `pip install -e ".[dev]"` resolves the latest compatible runtime and development dependencies available when the job runs. |
 | `minimum-dependencies` | Ubuntu, Python 3.10, `msgpack==1.0.0`, `zstandard==0.21.0` | Full pytest suite and source/test compilation. The exact runtime pins are installed with `--no-deps` after the editable development install, then checked through installed package metadata. |
-| `platform-contracts` | macOS and Windows; Python 3.13 | Full pytest suite. The Ubuntu `test` matrix already runs the full suite on Python 3.10–3.13; these additional jobs check platform-specific behavior without duplicating a Linux run. |
+| `platform-contracts` | macOS and Windows; Python 3.13 | Full pytest suite. The Ubuntu `test` matrix already runs the full suite on Python 3.10–3.14; these additional jobs check platform-specific behavior without duplicating a Linux run. |
 | `quality` | Ubuntu, Python 3.12, latest versions satisfying project constraints | Ruff lint, wheel/source distribution build, and cache-sentinel source-archive exclusion checks. |
 
 All jobs use read-only repository permissions. The Python support range comes from
-`requires-python = ">=3.10"` and the declared 3.10–3.13 classifiers in `pyproject.toml`.
+`requires-python = ">=3.10"` and the declared 3.10–3.14 classifiers in `pyproject.toml`.
 
 ## Local checks
 
