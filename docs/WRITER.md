@@ -54,12 +54,20 @@ writer rejects tuples, custom values, container subclasses, non-string keys, cyc
 outside that range. `max_depth` counts only nested built-in dictionaries and lists. For example,
 `{"a": 1}` has depth one, and `{"a": {"b": 1}}` has depth two.
 
-Each record is traversed to validate values and measure its exact input MessagePack size and
-structural complexity before a defensive snapshot is retained. The snapshot is complete before the
-writer advances the input iterator, so generators may safely reuse and mutate a yielded container
-after the next call to `next()`. At most one such prepared record is held as lookahead while a full
-chunk is synchronously written. Limits are checked during traversal before the snapshot is made;
-large records and path expansions do not bypass those caps.
+Each record is validated, measured for its exact input MessagePack size and structural complexity,
+and defensively snapshotted in one bounded traversal. The writer checks byte, node, depth, and path
+limits before retaining the corresponding value or flattened path. A successful record's snapshot
+is complete before the writer advances the input iterator, so generators may safely reuse and mutate
+a yielded container after the next call to `next()`. At most one such prepared record is held as
+lookahead while a full chunk is synchronously written.
+
+A late validation failure can occur after part of that record has been copied into temporary
+snapshot and flattened-value structures; those structures are discarded when the write fails. Their
+growth remains subject to the record and structural limits. If `max_chunk_input_bytes` is crossed,
+the writer stops retaining more of the snapshot, completes validation under the other limits, and
+then reports the chunk-input error if no later validation error takes precedence. This preserves the
+validation-before-flush behavior without retaining content beyond the byte cap. The encoded chunk
+body size is still checked before the final MessagePack body is allocated.
 
 ## Sink ownership and failures
 

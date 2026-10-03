@@ -379,6 +379,55 @@ def test_container_depth_limit_counts_root_and_nested_dict_or_list_only() -> Non
     assert decompress(_write([{"x": [[1]]}], max_depth=3)) == [{"x": [[1]]}]
 
 
+def test_fused_preflight_accepts_exact_nested_utf8_limits_and_rejects_one_less() -> None:
+    record = {"é": {"": []}}
+    record_bytes = len(msgpack.packb(record, use_bin_type=True))
+    exact = {
+        "target_chunk_input_bytes": 1,
+        "max_record_bytes": record_bytes,
+        "max_chunk_input_bytes": record_bytes,
+        "max_nodes": 5,  # root, two keys, nested mapping, list
+        "max_depth": 3,
+        "max_paths": 1,
+        "max_path_bytes": 2,  # UTF-8 bytes for "é" and the empty component
+    }
+
+    assert is_faithful(decompress(_write([record], **exact)), [record])
+    for limit, message in (
+        ("max_record_bytes", "max_record_bytes"),
+        ("max_chunk_input_bytes", "max_chunk_input_bytes"),
+        ("max_nodes", "max_nodes"),
+        ("max_depth", "max_depth"),
+        ("max_path_bytes", "max_path_bytes"),
+    ):
+        with pytest.raises(ResourceLimitError, match=message):
+            _write([record], **{**exact, limit: exact[limit] - 1})
+
+    empty_nested = {"é": {}}
+    assert decompress(_write([empty_nested], max_paths=1, max_path_bytes=2)) == [empty_nested]
+    with pytest.raises(ResourceLimitError, match="max_path_bytes"):
+        _write([empty_nested], max_paths=1, max_path_bytes=1)
+
+    two_paths = {"é": {"": []}, "a": 1}
+    assert decompress(_write([two_paths], max_paths=2, max_path_bytes=3)) == [two_paths]
+    with pytest.raises(ResourceLimitError, match="max_paths"):
+        _write([two_paths], max_paths=1, max_path_bytes=3)
+
+
+def test_fused_preflight_preserves_signed_zero_and_nan_payload_bits() -> None:
+    values = [
+        struct.unpack(">d", bytes.fromhex(bits))[0]
+        for bits in (
+            "8000000000000000",  # negative zero
+            "7ff8000000000042",  # quiet NaN with a non-default payload
+            "7ff0000000000000",  # positive infinity
+        )
+    ]
+    records = [{"nested": {"values": values, "empty": {}}}, {}]
+
+    assert is_faithful(decompress(_write(records, max_chunk_records=1)), records)
+
+
 def test_reused_generator_record_is_snapshotted_before_the_next_yield() -> None:
     float_values = [
         struct.unpack(">d", bytes.fromhex(bits))[0]
@@ -409,7 +458,62 @@ def test_invalid_next_record_fails_before_flushing_the_prepared_chunk() -> None:
     sink = io.BytesIO()
 
     with pytest.raises(TypeError, match="does not support values of type object"):
-        write_records([{"id": 1}, {"invalid": object()}], sink, max_chunk_records=1)
+        write_records(
+            [{"id": 1}, {"outer": {"valid": [1, 2], "late": object()}}],
+            sink,
+            max_chunk_records=1,
+        )
+
+    assert len(sink.getvalue()) == 16
+    assert sink.getvalue().startswith(b"JZPK\x03")
+
+
+def test_late_type_error_keeps_precedence_after_chunk_input_crossing() -> None:
+    sink = io.BytesIO()
+
+    with pytest.raises(TypeError, match="does not support values of type object"):
+        write_records(
+            [{"id": 1}, {"id": 2, "bad": object()}],
+            sink,
+            target_chunk_input_bytes=1,
+            max_chunk_input_bytes=7,
+            max_chunk_records=1,
+        )
+
+    assert len(sink.getvalue()) == 16
+    assert sink.getvalue().startswith(b"JZPK\x03")
+
+
+def test_late_depth_error_keeps_precedence_after_chunk_input_crossing() -> None:
+    sink = io.BytesIO()
+
+    with pytest.raises(ResourceLimitError, match="max_depth"):
+        write_records(
+            [{"id": 1}, {"id": 2, "nested": [[1]]}],
+            sink,
+            target_chunk_input_bytes=1,
+            max_chunk_input_bytes=7,
+            max_chunk_records=1,
+            max_depth=1,
+        )
+
+    assert len(sink.getvalue()) == 16
+    assert sink.getvalue().startswith(b"JZPK\x03")
+
+
+def test_late_cycle_error_keeps_precedence_after_chunk_input_crossing() -> None:
+    cyclic: dict[str, Any] = {"id": 2}
+    cyclic["self"] = cyclic
+    sink = io.BytesIO()
+
+    with pytest.raises(ValueError, match="cyclic"):
+        write_records(
+            [{"id": 1}, cyclic],
+            sink,
+            target_chunk_input_bytes=1,
+            max_chunk_input_bytes=7,
+            max_chunk_records=1,
+        )
 
     assert len(sink.getvalue()) == 16
     assert sink.getvalue().startswith(b"JZPK\x03")
@@ -450,6 +554,20 @@ def test_cyclic_record_is_rejected_before_its_chunk_is_emitted() -> None:
     with pytest.raises(ValueError, match="cyclic"):
         write_records([record], sink)
 
+    assert sink.getvalue().startswith(b"JZPK\x03")
+    with pytest.raises(JZPackError):
+        list(iter_decompress(sink.getvalue()))
+
+
+def test_cycle_in_next_record_does_not_flush_pending_chunk_or_write_footer() -> None:
+    cyclic: dict[str, Any] = {"valid": [1, 2]}
+    cyclic["self"] = cyclic
+    sink = io.BytesIO()
+
+    with pytest.raises(ValueError, match="cyclic"):
+        write_records([{"id": 1}, cyclic], sink, max_chunk_records=1)
+
+    assert len(sink.getvalue()) == 16
     assert sink.getvalue().startswith(b"JZPK\x03")
     with pytest.raises(JZPackError):
         list(iter_decompress(sink.getvalue()))

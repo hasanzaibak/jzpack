@@ -73,7 +73,7 @@ class _PreparedRecord:
 
 
 class _RecordInspector:
-    """Validate one built-in record and measure its exact input MessagePack size."""
+    """Validate, measure, and defensively snapshot one built-in record in one pass."""
 
     def __init__(self, limits: _WriterLimits):
         self._limits = limits
@@ -82,21 +82,40 @@ class _RecordInspector:
         self._path_count = 0
         self._path_bytes = 0
         self._active_containers: set[int] = set()
+        self._flat: dict[Path, Any] = {}
+        self._chunk_input_exceeded = False
 
-    def inspect(self, record: object) -> _RecordMeasure:
+    def prepare(self, record: object) -> _PreparedRecord:
         if type(record) is not dict:
             raise TypeError("write_records accepts only built-in dict records")
-        self._measure_mapping(record, depth=1, path_bytes=0, schema_mapping=True, path_present=False)
-        return _RecordMeasure(
+        snapshot = self._measure_mapping(
+            record,
+            depth=1,
+            path_bytes=0,
+            path_parts=[],
+            schema_mapping=True,
+            path_present=False,
+        )
+        if self._chunk_input_exceeded:
+            raise ResourceLimitError("record exceeds max_chunk_input_bytes")
+        if snapshot is None:
+            raise RuntimeError("valid record snapshot was not retained")
+        measure = _RecordMeasure(
             serialized_bytes=self._serialized_bytes,
             node_count=self._node_count,
             path_count=self._path_count,
             path_bytes=self._path_bytes,
         )
+        signature = tuple(sorted(self._flat))
+        return _PreparedRecord(snapshot, self._flat, signature, measure)
 
     def _add_bytes(self, value: int) -> None:
         if value > self._limits.max_record_bytes - self._serialized_bytes:
             raise ResourceLimitError("record exceeds max_record_bytes")
+        if not self._chunk_input_exceeded and value > (
+            self._limits.max_chunk_input_bytes - self._serialized_bytes
+        ):
+            self._chunk_input_exceeded = True
         self._serialized_bytes += value
 
     def _add_node(self) -> None:
@@ -133,9 +152,10 @@ class _RecordInspector:
         *,
         depth: int,
         path_bytes: int,
+        path_parts: list[str],
         schema_mapping: bool,
         path_present: bool,
-    ) -> None:
+    ) -> dict[str, Any] | None:
         self._add_node()
         identity = self._container_enter(value, depth)
         try:
@@ -144,8 +164,11 @@ class _RecordInspector:
                 raise ResourceLimitError("record exceeds max_nodes")
             if len(value) * 2 > self._limits.max_record_bytes - self._serialized_bytes:
                 raise ResourceLimitError("record exceeds max_record_bytes")
+            snapshot: dict[str, Any] | None = {} if not self._chunk_input_exceeded else None
             if not value and schema_mapping and path_present:
                 self._add_schema_path(path_bytes)
+                if snapshot is not None and not self._chunk_input_exceeded:
+                    self._flat[tuple(path_parts)] = snapshot
 
             for key, item in value.items():
                 if type(key) is not str:
@@ -160,45 +183,54 @@ class _RecordInspector:
 
                 if schema_mapping:
                     if type(item) is dict:
-                        self._measure_mapping(
-                            item,
-                            depth=depth + 1,
-                            path_bytes=child_path_bytes,
-                            schema_mapping=True,
-                            path_present=True,
-                        )
+                        path_parts.append(key)
+                        try:
+                            item_snapshot = self._measure_mapping(
+                                item,
+                                depth=depth + 1,
+                                path_bytes=child_path_bytes,
+                                path_parts=path_parts,
+                                schema_mapping=True,
+                                path_present=True,
+                            )
+                        finally:
+                            path_parts.pop()
+                        if snapshot is not None and not self._chunk_input_exceeded:
+                            snapshot[key] = item_snapshot
                     else:
                         self._add_schema_path(child_path_bytes)
-                        self._measure_value(item, depth=depth + 1)
+                        child_path: Path | None = None
+                        if not self._chunk_input_exceeded:
+                            path_parts.append(key)
+                            try:
+                                child_path = tuple(path_parts)
+                            finally:
+                                path_parts.pop()
+                        item_snapshot = self._measure_value(item, depth=depth + 1)
+                        if snapshot is not None and not self._chunk_input_exceeded:
+                            if child_path is None:
+                                raise RuntimeError("record path was not retained with its snapshot")
+                            snapshot[key] = item_snapshot
+                            self._flat[child_path] = item_snapshot
                 else:
-                    self._measure_value(item, depth=depth + 1)
+                    item_snapshot = self._measure_value(item, depth=depth + 1)
+                    if snapshot is not None and not self._chunk_input_exceeded:
+                        snapshot[key] = item_snapshot
+            return snapshot
         finally:
             self._container_exit(identity)
 
-    def _measure_value(self, value: object, *, depth: int) -> None:
+    def _measure_value(self, value: object, *, depth: int) -> Any:
         value_type = type(value)
         if value_type is dict:
-            self._add_node()
-            identity = self._container_enter(value, depth)  # type: ignore[arg-type]
-            try:
-                mapping = value  # type: ignore[assignment]
-                self._add_bytes(_map_header_size(len(mapping)))
-                if len(mapping) * 2 > self._limits.max_nodes - self._node_count:
-                    raise ResourceLimitError("record exceeds max_nodes")
-                if len(mapping) * 2 > self._limits.max_record_bytes - self._serialized_bytes:
-                    raise ResourceLimitError("record exceeds max_record_bytes")
-                for key, item in mapping.items():
-                    if type(key) is not str:
-                        raise TypeError("write_records requires built-in string mapping keys")
-                    self._add_node()
-                    key_utf8_bytes = _string_utf8_size(
-                        key, self._limits.max_record_bytes - self._serialized_bytes
-                    )
-                    self._add_bytes(_string_header_size(key_utf8_bytes) + key_utf8_bytes)
-                    self._measure_value(item, depth=depth + 1)
-            finally:
-                self._container_exit(identity)
-            return
+            return self._measure_mapping(
+                value,  # type: ignore[arg-type]
+                depth=depth,
+                path_bytes=0,
+                path_parts=[],
+                schema_mapping=False,
+                path_present=False,
+            )
 
         if value_type is list:
             self._add_node()
@@ -210,14 +242,18 @@ class _RecordInspector:
                     raise ResourceLimitError("record exceeds max_nodes")
                 if len(sequence) > self._limits.max_record_bytes - self._serialized_bytes:
                     raise ResourceLimitError("record exceeds max_record_bytes")
+                snapshot: list[Any] | None = [] if not self._chunk_input_exceeded else None
                 for item in sequence:
-                    self._measure_value(item, depth=depth + 1)
+                    item_snapshot = self._measure_value(item, depth=depth + 1)
+                    if snapshot is not None and not self._chunk_input_exceeded:
+                        snapshot.append(item_snapshot)
+                return snapshot
             finally:
                 self._container_exit(identity)
-            return
 
         self._add_node()
         self._add_bytes(_scalar_size(value, self._limits.max_record_bytes - self._serialized_bytes))
+        return value
 
 
 class _ChunkState:
@@ -335,12 +371,7 @@ def _write_stream(
     chunk = _ChunkState(compression_level, fast)
 
     for record in records:
-        measure = _RecordInspector(limits).inspect(record)
-        if measure.serialized_bytes > limits.max_record_bytes:
-            raise ResourceLimitError("record exceeds max_record_bytes")
-        if measure.serialized_bytes > limits.max_chunk_input_bytes:
-            raise ResourceLimitError("record exceeds max_chunk_input_bytes")
-        prepared = _prepare_record(record, measure, limits.max_depth)
+        prepared = _RecordInspector(limits).prepare(record)
 
         if _must_flush(chunk, prepared, limits):
             total_written += _flush_chunk(chunk, sink, totals, limits)
@@ -480,87 +511,6 @@ def _validate_singleton(record: _PreparedRecord, limits: _WriterLimits) -> None:
         raise ResourceLimitError("record exceeds max_paths")
     if record.measure.path_bytes > limits.max_path_bytes:
         raise ResourceLimitError("record exceeds max_path_bytes")
-
-
-def _prepare_record(record: object, measure: _RecordMeasure, max_depth: int) -> _PreparedRecord:
-    if type(record) is not dict:
-        raise TypeError("write_records accepts only built-in dict records")
-    flat: dict[Path, Any] = {}
-    snapshot = _snapshot_value(record, flat, prefix=(), depth=1, schema_mapping=True, max_depth=max_depth)
-    signature = tuple(sorted(flat))
-    if len(signature) != measure.path_count:
-        raise RuntimeError("record path measurement disagrees with its defensive snapshot")
-    return _PreparedRecord(snapshot, flat, signature, measure)
-
-
-def _snapshot_value(
-    value: object,
-    flat: dict[Path, Any],
-    *,
-    prefix: Path,
-    depth: int,
-    schema_mapping: bool,
-    max_depth: int,
-    active: set[int] | None = None,
-) -> Any:
-    if active is None:
-        active = set()
-    value_type = type(value)
-    if value_type not in (dict, list):
-        return value
-    if depth > max_depth:
-        raise ResourceLimitError("record exceeds max_depth")
-    identity = id(value)
-    if identity in active:
-        raise ValueError("write_records does not accept cyclic records")
-    active.add(identity)
-    try:
-        if value_type is list:
-            return [
-                _snapshot_value(
-                    item,
-                    flat,
-                    prefix=(),
-                    depth=depth + 1,
-                    schema_mapping=False,
-                    max_depth=max_depth,
-                    active=active,
-                )
-                for item in value  # type: ignore[union-attr]
-            ]
-
-        result: dict[str, Any] = {}
-        mapping = value  # type: ignore[assignment]
-        if schema_mapping and not mapping and prefix:
-            flat[prefix] = result
-        for key, item in mapping.items():
-            child_path = prefix + (key,) if schema_mapping else ()
-            if schema_mapping and type(item) is dict:
-                result[key] = _snapshot_value(
-                    item,
-                    flat,
-                    prefix=child_path,
-                    depth=depth + 1,
-                    schema_mapping=True,
-                    max_depth=max_depth,
-                    active=active,
-                )
-            else:
-                item_snapshot = _snapshot_value(
-                    item,
-                    flat,
-                    prefix=(),
-                    depth=depth + 1,
-                    schema_mapping=False,
-                    max_depth=max_depth,
-                    active=active,
-                )
-                result[key] = item_snapshot
-                if schema_mapping:
-                    flat[child_path] = item_snapshot
-        return result
-    finally:
-        active.remove(identity)
 
 
 def _check_total_overflow(totals: _Totals, header: _ChunkHeader) -> None:
