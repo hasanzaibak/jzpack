@@ -90,11 +90,15 @@ comparison. These workload measurements do not establish universal leadership.
   universal performance leadership; see the [paired captures](../BENCHMARKS.md#seventh-wave-schema-ingestion-dispatch-candidate)
   and [0.5.7 delivery ledger](RELEASES.md#verified-deliveries).
 - **Unestablished:** Universal performance leadership, complete input coverage, and broad adoption have not been established. The [test coverage map](TEST-COVERAGE.md) records visible verification gaps.
-- **Planned:** Profile the remaining writer encoded-body sizing and decoder reconstruction
-  passes as the next distinct costs.
-  Larger real inputs and additional environments remain needed before broad performance
-  claims; changes still require exact fidelity, resource-limit checks, and paired CPU,
-  memory, and archive-size measurements.
+- **Measured, unreleased writer candidate:** A source-pinned nine-pair capture shows
+  3.26–6.15% median encode-time reductions on three synthetic scalar-heavy profiles and an
+  effectively flat large-string result, with exact archive bytes and round trips. See the
+  [eighth-wave capture](../BENCHMARKS.md#eighth-wave-messagepack-scalar-size-fast-path).
+- **Rejected decoder candidate:** Grouping sibling fields during reconstruction slowed all
+  four measured profiles; see the [no-go results](../BENCHMARKS.md#decoder-sibling-group-reconstruction-no-go).
+- **Next:** Repeat representative measurements on larger real inputs and additional
+  supported environments before making broader performance claims. Changes still require
+  exact fidelity, resource-limit checks, and paired CPU, memory, and archive-size evidence.
 - **Conditional:** Access-format and ecosystem work should stay conditional on concrete workload
   and adoption evidence; a new wire format, cross-language implementation, or adapter
   adds compatibility and maintenance costs.
