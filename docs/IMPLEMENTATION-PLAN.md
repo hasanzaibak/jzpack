@@ -65,33 +65,33 @@ round trips match, but memory was not measured. See the
    `compress()` acceleration. The suite passed 524 tests. A read-only differential check
    matched schema groups, order, and exception/state outcomes on 1,200 generated batches.
    Memory was not measured. See the [paired captures](../BENCHMARKS.md#ninth-wave-direct-column-nested-batch-ingestion).
-3. **Next: profile and reduce large-string `compress()` work.** The nested fast path
-   leaves large-string performance effectively flat. First profile that public workload,
-   then test fusing repeated column-analysis scans. Require repeatable gains on the
-   targeted string profile, no more than 2% median regression on nested and
-   schema-diverse controls, identical archive bytes, and exact corpus-oracle round trips.
-   Measure memory separately. For peak memory, prototype shorter MessagePack-body
-   lifetimes or incremental MessagePack emission into the Zstandard streaming writer;
-   preserve the existing v3 framing, checksums, and error behavior. The official
+3. **Completed diagnostic: sweep Zstandard levels for large-string `compress()`.**
+   A public-call level sweep found that large-string results, nested records, and schema-diverse
+   inputs favor different speed/size tradeoffs. Native macOS ARM64 and a pinned Linux/ARM64
+   container produced the same archive sizes at all levels and the same tradeoff direction.
+   Keep the level-3 default and do not add an automatic level policy from three synthetic
+   workloads. See the
+   [source and results](../BENCHMARKS.md#tenth-wave-zstandard-compression-level-frontier).
+4. **Next: test the level frontier on held-out, realistic data.** Select a small set of
+   representative user workloads and compare time, archive size, and peak memory before
+   considering named speed/compact profiles. Keep explicit levels available. Do not infer a
+   universal rule from level numbers; the measured size ordering was not monotonic.
+5. **Conditional: reduce peak memory in large `compress()` calls.** Measure memory separately,
+   then prototype shorter MessagePack-body lifetimes or incremental MessagePack emission into
+   the Zstandard streaming writer. Preserve v3 framing, checksums, and error behavior; require
+   exact serialized payload and corpus round trips. The official
    [python-zstandard streaming API](https://python-zstandard.readthedocs.io/en/0.25.0/compressor.html)
-   supports chunked input/output, and the [MessagePack Packer API](https://msgpack-python.readthedocs.io/en/stable/api.html)
-   exposes array/map header and repeated-pack operations. A prototype must verify exact
-   serialized payload bytes; the current JZPack serializer still materializes the full
-   MessagePack body. Native Zstandard threads remain a large-payload experiment:
+   supports chunked input/output, while the [MessagePack Packer API](https://msgpack-python.readthedocs.io/en/stable/api.html)
+   exposes array/map header and repeated-pack operations. A prototype must verify exact bytes;
+   no CPU speedup is claimed. Native Zstandard threads remain a large-payload experiment:
    the [binding documents per-operation overhead, extra memory work, and a possible small
    output-size cost](https://python-zstandard.readthedocs.io/en/0.25.0/multithreaded.html).
-   Keep the default compression level unless an explicit speed-versus-ratio budget
-   justifies a change.
-4. **Next after the focused experiment: expand scale evidence.** Repeat representative
-   measurements on larger real inputs and additional supported environments. Keep
-   parsing, archive work, memory, and integrity boundaries explicit; distinguish fidelity
-   checks from performance results.
-5. **Conditional: choose an access design from demonstrated needs.** Compare a version 3
+6. **Conditional: choose an access design from demonstrated needs.** Compare a version 3
    sidecar index, a new wire format, and an existing columnar backend only against
    concrete read workloads. Preserve missing-versus-null, scalar types, float bits,
    bounds, compatibility, and install cost in that comparison. Defer a new format until
    evidence justifies its maintenance and migration cost.
-6. **Conditional: defer ecosystem expansion until usage supports it.** Cross-language
+7. **Conditional: defer ecosystem expansion until usage supports it.** Cross-language
    readers, adapters, and broader APIs should follow demonstrated adoption needs and a
    shared conformance corpus, rather than lead the package roadmap.
 

@@ -89,12 +89,6 @@ class TestCompressionLevels:
         compressed = compress(data, level=19)
         assert decompress(compressed) == data
 
-    def test_higher_level_smaller_size(self):
-        data = [{"test": "value" * 100} for _ in range(1000)]
-        size_1 = len(compress(data, level=1))
-        size_19 = len(compress(data, level=19))
-        assert size_19 <= size_1
-
 
 class TestFastMode:
     def test_fast_mode_basic(self):
