@@ -129,10 +129,14 @@ assert compressor.decompress_from_file(buffer) == data
 ```
 
 **Parameters:**
-- `level`: zstd compression level 1-22 (default: 3)
+- `level`: Zstandard compression level 1-22 (default: 3)
 - `fast`: skip column encoding analysis for speed (default: False)
 - `max_output_size`: optional decompression limit in bytes
 - `max_records`: optional decompression limit in records
+
+Compression-level tradeoffs depend on the records being compressed. A higher level does not
+guarantee a smaller archive for every input. Benchmark representative data before tuning; see the
+[measured level tradeoffs](https://github.com/hasanzaibak/jzpack/blob/main/BENCHMARKS.md#tenth-wave-zstandard-compression-level-frontier).
 
 `compress` accepts a mapping, a list of mappings, or an iterable of mappings; mapping keys must be
 strings. Supported values include `None`, booleans, strings, bytes, MessagePack-range integers,

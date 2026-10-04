@@ -476,11 +476,64 @@ the help text to show a working module invocation. Timing and validation logic a
 unchanged. Large-string results are effectively flat; describe the optimization only
 as a nested-record ingestion improvement.
 
+## Tenth-wave Zstandard compression-level frontier
+
+This diagnostic measures public `JZPackCompressor(compression_level=level).compress(records)`
+across six Zstandard levels on the same three wave-three synthetic workloads. Each level has six
+unprofiled calls across three fresh processes. Each process generated its corpus before timing,
+performed one warmup, and timed two compressions; level order was ascending, descending, then
+rotated. Every sample produced deterministic bytes for its level and round-tripped exactly.
+
+| Workload | Level | Native median | Native archive | Linux/ARM64 container median | Container archive |
+|---|---:|---:|---:|---:|---:|
+| Large strings, 512 × 16 KiB | 1 | 7.711 ms | 4,281,078 B | 6.583 ms | 4,281,078 B |
+|  | 2 | 8.832 ms | 4,285,665 B | 8.166 ms | 4,285,665 B |
+|  | 3 | 24.313 ms | 4,434,767 B | 25.695 ms | 4,434,767 B |
+|  | 4 | 34.116 ms | 4,659,940 B | 36.501 ms | 4,659,940 B |
+|  | 6 | 63.306 ms | 4,541,188 B | 59.518 ms | 4,541,188 B |
+|  | 9 | 94.487 ms | 4,574,657 B | 92.727 ms | 4,574,657 B |
+| Nested records, 40,000 | 1 | 109.579 ms | 1,229,237 B | 98.104 ms | 1,229,237 B |
+|  | 2 | 102.337 ms | 1,579,383 B | 98.772 ms | 1,579,383 B |
+|  | 3 | 100.721 ms | 913,354 B | 96.583 ms | 913,354 B |
+|  | 4 | 102.436 ms | 906,691 B | 97.151 ms | 906,691 B |
+|  | 6 | 125.062 ms | 1,011,075 B | 119.874 ms | 1,011,075 B |
+|  | 9 | 143.295 ms | 620,590 B | 126.269 ms | 620,590 B |
+| Schema-diverse, 50,000 | 1 | 199.903 ms | 1,318,088 B | 182.276 ms | 1,318,088 B |
+|  | 2 | 220.212 ms | 1,321,520 B | 182.030 ms | 1,321,520 B |
+|  | 3 | 200.031 ms | 1,266,330 B | 184.953 ms | 1,266,330 B |
+|  | 4 | 196.251 ms | 1,273,224 B | 185.027 ms | 1,273,224 B |
+|  | 6 | 212.846 ms | 1,210,888 B | 199.184 ms | 1,210,888 B |
+|  | 9 | 225.651 ms | 1,196,254 B | 212.929 ms | 1,196,254 B |
+
+The large-string profile is the clear speed case: level 1 reduced median time by 68% on native
+macOS and 74% in the container versus level 3, while producing an archive 3.47% smaller. That
+result does not generalize to the other shapes. Level 1 enlarged the nested archive by 34.58% and
+the schema-diverse archive by 4.09%. Level 9 reduced the nested archive by 32.05%, at 42% more
+native latency and 31% more container latency than level 3. Levels 4, 6, and 9 also produced
+larger large-string archives than level 3, so level numbers do not give a monotonic size guarantee
+for these inputs.
+
+The native run used CPython 3.12.13, macOS 27.2 ARM64, msgpack 1.2.3, and python-zstandard 0.25.0.
+The container run used the same Python and libraries in the pinned
+`python:3.12.13-slim@sha256:229a2c5bfa27522db7815ea81f9bed70af17ccb9de9fc7ad142b1877b5830d36`
+Linux/ARM64 image under OrbStack, limited to two CPUs and 4 GiB memory. Both used source commit
+`9f5ba524758e355aab7fc6f1dd911459d5aa560d`; the container mounted it read-only. The exact input
+fingerprints, environment details, medians, and archive sizes are in the
+[machine-readable results](benchmarks/results/compression-level-frontier-20261004.json).
+
+Keep level 3 as the general default. The public `level` argument already lets callers choose a
+speed or size tradeoff for representative data; these three synthetic profiles do not justify a
+new automatic policy. The level sweep shows that large-string results are especially sensitive to
+the selected compression level, while nested and schema-diverse inputs favor different tradeoffs.
+A streaming serializer remains a separate peak-memory experiment, not a demonstrated CPU-speed
+improvement.
+
 ## Limits of these results
 
-These are small, in-memory synthetic workloads on one macOS ARM64 machine. They show behavior for
-these exact generated shapes and dependency versions; they do not establish general compression,
-throughput, or memory guarantees. The high-repetition integer, event, and nested-array profiles are
+These are small, in-memory synthetic workloads on one macOS ARM64 host and a Linux ARM64 container
+running on it. They show behavior for these exact generated shapes and dependency versions; they do
+not establish general compression, throughput, or memory guarantees. The high-repetition integer,
+event, and nested-array profiles are
 especially compressible. The slower MessagePack/orjson baselines on jzpack decode do not imply that
 jzpack is a faster serialization format overall; their archive size and CPU tradeoffs differ by
 workload. Public-data, tuned Parquet/Vortex, log-specific CLP, and streaming file-I/O comparisons
