@@ -23,6 +23,15 @@ environment. Never bypass an environment approval or substitute an unreviewed lo
 
 ## Verified deliveries
 
+### 0.5.7 — 2026-10-03
+
+- Tag `v0.5.7` points to release commit `6176290ec7f8921b404a5673a328b258c473e8d3`.
+- [GitHub Release](https://github.com/hasanzaibak/jzpack/releases/tag/v0.5.7) and [PyPI 0.5.7](https://pypi.org/project/jzpack/0.5.7/) are live.
+- [CI run 37162922697](https://github.com/hasanzaibak/jzpack/actions/runs/37162922697) passed on the release commit; [trusted-publishing run 37163039013](https://github.com/hasanzaibak/jzpack/actions/runs/37163039013) completed its build and publish jobs successfully.
+- PyPI artifact SHA-256: wheel `b9b05ad19b1487e0009aa00a0b3caeb9df7127081b595d3c86a384466e5ed7dd`; source distribution `13e0467d8eec57f8b60a23968d32c655af2a49bae360198bf39b50c2cc9826f2`. Both match direct downloads from PyPI.
+- A fresh Python 3.14.8 install from PyPI passed `compress`/`decompress` and `write_records`/`decompress` round trips outside the checkout without a `PYTHONPATH` override.
+- Performance evidence is workload-specific to the retained synthetic captures; it does not establish universal performance leadership.
+
 ### 0.5.6 — 2026-10-03
 
 - Tag `v0.5.6` points to release commit `900911fa2060578f9a1dce9c73c0c48dcceae036`.
