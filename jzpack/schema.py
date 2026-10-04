@@ -2,6 +2,7 @@ from collections.abc import Iterable, Mapping
 from typing import Any
 
 Path = tuple[str, ...]
+_BUILTIN_SCHEMA_LEAF_TYPES = (int, str, bool, type(None), float, bytes, list, tuple)
 
 
 class SchemaManager:
@@ -13,6 +14,12 @@ class SchemaManager:
     def add_batch(self, records: Iterable[Mapping[str, Any]]) -> None:
         batch = records if isinstance(records, list) else list(records)
         if not batch:
+            return
+
+        # Uniform batches of exact built-in dictionaries can go straight into
+        # staged columns. The generic path remains authoritative for subclasses,
+        # custom mappings, unusual leaves, and heterogeneous shapes.
+        if len(batch) > 1 and self._add_uniform_builtin_dict_batch(batch):
             return
 
         # Uniform batches are fully validated before state changes, as before,
@@ -85,6 +92,106 @@ class SchemaManager:
                 columns[key][row_index] = flat[key]
 
         self._schema_order.extend([schema_id] * num_records)
+
+    def _add_uniform_builtin_dict_batch(self, records: list[Mapping[str, Any]]) -> bool:
+        layout = self._compile_builtin_dict_layout(records[0])
+        if layout is None:
+            return False
+
+        keys = tuple(sorted(self._builtin_layout_paths(layout)))
+        columns: dict[Path, list[Any]] = {key: [] for key in keys}
+        for record in records:
+            if not self._append_builtin_layout_values(layout, record, columns):
+                return False
+
+        schema_id = self._get_schema_id(keys)
+        num_records = len(records)
+        if schema_id not in self._groups:
+            self._groups[schema_id] = {"keys": list(keys), "columns": columns, "count": num_records}
+        else:
+            group = self._groups[schema_id]
+            for key in keys:
+                group["columns"][key].extend(columns[key])
+            group["count"] += num_records
+
+        self._schema_order.extend([schema_id] * num_records)
+        return True
+
+    def _compile_builtin_dict_layout(
+        self,
+        record: Mapping[str, Any],
+        prefix: Path = (),
+    ) -> dict[str, tuple[Any, Path | None]] | None:
+        if type(record) is not dict:
+            return None
+
+        fields: dict[str, tuple[Any, Path | None]] = {}
+        for key, value in record.items():
+            if type(key) is not str:
+                return None
+
+            path = prefix + (key,)
+            value_type = type(value)
+            if value_type is dict:
+                child = self._compile_builtin_dict_layout(value, path)
+                if child is None:
+                    return None
+                fields[key] = (child or None, path if not child else None)
+            elif value_type in _BUILTIN_SCHEMA_LEAF_TYPES:
+                fields[key] = (None, path)
+            else:
+                return None
+
+        return {key: fields[key] for key in sorted(fields)}
+
+    @classmethod
+    def _builtin_layout_paths(
+        cls,
+        layout: dict[str, tuple[Any, Path | None]],
+    ) -> list[Path]:
+        paths: list[Path] = []
+        for child, path in layout.values():
+            if child is None:
+                if path is not None:
+                    paths.append(path)
+            else:
+                paths.extend(cls._builtin_layout_paths(child))
+        return paths
+
+    @classmethod
+    def _append_builtin_layout_values(
+        cls,
+        layout: dict[str, tuple[Any, Path | None]],
+        record: Mapping[str, Any],
+        columns: dict[Path, list[Any]],
+    ) -> bool:
+        if type(record) is not dict or len(record) != len(layout):
+            return False
+
+        for key, value in record.items():
+            if type(key) is not str:
+                return False
+            field = layout.get(key)
+            if field is None:
+                return False
+
+            child, path = field
+            if child is not None:
+                if type(value) is not dict or not cls._append_builtin_layout_values(child, value, columns):
+                    return False
+                continue
+
+            value_type = type(value)
+            if value_type is dict:
+                if value:
+                    return False
+            elif value_type not in _BUILTIN_SCHEMA_LEAF_TYPES:
+                return False
+            if path is None:
+                return False
+            columns[path].append(value)
+
+        return True
 
     def get_schemas(self) -> dict[str, dict[str, Any]]:
         return self._groups

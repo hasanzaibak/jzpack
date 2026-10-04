@@ -1,5 +1,5 @@
 from collections import UserDict
-from collections.abc import Callable
+from collections.abc import Callable, Mapping
 from copy import deepcopy
 from typing import Any
 
@@ -74,6 +74,64 @@ def test_builtin_dict_flatten_preserves_nested_empty_null_and_literal_keys() -> 
         ("empty",): {},
         ("nested", "empty"): {},
     }
+
+
+def test_uniform_builtin_batch_writes_sorted_columns_without_flattening(monkeypatch) -> None:
+    records = [
+        {
+            "literal.dot": "first",
+            "outer": {"second": False, "empty": {}},
+            "nullable": None,
+        },
+        {
+            "nullable": "present",
+            "outer": {"empty": {}, "second": True},
+            "literal.dot": "second",
+        },
+    ]
+
+    def unexpected_flatten(*_args, **_kwargs):
+        raise AssertionError("uniform exact built-in batches should use the staged-column path")
+
+    monkeypatch.setattr(SchemaManager, "_flatten", unexpected_flatten)
+    manager = SchemaManager()
+    manager.add_batch(records)
+
+    schema = manager.get_schemas()["s0"]
+    assert schema["keys"] == [
+        ("literal.dot",),
+        ("nullable",),
+        ("outer", "empty"),
+        ("outer", "second"),
+    ]
+    assert schema["columns"] == {
+        ("literal.dot",): ["first", "second"],
+        ("nullable",): [None, "present"],
+        ("outer", "empty"): [{}, {}],
+        ("outer", "second"): [False, True],
+    }
+    assert manager.get_schema_order() == ["s0", "s0"]
+    assert decompress(compress(records)) == records
+
+
+def test_batch_layout_falls_back_for_non_exact_string_keys(monkeypatch) -> None:
+    class StringKey(str):
+        pass
+
+    manager = SchemaManager()
+    original_flatten = manager._flatten
+    flattened: list[Mapping[str, Any]] = []
+
+    def tracked_flatten(record, prefix=()):
+        flattened.append(record)
+        return original_flatten(record, prefix)
+
+    monkeypatch.setattr(manager, "_flatten", tracked_flatten)
+    records = [{"value": 1}, {StringKey("value"): 2}]
+    manager.add_batch(records)
+
+    assert flattened == records
+    assert manager.get_schemas()["s0"]["columns"] == {("value",): [1, 2]}
 
 
 def test_userdict_root_and_nested_mappings_keep_generic_mapping_behavior() -> None:

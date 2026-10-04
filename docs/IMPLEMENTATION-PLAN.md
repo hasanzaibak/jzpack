@@ -51,24 +51,37 @@ round trips match, but memory was not measured. See the
    four tested profiles. See the [eighth-wave capture](../BENCHMARKS.md#eighth-wave-messagepack-scalar-size-fast-path)
    and [decoder no-go evidence](../BENCHMARKS.md#decoder-sibling-group-reconstruction-no-go).
    Keep limits and exact failure behavior as release gates.
-2. **Next: test direct-column schema ingestion in public `compress()`.** The current
-   hotspot profile attributes about 52–69% of instrumented public-call time to
-   `SchemaManager.add_batch()`; `_flatten()` accounts for about 25–38% and is included
-   in that figure. These are synthetic, single-host diagnostics, not throughput results.
-   Prototype compiling a layout once for uniform exact-built-in dict batches and staging
-   values directly into columns, with the current path as the fallback. Keep it only if
-   two independent paired captures show at least 8% median gains on nested and
-   large-string records, no more than 2% regression on schema-diverse records, identical
-   archive bytes, and exact corpus-oracle round trips. Measure memory separately.
-   See the [public `compress()` profile](../BENCHMARKS.md#current-public-compress-hotspot-diagnostic).
-3. **Conditional: test one follow-on bottleneck at a time.** If the schema experiment
-   shifts the profile, measure fusing repeated column-analysis scans. For peak memory,
-   test shorter MessagePack-body lifetimes or streaming serialization separately. Native
-   Zstandard threads are a large-payload experiment: the [Python binding documents
-   per-operation overhead, extra memory work, and a small possible output-size
-   cost](https://python-zstandard.readthedocs.io/en/0.25.0/multithreaded.html), so they
-   should not be treated as a fix for Python-side preprocessing. Keep the default
-   compression level unless an explicit speed-versus-ratio budget justifies a change.
+2. **Completed: reduce nested schema-ingestion work in public `compress()`.** Uniform
+   exact built-in dict batches now stage values directly into columns, with the existing
+   flattening path retained for custom mappings and unsupported values. This applies the
+   column-oriented staging idea used for scan locality without adding Arrow or changing
+   JZPack's wire format; see the [Apache Arrow columnar overview](https://arrow.apache.org/docs/format/Columnar.html).
+   Two independent nine-pair captures show 28.64% and 29.00% median speedups on 40,000
+   nested records.
+   Large-string and schema-diverse controls stayed within the 2% median-regression limit;
+   every archive remained byte-identical and every exact round trip passed. The first
+   all-target gate also required an 8% large-string gain; the candidate did not meet that
+   part, so the accepted scope is explicitly nested-record ingestion, not general
+   `compress()` acceleration. The suite passed 524 tests. A read-only differential check
+   matched schema groups, order, and exception/state outcomes on 1,200 generated batches.
+   Memory was not measured. See the [paired captures](../BENCHMARKS.md#ninth-wave-direct-column-nested-batch-ingestion).
+3. **Next: profile and reduce large-string `compress()` work.** The nested fast path
+   leaves large-string performance effectively flat. First profile that public workload,
+   then test fusing repeated column-analysis scans. Require repeatable gains on the
+   targeted string profile, no more than 2% median regression on nested and
+   schema-diverse controls, identical archive bytes, and exact corpus-oracle round trips.
+   Measure memory separately. For peak memory, prototype shorter MessagePack-body
+   lifetimes or incremental MessagePack emission into the Zstandard streaming writer;
+   preserve the existing v3 framing, checksums, and error behavior. The official
+   [python-zstandard streaming API](https://python-zstandard.readthedocs.io/en/0.25.0/compressor.html)
+   supports chunked input/output, and the [MessagePack Packer API](https://msgpack-python.readthedocs.io/en/stable/api.html)
+   exposes array/map header and repeated-pack operations. A prototype must verify exact
+   serialized payload bytes; the current JZPack serializer still materializes the full
+   MessagePack body. Native Zstandard threads remain a large-payload experiment:
+   the [binding documents per-operation overhead, extra memory work, and a possible small
+   output-size cost](https://python-zstandard.readthedocs.io/en/0.25.0/multithreaded.html).
+   Keep the default compression level unless an explicit speed-versus-ratio budget
+   justifies a change.
 4. **Next after the focused experiment: expand scale evidence.** Repeat representative
    measurements on larger real inputs and additional supported environments. Keep
    parsing, archive work, memory, and integrity boundaries explicit; distinguish fidelity
