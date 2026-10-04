@@ -2,7 +2,10 @@
 
 Run from the repository root with the project benchmark dependencies installed:
 
-    python benchmarks/compare_compress_schema_layout.py --output benchmarks/results/compress-schema-layout-capture-1-20261004.json
+    PYTHONPATH=. python -m benchmarks.compare_compress_schema_layout
+
+The command records nine alternating pairs by default and writes a JSON report.
+Use --samples, --warmups, or --output to override the defaults.
 
 Each timed sample runs in a fresh process. Inputs are generated and fingerprinted
 once, then loaded from the same pickle outside the timer by each baseline and

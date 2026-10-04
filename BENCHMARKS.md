@@ -428,9 +428,53 @@ instrumented timings are not throughput measurements.
 | Nested records | 40,000 | 267.004 ms | 138.592 ms | 101.103 ms | 80.884 ms |
 
 The `add_batch` and `_flatten` figures overlap because the latter runs inside
-the former. The profile suggests reducing repeated schema/column work is a more
-promising next experiment for `compress()` than further changing the separate
-stream-writer path.
+the former. The profile motivated a focused reduction in repeated schema/column
+work; the next section measures that direct-column experiment.
+
+## Ninth-wave direct-column nested-batch ingestion
+
+The candidate compiles the structural layout of a uniform exact-built-in-dict
+batch once, then stages leaf values into columns without creating one flattened
+path-to-value dictionary per row. Custom mappings, subclasses, unsupported
+values, and heterogeneous shapes retain the existing generic path. The baseline
+is `47c338ab278fd631d776de5928ae87291ef66248`; `jzpack/schema.py` is the only
+runtime source change. The focused tests also verify the direct path is used
+without `_flatten` and that non-exact string keys fall back.
+
+The first proposed gate asked for at least 8% improvement on both nested and
+large-string workloads, plus no more than 2% regression on schema-diverse data.
+The captures did not meet the large-string part. Because this candidate removes
+nested schema-walk overhead, the reviewed scope is now explicit: require at
+least 8% speedup for the nested target in both captures and no more than 2%
+median regression on the large-string and schema-diverse controls. The measured
+results satisfy that scoped gate; they do not claim broad acceleration.
+
+| Profile | Rows | Capture 1 baseline → candidate | Paired median gain | Capture 2 baseline → candidate | Paired median gain |
+|---|---:|---:|---:|---:|---:|
+| Nested records | 40,000 | 138.012 → 98.564 ms | 28.64% | 138.928 → 99.181 ms | 29.00% |
+| Large strings, 512 × 16 KiB | 512 | 24.850 → 24.575 ms | 0.42% | 24.828 → 24.578 ms | 0.84% |
+| Schema-diverse | 50,000 | 193.580 → 194.114 ms | 0.02% | 194.014 → 191.365 ms | 1.42% |
+
+Each capture used nine fresh-process paired samples per profile, one warmup per
+process, and alternating baseline/candidate order. Both used CPython 3.12.13 on
+macOS 27.2 ARM64, msgpack 1.2.3, and python-zstandard 0.25.0. Input setup,
+archive hashing, and exact round-trip checks are outside the timer. Every paired
+archive was byte-identical, and every exact corpus round trip passed. An
+independent differential check also matched schema groups, schema order, and
+exception/state outcomes across 1,200 generated batches. The full candidate
+suite passed 524 tests, Ruff, and compilation. Peak memory was not measured.
+
+The source-pinned [comparison harness](benchmarks/compare_compress_schema_layout.py)
+and [capture 1](benchmarks/results/compress-schema-layout-capture-1-20261004.json)
+and [capture 2](benchmarks/results/compress-schema-layout-capture-2-20261004.json)
+preserve paired samples, source and corpus hashes, exact output fingerprints,
+and environment details. The reports retain capture-time harness hash
+`0932a4a59460d916740dda1f0039314f1efade4a40cb21a4818d7f0681573cf7`; the current
+replay file hash is
+`3cfa675eac75f50580f86bd6e4bf6a44a06f92a39a3acf66280df77fe61aa9f2` and changes only
+the help text to show a working module invocation. Timing and validation logic are
+unchanged. Large-string results are effectively flat; describe the optimization only
+as a nested-record ingestion improvement.
 
 ## Limits of these results
 

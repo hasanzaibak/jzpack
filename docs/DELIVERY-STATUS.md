@@ -95,6 +95,13 @@ comparison. These workload measurements do not establish universal leadership.
   3.26–6.15% median encode-time reductions on three synthetic scalar-heavy profiles and an
   effectively flat large-string result, with exact archive bytes and round trips. See the
   [eighth-wave capture](../BENCHMARKS.md#eighth-wave-messagepack-scalar-size-fast-path).
+- **Measured, unreleased `compress()` candidate:** Direct-column staging for uniform exact
+  built-in dict batches shows 28.64% and 29.00% paired-median speedups on 40,000 nested
+  records across two captures. Large-string and schema-diverse controls remain within the
+  2% median-regression limit; exact archive bytes and round trips match. The earlier broad
+  gate's large-string speedup requirement was not met, so this is documented as a scoped
+  nested-ingestion improvement. Memory was not measured. See the
+  [paired evidence](../BENCHMARKS.md#ninth-wave-direct-column-nested-batch-ingestion).
 - **Rejected decoder candidate:** Grouping sibling fields during reconstruction slowed all
   four measured profiles; see the [no-go results](../BENCHMARKS.md#decoder-sibling-group-reconstruction-no-go).
 - **Next:** Repeat representative measurements on larger real inputs and additional
