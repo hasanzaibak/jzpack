@@ -34,20 +34,19 @@ decoding, and RSS was not measured. See the
 [paired Delta decoder evidence](../BENCHMARKS.md#sixth-wave-delta-decoder-append-path)
 and [0.5.6 delivery ledger](RELEASES.md#verified-deliveries).
 
-The merged 0.5.7 release candidate adds identity-based dispatch for built-in
-leaf values in `SchemaManager._flatten`, while retaining the recursive path for dict
-and generic `Mapping` subclasses. The first capture shows 13.4–20.7% public encode
-median-time reductions on selected synthetic profiles; the fresh-process nested
-repeat shows 15.6–18.3% reductions, with timing outliers. Exact archive bytes and
-corpus-oracle round trips match, but memory was not measured. This candidate is
-separate from published 0.5.6, with 0.5.7 publication pending; see the
+Published 0.5.7 includes identity-based dispatch for built-in leaf values in
+`SchemaManager._flatten`, while retaining the recursive path for dict and generic
+`Mapping` subclasses. The first capture shows 13.4–20.7% public encode median-time
+reductions on selected synthetic profiles; the fresh-process nested repeat shows
+15.6–18.3% reductions, with timing outliers. Exact archive bytes and corpus-oracle
+round trips match, but memory was not measured. See the
 [schema-ingestion measurements](../BENCHMARKS.md#seventh-wave-schema-ingestion-dispatch-candidate).
 
 ## Planned work
 
-1. **Planned: profile encoded-body sizing and schema reconstruction.** After publishing
-   the schema-ingestion change, profile the remaining writer body-sizing and decoder
-   reconstruction passes as the next distinct costs. Accept changes only when exact-value
+1. **Planned: profile encoded-body sizing and schema reconstruction.** Profile the
+   remaining writer body-sizing and decoder reconstruction passes as the next distinct costs.
+   Accept changes only when exact-value
    and failure tests pass, resource limits remain enforced before allocation, and paired
    measurements include CPU, memory, and archive size.
 2. **Planned: expand scale evidence.** Repeat representative measurements on larger real
