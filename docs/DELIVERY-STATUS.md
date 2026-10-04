@@ -14,7 +14,8 @@ and installation checks.
 | 0.5.3 | Published | [GitHub](https://github.com/hasanzaibak/jzpack/releases/tag/v0.5.3) · [PyPI](https://pypi.org/project/jzpack/0.5.3/) · [verification record](evidence/release-0.5.3.json) |
 | 0.5.4 | Published | [GitHub](https://github.com/hasanzaibak/jzpack/releases/tag/v0.5.4) · [PyPI](https://pypi.org/project/jzpack/0.5.4/) · [verification record](evidence/release-0.5.4.json) |
 | 0.5.5 | Published | [GitHub](https://github.com/hasanzaibak/jzpack/releases/tag/v0.5.5) · [PyPI](https://pypi.org/project/jzpack/0.5.5/) · [delivery ledger](RELEASES.md#verified-deliveries) |
-| 0.5.6 | Published; latest recorded release | [GitHub](https://github.com/hasanzaibak/jzpack/releases/tag/v0.5.6) · [PyPI](https://pypi.org/project/jzpack/0.5.6/) · [delivery ledger](RELEASES.md#verified-deliveries) |
+| 0.5.6 | Published | [GitHub](https://github.com/hasanzaibak/jzpack/releases/tag/v0.5.6) · [PyPI](https://pypi.org/project/jzpack/0.5.6/) · [delivery ledger](RELEASES.md#verified-deliveries) |
+| 0.5.7 | Published; latest recorded release | [GitHub](https://github.com/hasanzaibak/jzpack/releases/tag/v0.5.7) · [PyPI](https://pypi.org/project/jzpack/0.5.7/) · [delivery ledger](RELEASES.md#verified-deliveries) |
 
 Version 0.5.3 passed its exact-commit hosted checks and trusted-publishing
 workflow. PyPI artifact hashes were matched to workflow artifacts, and an install from
