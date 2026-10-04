@@ -558,6 +558,27 @@ def _messagepack_size(value: object, max_bytes: int, max_depth: int) -> int:
             for nested in item:
                 visit(nested, depth + 1)
             return
+        if item is None or item_type is bool:
+            add(1)
+            return
+        if item_type is int:
+            if item < _MESSAGEPACK_INT_MIN or item > _MESSAGEPACK_INT_MAX:
+                raise TypeError("integer is outside the MessagePack integer range")
+            if -32 <= item <= 127:
+                scalar_bytes = 1
+            elif -128 <= item <= 0xFF:
+                scalar_bytes = 2
+            elif -0x8000 <= item <= 0xFFFF:
+                scalar_bytes = 3
+            elif -(1 << 31) <= item <= 0xFFFFFFFF:
+                scalar_bytes = 5
+            else:
+                scalar_bytes = 9
+            add(scalar_bytes)
+            return
+        if item_type is float:
+            add(9)
+            return
         if isinstance(item, int) and not isinstance(item, bool) and item_type is not int:
             add_scalar(int(item))
             return
