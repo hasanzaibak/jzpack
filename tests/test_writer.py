@@ -24,6 +24,7 @@ from jzpack import (
     iter_decompress_recover,
     write_records,
 )
+from jzpack.serializer import PayloadSerializer
 from tests.fidelity_oracle import is_faithful
 
 
@@ -196,6 +197,64 @@ def test_nested_lists_match_messagepack_size_and_round_trip() -> None:
     _assert_record_size_matches_msgpack({"nested": [[[None, 1], ["é"]], []]})
 
 
+class _MessagePackIntSubclass(int):
+    pass
+
+
+@pytest.mark.parametrize(
+    "value",
+    [
+        None,
+        False,
+        True,
+        -33,
+        -32,
+        127,
+        128,
+        -129,
+        -128,
+        255,
+        256,
+        -32_769,
+        -32_768,
+        65_535,
+        65_536,
+        -(1 << 31) - 1,
+        -(1 << 31),
+        (1 << 32) - 1,
+        1 << 32,
+        -(1 << 63),
+        (1 << 63) - 1,
+        1 << 63,
+        (1 << 64) - 1,
+        _MessagePackIntSubclass(128),
+        0.0,
+        -0.0,
+        float("inf"),
+        float("nan"),
+        "",
+        "é",
+        b"",
+        b"\x00\xff",
+    ],
+)
+def test_encoded_payload_scalar_size_matches_msgpack_and_exact_cap(value: object) -> None:
+    payload = {"outer": [{"value": value}]}
+    expected_size = len(msgpack.packb(payload, use_bin_type=True))
+
+    assert writer_module._messagepack_size(payload, expected_size, max_depth=8) == expected_size
+    with pytest.raises(ResourceLimitError, match="max_chunk_uncompressed_bytes"):
+        writer_module._messagepack_size(payload, expected_size - 1, max_depth=8)
+
+
+def test_encoded_payload_scalar_size_falls_back_for_unsupported_subclasses() -> None:
+    class FloatSubclass(float):
+        pass
+
+    with pytest.raises(TypeError, match="does not support values of type FloatSubclass"):
+        writer_module._messagepack_size({"value": FloatSubclass(1.0)}, 100, max_depth=8)
+
+
 @pytest.mark.parametrize(
     "record",
     [
@@ -294,7 +353,11 @@ def test_encoded_body_and_payload_limits_accept_exact_boundary_and_reject_minus_
         _write([record], max_chunk_payload_bytes=payload_size - 1)
 
 
-def test_oversized_encoded_chunk_leaves_stream_without_terminal_footer() -> None:
+def test_oversized_encoded_chunk_leaves_stream_without_terminal_footer(monkeypatch: pytest.MonkeyPatch) -> None:
+    def unexpected_serialize(self: PayloadSerializer, payload: dict) -> tuple[bytes, bytes]:
+        pytest.fail("oversized encoded body reached serializer allocation")
+
+    monkeypatch.setattr(PayloadSerializer, "serialize_with_body", unexpected_serialize)
     sink = io.BytesIO()
     with pytest.raises(ResourceLimitError, match="max_chunk_uncompressed_bytes"):
         write_records([{"value": list(range(30))}], sink, max_chunk_uncompressed_bytes=5)

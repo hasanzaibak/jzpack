@@ -304,7 +304,7 @@ memory behavior.
 
 ## Seventh-wave schema-ingestion dispatch candidate
 
-The unpublished `SchemaManager._flatten` candidate uses identity checks to
+The `SchemaManager._flatten` optimization uses identity checks to
 avoid `Mapping` ABC checks for built-in leaf values while retaining recursive
 handling for dict and generic `Mapping` subclasses. The baseline method was
 loaded from commit `900911fa2060578f9a1dce9c73c0c48dcceae036`; only `_flatten`
@@ -354,6 +354,83 @@ python-zstandard 0.25.0.
 This change is included in published 0.5.7. It has not been shown to
 improve other runtimes or workloads, and no universal performance leadership is
 claimed.
+
+## Eighth-wave MessagePack scalar-size fast path
+
+The unreleased writer candidate adds direct size accounting for exact built-in
+`None`, `bool`, `int`, and `float` values during the bounded MessagePack
+preflight. Strings, bytes, subclasses, and unsupported values keep their
+existing sizing paths. The baseline is commit
+`3ac252ff6d7641c7e07f0bebff9177381ff81d9a`; the candidate is
+`a9f745b9408cbbdaf1da2312e36f21617440f0a6`, with `jzpack/writer.py` as the only
+runtime source difference.
+
+The [source-pinned harness](benchmarks/compare_writer_scalar_sizing.py)
+extracts the baseline package from Git, verifies that the corpus sources match,
+and runs each baseline and candidate sample in a fresh process. It performs one
+warmup, times a public `write_records` call to `BytesIO`, then checks exact
+round trips and archive hashes outside the timer. The committed
+[nine-pair capture](benchmarks/results/writer-scalar-sizing-paired-20261004.json)
+records all timings, source and corpus hashes, environment details, and archive
+hashes. Reproduce it from the candidate checkout with:
+
+```sh
+python benchmarks/compare_writer_scalar_sizing.py --samples 9 --output benchmarks/results/writer-scalar-sizing-paired-20261004.json
+```
+
+| Profile | Rows | Baseline → candidate median | Median change | Candidate wins | Archive bytes |
+|---|---:|---:|---:|---:|---:|
+| Schema-diverse | 50,000 | 834.405 → 811.916 ms | 3.26% faster | 7/9 | 1,440,234 |
+| Nested records | 40,000 | 1,311.454 → 1,250.522 ms | 4.65% faster | 9/9 | 1,283,701 |
+| Integer series | 50,000 | 283.386 → 267.559 ms | 6.15% faster | 9/9 | 4,509 |
+| Large strings, 512 × 16 KiB | 512 | 26.520 → 26.509 ms | 0.20% slower | 4/9 | 4,426,106 |
+
+Every pair had identical archive bytes and passed the corpus equality oracle.
+Large-string performance was effectively flat because it continues through the
+existing string-sizing logic. Captures used CPython 3.12.13 on macOS 27.2 arm64 with
+msgpack 1.2.3 and python-zstandard 0.25.0. These are in-memory synthetic cases
+from one environment; they do not establish real-world, cross-platform, or
+universal performance leadership. The per-process RSS figure includes imports,
+corpus construction, warmup, encoding, and the fidelity check, so it is not a
+writer-only memory comparison.
+
+## Decoder sibling-group reconstruction no-go
+
+A separate decoder candidate grouped contiguous depth-two sibling paths during
+record reconstruction. It preserved decoded values, but fresh-process paired
+whole-package measurements showed no speedup on any of four fixed profiles.
+Changes below are candidate minus baseline, so negative values mean slower.
+
+| Profile | Rows | Median time change | Candidate wins |
+|---|---:|---:|---:|
+| Nested records | 40,000 | −0.64% | 7/15 |
+| Schema-diverse | 50,000 | −0.56% | 5/15 |
+| Nested arrays | 10,000 | −4.37% | 2/15 |
+| Mixed events | 10,000 | −5.90% | 0/15 |
+
+The candidate was rejected and should not be proposed again without a materially
+different design or new workload evidence. The raw paired results are retained
+in [the no-go report](benchmarks/results/schema-reconstruction-groups-no-go-20261003.json).
+
+## Current public `compress()` hotspot diagnostic
+
+The existing [source-pinned CPU profile](benchmarks/results/compress-hotspots-wave3-20261004.json)
+includes a separate public `compress()` call on prebuilt records. It ran on
+candidate commit `a9f745b9408cbbdaf1da2312e36f21617440f0a6`; that commit changes
+only the streaming writer, which the profiled `compress()` route does not call.
+The inspected `compress()` implementation is therefore the published 0.5.7
+path. This single-pass cProfile report is for hotspot discovery only; its
+instrumented timings are not throughput measurements.
+
+| Profile | Rows | `compress()` profiled total | `SchemaManager.add_batch` inclusive | `_flatten` inclusive | `_build_payload` inclusive |
+|---|---:|---:|---:|---:|---:|
+| Schema-diverse | 50,000 | 424.851 ms | 293.021 ms | 106.077 ms | 108.157 ms |
+| Nested records | 40,000 | 267.004 ms | 138.592 ms | 101.103 ms | 80.884 ms |
+
+The `add_batch` and `_flatten` figures overlap because the latter runs inside
+the former. The profile suggests reducing repeated schema/column work is a more
+promising next experiment for `compress()` than further changing the separate
+stream-writer path.
 
 ## Limits of these results
 
