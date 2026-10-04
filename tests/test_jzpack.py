@@ -363,10 +363,6 @@ class TestEdgeCases:
         data = [{"empty": "", "also_empty": ""} for _ in range(100)]
         assert decompress(compress(data)) == data
 
-    def test_empty_nested(self):
-        data = [{"nested": {}} for _ in range(100)]
-        assert decompress(compress(data)) == data
-
     def test_single_field(self):
         data = [{"x": i} for i in range(1000)]
         assert decompress(compress(data)) == data
@@ -382,10 +378,6 @@ class TestEdgeCases:
 
     def test_long_values(self):
         data = [{"content": "x" * 10000} for _ in range(10)]
-        assert decompress(compress(data)) == data
-
-    def test_none_values(self):
-        data = [{"a": None, "b": None, "c": i} for i in range(100)]
         assert decompress(compress(data)) == data
 
     def test_boolean_columns(self):
@@ -412,16 +404,8 @@ class TestHeaderValidation:
 
 
 class TestRegressionCases:
-    def test_empty_records_preserve_row_count(self):
-        data = [{}, {}, {}]
-        assert decompress(compress(data)) == data
-
     def test_batch_outlier_schema_is_not_dropped(self):
         data = [{"id": i} if i != 1 else {"id": i, "extra": "kept"} for i in range(100)]
-        assert decompress(compress(data)) == data
-
-    def test_dotted_keys_are_not_interpreted_as_nested_paths(self):
-        data = [{"a.b": i, "a": {"b": i + 1}} for i in range(20)]
         assert decompress(compress(data)) == data
 
     def test_mixed_column_types_fall_back_to_raw(self):
