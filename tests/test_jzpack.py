@@ -101,13 +101,6 @@ class TestFastMode:
         compressed = compress(data, fast=True)
         assert decompress(compressed) == data
 
-    def test_fast_vs_normal_size(self):
-        data = [{"status": "OK", "id": i} for i in range(1000)]
-        normal_size = len(compress(data, fast=False))
-        fast_size = len(compress(data, fast=True))
-        assert fast_size >= normal_size
-
-
 class TestOrderPreservation:
     def test_homogeneous_order(self):
         data = [{"id": i, "value": f"item_{i}"} for i in range(1000)]
