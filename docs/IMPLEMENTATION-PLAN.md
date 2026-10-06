@@ -72,10 +72,13 @@ round trips match, but memory was not measured. See the
    Keep the level-3 default and do not add an automatic level policy from three synthetic
    workloads. See the
    [source and results](../BENCHMARKS.md#tenth-wave-zstandard-compression-level-frontier).
-4. **Next: test the level frontier on held-out, realistic data.** Select a small set of
-   representative user workloads and compare time, archive size, and peak memory before
-   considering named speed/compact profiles. Keep explicit levels available. Do not infer a
-   universal rule from level numbers; the measured size ordering was not monotonic.
+4. **Completed diagnostic: test the level frontier on held-out realistic data.** Nine
+   balanced-order timing samples across synthetic FHIR bundles, country features, and earthquake
+   events show that level 1 is faster but produces larger archives, while level 9 is smaller but
+   slower. Isolated process RSS includes input and runtime overhead, so it does not establish a
+   codec-only memory ranking. Keep level 3 as the general default and do not add an automatic
+   policy from these three corpora. See the
+   [source, method, and results](../BENCHMARKS.md#eleventh-wave-held-out-realistic-compression-level-frontier).
 5. **Conditional: reduce peak memory in large `compress()` calls.** Measure memory separately,
    then prototype shorter MessagePack-body lifetimes or incremental MessagePack emission into
    the Zstandard streaming writer. Preserve v3 framing, checksums, and error behavior; require

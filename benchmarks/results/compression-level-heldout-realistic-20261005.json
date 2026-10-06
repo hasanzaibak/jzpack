@@ -1,0 +1,434 @@
+{
+  "capture_utc": "2026-10-06T02:15:02+00:00",
+  "corpora": {
+    "natural-earth-countries": {
+      "results": [
+        {
+          "archive_bytes": 201913,
+          "archive_sha256": "e33b879e31a356cb608f56cf5d09adf44f29078df9dcef8adfeb47f82d4016dc",
+          "encode_time_seconds_maximum": 0.006109378002292942,
+          "encode_time_seconds_median": 0.0056530029978603125,
+          "encode_time_seconds_minimum": 0.005587169995123986,
+          "encode_time_seconds_samples": [
+            0.006109378002292942,
+            0.0056530029978603125,
+            0.005770794996351469,
+            0.005668003002938349,
+            0.005684128002030775,
+            0.005635752997477539,
+            0.005587169995123986,
+            0.005601502001809422,
+            0.005619419003778603
+          ],
+          "exact_round_trip_validated_for_warmup_and_all_samples": true,
+          "isolated_peak_rss": {
+            "archive_bytes": 201913,
+            "archive_sha256": "e33b879e31a356cb608f56cf5d09adf44f29078df9dcef8adfeb47f82d4016dc",
+            "exact_round_trip_validated": true,
+            "input_sha256": "f327febdd4d44394f21eed54e424b19115719348d1425803a17334b1f7458d05",
+            "level": 1,
+            "peak_process_rss_after_encode_mib": 33.52734375,
+            "peak_rss_before_encode_mib": 33.52734375,
+            "scope": "isolated process high-water RSS after encode and before decode; includes input load, interpreter, and imports"
+          },
+          "level": 1
+        },
+        {
+          "archive_bytes": 175329,
+          "archive_sha256": "980db260257e9dd5e7ccabbaa77df8975462320cdf930d1d80c77957b6386bf4",
+          "encode_time_seconds_maximum": 0.006991253998421598,
+          "encode_time_seconds_median": 0.006342587003018707,
+          "encode_time_seconds_minimum": 0.006239586997253355,
+          "encode_time_seconds_samples": [
+            0.006991253998421598,
+            0.006410378999134991,
+            0.006342587003018707,
+            0.006326003996946383,
+            0.00635079500352731,
+            0.006294419996265788,
+            0.006239586997253355,
+            0.006346836999000516,
+            0.006287878000875935
+          ],
+          "exact_round_trip_validated_for_warmup_and_all_samples": true,
+          "isolated_peak_rss": {
+            "archive_bytes": 175329,
+            "archive_sha256": "980db260257e9dd5e7ccabbaa77df8975462320cdf930d1d80c77957b6386bf4",
+            "exact_round_trip_validated": true,
+            "input_sha256": "f327febdd4d44394f21eed54e424b19115719348d1425803a17334b1f7458d05",
+            "level": 3,
+            "peak_process_rss_after_encode_mib": 33.46875,
+            "peak_rss_before_encode_mib": 33.33984375,
+            "scope": "isolated process high-water RSS after encode and before decode; includes input load, interpreter, and imports"
+          },
+          "level": 3
+        },
+        {
+          "archive_bytes": 167901,
+          "archive_sha256": "5f0dc32eb80df2771e0d2a4e02a42b59b39a734e957401ebe6ddeec27e3deb60",
+          "encode_time_seconds_maximum": 0.007760378000966739,
+          "encode_time_seconds_median": 0.007270546004292555,
+          "encode_time_seconds_minimum": 0.007138128996302839,
+          "encode_time_seconds_samples": [
+            0.007760378000966739,
+            0.007343961995502468,
+            0.007294128998182714,
+            0.007202544999017846,
+            0.007173170000896789,
+            0.007138128996302839,
+            0.0072853370002121665,
+            0.007270546004292555,
+            0.007229545000882354
+          ],
+          "exact_round_trip_validated_for_warmup_and_all_samples": true,
+          "isolated_peak_rss": {
+            "archive_bytes": 167901,
+            "archive_sha256": "5f0dc32eb80df2771e0d2a4e02a42b59b39a734e957401ebe6ddeec27e3deb60",
+            "exact_round_trip_validated": true,
+            "input_sha256": "f327febdd4d44394f21eed54e424b19115719348d1425803a17334b1f7458d05",
+            "level": 9,
+            "peak_process_rss_after_encode_mib": 37.703125,
+            "peak_rss_before_encode_mib": 33.53515625,
+            "scope": "isolated process high-water RSS after encode and before decode; includes input load, interpreter, and imports"
+          },
+          "level": 9
+        }
+      ],
+      "source": {
+        "canonical_input_bytes": 838365,
+        "ordered_canonical_input_sha256": "f327febdd4d44394f21eed54e424b19115719348d1425803a17334b1f7458d05",
+        "public_domain": true,
+        "raw_source_sha256": "6866c877d39cba9c357620878839b336d569f8c662d3cfab4cb1dbe2d39c977f",
+        "record_count": 177,
+        "record_selection": "ordered FeatureCollection.features; collection metadata excluded",
+        "repository_commit": "ca96624a56bd078437bca8184e78163e5039ad19",
+        "reuse_terms_url": "https://www.naturalearthdata.com/about/terms-of-use/",
+        "source_url": "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/ca96624a56bd078437bca8184e78163e5039ad19/geojson/ne_110m_admin_0_countries.geojson"
+      }
+    },
+    "synthea-fhir-r4": {
+      "results": [
+        {
+          "archive_bytes": 1542710,
+          "archive_sha256": "a623cdc54c3e43c346e6987a6bec8716f99d859ece6ddfdfb1e5f2d40435fc94",
+          "encode_time_seconds_maximum": 0.04815102399879834,
+          "encode_time_seconds_median": 0.046656314996653236,
+          "encode_time_seconds_minimum": 0.04562960600014776,
+          "encode_time_seconds_samples": [
+            0.04815102399879834,
+            0.04731985700345831,
+            0.047936816001310945,
+            0.046656314996653236,
+            0.04579106400342425,
+            0.0477237739978591,
+            0.04568502299662214,
+            0.04562960600014776,
+            0.0458988979953574
+          ],
+          "exact_round_trip_validated_for_warmup_and_all_samples": true,
+          "isolated_peak_rss": {
+            "archive_bytes": 1542710,
+            "archive_sha256": "a623cdc54c3e43c346e6987a6bec8716f99d859ece6ddfdfb1e5f2d40435fc94",
+            "exact_round_trip_validated": true,
+            "input_sha256": "cce7427ce7638392dfea5efab3d7e6d56833c8b30fb9e566f7f6ecfedfc85697",
+            "level": 1,
+            "peak_process_rss_after_encode_mib": 249.2734375,
+            "peak_rss_before_encode_mib": 194.83984375,
+            "scope": "isolated process high-water RSS after encode and before decode; includes input load, interpreter, and imports"
+          },
+          "level": 1
+        },
+        {
+          "archive_bytes": 1187287,
+          "archive_sha256": "13b801f1a866aef575010f40d9412f23bf956a8f88d3b11313e3d0de4630c82b",
+          "encode_time_seconds_maximum": 0.049774565995903686,
+          "encode_time_seconds_median": 0.047641983001085464,
+          "encode_time_seconds_minimum": 0.047052148001967,
+          "encode_time_seconds_samples": [
+            0.047641983001085464,
+            0.04862494100234471,
+            0.047205356997437775,
+            0.04765327299537603,
+            0.049774565995903686,
+            0.04733510700316401,
+            0.04715798200049903,
+            0.047052148001967,
+            0.04813489899970591
+          ],
+          "exact_round_trip_validated_for_warmup_and_all_samples": true,
+          "isolated_peak_rss": {
+            "archive_bytes": 1187287,
+            "archive_sha256": "13b801f1a866aef575010f40d9412f23bf956a8f88d3b11313e3d0de4630c82b",
+            "exact_round_trip_validated": true,
+            "input_sha256": "cce7427ce7638392dfea5efab3d7e6d56833c8b30fb9e566f7f6ecfedfc85697",
+            "level": 3,
+            "peak_process_rss_after_encode_mib": 249.39453125,
+            "peak_rss_before_encode_mib": 194.8515625,
+            "scope": "isolated process high-water RSS after encode and before decode; includes input load, interpreter, and imports"
+          },
+          "level": 3
+        },
+        {
+          "archive_bytes": 912127,
+          "archive_sha256": "7ffa06d13cc32d7d46e5151e5cef1633b34231bb86452e025e2c2f84adca42e2",
+          "encode_time_seconds_maximum": 0.09470446399791399,
+          "encode_time_seconds_median": 0.08852454500447493,
+          "encode_time_seconds_minimum": 0.08699966900167055,
+          "encode_time_seconds_samples": [
+            0.09359621300245635,
+            0.08929016900219722,
+            0.08852454500447493,
+            0.08762716900673695,
+            0.08700508499896387,
+            0.09057829600351397,
+            0.08723487699899124,
+            0.08699966900167055,
+            0.09470446399791399
+          ],
+          "exact_round_trip_validated_for_warmup_and_all_samples": true,
+          "isolated_peak_rss": {
+            "archive_bytes": 912127,
+            "archive_sha256": "7ffa06d13cc32d7d46e5151e5cef1633b34231bb86452e025e2c2f84adca42e2",
+            "exact_round_trip_validated": true,
+            "input_sha256": "cce7427ce7638392dfea5efab3d7e6d56833c8b30fb9e566f7f6ecfedfc85697",
+            "level": 9,
+            "peak_process_rss_after_encode_mib": 249.39453125,
+            "peak_rss_before_encode_mib": 194.8515625,
+            "scope": "isolated process high-water RSS after encode and before decode; includes input load, interpreter, and imports"
+          },
+          "level": 9
+        }
+      ],
+      "source": {
+        "canonical_input_bytes": 35197789,
+        "ordered_canonical_input_sha256": "cce7427ce7638392dfea5efab3d7e6d56833c8b30fb9e566f7f6ecfedfc85697",
+        "ordered_selected_bundle_sha256": [
+          "d9e1d80cc9b1f11d28a97257c32c513efff47a005c874338b46e0fa68b664adc",
+          "0ebf3f9a2814f0ce13e0db287a9919931a326dfe8e5a0f952b3948073581c1bf",
+          "a2bf62171abc16d72ff75c13c4e2f1fc4d27c1fb262fb2e480e859efd4776005",
+          "35a4d5a6a9e2fc1ff5c9a639a48e60339e2ef5e3a52276b84a6a402410414169",
+          "4b552f186ecc15a7b5c8dc5751255cad02af1afa951d69c9fb4bb80017dcfa1f",
+          "9804ac41e7bd971b99fc2e081f07b0cfcce9db9229e7efb581b7102d33254597",
+          "8da446ce9e30b2e88ecdacc89371c7747d752b7d6a65c7720483be613a8d6acb",
+          "1d843a67eb6dd320f7fd8bfdc6d6931bd498f5466704db84b2c877242857059a",
+          "764238c11709559414ea7e18865c6995420b19de8f42fffdd3fa948dcb55e8f2",
+          "e9f62524f9e305e7b45ecf6d9a53e2ffdd6b365020e93b949bc40834cf80b358",
+          "0b68b84bc102c8c75851e6ecce19384d70cce9f9a99aa6186f03ad8b949b9a3f",
+          "fe0eccb4f3379df8447fe1bfa83e9bdc25cf31f0a3ffe2690b23c39529f5f0e0",
+          "8c04c06707ddb7f4dd57cd34128ec6ccaf7c199d999cbd60eab62d5aa919cf61",
+          "1948fe653aa40289bf8d4007e08bf2a08715f3a5d5354c10120d489ad7ac075c",
+          "6dd4704670018901096dc22e03474b1b2e3d5b7f2e2391e14c53fd2756caad62",
+          "2e60142d009381821429fbf9075a6c38840910e992279343dd6c4f901e5ea596"
+        ],
+        "ordered_selected_member_names_sha256": "e3bc603cf0701c8db5bc7de75eaf1e622d81f7ec893ad8faacfd446793e07552",
+        "raw_source_sha256": "56cb9e49f7ba6ad4e61c40aa80999f8c10a710823fed1becdf2502053777a521",
+        "record_count": 16,
+        "repository_commit": "9959d9178ea28f4ec10f17ee238b6fabe6eb0de5",
+        "reuse_terms": "A Synthea project contributor confirmed generated data could be used for the proposed course use.",
+        "reuse_terms_url": "https://github.com/synthetichealth/synthea/discussions/1495",
+        "selected_bundle_count": 16,
+        "selection": "lexicographically first 16 ZIP members whose JSON resourceType is Bundle",
+        "source_url": "https://raw.githubusercontent.com/synthetichealth/synthea-sample-data/9959d9178ea28f4ec10f17ee238b6fabe6eb0de5/downloads/latest/synthea_sample_data_fhir_latest.zip"
+      }
+    },
+    "usgs-earthquakes-2024-01": {
+      "results": [
+        {
+          "archive_bytes": 49158,
+          "archive_sha256": "62e952a16e859f4576c59fa687c37c2b0326f62294b9f9a4ae08c26348d56024",
+          "encode_time_seconds_maximum": 0.003193210002791602,
+          "encode_time_seconds_median": 0.003177127000526525,
+          "encode_time_seconds_minimum": 0.003148960000544321,
+          "encode_time_seconds_samples": [
+            0.003193210002791602,
+            0.003192875999957323,
+            0.003177127000526525,
+            0.0031855019988142885,
+            0.0031676689977757633,
+            0.003163209999911487,
+            0.003148960000544321,
+            0.003181626998411957,
+            0.003159960004268214
+          ],
+          "exact_round_trip_validated_for_warmup_and_all_samples": true,
+          "isolated_peak_rss": {
+            "archive_bytes": 49158,
+            "archive_sha256": "62e952a16e859f4576c59fa687c37c2b0326f62294b9f9a4ae08c26348d56024",
+            "exact_round_trip_validated": true,
+            "input_sha256": "73bfb295a1ce5539dc1272d05f3d19bde7ce77b789b02327974515ae070fd915",
+            "level": 1,
+            "peak_process_rss_after_encode_mib": 31.25390625,
+            "peak_rss_before_encode_mib": 30.73828125,
+            "scope": "isolated process high-water RSS after encode and before decode; includes input load, interpreter, and imports"
+          },
+          "level": 1
+        },
+        {
+          "archive_bytes": 46419,
+          "archive_sha256": "4264fa8fac373d5c6c821050f28bff134601a1b0bb46e0bcde52fa6ede2a97ab",
+          "encode_time_seconds_maximum": 0.0035319189992151223,
+          "encode_time_seconds_median": 0.003272419002314564,
+          "encode_time_seconds_minimum": 0.003212334995623678,
+          "encode_time_seconds_samples": [
+            0.003257625998230651,
+            0.003435835002164822,
+            0.0032753769992268644,
+            0.003309960004116874,
+            0.003272419002314564,
+            0.003212334995623678,
+            0.0032467099954374135,
+            0.0035319189992151223,
+            0.0032227929987129755
+          ],
+          "exact_round_trip_validated_for_warmup_and_all_samples": true,
+          "isolated_peak_rss": {
+            "archive_bytes": 46419,
+            "archive_sha256": "4264fa8fac373d5c6c821050f28bff134601a1b0bb46e0bcde52fa6ede2a97ab",
+            "exact_round_trip_validated": true,
+            "input_sha256": "73bfb295a1ce5539dc1272d05f3d19bde7ce77b789b02327974515ae070fd915",
+            "level": 3,
+            "peak_process_rss_after_encode_mib": 31.41015625,
+            "peak_rss_before_encode_mib": 30.76953125,
+            "scope": "isolated process high-water RSS after encode and before decode; includes input load, interpreter, and imports"
+          },
+          "level": 3
+        },
+        {
+          "archive_bytes": 42629,
+          "archive_sha256": "06a232bcea5b009d3b78dcc09541de013ae7090dfca8941c0dbcf5dd51d6418b",
+          "encode_time_seconds_maximum": 0.004874460006249137,
+          "encode_time_seconds_median": 0.004599710002366919,
+          "encode_time_seconds_minimum": 0.004568794000078924,
+          "encode_time_seconds_samples": [
+            0.0047661280041211285,
+            0.004874460006249137,
+            0.004649126996810082,
+            0.00462325200351188,
+            0.004584961003274657,
+            0.0045774610043736175,
+            0.004568794000078924,
+            0.004599710002366919,
+            0.004583460002322681
+          ],
+          "exact_round_trip_validated_for_warmup_and_all_samples": true,
+          "isolated_peak_rss": {
+            "archive_bytes": 42629,
+            "archive_sha256": "06a232bcea5b009d3b78dcc09541de013ae7090dfca8941c0dbcf5dd51d6418b",
+            "exact_round_trip_validated": true,
+            "input_sha256": "73bfb295a1ce5539dc1272d05f3d19bde7ce77b789b02327974515ae070fd915",
+            "level": 9,
+            "peak_process_rss_after_encode_mib": 33.78515625,
+            "peak_rss_before_encode_mib": 30.765625,
+            "scope": "isolated process high-water RSS after encode and before decode; includes input load, interpreter, and imports"
+          },
+          "level": 9
+        }
+      ],
+      "source": {
+        "canonical_input_bytes": 440549,
+        "capture_raw_source_sha256": "9661fe4b9b69ea65ce72eed8c8f0514dc497abf3ba6c5dcb5fb538b25b54bcb5",
+        "minimum_magnitude": 4.5,
+        "ordered_canonical_input_sha256": "73bfb295a1ce5539dc1272d05f3d19bde7ce77b789b02327974515ae070fd915",
+        "public_domain": true,
+        "query_response_generated_timestamp_may_change": true,
+        "query_window_utc": {
+          "end": "2024-02-01",
+          "start": "2024-01-01"
+        },
+        "raw_source_sha256": "9661fe4b9b69ea65ce72eed8c8f0514dc497abf3ba6c5dcb5fb538b25b54bcb5",
+        "record_count": 623,
+        "record_selection": "ordered FeatureCollection.features; collection metadata excluded",
+        "reuse_terms_url": "https://www.usgs.gov/faqs/are-usgs-reportspublications-copyrighted",
+        "source_url": "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2024-01-01&endtime=2024-02-01&minmagnitude=4.5&orderby=time-asc&limit=20000"
+      }
+    }
+  },
+  "environment": {
+    "container_cpu_limit": "2 vCPUs (Docker --cpus=2)",
+    "container_image": "python:3.12.13-slim@sha256:229a2c5bfa27522db7815ea81f9bed70af17ccb9de9fc7ad142b1877b5830d36",
+    "container_memory_limit": "4 GiB (Docker --memory=4g)",
+    "jzpack": "0.5.7",
+    "machine": "aarch64",
+    "msgpack": "1.2.3",
+    "os_cpu_count": 10,
+    "platform": "Linux-7.0.14-orbstack-00380-ga7e0a2dc9535-aarch64-with-glibc2.41",
+    "python": "3.12.13",
+    "python_implementation": "CPython",
+    "python_zstandard": "0.25.0",
+    "zstandard_library": "1.5.7"
+  },
+  "method": {
+    "archive_determinism_verified_per_level": true,
+    "input_mutation_checked": true,
+    "levels": [
+      1,
+      3,
+      9
+    ],
+    "order_cycles": [
+      [
+        1,
+        3,
+        9
+      ],
+      [
+        3,
+        9,
+        1
+      ],
+      [
+        9,
+        1,
+        3
+      ],
+      [
+        1,
+        3,
+        9
+      ],
+      [
+        3,
+        9,
+        1
+      ],
+      [
+        9,
+        1,
+        3
+      ],
+      [
+        1,
+        3,
+        9
+      ],
+      [
+        3,
+        9,
+        1
+      ],
+      [
+        9,
+        1,
+        3
+      ]
+    ],
+    "public_api": "jzpack.compress(records, level=level)",
+    "round_trip": "decompress() plus recursive type, structure, order, and float-bit oracle after every warmup and timed encode",
+    "rss_method": "one fresh subprocess per corpus and level using resource.getrusage(RUSAGE_SELF).ru_maxrss; workers run before the timing process loads any corpus",
+    "rss_workers_run_before_timing": true,
+    "timed_samples_per_level": 9,
+    "timing_process_count": 1,
+    "timing_scope": "compress() only; source loading, decompression, and exact oracle excluded",
+    "warmups_per_level": 1
+  },
+  "schema_version": 1,
+  "source": {
+    "benchmark_harness_sha256": "75a3c2802d0ccdf7eec6dfdaec3dc6e9741c8f7339a4d8ccd737bf089d01bc07",
+    "corpus_fingerprint_and_oracle_sha256": "596960e45e66cf63e13b47ea08f010dd97e65d0669d1301e13e47f78f912d221",
+    "package_runtime_files_clean": true,
+    "package_runtime_source_sha256": "988f69f4735adc57a9229a341cb1d48e61f0d9c723cbe490bd3fa93d40695f84",
+    "raw_data_committed": false,
+    "repository_branch": "codex/heldout-realistic-levels",
+    "repository_head": "2f8f8e235da27e6e8aa8bd82920c0faf49834086"
+  }
+}

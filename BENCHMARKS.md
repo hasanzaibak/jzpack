@@ -528,6 +528,61 @@ the selected compression level, while nested and schema-diverse inputs favor dif
 A streaming serializer remains a separate peak-memory experiment, not a demonstrated CPU-speed
 improvement.
 
+## Eleventh-wave held-out realistic compression-level frontier
+
+This diagnostic compares public `compress(records, level=...)` at levels 1, 3, and 9 on three
+source-pinned record sets: 16 synthetic Synthea FHIR R4 bundles, 177 Natural Earth country
+features, and 623 USGS earthquake events from January 2024 with magnitude at least 4.5. The
+ordered, normalized inputs contain 35,197,789, 838,365, and 440,549 canonical bytes respectively.
+Sources are fetched to an external cache, checked against pinned raw or normalized SHA-256
+fingerprints, and are not committed. Synthea describes its patient records as generated synthetic
+data; [its data page](https://synthetichealth.github.io/downloads.html) describes secondary use,
+and a [maintainer discussion](https://github.com/synthetichealth/synthea/discussions/1495)
+confirms the proposed course use. [Natural Earth terms](https://www.naturalearthdata.com/about/terms-of-use/)
+place its vector data in the public domain. [USGS reuse guidance](https://www.usgs.gov/faqs/are-usgs-reportspublications-copyrighted)
+states that USGS-authored data are public domain and asks users to credit USGS.
+
+| Corpus | Level | Median encode | Archive bytes | Process peak RSS after encode |
+|---|---:|---:|---:|---:|
+| Natural Earth countries (177 records) | 1 | 5.653 ms | 201,913 | 33.5 MiB |
+|  | 3 | 6.343 ms | 175,329 | 33.5 MiB |
+|  | 9 | 7.271 ms | 167,901 | 37.7 MiB |
+| Synthea FHIR R4 (16 bundles) | 1 | 46.656 ms | 1,542,710 | 249.3 MiB |
+|  | 3 | 47.642 ms | 1,187,287 | 249.4 MiB |
+|  | 9 | 88.525 ms | 912,127 | 249.4 MiB |
+| USGS earthquakes (623 events) | 1 | 3.177 ms | 49,158 | 31.3 MiB |
+|  | 3 | 3.272 ms | 46,419 | 31.4 MiB |
+|  | 9 | 4.600 ms | 42,629 | 33.8 MiB |
+
+Each cell has nine timed `compress()` calls in a single process, after one warmup. The level order
+cycles through `1, 3, 9`, `3, 9, 1`, and `9, 1, 3` three times. Source loading, hashing, decoding,
+and the recursive exact-value oracle are outside the timer. Every warmup and timed archive passed
+the oracle for record order, structure, Python value types, and float bits; output bytes were
+deterministic per corpus and level. Nine separate RSS workers ran before the timing process loaded
+the corpora. Each worker measured process high-water RSS after encode and before decode, then its
+archive size and hash were matched to a timed output. RSS includes interpreter startup, imports,
+and the loaded records, so it is not an isolated allocation measurement for the codec.
+
+The capture used CPython 3.12.13, msgpack 1.2.3, python-zstandard 0.25.0, libzstd 1.5.7, and
+jzpack 0.5.7 in the pinned Linux/ARM64
+[`python:3.12.13-slim` image](https://hub.docker.com/_/python) at digest
+`229a2c5bfa27522db7815ea81f9bed70af17ccb9de9fc7ad142b1877b5830d36`. Docker applied a two-vCPU
+quota and a 4 GiB memory cap. The quota limits CPU consumption; it does not reserve dedicated host
+cores, as [Docker's resource documentation](https://docs.docker.com/engine/containers/resource_constraints/)
+distinguishes CPU quotas from selecting particular cores. The complete source
+pins, environment, all samples, output hashes, and RSS observations are in the
+[machine-readable capture](benchmarks/results/compression-level-heldout-realistic-20261005.json);
+the [replay harness](benchmarks/benchmark_realistic_levels.py) downloads missing inputs to the
+external cache and verifies their fingerprints.
+
+Against level 3, level 1 reduced median encode time by 2.1–10.9% but made archives 5.9–29.9%
+larger. Level 9 made archives 4.2–23.2% smaller but took 14.6–85.8% longer to encode. These
+three held-out corpora still show different size/time tradeoffs. Keep level 3 as the general
+default; the evidence does not justify a universal winner or an automatic per-workload policy.
+The RSS observations were similar across levels for the large FHIR input and rose modestly at
+level 9 for Natural Earth and USGS, but this small diagnostic does not establish codec-only memory
+costs or a general memory ranking.
+
 ## Limits of these results
 
 These are small, in-memory synthetic workloads on one macOS ARM64 host and a Linux ARM64 container
