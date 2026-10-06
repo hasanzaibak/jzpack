@@ -344,9 +344,9 @@
     }
   },
   "environment": {
-    "container_cpu_limit": "2 vCPUs (Docker --cpus=2)",
+    "container_cpu_limit": "runner-supplied label: 2 vCPUs (Docker --cpus=2); benchmark cgroup limit not captured",
     "container_image": "python:3.12.13-slim@sha256:229a2c5bfa27522db7815ea81f9bed70af17ccb9de9fc7ad142b1877b5830d36",
-    "container_memory_limit": "4 GiB (Docker --memory=4g)",
+    "container_memory_limit": "runner-supplied label: 4 GiB (Docker --memory=4g); benchmark cgroup limit not captured",
     "jzpack": "0.5.7",
     "machine": "aarch64",
     "msgpack": "1.2.3",

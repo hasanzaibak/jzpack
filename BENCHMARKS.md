@@ -566,11 +566,15 @@ and the loaded records, so it is not an isolated allocation measurement for the 
 The capture used CPython 3.12.13, msgpack 1.2.3, python-zstandard 0.25.0, libzstd 1.5.7, and
 jzpack 0.5.7 in the pinned Linux/ARM64
 [`python:3.12.13-slim` image](https://hub.docker.com/_/python) at digest
-`229a2c5bfa27522db7815ea81f9bed70af17ccb9de9fc7ad142b1877b5830d36`. Docker applied a two-vCPU
-quota and a 4 GiB memory cap. The quota limits CPU consumption; it does not reserve dedicated host
-cores, as [Docker's resource documentation](https://docs.docker.com/engine/containers/resource_constraints/)
+`229a2c5bfa27522db7815ea81f9bed70af17ccb9de9fc7ad142b1877b5830d36`. The capture JSON records
+runner-supplied labels for `--cpus=2` and `--memory=4g`; the harness does not inspect Docker or the
+container cgroup, so those labels do not independently prove the limits applied to this run. A
+separate probe with the same image and requested limits observed `cpu.max` = `200000 100000` and
+`memory.max` = `4294967296`, confirming that the current Docker setup enforces those settings, but
+that probe does not retroactively verify the benchmark container. A CPU quota limits consumption;
+it does not reserve dedicated host cores, as [Docker's resource documentation](https://docs.docker.com/engine/containers/resource_constraints/)
 distinguishes CPU quotas from selecting particular cores. The complete source
-pins, environment, all samples, output hashes, and RSS observations are in the
+pins, reported environment, all samples, output hashes, and RSS observations are in the
 [machine-readable capture](benchmarks/results/compression-level-heldout-realistic-20261005.json);
 the [replay harness](benchmarks/benchmark_realistic_levels.py) downloads missing inputs to the
 external cache and verifies their fingerprints.
@@ -585,10 +589,12 @@ costs or a general memory ranking.
 
 ## Limits of these results
 
-These are small, in-memory synthetic workloads on one macOS ARM64 host and a Linux ARM64 container
-running on it. They show behavior for these exact generated shapes and dependency versions; they do
-not establish general compression, throughput, or memory guarantees. The high-repetition integer,
-event, and nested-array profiles are
+The earlier synthetic benchmark waves use small, in-memory workloads on one macOS ARM64 host and a
+Linux ARM64 container running on it. They show behavior for those exact generated shapes and
+dependency versions; they do not establish general compression, throughput, or memory guarantees.
+The held-out eleventh-wave section above also includes generated Synthea bundles and public
+Natural Earth and USGS records, with results bounded by its own source and environment details.
+The high-repetition integer, event, and nested-array profiles are
 especially compressible. The slower MessagePack/orjson baselines on jzpack decode do not imply that
 jzpack is a faster serialization format overall; their archive size and CPU tradeoffs differ by
 workload. Public-data, tuned Parquet/Vortex, log-specific CLP, and streaming file-I/O comparisons
